@@ -1,0 +1,55 @@
+﻿<fw:AcrylicWindow x:Class="DeCraftLauncher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+        xmlns:local="clr-namespace:DeCraftLauncher"
+        mc:Ignorable="d"
+        NoiseOpacity="0.0001"
+        TintColor="#000000"
+        TintOpacity="0.6"
+        AcrylicWindowStyle="Normal"
+        Title="DECRAFT Launcher" Height="508" Width="800" Background="#00000000">
+    <Grid>
+        <Rectangle HorizontalAlignment="Left" Width="232" Margin="0,157,0,0">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#50000000"/>
+                    <GradientStop Color="#A0171717" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Label Content=".jar files" HorizontalAlignment="Left" Margin="10,115,0,0" VerticalAlignment="Top" Foreground="White" FontSize="20" FontWeight="Bold"/>
+        <ListBox x:Name="jarlist" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,157,0,10" Background="{x:Null}" Foreground="White" FontSize="16" HorizontalAlignment="Left" Width="232" BorderBrush="{x:Null}" SelectionChanged="jarlist_SelectionChanged"/>
+        <Grid x:Name="segment_launch_options" Margin="237,10,10,10" >
+            <Label Content="Launch options" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" FontSize="24" FontWeight="Bold" Width="196"/>
+            <TextBox x:Name="jvmargs" Margin="124,64,10,0" TextWrapping="Wrap" Text="-Djava.util.Arrays.useLegacyMergeSort=true" VerticalAlignment="Top" Background="Black" Foreground="White" SelectionBrush="#FF292929" BorderBrush="#FF252525"/>
+            <Label Content="JVM options" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="109" Background="{x:Null}" Foreground="White"/>
+            <Button Content="Runtime settings" Margin="0,16,10,0" VerticalAlignment="Top" Height="26" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" Click="Button_Click" HorizontalAlignment="Right" Width="106"/>
+            <TextBox x:Name="tbox_playername" Margin="124,97,258,0" TextWrapping="Wrap" Text="DECRAFT_Player" VerticalAlignment="Top" Background="Black" Foreground="White" SelectionBrush="#FF292929" BorderBrush="#FF252525"/>
+            <Label Content="Player name" Margin="10,93,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" HorizontalAlignment="Left" Width="109"/>
+            <ListBox x:Name="entrypointlist" d:ItemsSource="{d:SampleData ItemCount=5}" Foreground="White" Margin="0,209,0,-10" BorderBrush="{x:Null}">
+                <ListBox.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#50000000"/>
+                        <GradientStop Color="#A0151515" Offset="1"/>
+                    </LinearGradientBrush>
+                </ListBox.Background>
+            </ListBox>
+            <Label Content="Entry points" HorizontalAlignment="Left" Margin="0,170,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" FontSize="18" Width="196"/>
+            <Label Content="LWJGL Version" HorizontalAlignment="Left" Margin="10,116,0,0" VerticalAlignment="Top" Width="109" Background="{x:Null}" Foreground="White"/>
+            <Button x:Name="btn_scan_entrypoints" Content="Rescan entry points" Margin="0,174,10,0" VerticalAlignment="Top" Height="26" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" Click="btn_scan_entrypoints_Click" HorizontalAlignment="Right" Width="125"/>
+            <Label Content="Window size" Margin="0,116,156,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" HorizontalAlignment="Right" Width="88"/>
+            <TextBox x:Name="window_width" Margin="0,120,103,0" TextWrapping="Wrap" Text="960" VerticalAlignment="Top" Background="Black" Foreground="White" SelectionBrush="#FF292929" BorderBrush="#FF252525" HorizontalAlignment="Right" Width="53"/>
+            <TextBox x:Name="window_height" Margin="0,120,33,0" TextWrapping="Wrap" Text="540" VerticalAlignment="Top" Background="Black" Foreground="White" SelectionBrush="#FF292929" BorderBrush="#FF252525" HorizontalAlignment="Right" Width="52"/>
+            <Label Content="x" Margin="0,116,85,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" HorizontalAlignment="Right" Width="18"/>
+            <TextBox x:Name="tbox_lwjgl_version" Margin="124,120,258,0" TextWrapping="Wrap" Text="2.9.3" VerticalAlignment="Top" Background="Black" Foreground="White" SelectionBrush="#FF292929" BorderBrush="#FF252525"/>
+            <Label Content="Instance directory" HorizontalAlignment="Left" Margin="10,139,0,0" VerticalAlignment="Top" Width="109" Background="{x:Null}" Foreground="White"/>
+            <TextBox x:Name="tbox_instance_dir" Margin="124,143,258,0" TextWrapping="Wrap" VerticalAlignment="Top" Background="Black" Foreground="White" SelectionBrush="#FF292929" BorderBrush="#FF252525"/>
+
+        </Grid>
+
+
+    </Grid>
+</fw:AcrylicWindow>

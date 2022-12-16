@@ -120,8 +120,12 @@ namespace DeCraftLauncher
             t.EnableRaisingEvents = true;
             t.Exited += delegate
             {
-                logtext.Text += "Process exited with code " + t.ExitCode;
-                logscroller.ScrollToVerticalOffset(logscroller.ExtentHeight);
+                Dispatcher.Invoke(delegate
+                {
+                    logtext.Text += "Process exited with code " + t.ExitCode;
+                    logscroller.ScrollToVerticalOffset(logscroller.ExtentHeight);
+                    proc_kill.Visibility = Visibility.Hidden;
+                });
             };
 
             /*new Thread(ThreadLoggerStdOut).Start();
@@ -131,6 +135,12 @@ namespace DeCraftLauncher
         private void ScrollViewer_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             logscroller.ScrollToVerticalOffset(logscroller.ExtentHeight);
+        }
+
+        private void proc_kill_Click(object sender, RoutedEventArgs e)
+        {
+            target.Kill();
+            proc_kill.Visibility = Visibility.Hidden;
         }
     }
 }

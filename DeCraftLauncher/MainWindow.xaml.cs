@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -138,7 +140,6 @@ namespace DeCraftLauncher
             }
             jvmargs.IsKeyboardFocusedChanged += delegate { };
 
-
             //entrypointlist.Items.Add(new LaunchEntryPoint(new JarUtils.EntryPoint("net.minecraft.client.Minecraft", JarUtils.EntryPointType.STATIC_VOID_MAIN), this));
             //entrypointlist.Items.Add(new LaunchEntryPoint(new JarUtils.EntryPoint("net.minecraft.isom.IsomPreviewApplet", JarUtils.EntryPointType.APPLET), this));
         }
@@ -162,7 +163,7 @@ namespace DeCraftLauncher
         {
             Console.WriteLine($"Selection changed: {jarlist.SelectedItem}");
             UpdateLaunchOptionsSegment();
-        }
+        }        
 
         private void btn_scan_entrypoints_Click(object sender, RoutedEventArgs e)
         {
@@ -204,6 +205,20 @@ namespace DeCraftLauncher
                 });
             }
             Console.WriteLine("ThreadFindEntryPointsAndSaveToXML done");
+        }
+
+        private void jarlist_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) {
+                string[] dt = (string[])e.Data.GetData(DataFormats.FileDrop);
+                foreach (string a in dt)
+                {
+                    if (a.EndsWith(".jar") && File.Exists(a))
+                    {
+                        File.Copy(a, jarDir + "/" + new FileInfo(a).Name);
+                    }
+                }
+            }
         }
     }
 }

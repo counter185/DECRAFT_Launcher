@@ -57,6 +57,7 @@ namespace DeCraftLauncher
 
         private void launchButton_Click(object sender, RoutedEventArgs e)
         {
+            caller.SaveCurrentJarConfig();
             if (entryPoint.type == JarUtils.EntryPointType.STATIC_VOID_MAIN)
             {
                 MainWindow.EnsureDir(MainWindow.instanceDir + "/" + jarConfig.instanceDirName);
@@ -66,6 +67,7 @@ namespace DeCraftLauncher
                 args += Path.GetFullPath(MainWindow.jarDir + "/" + jarConfig.jarFileName);
                 args += $";{Directory.GetCurrentDirectory()}/lwjgl/2.9.3/* ";
                 args += $"-Djava.library.path={Directory.GetCurrentDirectory()}/lwjgl/2.9.3/native ";
+                args += jarConfig.jvmArgs + " ";
                 args += entryPoint.classpath;
                 args += " " + jarConfig.playerName + " 0";
                 Console.WriteLine("Running command: java " + args);

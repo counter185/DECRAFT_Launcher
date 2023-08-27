@@ -11,7 +11,7 @@ namespace DeCraftLauncher
 {
     public class AppletWrapper
     {
-        public static string GenerateAppletWrapperCode(string className)
+        public static string GenerateAppletWrapperCode(string className, JarConfig jar)
         {
             return 
                 $@"
@@ -27,14 +27,17 @@ import javax.swing.WindowConstants;
 import {className};
 
 public class AppletWrapper {{
+
+    JFrame mainFrame;    
+
     public static void main(String[] args){{
         //System.setSecurityManager(null);
-        JFrame frame = new JFrame(""DECRAFT Applet Wrapper: {className}"");
+        mainFrame = new JFrame(""DECRAFT Applet Wrapper: {className}"");
         {className} a = new {className}();
-        frame.add(a);
-        frame.setSize(960, 540);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        mainFrame.add(a);
+        mainFrame.setSize({jar.windowW}, {jar.windowH});
+        mainFrame.setVisible(true);
+        mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         a.setStub(new AppletStub() {{
 
@@ -46,8 +49,7 @@ public class AppletWrapper {{
 			@Override
 			public URL getDocumentBase() {{
 				try {{
-			        return new URL(""http://localhost:0"");
-                    //return new URL(""http://minecraft.net"");
+                    return new URL(""http://www.minecraft.net/"");
 		        }} catch (MalformedURLException e) {{
 			        return null;
 		        }}
@@ -56,8 +58,8 @@ public class AppletWrapper {{
 			@Override
 			public URL getCodeBase() {{
 				try {{
-			        return new URL(""http://localhost:0"");
-                    //return new URL(""http://minecraft.net"");
+			        //return new URL(""http://localhost:0"");
+                    return new URL(""http://www.minecraft.net/"");
 		        }} catch (MalformedURLException e) {{
 			        return null;
 		        }}
@@ -85,7 +87,7 @@ public class AppletWrapper {{
 
 			@Override
 			public void appletResize(int width, int height) {{
-				// TODO Auto-generated method stub
+				mainFrame.setSize(width, height);
 				
 			}}
 			
@@ -101,7 +103,7 @@ public class AppletWrapper {{
         public static void LaunchAppletWrapper(string className, JarConfig jar)
         {
             MainWindow.EnsureDir("./java_temp");
-            File.WriteAllText("./java_temp/AppletWrapper.java", GenerateAppletWrapperCode(className));
+            File.WriteAllText("./java_temp/AppletWrapper.java", GenerateAppletWrapperCode(className, jar));
             List<string> compilerOut = JarUtils.RunProcessAndGetOutput(MainWindow.javaHome + "javac", $"-cp {MainWindow.jarDir}/{jar.jarFileName} ./java_temp/AppletWrapper.java -d ./java_temp");
             /*foreach (string a in compilerOut)
             {
@@ -115,6 +117,7 @@ public class AppletWrapper {{
             args += MainWindow.jarDir + "/" + jar.jarFileName;
             args += ";./lwjgl/2.9.3/* ";
             args += "-Djava.library.path=lwjgl/2.9.3/native ";
+            args += jar.jvmArgs + " ";
             args += "decraft_internal.AppletWrapper";
             //args += " " + jar.playerName + " 0";
             Console.WriteLine("[LaunchAppletWrapper] Running command: java " + args);

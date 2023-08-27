@@ -220,5 +220,18 @@ namespace DeCraftLauncher
                 }
             }
         }
+
+        public void SaveCurrentJarConfig()
+        {
+            currentlySelectedJar.windowW = uint.TryParse(window_width.Text, out currentlySelectedJar.windowW) ? currentlySelectedJar.windowW : 960;
+            currentlySelectedJar.windowH = uint.TryParse(window_height.Text, out currentlySelectedJar.windowH) ? currentlySelectedJar.windowH : 540;
+
+            currentlySelectedJar.jvmArgs = jvmargs.Text;
+            currentlySelectedJar.LWJGLVersion = tbox_lwjgl_version.Text;
+            currentlySelectedJar.playerName = tbox_playername.Text;
+            currentlySelectedJar.instanceDirName = tbox_instance_dir.Text;
+
+            currentlySelectedJar.SaveToXML(configDir + "/" + currentlySelectedJar.jarFileName + ".xml");
+        }
     }
 }

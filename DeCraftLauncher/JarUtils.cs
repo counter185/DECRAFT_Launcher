@@ -182,7 +182,7 @@ namespace DeCraftLauncher
             {
                 foreach (ZipArchiveEntry entry in archive.Entries)
                 {
-                    if (entry.FullName.Contains('/') && entry.Name.EndsWith(".class") && !entry.Name.Contains('$'))
+                    if (entry.Name.EndsWith(".class") && !entry.Name.Contains('$'))
                     {
                         workload[writingTo].Add(entry);
                         writingTo++;

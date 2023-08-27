@@ -28,7 +28,7 @@ import {className};
 
 public class AppletWrapper {{
 
-    JFrame mainFrame;    
+    static JFrame mainFrame;    
 
     public static void main(String[] args){{
         //System.setSecurityManager(null);

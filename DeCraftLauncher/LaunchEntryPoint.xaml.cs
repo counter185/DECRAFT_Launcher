@@ -65,8 +65,8 @@ namespace DeCraftLauncher
                 string args = "";
                 args += "-cp ";
                 args += Path.GetFullPath(MainWindow.jarDir + "/" + jarConfig.jarFileName);
-                args += $";{Directory.GetCurrentDirectory()}/lwjgl/2.9.3/* ";
-                args += $"-Djava.library.path={Directory.GetCurrentDirectory()}/lwjgl/2.9.3/native ";
+                args += $";{Directory.GetCurrentDirectory()}/lwjgl/{jarConfig.LWJGLVersion}/* ";
+                args += $"-Djava.library.path={Directory.GetCurrentDirectory()}/lwjgl/{jarConfig.LWJGLVersion}/native ";
                 args += jarConfig.jvmArgs + " ";
                 args += entryPoint.classpath;
                 args += " " + jarConfig.playerName + " 0";

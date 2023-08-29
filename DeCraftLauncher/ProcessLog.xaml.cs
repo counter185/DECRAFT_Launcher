@@ -56,10 +56,6 @@ namespace DeCraftLauncher
                 }
                 Thread.Sleep(1);
             }
-            Dispatcher.Invoke(delegate
-            {
-                logtext.Text += $"\nProcess exited with code {target.ExitCode}";
-            });
 
             Console.WriteLine("ThreadLogger exit");
         }
@@ -125,6 +121,23 @@ namespace DeCraftLauncher
                     logtext.Text += "Process exited with code " + t.ExitCode;
                     logscroller.ScrollToVerticalOffset(logscroller.ExtentHeight);
                     proc_kill.Visibility = Visibility.Hidden;
+
+                    if (t.ExitCode == -1 && logtext.Text.Contains("java.lang.VerifyError"))
+                    {
+                        logtext.Text += "\n----------------------------------------------";
+                        logtext.Text += "\n";
+                        logtext.Text += "\nThe launch failed due to a bytecode verification error.";
+                        logtext.Text += "\nAdd this to your JVM arguments to try launching anyway:";
+                        logtext.Text += "\n\n-noverify";
+                    }
+                    else if (logtext.Text.Contains("java.lang.IllegalArgumentException: Comparison method violates"))
+                    {
+                        logtext.Text += "\n----------------------------------------------";
+                        logtext.Text += "\n";
+                        logtext.Text += "\nThe game crashed due to the sorting algorithm being given invalid data.";
+                        logtext.Text += "\nAdd this to your JVM arguments to use an older algorithm that ignores invalid data:";
+                        logtext.Text += "\n\n-Djava.util.Arrays.useLegacyMergeSort=true";
+                    }
                 });
             };
 

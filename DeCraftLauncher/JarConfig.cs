@@ -101,35 +101,40 @@ namespace DeCraftLauncher
 
             XmlDocument newXml = new XmlDocument();
             newXml.Load(path);
-
-            newJarConf.friendlyName = GetInnerOrDefault(newXml, "FriendlyName");
-            newJarConf.LWJGLVersion = GetInnerOrDefault(newXml, "LWJGLVersion", "2.9.3");
-            newJarConf.playerName = GetInnerOrDefault(newXml, "PlayerName", "DECRAFT_player");
-            newJarConf.jvmArgs = GetInnerOrDefault(newXml, "JVMArgs", "-Djava.util.Arrays.useLegacyMergeSort=true");
-            newJarConf.instanceDirName = GetInnerOrDefault(newXml, "InstanceDirectory", jarName);
-            newJarConf.windowW = uint.Parse(GetInnerOrDefault(newXml, "WindowW", "960", "uint"));
-            newJarConf.windowH = uint.Parse(GetInnerOrDefault(newXml, "WindowH", "540", "uint"));
-            
-            newJarConf.entryPointsScanned = bool.Parse(GetInnerOrDefault(newXml, "EntryPointsScanned", "false", "bool"));
-
-            foreach (XmlNode a in newXml.GetElementsByTagName("EntryPoint"))
+            XmlNode rootNode = newXml.SelectSingleNode("JarConfig");
+            if (rootNode != null)
             {
-                EntryPoint b = new EntryPoint();
-                string classPath = GetInnerOrDefault(a, "ClassPath", null);
-                string type = GetInnerOrDefault(a, "LaunchType", null, "int");
-                if (classPath == null || type == null)
+
+                newJarConf.friendlyName = GetInnerOrDefault(rootNode, "FriendlyName");
+                newJarConf.LWJGLVersion = GetInnerOrDefault(rootNode, "LWJGLVersion", "2.9.3");
+                newJarConf.playerName = GetInnerOrDefault(rootNode, "PlayerName", "DECRAFT_player");
+                newJarConf.jvmArgs = GetInnerOrDefault(rootNode, "JVMArgs", "-Djava.util.Arrays.useLegacyMergeSort=true");
+                newJarConf.instanceDirName = GetInnerOrDefault(rootNode, "InstanceDirectory", jarName);
+                newJarConf.windowW = uint.Parse(GetInnerOrDefault(rootNode, "WindowW", "960", "uint"));
+                newJarConf.windowH = uint.Parse(GetInnerOrDefault(rootNode, "WindowH", "540", "uint"));
+
+                newJarConf.entryPointsScanned = bool.Parse(GetInnerOrDefault(rootNode, "EntryPointsScanned", "false", "bool"));
+
+                foreach (XmlNode a in newXml.GetElementsByTagName("EntryPoint"))
                 {
-                    continue;
+                    EntryPoint b = new EntryPoint();
+                    string classPath = GetInnerOrDefault(a, "ClassPath", null);
+                    string type = GetInnerOrDefault(a, "LaunchType", null, "int");
+                    if (classPath == null || type == null)
+                    {
+                        continue;
+                    }
+                    b.classpath = classPath;
+                    try
+                    {
+                        b.type = (EntryPointType)int.Parse(type);
+                    }
+                    catch (FormatException)
+                    {
+                        continue;
+                    }
+                    newJarConf.entryPoints.Add(b);
                 }
-                b.classpath = classPath;
-                try
-                {
-                    b.type = (EntryPointType)int.Parse(type);
-                } catch (FormatException)
-                {
-                    continue;
-                }
-                newJarConf.entryPoints.Add(b);
             }
 
             return newJarConf;

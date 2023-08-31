@@ -51,6 +51,7 @@ namespace DeCraftLauncher
                 window_width.Text = currentlySelectedJar.windowW+"";
                 window_height.Text = currentlySelectedJar.windowH+"";
                 tbox_instance_dir.Text = currentlySelectedJar.instanceDirName;
+                tbox_proxyhost.Text = currentlySelectedJar.proxyHost;
                 entrypointlist.Items.Clear();
                 IEnumerable<WorkerThread> wthreads = from x in currentScanThreads where x.jar == jar select x;
                 if (wthreads.Any())
@@ -109,6 +110,7 @@ namespace DeCraftLauncher
         public MainWindow()
         {
             InitializeComponent();
+            Utils.UpdateAcrylicWindowBackground(this);
             segment_launch_options.Visibility = Visibility.Hidden;
             //Console.WriteLine(JarUtils.GetJDKInstalled());
             ResetJarlist();
@@ -125,7 +127,8 @@ namespace DeCraftLauncher
                 window_height,
                 tbox_playername,
                 tbox_lwjgl_version,
-                tbox_instance_dir
+                tbox_instance_dir,
+                tbox_proxyhost
             };
 
             foreach (TextBox a in saveEvents)
@@ -191,17 +194,31 @@ namespace DeCraftLauncher
         public void ThreadFindEntryPointsAndSaveToXML(object obj)
         {
             WorkerThread param = (WorkerThread)obj;
-            List<EntryPoint> entryPoint = JarUtils.FindAllEntryPoints(jarDir + "/" + param.jar, param.report);
-            currentScanThreads.Remove(param);
-            JarConfig conf = JarConfig.LoadFromXML(configDir + "/" + param.jar + ".xml", param.jar);
-            conf.entryPoints = entryPoint;
-            conf.entryPointsScanned = true;
-            conf.SaveToXML(configDir + "/" + param.jar + ".xml");
-            if (currentlySelectedJar.jarFileName == param.jar)
+            try
             {
+                List<EntryPoint> entryPoint = JarUtils.FindAllEntryPoints(jarDir + "/" + param.jar, param.report);
+                currentScanThreads.Remove(param);
+                JarConfig conf = JarConfig.LoadFromXML(configDir + "/" + param.jar + ".xml", param.jar);
+                conf.entryPoints = entryPoint;
+                conf.entryPointsScanned = true;
+                conf.SaveToXML(configDir + "/" + param.jar + ".xml");
+                if (currentlySelectedJar.jarFileName == param.jar)
+                {
+                    Dispatcher.Invoke(delegate
+                    {
+                        UpdateLaunchOptionsSegment();
+                    });
+                }
+            } catch (Exception e)
+            {
+                currentScanThreads.Remove(param);
+                JarConfig conf = JarConfig.LoadFromXML(configDir + "/" + param.jar + ".xml", param.jar);
+                conf.entryPoints = new List<EntryPoint>();
+                conf.entryPointsScanned = true;
+                conf.SaveToXML(configDir + "/" + param.jar + ".xml");
                 Dispatcher.Invoke(delegate
                 {
-                    UpdateLaunchOptionsSegment();
+                    MessageBox.Show($"Error analyzing {param.jar}: {e.Message}\n\nThe jar file must be a valid zip archive.", "DECRAFT");
                 });
             }
             Console.WriteLine("ThreadFindEntryPointsAndSaveToXML done");
@@ -230,6 +247,7 @@ namespace DeCraftLauncher
             currentlySelectedJar.LWJGLVersion = tbox_lwjgl_version.Text;
             currentlySelectedJar.playerName = tbox_playername.Text;
             currentlySelectedJar.instanceDirName = tbox_instance_dir.Text;
+            currentlySelectedJar.proxyHost = tbox_proxyhost.Text;
 
             currentlySelectedJar.SaveToXML(configDir + "/" + currentlySelectedJar.jarFileName + ".xml");
         }

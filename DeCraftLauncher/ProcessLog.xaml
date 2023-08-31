@@ -9,7 +9,7 @@
         NoiseOpacity="0.0001"
         TintColor="#000000"
         TintOpacity="0.6"
-        Title="ProcessLog" Height="450" Width="800" AcrylicWindowStyle="Normal">
+        Title="ProcessLog" Height="450" Width="800" Background="#FA000000" AcrylicWindowStyle="Normal">
     <Grid>
 
         <ScrollViewer x:Name="logscroller" SizeChanged="ScrollViewer_SizeChanged" Margin="0,0,0,44">

@@ -203,8 +203,12 @@ public class AppletWrapper {{
             args += "./java_temp/;";
             args += MainWindow.jarDir + "/" + jar.jarFileName;
             args += $";./lwjgl/{jar.LWJGLVersion}/* ";
-            args += "-Djava.library.path=lwjgl/2.9.3/native ";
+            args += $"-Djava.library.path=lwjgl/{jar.LWJGLVersion}/native ";
             args += jar.jvmArgs + " ";
+            if (jar.proxyHost != "")
+            {
+                args += $"-Dhttp.proxyHost={jar.proxyHost.Replace(" ", "%20")} ";
+            }
             args += "--add-exports java.base/sun.net.www.protocol.http=ALL-UNNAMED ";
             args += "decraft_internal.AppletWrapper";
             //args += " " + jar.playerName + " 0";

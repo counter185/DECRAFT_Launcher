@@ -21,6 +21,7 @@ namespace DeCraftLauncher
         public bool entryPointsScanned = false;
         public string instanceDirName = "";
         public string jvmArgs = "-Djava.util.Arrays.useLegacyMergeSort=true";
+        public string proxyHost = "";
         public uint windowW = 960;
         public uint windowH = 540;
 
@@ -83,6 +84,7 @@ namespace DeCraftLauncher
             rootElement.AppendChild(SetVal(newXml.CreateNode("element", "WindowW", ""), windowW+""));
             rootElement.AppendChild(SetVal(newXml.CreateNode("element", "WindowH", ""), windowH+""));
             rootElement.AppendChild(SetVal(newXml.CreateNode("element", "EntryPointsScanned", ""), entryPointsScanned.ToString()));
+            rootElement.AppendChild(SetVal(newXml.CreateNode("element", "ProxyHost", ""), proxyHost));
 
             XmlNode entryPointsList = rootElement.AppendChild(newXml.CreateNode("element", "EntryPoints", ""));
             foreach (EntryPoint a in entryPoints)
@@ -112,6 +114,7 @@ namespace DeCraftLauncher
                 newJarConf.instanceDirName = GetInnerOrDefault(rootNode, "InstanceDirectory", jarName);
                 newJarConf.windowW = uint.Parse(GetInnerOrDefault(rootNode, "WindowW", "960", "uint"));
                 newJarConf.windowH = uint.Parse(GetInnerOrDefault(rootNode, "WindowH", "540", "uint"));
+                newJarConf.proxyHost = GetInnerOrDefault(rootNode, "ProxyHost");
 
                 newJarConf.entryPointsScanned = bool.Parse(GetInnerOrDefault(rootNode, "EntryPointsScanned", "false", "bool"));
 

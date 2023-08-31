@@ -25,6 +25,7 @@ namespace DeCraftLauncher
         public Config(MainWindow parent)
         {
             InitializeComponent();
+            Utils.UpdateAcrylicWindowBackground(this);
             this.parent = parent;
             jre_path.Text = MainWindow.javaHome;
         }

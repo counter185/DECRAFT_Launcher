@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using static DeCraftLauncher.JavaClassReader;
 
 namespace DeCraftLauncher
 {
@@ -163,16 +164,6 @@ namespace DeCraftLauncher
 
         public unsafe static List<EntryPoint> FindAllEntryPoints(string jarfile, ReferenceType<float> progressReport = null)
         {
-            int maxThreads = 4; //this shit deadlock idk why
-            
-            Thread[] runningThreads = new Thread[maxThreads];
-            List<ZipArchiveEntry>[] workload = new List<ZipArchiveEntry>[maxThreads];
-            int writingTo = 0;
-            for (int x = 0; x != workload.Length; x++)
-            {
-                workload[x] = new List<ZipArchiveEntry>();
-            }
-
             List<EntryPoint> ret = new List<EntryPoint>();
 
             int validClassCount = 0;
@@ -180,46 +171,47 @@ namespace DeCraftLauncher
 
             using (ZipArchive archive = ZipFile.OpenRead(jarfile))
             {
+                validClassCount = (from x in archive.Entries where x.Name.EndsWith(".class") && !x.Name.Contains('$') select x).Count();
+
                 foreach (ZipArchiveEntry entry in archive.Entries)
                 {
                     if (entry.Name.EndsWith(".class") && !entry.Name.Contains('$'))
                     {
-                        workload[writingTo].Add(entry);
-                        writingTo++;
-                        writingTo %= maxThreads;
-                        validClassCount++;
-                    }
-                }
-            }
-
-            Mutex retListMutex = new Mutex();
-            for (int x = 0; x != maxThreads; x++)
-            {
-                EPFinderThread_args a = new EPFinderThread_args(jarfile, workload[x], ret, retListMutex, x, &doneClassCount);
-                runningThreads[x] = new Thread(Thread_EntryPointFinder);
-
-                runningThreads[x].Start(a);
-                //Thread_EntryPointFinder(a);
-            }
-            for (int x = 0; x != maxThreads; x++)
-            {
-                while (runningThreads[x].IsAlive)
-                {
-                    if (progressReport != null)
-                    {
-                        if (doneClassCount != 0)
+                        try
                         {
-                            progressReport.Set(((float)doneClassCount) / validClassCount);
-                            //Console.WriteLine($"Progress: {progressReport.Get()}");
-                        } else
+                            Stream currentClassFile = entry.Open();
+                            JavaClassInfo classInfo = ReadJavaClassFromStream(currentClassFile);
+                            string className = ((ConstantPoolEntry.ClassReferenceEntry)classInfo.entries[classInfo.thisClassNameIndex]).GetName(classInfo.entries).Replace('/', '.');
+                            string superClassName = ((ConstantPoolEntry.ClassReferenceEntry)classInfo.entries[classInfo.superClassNameIndex]).GetName(classInfo.entries).Replace('/', '.');
+                            if (superClassName == "java.applet.Applet")
+                            {
+                                ret.Add(new EntryPoint(className, EntryPointType.APPLET));
+                            } 
+                            else 
+                            {
+                                foreach (JavaMethodInfo method in classInfo.methods)
+                                {
+                                    string methodNameAndDescriptor = method.GetNameAndDescriptor(classInfo.entries);
+                                    if (methodNameAndDescriptor.Contains("public") && methodNameAndDescriptor.Contains("static") && methodNameAndDescriptor.Contains(" main([Ljava/lang/String;)"))
+                                    {
+                                        ret.Add(new EntryPoint(className, EntryPointType.STATIC_VOID_MAIN));
+                                        break;
+                                    }
+                                }
+                            }
+                            currentClassFile.Close();
+                            doneClassCount++;
+                            if (progressReport != null)
+                            {
+                                progressReport.Set(doneClassCount / (float)validClassCount);
+                            }
+                        } catch (Exception e)
                         {
-                            progressReport.Set(0);
+                            Console.WriteLine("error reading class " + e);
                         }
                     }
-                    Thread.Sleep(100);
                 }
             }
-            Console.WriteLine($"All scanner threads finished, {doneClassCount}/{validClassCount}");
             return ret;
         }
     }

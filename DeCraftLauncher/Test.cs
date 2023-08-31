@@ -42,11 +42,10 @@ namespace DeCraftLauncher
 
         public static void TestClassParse()
         {
-            JavaClassReader classReader = new JavaClassReader();
             ZipArchive testArch = ZipFile.OpenRead("beta-1.0.jar");
             ZipArchiveEntry entry = testArch.GetEntry("net/minecraft/client/Minecraft.class");
             Stream file = entry.Open();
-            classReader.ReadJavaClassFromStream(file);
+            JavaClassReader.ReadJavaClassFromStream(file);
             file.Close();
         }
     }

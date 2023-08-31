@@ -281,7 +281,7 @@ namespace DeCraftLauncher
                 }
             }
         }
-        public JavaClassInfo ReadJavaClassFromStream(Stream input)
+        public static JavaClassInfo ReadJavaClassFromStream(Stream input)
         {
             JavaClassInfo ret = new JavaClassInfo();
             ret.magicNumber = Utils.StreamReadInt(input);
@@ -298,7 +298,7 @@ namespace DeCraftLauncher
                 if (index < ConstantPoolEntry.idMap.Length && ConstantPoolEntry.idMap[index] != null)
                 {
                     ConstantPoolEntry newCPoolEntry = ConstantPoolEntry.idMap[index].Parse(input);
-                    Console.WriteLine($"[{x}/{nEntriesConstantPool}] Adding new " + newCPoolEntry.GetType().Name + (newCPoolEntry is ConstantPoolEntry.StringEntry ? ": " + ((ConstantPoolEntry.StringEntry)newCPoolEntry).value : ""));
+                    //Console.WriteLine($"[{x}/{nEntriesConstantPool}] Adding new " + newCPoolEntry.GetType().Name + (newCPoolEntry is ConstantPoolEntry.StringEntry ? ": " + ((ConstantPoolEntry.StringEntry)newCPoolEntry).value : ""));
                     if (newCPoolEntry is ConstantPoolEntry.DoubleEntry || newCPoolEntry is ConstantPoolEntry.LongEntry)
                     {
                         //i honestly have no idea why this works
@@ -350,7 +350,7 @@ namespace DeCraftLauncher
             }
 
             short nEntriesMethodTable = Utils.StreamReadShort(input);
-            List<JavaMethodInfo> methods = new List<JavaMethodInfo>();
+            ret.methods = new List<JavaMethodInfo>();
             for (int x = 0; x < nEntriesMethodTable; x++)
             {
                 JavaMethodInfo newMethod = new JavaMethodInfo();
@@ -368,15 +368,15 @@ namespace DeCraftLauncher
                         input.ReadByte();   //info element
                     }
                 }
-                methods.Add(newMethod);
+                ret.methods.Add(newMethod);
             }
 
-            foreach (JavaMethodInfo method in methods)
+            /*foreach (JavaMethodInfo method in ret.methods)
             {
                 Console.WriteLine(method.GetNameAndDescriptor(ret.entries));
-            }
+            }*/
 
-            Console.WriteLine("Parse finished");
+            //Console.WriteLine("Parse finished");
             return ret;
         }
     }

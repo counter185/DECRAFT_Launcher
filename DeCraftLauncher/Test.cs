@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,6 +38,16 @@ namespace DeCraftLauncher
 
             Console.WriteLine("TestXMLSaveLoad pass");
 
+        }
+
+        public static void TestClassParse()
+        {
+            JavaClassReader classReader = new JavaClassReader();
+            ZipArchive testArch = ZipFile.OpenRead("beta-1.0.jar");
+            ZipArchiveEntry entry = testArch.GetEntry("net/minecraft/client/Minecraft.class");
+            Stream file = entry.Open();
+            classReader.ReadJavaClassFromStream(file);
+            file.Close();
         }
     }
 }

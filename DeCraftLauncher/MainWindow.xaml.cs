@@ -115,6 +115,7 @@ namespace DeCraftLauncher
             //Console.WriteLine(JarUtils.GetJDKInstalled());
             ResetJarlist();
             //Test.TestXMLSaveLoad();
+            //Test.TestClassParse();
             FileSystemWatcher watcher = new FileSystemWatcher("./jars", "*.jar");
             watcher.EnableRaisingEvents = true;
             watcher.Created += delegate { Dispatcher.Invoke(ResetJarlist); };

@@ -66,6 +66,7 @@
     </ApplicationDefinition>
     <Compile Include="AppletWrapper.cs" />
     <Compile Include="JarConfig.cs" />
+    <Compile Include="JavaClassReader.cs" />
     <Compile Include="LauncherEntryPointFinding.xaml.cs">
       <DependentUpon>LauncherEntryPointFinding.xaml</DependentUpon>
     </Compile>

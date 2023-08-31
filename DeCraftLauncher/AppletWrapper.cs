@@ -189,7 +189,7 @@ public class AppletWrapper {{
             MainWindow.EnsureDir("./java_temp");
             File.WriteAllText("./java_temp/AppletWrapper.java", GenerateAppletWrapperCode(className, jar));
             File.WriteAllText("./java_temp/InjectedStreamHandlerFactory.java", GenerateHTTPStreamInjectorCode());
-            List<string> compilerOut = JarUtils.RunProcessAndGetOutput(MainWindow.javaHome + "javac", $"-cp {MainWindow.jarDir}/{jar.jarFileName} ./java_temp/AppletWrapper.java ./java_temp/InjectedStreamHandlerFactory.java -d ./java_temp "
+            List<string> compilerOut = JarUtils.RunProcessAndGetOutput(MainWindow.javaHome + "javac", $"-cp \"{MainWindow.jarDir}/{jar.jarFileName}\" ./java_temp/AppletWrapper.java ./java_temp/InjectedStreamHandlerFactory.java -d ./java_temp "
                 + "--add-exports java.base/sun.net.www.protocol.http=ALL-UNNAMED ");
             Console.WriteLine("Compilation log:");
             foreach (string a in compilerOut)
@@ -200,9 +200,9 @@ public class AppletWrapper {{
             MainWindow.EnsureDir(MainWindow.instanceDir + "/" + jar.instanceDirName);
             string args = "";
             args += "-cp ";
-            args += "./java_temp/;";
+            args += "\"./java_temp/;";
             args += MainWindow.jarDir + "/" + jar.jarFileName;
-            args += $";./lwjgl/{jar.LWJGLVersion}/* ";
+            args += $";./lwjgl/{jar.LWJGLVersion}/*\" ";
             args += $"-Djava.library.path=lwjgl/{jar.LWJGLVersion}/native ";
             args += jar.jvmArgs + " ";
             if (jar.proxyHost != "")

@@ -31,7 +31,7 @@ namespace DeCraftLauncher
             public short nameIndex;
             public short descriptorIndex;
 
-            static Dictionary<int, string> accessFlagNames = new Dictionary<int, string>()
+            static readonly Dictionary<int, string> accessFlagNames = new Dictionary<int, string>()
             {
                 { 0x0001, "public" },
                 { 0x0002, "private" },

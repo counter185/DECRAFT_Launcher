@@ -30,11 +30,14 @@ namespace DeCraftLauncher
             switch (entryPoint.classpath)
             {
                 case "com.mojang.minecraft.RubyDung":
+                case "com.mojang.minecraft.Minecraft":
                 case "net.minecraft.client.Minecraft":
                     return "Launches the game directly.";
                 case "com.mojang.minecraft.MinecraftApplet":
                 case "net.minecraft.client.MinecraftApplet":
                     return "Launches the game as a Java applet.";
+                case "com.mojang.minecraft.server.MinecraftServer":
+                    return "Launch a server.";
                 case "net.minecraft.isom.IsomPreviewApplet":
                     return "Opens an applet that lets you view your worlds in an isometric view.";
                 default:
@@ -66,19 +69,23 @@ namespace DeCraftLauncher
                 MainWindow.EnsureDir(MainWindow.instanceDir + "/" + jarConfig.instanceDirName + "/.minecraft");
                 string args = "";
                 args += "-cp ";
+                args += "\"";
                 args += Path.GetFullPath(MainWindow.jarDir + "/" + jarConfig.jarFileName);
-                args += $";{Directory.GetCurrentDirectory()}/lwjgl/{jarConfig.LWJGLVersion}/* ";
+                args += $";{Directory.GetCurrentDirectory()}/lwjgl/{jarConfig.LWJGLVersion}/*";
+                args += "\" ";
                 if (jarConfig.proxyHost != "")
                 {
                     args += $"-Dhttp.proxyHost={jarConfig.proxyHost.Replace(" ", "%20")} ";
                 }
                 args += $"-Djava.library.path={Directory.GetCurrentDirectory()}/lwjgl/{jarConfig.LWJGLVersion}/native ";
+                args += $"-Duser.dir=\"{Path.GetFullPath($"{MainWindow.instanceDir}/{jarConfig.instanceDirName}/.minecraft")}\" ";
                 args += jarConfig.jvmArgs + " ";
                 args += entryPoint.classpath;
                 args += " " + jarConfig.playerName + " 0";
                 Console.WriteLine("Running command: java " + args);
 
-                Process nproc = JarUtils.RunProcess("cmd", $"/c cd {MainWindow.instanceDir + "/" + jarConfig.instanceDirName + "/.minecraft"} && \"{MainWindow.javaHome}java\" {args}", Path.GetFullPath(MainWindow.instanceDir + "/" + jarConfig.instanceDirName));
+                //Process nproc = JarUtils.RunProcess("cmd", $"/c cd {MainWindow.instanceDir + "/" + jarConfig.instanceDirName + "/.minecraft"} && \"{MainWindow.javaHome}java\" {args}", Path.GetFullPath(MainWindow.instanceDir + "/" + jarConfig.instanceDirName));
+                Process nproc = JarUtils.RunProcess($"{MainWindow.javaHome}java", args, Path.GetFullPath(MainWindow.instanceDir + "/" + jarConfig.instanceDirName));
                 new ProcessLog(nproc).Show();
             } 
             else if (entryPoint.type == JarUtils.EntryPointType.APPLET)

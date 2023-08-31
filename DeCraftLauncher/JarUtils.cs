@@ -108,6 +108,7 @@ namespace DeCraftLauncher
             }
         }
 
+        [Obsolete("related to the old entry point finder.")]
         public struct EPFinderThread_args
         {
             public string jarfile; public List<ZipArchiveEntry> arcEntries; public List<EntryPoint> returnPoint; public Mutex mtx;
@@ -125,6 +126,7 @@ namespace DeCraftLauncher
             }
         }
 
+        [Obsolete("much, much slower method of doing things. this is only kept in case there's something wrong with the classreader.")]
         private static void Thread_EntryPointFinder(object arg)
         {
             EPFinderThread_args args = (EPFinderThread_args)arg;
@@ -201,10 +203,7 @@ namespace DeCraftLauncher
                             }
                             currentClassFile.Close();
                             doneClassCount++;
-                            if (progressReport != null)
-                            {
-                                progressReport.Set(doneClassCount / (float)validClassCount);
-                            }
+                            progressReport?.Set(doneClassCount / (float)validClassCount);
                         } catch (Exception e)
                         {
                             Console.WriteLine("error reading class " + e);

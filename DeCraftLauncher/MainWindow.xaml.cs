@@ -31,9 +31,25 @@ namespace DeCraftLauncher
         public const string instanceDir = "./instance";
         public static string javaHome = "";
 
+        public List<string> availableLWJGLVersions = new List<string>();
+
         public JarConfig currentlySelectedJar = null;
 
         public List<WorkerThread> currentScanThreads = new List<WorkerThread>();
+
+        public void UpdateLWJGLVersions()
+        {
+            availableLWJGLVersions.Clear();
+            foreach (string lwjglSubdir in Directory.GetDirectories("./lwjgl"))
+            {
+                string versionName = lwjglSubdir.Substring(lwjglSubdir.LastIndexOf('\\') + 1);
+                availableLWJGLVersions.Add(versionName);
+                TextBlock nTextBlock = new TextBlock();
+                nTextBlock.Text = versionName;
+                nTextBlock.Foreground = Brushes.White;
+                combobox_lwjgl_version.Items.Add(nTextBlock);
+            }
+        }
 
         public void UpdateLaunchOptionsSegment()
         {
@@ -52,6 +68,7 @@ namespace DeCraftLauncher
                 window_height.Text = currentlySelectedJar.windowH+"";
                 tbox_instance_dir.Text = currentlySelectedJar.instanceDirName;
                 tbox_proxyhost.Text = currentlySelectedJar.proxyHost;
+                combobox_lwjgl_version.Text = currentlySelectedJar.LWJGLVersion;
                 if (currentlySelectedJar.maxJavaVersion != "")
                 {
                     label_reqJVMVersion.Content =
@@ -123,6 +140,12 @@ namespace DeCraftLauncher
             Utils.UpdateAcrylicWindowBackground(this);
             segment_launch_options.Visibility = Visibility.Hidden;
             //Console.WriteLine(JarUtils.GetJDKInstalled());
+            UpdateLWJGLVersions();
+            FileSystemWatcher lwjglVersionWatcher = new FileSystemWatcher("./lwjgl");
+            lwjglVersionWatcher.EnableRaisingEvents = true;
+            lwjglVersionWatcher.Created += delegate { Dispatcher.Invoke(UpdateLWJGLVersions); };
+            lwjglVersionWatcher.Deleted += delegate { Dispatcher.Invoke(UpdateLWJGLVersions); };
+            lwjglVersionWatcher.Renamed += delegate { Dispatcher.Invoke(UpdateLWJGLVersions); };
             ResetJarlist();
             //Test.TestXMLSaveLoad();
             //Test.TestClassParse();
@@ -137,7 +160,6 @@ namespace DeCraftLauncher
                 window_width,
                 window_height,
                 tbox_playername,
-                tbox_lwjgl_version,
                 tbox_instance_dir,
                 tbox_proxyhost
             };
@@ -258,7 +280,7 @@ namespace DeCraftLauncher
             currentlySelectedJar.windowH = uint.TryParse(window_height.Text, out currentlySelectedJar.windowH) ? currentlySelectedJar.windowH : 540;
 
             currentlySelectedJar.jvmArgs = jvmargs.Text;
-            currentlySelectedJar.LWJGLVersion = tbox_lwjgl_version.Text;
+            currentlySelectedJar.LWJGLVersion = combobox_lwjgl_version.Text;
             currentlySelectedJar.playerName = tbox_playername.Text;
             currentlySelectedJar.instanceDirName = tbox_instance_dir.Text;
             currentlySelectedJar.proxyHost = tbox_proxyhost.Text;

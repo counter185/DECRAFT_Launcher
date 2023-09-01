@@ -36,10 +36,10 @@
         </ListBox>
         <Grid x:Name="segment_launch_options" Margin="0,10,10,10" Grid.Column="1" >
             <Label Content="Launch options" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" FontSize="24" FontWeight="Bold" Width="196"/>
-            <TextBox x:Name="jvmargs" Margin="124,64,10,0" TextWrapping="NoWrap" Text="-Djava.util.Arrays.useLegacyMergeSort=true" VerticalAlignment="Top" Background="Black" Foreground="White" SelectionBrush="#FF292929" BorderBrush="#FF252525"/>
+            <TextBox x:Name="jvmargs" Style="{DynamicResource TextBoxMainStyle}" Margin="124,64,10,0" TextWrapping="NoWrap" Text="-Djava.util.Arrays.useLegacyMergeSort=true" VerticalAlignment="Top"/>
             <Label Content="JVM options" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="109" Background="{x:Null}" Foreground="White"/>
             <Button Content="Runtime settings" Margin="0,16,10,0" VerticalAlignment="Top" Height="26" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" Click="Button_Click" HorizontalAlignment="Right" Width="106"/>
-            <TextBox x:Name="tbox_playername" Margin="124,97,258,0" TextWrapping="NoWrap" Text="DECRAFT_Player" VerticalAlignment="Top" Background="Black" Foreground="White" SelectionBrush="#FF292929" BorderBrush="#FF252525"/>
+            <TextBox Style="{DynamicResource TextBoxMainStyle}" x:Name="tbox_playername" Margin="124,97,258,0" TextWrapping="NoWrap" Text="DECRAFT_Player" VerticalAlignment="Top"/>
             <Label Content="Player name" Margin="10,93,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" HorizontalAlignment="Left" Width="109"/>
             <ListBox x:Name="entrypointlist" d:ItemsSource="{d:SampleData ItemCount=5}" Foreground="White" Margin="0,209,0,-10" BorderBrush="{x:Null}" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.CanContentScroll="False">
                 <ListBox.Background>
@@ -50,18 +50,18 @@
                 </ListBox.Background>
             </ListBox>
             <Label Content="Entry points" HorizontalAlignment="Left" Margin="0,170,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" FontSize="18" Width="196"/>
-            <Label Content="LWJGL Version" HorizontalAlignment="Left" Margin="10,116,0,0" VerticalAlignment="Top" Width="109" Background="{x:Null}" Foreground="White"/>
+            <Label Content="LWJGL Version" HorizontalAlignment="Left" Margin="10,118,0,0" VerticalAlignment="Top" Width="109" Background="{x:Null}" Foreground="White"/>
             <Button x:Name="btn_scan_entrypoints" Content="Rescan entry points" Margin="0,174,10,0" VerticalAlignment="Top" Height="26" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" Click="btn_scan_entrypoints_Click" HorizontalAlignment="Right" Width="125"/>
             <Label Content="Window size" Margin="0,116,156,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" HorizontalAlignment="Right" Width="88"/>
-            <TextBox x:Name="window_width" Margin="0,120,103,0" TextWrapping="NoWrap" Text="960" VerticalAlignment="Top" Background="Black" Foreground="White" SelectionBrush="#FF292929" BorderBrush="#FF252525" HorizontalAlignment="Right" Width="53"/>
-            <TextBox x:Name="window_height" Margin="0,120,33,0" TextWrapping="NoWrap" Text="540" VerticalAlignment="Top" Background="Black" Foreground="White" SelectionBrush="#FF292929" BorderBrush="#FF252525" HorizontalAlignment="Right" Width="52"/>
+            <TextBox x:Name="window_width" Style="{DynamicResource TextBoxMainStyle}" Margin="0,120,103,0" TextWrapping="NoWrap" Text="960" VerticalAlignment="Top" HorizontalAlignment="Right" Width="53"/>
+            <TextBox x:Name="window_height" Style="{DynamicResource TextBoxMainStyle}" Margin="0,120,33,0" TextWrapping="NoWrap" Text="540" VerticalAlignment="Top" HorizontalAlignment="Right" Width="52"/>
             <Label Content="x" Margin="0,116,85,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" HorizontalAlignment="Right" Width="18"/>
-            <TextBox x:Name="tbox_lwjgl_version" Margin="124,120,258,0" TextWrapping="NoWrap" Text="2.9.3" VerticalAlignment="Top" Background="Black" Foreground="White" SelectionBrush="#FF292929" BorderBrush="#FF252525"/>
-            <Label Content="Instance directory" HorizontalAlignment="Left" Margin="10,139,0,0" VerticalAlignment="Top" Width="109" Background="{x:Null}" Foreground="White"/>
-            <TextBox x:Name="tbox_instance_dir" Margin="124,143,258,0" TextWrapping="NoWrap" VerticalAlignment="Top" Background="Black" Foreground="White" SelectionBrush="#FF292929" BorderBrush="#FF252525"/>
+            <Label Content="Instance directory" HorizontalAlignment="Left" Margin="10,144,0,0" VerticalAlignment="Top" Width="109" Background="{x:Null}" Foreground="White"/>
+            <TextBox x:Name="tbox_instance_dir" Style="{DynamicResource TextBoxMainStyle}" Margin="124,148,258,0" TextWrapping="NoWrap" VerticalAlignment="Top"/>
             <Label Content="Proxy host" Margin="0,93,161,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" HorizontalAlignment="Right" Width="83"/>
-            <TextBox x:Name="tbox_proxyhost" Margin="0,97,33,0" TextWrapping="NoWrap" VerticalAlignment="Top" Background="Black" Foreground="White" SelectionBrush="#FF292929" BorderBrush="#FF252525" HorizontalAlignment="Right" Width="123"/>
+            <TextBox x:Name="tbox_proxyhost" Style="{DynamicResource TextBoxMainStyle}" Margin="0,97,33,0" TextWrapping="NoWrap" VerticalAlignment="Top" HorizontalAlignment="Right" Width="123"/>
             <Label x:Name="label_reqJVMVersion" Content="minimum JRE: 7" Margin="0,16,129,0" VerticalAlignment="Top" Foreground="#FF585858" HorizontalAlignment="Right" Width="238" HorizontalContentAlignment="Right"/>
+            <ComboBox Style="{DynamicResource ComboBoxMainStyle}" x:Name="combobox_lwjgl_version" Margin="124,120,258,0" VerticalAlignment="Top" Height="22" IsEditable="True" Background="{x:Null}" Text="2.9.3" BorderBrush="#FF252525" Foreground="Black"/>
 
         </Grid>
         <Image HorizontalAlignment="Left" Height="128" Margin="-12,0,0,0" VerticalAlignment="Top" Width="128" Source="/ImageRes/decraft_logo.png"/>

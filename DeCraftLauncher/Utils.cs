@@ -16,7 +16,9 @@ namespace DeCraftLauncher
         public static void UpdateAcrylicWindowBackground(AcrylicWindow window)
         {
             bool setTransparent = System.Environment.OSVersion.Version.Major == 10;
-            window.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(setTransparent ? (byte)0x80 : (byte)0xF0,0,0,0));
+            window.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(setTransparent ? (byte)0xA0 : (byte)0xF0,0,0,0));
+            window.Opacity = 0.85;
+            window.TintOpacity = 0.1;
         }
 
         public static short StreamReadShort(Stream input)

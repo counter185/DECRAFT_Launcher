@@ -29,6 +29,7 @@ namespace DeCraftLauncher
         {
             switch (entryPoint.classpath)
             {
+                case "com.mojang.rubydung.RubyDung":
                 case "com.mojang.minecraft.RubyDung":
                 case "com.mojang.minecraft.Minecraft":
                 case "net.minecraft.client.Minecraft":

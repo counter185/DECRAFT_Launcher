@@ -27,7 +27,7 @@
             </Rectangle.Fill>
         </Rectangle>
         <Label Content=".jar files" Margin="10,115,0,0" VerticalAlignment="Top" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalAlignment="Left" Width="84"/>
-        <ListBox x:Name="jarlist" d:ItemsSource="{d:SampleData ItemCount=5}" AllowDrop="True" Margin="0,157,3,10" Background="{x:Null}" Foreground="White" FontSize="16" BorderBrush="{x:Null}" SelectionChanged="jarlist_SelectionChanged" Drop="jarlist_Drop" HorizontalContentAlignment="Stretch" ScrollViewer.CanContentScroll="False">
+        <ListBox x:Name="jarlist" d:ItemsSource="{d:SampleData ItemCount=5}" AllowDrop="True" Margin="0,157,0,0" Background="{x:Null}" Foreground="White" FontSize="16" BorderBrush="{x:Null}" SelectionChanged="jarlist_SelectionChanged" Drop="jarlist_Drop" HorizontalContentAlignment="Stretch" ScrollViewer.CanContentScroll="False">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Path=.}" TextWrapping="Wrap"></TextBlock>
@@ -63,6 +63,9 @@
             <TextBox x:Name="tbox_proxyhost" Margin="0,97,33,0" TextWrapping="NoWrap" VerticalAlignment="Top" Background="Black" Foreground="White" SelectionBrush="#FF292929" BorderBrush="#FF252525" HorizontalAlignment="Right" Width="123"/>
 
         </Grid>
+        <Image HorizontalAlignment="Left" Height="128" Margin="-12,0,0,0" VerticalAlignment="Top" Width="128" Source="/ImageRes/decraft_logo.png"/>
+        <Label Content="DECRAFT" HorizontalAlignment="Left" Margin="71,2,0,0" VerticalAlignment="Top" Foreground="White" FontSize="36"/>
+        <Label x:Name="versionString" Content="0.9-dev" Margin="0,84,48,0" VerticalAlignment="Top" Foreground="#FF505050" HorizontalAlignment="Right" Width="107" FontStyle="Italic"/>
 
 
     </Grid>

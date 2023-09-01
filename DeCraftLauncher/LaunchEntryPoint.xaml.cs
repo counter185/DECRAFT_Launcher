@@ -90,7 +90,14 @@ namespace DeCraftLauncher
             } 
             else if (entryPoint.type == JarUtils.EntryPointType.APPLET)
             {
-                AppletWrapper.LaunchAppletWrapper(entryPoint.classpath, jarConfig);
+                if (!entryPoint.classpath.Contains('.'))
+                {
+                    MessageBox.Show("Launching default package applets is not implemented.", "DECRAFT");
+                }
+                else
+                {
+                    AppletWrapper.LaunchAppletWrapper(entryPoint.classpath, jarConfig);
+                }
             } 
             else
             {

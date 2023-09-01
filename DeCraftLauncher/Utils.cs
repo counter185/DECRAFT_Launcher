@@ -17,8 +17,11 @@ namespace DeCraftLauncher
         {
             bool setTransparent = System.Environment.OSVersion.Version.Major == 10;
             window.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(setTransparent ? (byte)0xA0 : (byte)0xF0,0,0,0));
-            window.Opacity = 0.85;
-            window.TintOpacity = 0.1;
+            if (setTransparent)
+            {
+                window.Opacity = 0.85;
+                window.TintOpacity = 0.1;
+            }
         }
 
         public static short StreamReadShort(Stream input)

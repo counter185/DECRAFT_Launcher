@@ -108,6 +108,16 @@ namespace DeCraftLauncher
             }
         }
 
+        public class EntryPointScanResults
+        {
+            public int minMajorVersion = -1;
+            public int minMinorVersion = -1;
+
+            public int maxMajorVersion = -1;
+            public int maxMinorVersion = -1;
+            public List<EntryPoint> entryPoints= new List<EntryPoint>();
+        }
+
         [Obsolete("related to the old entry point finder.")]
         public struct EPFinderThread_args
         {
@@ -164,9 +174,9 @@ namespace DeCraftLauncher
             //Console.WriteLine("Thread "+args.num+" finished");
         }
 
-        public unsafe static List<EntryPoint> FindAllEntryPoints(string jarfile, ReferenceType<float> progressReport = null)
+        public unsafe static EntryPointScanResults FindAllEntryPoints(string jarfile, ReferenceType<float> progressReport = null)
         {
-            List<EntryPoint> ret = new List<EntryPoint>();
+            EntryPointScanResults ret = new EntryPointScanResults();
 
             int validClassCount = 0;
             int doneClassCount = 0;
@@ -174,6 +184,8 @@ namespace DeCraftLauncher
             using (ZipArchive archive = ZipFile.OpenRead(jarfile))
             {
                 validClassCount = (from x in archive.Entries where x.Name.EndsWith(".class") && !x.Name.Contains('$') select x).Count();
+
+                bool firstClassEntry = true;
 
                 foreach (ZipArchiveEntry entry in archive.Entries)
                 {
@@ -185,9 +197,33 @@ namespace DeCraftLauncher
                             JavaClassInfo classInfo = ReadJavaClassFromStream(currentClassFile);
                             string className = ((ConstantPoolEntry.ClassReferenceEntry)classInfo.entries[classInfo.thisClassNameIndex]).GetName(classInfo.entries).Replace('/', '.');
                             string superClassName = ((ConstantPoolEntry.ClassReferenceEntry)classInfo.entries[classInfo.superClassNameIndex]).GetName(classInfo.entries).Replace('/', '.');
+                            if (firstClassEntry)
+                            {
+                                ret.minMajorVersion = classInfo.versionMajor;
+                                ret.minMinorVersion = classInfo.versionMinor;
+                                ret.maxMajorVersion = classInfo.versionMajor;
+                                ret.maxMinorVersion = classInfo.versionMinor;
+                            } else
+                            {
+                                if (classInfo.versionMajor > ret.maxMajorVersion
+                                    || (classInfo.versionMajor == ret.maxMajorVersion && classInfo.versionMinor > ret.maxMinorVersion))
+                                {
+                                    ret.maxMajorVersion = classInfo.versionMajor;
+                                    ret.maxMinorVersion = classInfo.versionMinor;
+                                }
+                                if (classInfo.versionMajor < ret.minMajorVersion
+                                    || (classInfo.versionMajor == ret.minMajorVersion && classInfo.versionMinor < ret.minMinorVersion))
+                                {
+                                    ret.minMajorVersion = classInfo.versionMajor;
+                                    ret.minMinorVersion = classInfo.versionMinor;
+                                }
+                            }
+                            firstClassEntry = false;
+                            
+
                             if (superClassName == "java.applet.Applet")
                             {
-                                ret.Add(new EntryPoint(className, EntryPointType.APPLET));
+                                ret.entryPoints.Add(new EntryPoint(className, EntryPointType.APPLET));
                             } 
                             else 
                             {
@@ -196,7 +232,7 @@ namespace DeCraftLauncher
                                     string methodNameAndDescriptor = method.GetNameAndDescriptor(classInfo.entries);
                                     if (methodNameAndDescriptor.Contains("public") && methodNameAndDescriptor.Contains("static") && methodNameAndDescriptor.Contains(" main([Ljava/lang/String;)"))
                                     {
-                                        ret.Add(new EntryPoint(className, EntryPointType.STATIC_VOID_MAIN));
+                                        ret.entryPoints.Add(new EntryPoint(className, EntryPointType.STATIC_VOID_MAIN));
                                         break;
                                     }
                                 }

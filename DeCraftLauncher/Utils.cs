@@ -49,5 +49,40 @@ namespace DeCraftLauncher
             }
             return BitConverter.ToInt64(buffer, 0);
         }
+
+        static readonly Dictionary<int, string> JavaMajorVersionsToNames = new Dictionary<int, string>()
+        {
+            {45, "JDK1.1"},
+            {46, "JDK1.2"},
+            {47, "JDK1.3"},
+            {48, "JDK1.4"},
+            {49, "Java5"},
+            {50, "Java6"},
+        };
+
+        public static string JavaVersionFriendlyName(string majorDotMinorVer)
+        {
+            try
+            {
+                string ver = majorDotMinorVer.Split('.')[0];
+                int v = int.Parse(ver);
+                if (v >= 51)
+                {
+                    return $"{majorDotMinorVer} (Java{7+v-51}{(v > 65 ? "?" : "")})";
+                }
+                else if (v >= 45)
+                {
+                    return $"{majorDotMinorVer} ({JavaMajorVersionsToNames[v]})";
+                }
+                else
+                {
+                    return $"{majorDotMinorVer} (JDK <1.1?)";
+                }
+            }
+            catch (Exception)
+            {
+                return majorDotMinorVer;
+            }
+        }
     }
 }

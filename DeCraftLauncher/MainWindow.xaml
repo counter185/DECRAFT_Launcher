@@ -61,6 +61,7 @@
             <TextBox x:Name="tbox_instance_dir" Margin="124,143,258,0" TextWrapping="NoWrap" VerticalAlignment="Top" Background="Black" Foreground="White" SelectionBrush="#FF292929" BorderBrush="#FF252525"/>
             <Label Content="Proxy host" Margin="0,93,161,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" HorizontalAlignment="Right" Width="83"/>
             <TextBox x:Name="tbox_proxyhost" Margin="0,97,33,0" TextWrapping="NoWrap" VerticalAlignment="Top" Background="Black" Foreground="White" SelectionBrush="#FF292929" BorderBrush="#FF252525" HorizontalAlignment="Right" Width="123"/>
+            <Label x:Name="label_reqJVMVersion" Content="minimum JRE: 7" Margin="0,16,129,0" VerticalAlignment="Top" Foreground="#FF585858" HorizontalAlignment="Right" Width="238" HorizontalContentAlignment="Right"/>
 
         </Grid>
         <Image HorizontalAlignment="Left" Height="128" Margin="-12,0,0,0" VerticalAlignment="Top" Width="128" Source="/ImageRes/decraft_logo.png"/>

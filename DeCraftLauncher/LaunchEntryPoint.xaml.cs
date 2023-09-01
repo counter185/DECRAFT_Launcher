@@ -77,7 +77,7 @@ namespace DeCraftLauncher
                 {
                     args += $"-Dhttp.proxyHost={jarConfig.proxyHost.Replace(" ", "%20")} ";
                 }
-                args += $"-Djava.library.path={Directory.GetCurrentDirectory()}/lwjgl/{jarConfig.LWJGLVersion}/native ";
+                args += $"-Djava.library.path=\"{Directory.GetCurrentDirectory()}/lwjgl/{jarConfig.LWJGLVersion}/native\" ";
                 args += $"-Duser.dir=\"{Path.GetFullPath($"{MainWindow.instanceDir}/{jarConfig.instanceDirName}/.minecraft")}\" ";
                 args += jarConfig.jvmArgs + " ";
                 args += entryPoint.classpath;

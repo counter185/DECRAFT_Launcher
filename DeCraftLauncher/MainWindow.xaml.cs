@@ -52,6 +52,16 @@ namespace DeCraftLauncher
                 window_height.Text = currentlySelectedJar.windowH+"";
                 tbox_instance_dir.Text = currentlySelectedJar.instanceDirName;
                 tbox_proxyhost.Text = currentlySelectedJar.proxyHost;
+                if (currentlySelectedJar.maxJavaVersion != "")
+                {
+                    label_reqJVMVersion.Content =
+                        currentlySelectedJar.maxJavaVersion != currentlySelectedJar.minJavaVersion ?
+                        $"JVM: {Utils.JavaVersionFriendlyName(currentlySelectedJar.minJavaVersion)} - {Utils.JavaVersionFriendlyName(currentlySelectedJar.maxJavaVersion)}"
+                        : $"JVM: {Utils.JavaVersionFriendlyName(currentlySelectedJar.maxJavaVersion)}";
+                } else
+                {
+                    label_reqJVMVersion.Content = "";
+                }
                 entrypointlist.Items.Clear();
                 IEnumerable<WorkerThread> wthreads = from x in currentScanThreads where x.jar == jar select x;
                 if (wthreads.Any())
@@ -155,7 +165,7 @@ namespace DeCraftLauncher
 
         private void rtest_Click(object sender, RoutedEventArgs e)
         {
-            List<JarUtils.EntryPoint> epoints = JarUtils.FindAllEntryPoints("./a1.0.16.jar");
+            List<JarUtils.EntryPoint> epoints = JarUtils.FindAllEntryPoints("./a1.0.16.jar").entryPoints;
             Console.WriteLine(epoints.Count + " entry points");
             foreach (JarUtils.EntryPoint entry in epoints)
             {
@@ -197,11 +207,14 @@ namespace DeCraftLauncher
             WorkerThread param = (WorkerThread)obj;
             try
             {
-                List<EntryPoint> entryPoint = JarUtils.FindAllEntryPoints(jarDir + "/" + param.jar, param.report);
+                EntryPointScanResults scanRes = JarUtils.FindAllEntryPoints(jarDir + "/" + param.jar, param.report);
+                List<EntryPoint> entryPoint = scanRes.entryPoints;
                 currentScanThreads.Remove(param);
                 JarConfig conf = JarConfig.LoadFromXML(configDir + "/" + param.jar + ".xml", param.jar);
                 conf.entryPoints = entryPoint;
                 conf.entryPointsScanned = true;
+                conf.maxJavaVersion = $"{scanRes.maxMajorVersion}.{scanRes.maxMinorVersion}";
+                conf.minJavaVersion = $"{scanRes.minMajorVersion}.{scanRes.minMinorVersion}";
                 conf.SaveToXML(configDir + "/" + param.jar + ".xml");
                 if (currentlySelectedJar.jarFileName == param.jar)
                 {

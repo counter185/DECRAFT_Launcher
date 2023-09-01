@@ -100,11 +100,13 @@ namespace DeCraftLauncher
         {
             public string classpath;
             public EntryPointType type;
+            public string additionalInfo;
 
-            public EntryPoint(string classpath, EntryPointType type)
+            public EntryPoint(string classpath, EntryPointType type, string additionalInfo = "")
             {
                 this.classpath = classpath;
                 this.type = type;
+                this.additionalInfo = additionalInfo;
             }
         }
 
@@ -232,7 +234,24 @@ namespace DeCraftLauncher
                                     string methodNameAndDescriptor = method.GetNameAndDescriptor(classInfo.entries);
                                     if (methodNameAndDescriptor.Contains("public") && methodNameAndDescriptor.Contains("static") && methodNameAndDescriptor.Contains(" main([Ljava/lang/String;)"))
                                     {
-                                        ret.entryPoints.Add(new EntryPoint(className, EntryPointType.STATIC_VOID_MAIN));
+                                        EntryPoint newEntryPoint = new EntryPoint(className, EntryPointType.STATIC_VOID_MAIN);
+                                        //try finding the version name...
+                                        foreach (ConstantPoolEntry cPoolEntry in classInfo.entries)
+                                        {
+                                            if (cPoolEntry is ConstantPoolEntry.StringEntry)
+                                            {
+                                                ConstantPoolEntry.StringEntry stringEntry = (ConstantPoolEntry.StringEntry)cPoolEntry;
+                                                if (stringEntry.value.StartsWith("Minecraft Minecraft"))
+                                                {
+                                                    newEntryPoint.additionalInfo = stringEntry.value.Substring("Minecraft Minecraft".Length);
+                                                    break;
+                                                } else if (stringEntry.value.StartsWith("Minecraft ") && stringEntry.value != "Minecraft main thread")
+                                                {
+                                                    newEntryPoint.additionalInfo = stringEntry.value.Substring("Minecraft ".Length);
+                                                }
+                                            }
+                                        }
+                                        ret.entryPoints.Add(newEntryPoint);
                                         break;
                                     }
                                 }

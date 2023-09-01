@@ -96,6 +96,7 @@ namespace DeCraftLauncher
                 XmlNode nEntryPoint = entryPointsList.AppendChild(newXml.CreateNode("element", "EntryPoint", ""));
                 nEntryPoint.AppendChild(SetVal(newXml.CreateNode("element", "ClassPath", ""), a.classpath));
                 nEntryPoint.AppendChild(SetVal(newXml.CreateNode("element", "LaunchType", ""), ((int)a.type).ToString()));
+                nEntryPoint.AppendChild(SetVal(newXml.CreateNode("element", "ClassInfo", ""), a.additionalInfo));
             }
 
             newXml.Save(path);
@@ -129,6 +130,7 @@ namespace DeCraftLauncher
                     EntryPoint b = new EntryPoint();
                     string classPath = GetInnerOrDefault(a, "ClassPath", null);
                     string type = GetInnerOrDefault(a, "LaunchType", null, "int");
+                    string additionalInfo = GetInnerOrDefault(a, "ClassInfo", "");
                     if (classPath == null || type == null)
                     {
                         continue;
@@ -142,6 +144,7 @@ namespace DeCraftLauncher
                     {
                         continue;
                     }
+                    b.additionalInfo = additionalInfo;
                     newJarConf.entryPoints.Add(b);
                 }
             }

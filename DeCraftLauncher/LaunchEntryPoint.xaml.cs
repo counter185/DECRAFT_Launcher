@@ -58,6 +58,7 @@ namespace DeCraftLauncher
                 : entryPoint.type == JarUtils.EntryPointType.RUNNABLE ? "(Runnable)"
                 : entryPoint.type == JarUtils.EntryPointType.APPLET ? "(Applet)"
                 : "<unknown>";
+            moreInfo.Content = target.additionalInfo.Replace("_", "__");
             this.jarConfig = jarConfig;
         }
 

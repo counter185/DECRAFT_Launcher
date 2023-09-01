@@ -10,6 +10,7 @@
         <Label x:Name="desc" Content="This class prolly launches the game ig" VerticalAlignment="Top" Foreground="White" FontStyle="Italic" Margin="10,53,10,0"/>
         <Button x:Name="launchButton" Content="Launch" Margin="0,80,10,12" Background="{x:Null}" Foreground="White" BorderBrush="#FF292929" Click="launchButton_Click" HorizontalAlignment="Right" Width="83"/>
         <Label x:Name="mode" Content="(main class)" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top" Width="224" Foreground="White"/>
+        <Label x:Name="moreInfo" Content="Alpha 1.2.6" Margin="0,80,98,14" Foreground="#FF909090" HorizontalAlignment="Right" Width="184" HorizontalContentAlignment="Right" FontStyle="Italic"/>
 
     </Grid>
 </UserControl>

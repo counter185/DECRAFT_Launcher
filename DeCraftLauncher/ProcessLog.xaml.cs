@@ -92,6 +92,7 @@ namespace DeCraftLauncher
         {
             target = t;
             InitializeComponent();
+            this.Title = $"DECRAFT: Process Log [{t.ProcessName} : {t.Id}]";
             Utils.UpdateAcrylicWindowBackground(this);
             t.OutputDataReceived += (a, b) =>
             {
@@ -171,7 +172,13 @@ namespace DeCraftLauncher
 
         private void proc_kill_Click(object sender, RoutedEventArgs e)
         {
-            target.Kill();
+            try
+            {
+                target.Kill();
+            } catch (System.InvalidOperationException)
+            {
+                //??????
+            }
             proc_kill.Visibility = Visibility.Hidden;
         }
     }

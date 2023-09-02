@@ -6,7 +6,7 @@
         xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
         xmlns:local="clr-namespace:DeCraftLauncher"
         mc:Ignorable="d"
-        Title="Config" Height="391" Width="464" Background="#00000000" Closed="AcrylicWindow_Closed">
+        Title="DECRAFT: Runtime configuration" Height="391" Width="464" Background="#00000000" Closed="AcrylicWindow_Closed">
     <Grid>
         <Label Content="Java path" HorizontalAlignment="Left" Margin="10,71,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
         <TextBox x:Name="jre_path" Style="{DynamicResource TextBoxMainStyle}" Margin="103,75,37,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Background="Transparent" TextChanged="TextBox_TextChanged" KeyDown="jre_path_KeyDown" ToolTip=""/>

@@ -9,7 +9,7 @@
         NoiseOpacity="0.0001"
         TintColor="#000000"
         TintOpacity="0.6"
-        Title="JarAdvancedOptions" Background="#FA000000" Height="329" Width="510">
+        Title="DECRAFT: Advanced options" Background="#FA000000" Height="329" Width="510">
     <Grid>
         <Label x:Name="label_title" Content="Advanced options" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="White" FontSize="18" FontWeight="Bold"/>
         <Label Content="Session ID (args[1])" HorizontalAlignment="Left" Margin="10,57,0,0" VerticalAlignment="Top" Foreground="White"/>

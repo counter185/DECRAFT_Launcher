@@ -50,20 +50,20 @@
                 </ListBox.Background>
             </ListBox>
             <Label Content="Entry points" HorizontalAlignment="Left" Margin="0,170,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" FontSize="18" Width="196"/>
-            <Label Content="LWJGL Version" HorizontalAlignment="Left" Margin="10,118,0,0" VerticalAlignment="Top" Width="109" Background="{x:Null}" Foreground="White"/>
+            <Label Content="LWJGL Version" HorizontalAlignment="Right" Margin="0,93,157,0" VerticalAlignment="Top" Width="87" Background="{x:Null}" Foreground="White"/>
             <Button x:Name="btn_scan_entrypoints" Content="Rescan entry points" Margin="0,174,10,0" VerticalAlignment="Top" Height="26" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" Click="btn_scan_entrypoints_Click" HorizontalAlignment="Right" Width="125"/>
             <Label Content="Window size" Margin="0,116,156,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" HorizontalAlignment="Right" Width="88"/>
             <TextBox x:Name="window_width" Style="{DynamicResource TextBoxMainStyle}" Margin="0,120,103,0" TextWrapping="NoWrap" Text="960" VerticalAlignment="Top" HorizontalAlignment="Right" Width="53"/>
             <TextBox x:Name="window_height" Style="{DynamicResource TextBoxMainStyle}" Margin="0,120,33,0" TextWrapping="NoWrap" Text="540" VerticalAlignment="Top" HorizontalAlignment="Right" Width="52"/>
             <Label Content="x" Margin="0,116,85,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" HorizontalAlignment="Right" Width="18"/>
-            <Label Content="Instance directory" HorizontalAlignment="Left" Margin="10,144,0,0" VerticalAlignment="Top" Width="109" Background="{x:Null}" Foreground="White"/>
-            <TextBox x:Name="tbox_instance_dir" Style="{DynamicResource TextBoxMainStyle}" Margin="124,148,297,0" TextWrapping="NoWrap" VerticalAlignment="Top"/>
-            <Label Content="Proxy host" Margin="0,93,161,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" HorizontalAlignment="Right" Width="83"/>
-            <TextBox x:Name="tbox_proxyhost" Style="{DynamicResource TextBoxMainStyle}" Margin="0,97,33,0" TextWrapping="NoWrap" VerticalAlignment="Top" HorizontalAlignment="Right" Width="123"/>
+            <Label Content="Instance directory" HorizontalAlignment="Left" Margin="10,142,0,0" VerticalAlignment="Top" Width="109" Background="{x:Null}" Foreground="White" Height="26"/>
+            <TextBox x:Name="tbox_instance_dir" Style="{DynamicResource TextBoxMainStyle}" Margin="124,146,297,0" TextWrapping="NoWrap" VerticalAlignment="Top" Height="22"/>
+            <Label Content="Proxy host" Margin="10,116,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" HorizontalAlignment="Left" Width="83"/>
+            <TextBox x:Name="tbox_proxyhost" Style="{DynamicResource TextBoxMainStyle}" Margin="124,120,258,0" TextWrapping="NoWrap" VerticalAlignment="Top"/>
             <Label x:Name="label_reqJVMVersion" Content="minimum JRE: 7" Margin="0,16,129,0" VerticalAlignment="Top" Foreground="#FF585858" HorizontalAlignment="Right" Width="238" HorizontalContentAlignment="Right"/>
-            <ComboBox Style="{DynamicResource ComboBoxMainStyle}" x:Name="combobox_lwjgl_version" Margin="124,120,258,0" VerticalAlignment="Top" Height="22" IsEditable="True" Background="{x:Null}" Text="2.9.3" BorderBrush="#FF252525" Foreground="Black"/>
+            <ComboBox Style="{DynamicResource ComboBoxMainStyle}" x:Name="combobox_lwjgl_version" Margin="0,95,33,0" VerticalAlignment="Top" Height="22" IsEditable="True" Background="{x:Null}" Text="2.9.3" BorderBrush="#FF252525" Foreground="Black" HorizontalAlignment="Right" Width="123"/>
             <Button x:Name="btn_advanced_settings" Content="Advanced settings" Margin="0,142,33,0" VerticalAlignment="Top" Height="24" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" Click="btn_advanced_settings_Click" HorizontalAlignment="Right" Width="137"/>
-            <Button x:Name="btn_open_instance_dir" Content="Open" Margin="0,148,259,0" VerticalAlignment="Top" Height="18" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" Click="btn_open_instance_dir_Click" HorizontalAlignment="Right" Width="38"/>
+            <Button x:Name="btn_open_instance_dir" Content="Open" Margin="0,146,257,0" VerticalAlignment="Top" Height="22" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" Click="btn_open_instance_dir_Click" HorizontalAlignment="Right" Width="40"/>
 
         </Grid>
         <Image HorizontalAlignment="Left" Height="128" Margin="-12,0,0,0" VerticalAlignment="Top" Width="128" Source="/ImageRes/decraft_logo.png"/>

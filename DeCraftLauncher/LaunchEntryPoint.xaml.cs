@@ -38,6 +38,7 @@ namespace DeCraftLauncher
                 case "net.minecraft.client.MinecraftApplet":
                     return "Launches the game as a Java applet.";
                 case "com.mojang.minecraft.server.MinecraftServer":
+                case "net.minecraft.server.MinecraftServer":
                     return "Launch a server.";
                 case "net.minecraft.isom.IsomPreviewApplet":
                     return "Opens an applet that lets you view your worlds in an isometric view.";

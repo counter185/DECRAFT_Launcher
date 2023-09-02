@@ -27,6 +27,12 @@ namespace DeCraftLauncher
         public string maxJavaVersion = "";
         public string minJavaVersion = "";
 
+        //advanced options
+        public string sessionID = "0";
+        public string gameArgs = "";
+        public bool appletEmulateHTTP = true;
+        public string documentBaseUrl = "http://www.minecraft.net/play.jsp";
+
         public JarConfig(string jarFileName)
         {
             this.jarFileName = jarFileName;
@@ -90,6 +96,11 @@ namespace DeCraftLauncher
             rootElement.AppendChild(SetVal(newXml.CreateNode("element", "MaxJavaVersion", ""), maxJavaVersion));
             rootElement.AppendChild(SetVal(newXml.CreateNode("element", "MinJavaVersion", ""), minJavaVersion));
 
+            rootElement.AppendChild(SetVal(newXml.CreateNode("element", "PassSessionID", ""), sessionID));
+            rootElement.AppendChild(SetVal(newXml.CreateNode("element", "GameArgs", ""), gameArgs));
+            rootElement.AppendChild(SetVal(newXml.CreateNode("element", "AppletEmulateHTTP", ""), appletEmulateHTTP.ToString()));
+            rootElement.AppendChild(SetVal(newXml.CreateNode("element", "AppletDocumentURL", ""), documentBaseUrl));
+
             XmlNode entryPointsList = rootElement.AppendChild(newXml.CreateNode("element", "EntryPoints", ""));
             foreach (EntryPoint a in entryPoints)
             {
@@ -122,6 +133,11 @@ namespace DeCraftLauncher
                 newJarConf.proxyHost = GetInnerOrDefault(rootNode, "ProxyHost");
                 newJarConf.maxJavaVersion = GetInnerOrDefault(rootNode, "MaxJavaVersion");
                 newJarConf.minJavaVersion = GetInnerOrDefault(rootNode, "MinJavaVersion");
+
+                newJarConf.sessionID = GetInnerOrDefault(rootNode, "SessionID", "0");
+                newJarConf.gameArgs = GetInnerOrDefault(rootNode, "GameArgs");
+                newJarConf.appletEmulateHTTP = bool.Parse(GetInnerOrDefault(rootNode, "AppletEmulateHTTP", "true", "bool"));
+                newJarConf.documentBaseUrl = GetInnerOrDefault(rootNode, "AppletDocumentURL", "http://www.minecraft.net/play.jsp");
 
                 newJarConf.entryPointsScanned = bool.Parse(GetInnerOrDefault(rootNode, "EntryPointsScanned", "false", "bool"));
 

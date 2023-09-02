@@ -115,7 +115,7 @@ public class AppletWrapper {{
 
     public static void main(String[] args){{
         //System.setSecurityManager(null);
-        URL.setURLStreamHandlerFactory(new InjectedStreamHandlerFactory());
+        {(jar.appletEmulateHTTP ? "" : "//")}URL.setURLStreamHandlerFactory(new InjectedStreamHandlerFactory());
         mainFrame = new JFrame(""DECRAFT Applet Wrapper: {className}"");
         {className} a = new {className}();
         mainFrame.add(a);
@@ -133,7 +133,7 @@ public class AppletWrapper {{
 			@Override
 			public URL getDocumentBase() {{
 				try {{
-                    return new URL(""http://www.minecraft.net/"");
+                    return new URL(""{jar.documentBaseUrl.Replace("\"", "\\\"").Replace('\n', '_')}"");
 		        }} catch (MalformedURLException e) {{
 			        return null;
 		        }}
@@ -142,8 +142,7 @@ public class AppletWrapper {{
 			@Override
 			public URL getCodeBase() {{
 				try {{
-			        //return new URL(""http://localhost:0"");
-                    return new URL(""http://www.minecraft.net/"");
+                    return new URL(""{jar.documentBaseUrl.Replace("\"", "\\\"").Replace('\n', '_')}"");
 		        }} catch (MalformedURLException e) {{
 			        return null;
 		        }}
@@ -188,9 +187,15 @@ public class AppletWrapper {{
         {
             MainWindow.EnsureDir("./java_temp");
             File.WriteAllText("./java_temp/AppletWrapper.java", GenerateAppletWrapperCode(className, jar));
-            File.WriteAllText("./java_temp/InjectedStreamHandlerFactory.java", GenerateHTTPStreamInjectorCode());
-            List<string> compilerOut = JarUtils.RunProcessAndGetOutput(MainWindow.javaHome + "javac", $"-cp \"{MainWindow.jarDir}/{jar.jarFileName}\" ./java_temp/AppletWrapper.java ./java_temp/InjectedStreamHandlerFactory.java -d ./java_temp "
-                + "--add-exports java.base/sun.net.www.protocol.http=ALL-UNNAMED ");
+            if (jar.appletEmulateHTTP)
+            {
+                File.WriteAllText("./java_temp/InjectedStreamHandlerFactory.java", GenerateHTTPStreamInjectorCode());
+            }
+            List<string> compilerOut = JarUtils.RunProcessAndGetOutput(MainWindow.javaHome + "javac", $"-cp \"{MainWindow.jarDir}/{jar.jarFileName}\" " +
+                $"./java_temp/AppletWrapper.java " +
+                (jar.appletEmulateHTTP ? $"./java_temp/InjectedStreamHandlerFactory.java " : "") +
+                $"-d ./java_temp " +
+                (jar.appletEmulateHTTP ? "--add-exports java.base/sun.net.www.protocol.http=ALL-UNNAMED " : ""));
             Console.WriteLine("Compilation log:");
             foreach (string a in compilerOut)
             {
@@ -209,7 +214,10 @@ public class AppletWrapper {{
             {
                 args += $"-Dhttp.proxyHost={jar.proxyHost.Replace(" ", "%20")} ";
             }
-            args += "--add-exports java.base/sun.net.www.protocol.http=ALL-UNNAMED ";
+            if (jar.appletEmulateHTTP)
+            {
+                args += "--add-exports java.base/sun.net.www.protocol.http=ALL-UNNAMED ";
+            }
             args += "decraft_internal.AppletWrapper";
             //args += " " + jar.playerName + " 0";
             Console.WriteLine("[LaunchAppletWrapper] Running command: java " + args);

@@ -245,7 +245,13 @@ namespace DeCraftLauncher
                                                 {
                                                     newEntryPoint.additionalInfo = stringEntry.value.Substring("Minecraft Minecraft".Length);
                                                     break;
-                                                } else if (stringEntry.value.StartsWith("Minecraft ") && stringEntry.value != "Minecraft main thread")
+                                                } 
+                                                else if (stringEntry.value.ToLower().StartsWith("starting minecraft server version "))
+                                                {
+                                                    newEntryPoint.additionalInfo = stringEntry.value.Substring("starting minecraft server version ".Length);
+                                                    break;
+                                                }
+                                                else if (stringEntry.value.StartsWith("Minecraft ") && stringEntry.value != "Minecraft main thread")
                                                 {
                                                     newEntryPoint.additionalInfo = stringEntry.value.Substring("Minecraft ".Length);
                                                 }

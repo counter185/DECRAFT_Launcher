@@ -66,6 +66,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppletWrapper.cs" />
+    <Compile Include="JarAdvancedOptions.xaml.cs">
+      <DependentUpon>JarAdvancedOptions.xaml</DependentUpon>
+    </Compile>
     <Compile Include="JarConfig.cs" />
     <Compile Include="JavaClassReader.cs" />
     <Compile Include="LauncherEntryPointFinding.xaml.cs">
@@ -78,6 +81,10 @@
     <Compile Include="Test.cs" />
     <Compile Include="Utils.cs" />
     <Page Include="Config.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="JarAdvancedOptions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

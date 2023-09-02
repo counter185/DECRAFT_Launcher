@@ -1,6 +1,7 @@
 ﻿using SourceChord.FluentWPF;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -73,8 +74,8 @@ namespace DeCraftLauncher
                 {
                     label_reqJVMVersion.Content =
                         currentlySelectedJar.maxJavaVersion != currentlySelectedJar.minJavaVersion ?
-                        $"JVM: {Utils.JavaVersionFriendlyName(currentlySelectedJar.minJavaVersion)} - {Utils.JavaVersionFriendlyName(currentlySelectedJar.maxJavaVersion)}"
-                        : $"JVM: {Utils.JavaVersionFriendlyName(currentlySelectedJar.maxJavaVersion)}";
+                        $"req.JVM: {Utils.JavaVersionFriendlyName(currentlySelectedJar.minJavaVersion)} - {Utils.JavaVersionFriendlyName(currentlySelectedJar.maxJavaVersion)}"
+                        : $"req.JVM: {Utils.JavaVersionFriendlyName(currentlySelectedJar.maxJavaVersion)}";
                 } else
                 {
                     label_reqJVMVersion.Content = "";
@@ -208,6 +209,18 @@ namespace DeCraftLauncher
             WorkerThread a = new WorkerThread(nthread, currentlySelectedJar.jarFileName, new ReferenceType<float>(0));
             currentScanThreads.Add(a);
             nthread.Start(a);
+        }
+
+        private void btn_advanced_settings_Click(object sender, RoutedEventArgs e)
+        {
+            new JarAdvancedOptions(currentlySelectedJar).Show();
+        }        
+
+        private void btn_open_instance_dir_Click(object sender, RoutedEventArgs e)
+        {
+            SaveCurrentJarConfig();
+            EnsureDir($"{instanceDir}/{currentlySelectedJar.instanceDirName}");
+            JarUtils.RunProcess("explorer", System.IO.Path.GetFullPath($"{instanceDir}/{currentlySelectedJar.instanceDirName}"));
         }
 
         public class WorkerThread

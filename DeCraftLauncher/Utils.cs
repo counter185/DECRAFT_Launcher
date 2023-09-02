@@ -15,11 +15,13 @@ namespace DeCraftLauncher
 
         public static void UpdateAcrylicWindowBackground(AcrylicWindow window)
         {
-            bool setTransparent = System.Environment.OSVersion.Version.Major == 10;
+            //THERE REALLY IS NO CLEANER WAY OF DOING THIS.
+            string osName = new Microsoft.VisualBasic.Devices.ComputerInfo().OSFullName;
+            bool setTransparent = osName.ToLower().Contains("windows 10");
             window.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(setTransparent ? (byte)0xA0 : (byte)0xF0,0,0,0));
             if (setTransparent)
             {
-                window.Opacity = 0.85;
+                window.Opacity = 0.83;
                 window.TintOpacity = 0.1;
             }
         }

@@ -159,6 +159,15 @@ public class AppletWrapper {{
                 else if (name.equals(""mppass"")){{
                     return ""password"";
                 }}
+                else if (name.equals(""haspaid"")){{
+                    return ""true"";
+                }}
+                /*else if (name.equals(""server"")){{
+                    return ""127.0.0.1"";
+                }}
+                else if (name.equals(""port"")){{
+                    return ""25565"";
+                }}*/
 				return null;
 			}}
 

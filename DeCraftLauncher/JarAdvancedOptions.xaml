@@ -9,19 +9,22 @@
         NoiseOpacity="0.0001"
         TintColor="#000000"
         TintOpacity="0.6"
-        Title="DECRAFT: Advanced options" Background="#FA000000" Height="329" Width="510">
+        Title="DECRAFT: Advanced options" Background="#FA000000" Height="299" Width="510">
     <Grid>
         <Label x:Name="label_title" Content="Advanced options" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="White" FontSize="18" FontWeight="Bold"/>
         <Label Content="Session ID (args[1])" HorizontalAlignment="Left" Margin="10,57,0,0" VerticalAlignment="Top" Foreground="White"/>
         <TextBox x:Name="tbox_sessionid" Style="{DynamicResource TextBoxMainStyle}" HorizontalAlignment="Left" Margin="136,61,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120"/>
         <Label Content="Additional game arguments" HorizontalAlignment="Left" Margin="10,83,0,0" VerticalAlignment="Top" Foreground="White"/>
-        <TextBox x:Name="tbox_gameargs" Style="{DynamicResource TextBoxMainStyle}" HorizontalAlignment="Left" Margin="173,87,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="327"/>
-        <Rectangle HorizontalAlignment="Center" Height="86" Margin="0,125,0,0" Stroke="#FF272727" VerticalAlignment="Top" Width="490"/>
+        <TextBox x:Name="tbox_gameargs" Style="{DynamicResource TextBoxMainStyle}" Margin="173,87,10,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <Rectangle Height="121" Margin="10,125,10,0" Stroke="#FF272727" VerticalAlignment="Top"/>
         <Label Content="Applet wrapper" HorizontalAlignment="Left" Margin="23,114,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold"/>
-        <Label Content="Emulate HTTP server (requires Java 8)" HorizontalAlignment="Left" Margin="23,145,0,0" VerticalAlignment="Top" Foreground="White"/>
-        <CheckBox x:Name="checkbox_emulatehttp" Content="" HorizontalAlignment="Left" Margin="236,0,0,0" VerticalAlignment="Center" VerticalContentAlignment="Bottom" IsChecked="True" ToolTip="Emulate the old login server. This option must be enabled to run Indev." Height="23"/>
-        <Label Content="Custom DocumentBase URL" HorizontalAlignment="Left" Margin="23,171,0,0" VerticalAlignment="Top" Foreground="White"/>
-        <TextBox x:Name="tbox_appletdocumenturl" Style="{DynamicResource TextBoxMainStyle}" HorizontalAlignment="Left" Margin="186,175,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="283" ToolTip="To run Indev, leave this option default and enable the Emulate HTTP server option above." Text="http://www.minecraft.net/play.jsp"/>
+        <Label Content="Emulate HTTP server (requires Java 8)" HorizontalAlignment="Left" Margin="23,172,0,0" VerticalAlignment="Top" Foreground="White"/>
+        <CheckBox x:Name="checkbox_emulatehttp" Content="" HorizontalAlignment="Left" Margin="236,172,0,0" VerticalAlignment="Top" VerticalContentAlignment="Bottom" IsChecked="True" ToolTip="Emulate the old login server. This option must be enabled to run Indev." Height="23"/>
+        <Label Content="Custom DocumentBase URL" HorizontalAlignment="Left" Margin="23,145,0,0" VerticalAlignment="Top" Foreground="White"/>
+        <TextBox x:Name="tbox_appletdocumenturl" Style="{DynamicResource TextBoxMainStyle}" Margin="186,149,41,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="To run Indev, leave this option default and enable the Emulate HTTP server option above." Text="http://www.minecraft.net/play.jsp"/>
+        <Label Content="Redirect skin requests to local files" HorizontalAlignment="Left" Margin="23,200,0,0" VerticalAlignment="Top" Foreground="White"/>
+        <CheckBox x:Name="checkbox_redirecttolocalskins" Content="" HorizontalAlignment="Left" Margin="236,200,0,0" VerticalAlignment="Top" VerticalContentAlignment="Bottom" IsChecked="True" ToolTip="Emulate the old login server. This option must be enabled to run Indev." Height="23"/>
+        <TextBox x:Name="tbox_skinredirectpath" Style="{DynamicResource TextBoxMainStyle}" Margin="256,205,41,0" TextWrapping="Wrap" VerticalAlignment="Top" ToolTip="To run Indev, leave this option default and enable the Emulate HTTP server option above." Text="C:\skincache\"/>
 
     </Grid>
 </fw:AcrylicWindow>

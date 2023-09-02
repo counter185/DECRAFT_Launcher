@@ -43,6 +43,8 @@ namespace DeCraftLauncher
             tbox_gameargs.Text = targetConfig.gameArgs;
             checkbox_emulatehttp.IsChecked = targetConfig.appletEmulateHTTP;
             tbox_appletdocumenturl.Text = targetConfig.documentBaseUrl;
+            checkbox_redirecttolocalskins.IsChecked = targetConfig.appletRedirectSkins;
+            tbox_skinredirectpath.Text = targetConfig.appletSkinRedirectPath;
         }
 
         public void SaveConfig()
@@ -51,6 +53,8 @@ namespace DeCraftLauncher
             targetConfig.gameArgs = tbox_gameargs.Text;
             targetConfig.appletEmulateHTTP = checkbox_emulatehttp.IsChecked == true;
             targetConfig.documentBaseUrl = tbox_appletdocumenturl.Text;
+            targetConfig.appletRedirectSkins = checkbox_redirecttolocalskins.IsChecked == true;
+            targetConfig.appletSkinRedirectPath = tbox_skinredirectpath.Text;
             targetConfig.SaveToXML(MainWindow.configDir + "/" + targetConfig.jarFileName + ".xml");
         }
     }

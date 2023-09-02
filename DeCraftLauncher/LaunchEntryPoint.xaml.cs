@@ -83,8 +83,9 @@ namespace DeCraftLauncher
                 args += $"-Djava.library.path=\"{Directory.GetCurrentDirectory()}/lwjgl/{jarConfig.LWJGLVersion}/native\" ";
                 args += $"-Duser.dir=\"{Path.GetFullPath($"{MainWindow.instanceDir}/{jarConfig.instanceDirName}/.minecraft")}\" ";
                 args += jarConfig.jvmArgs + " ";
-                args += entryPoint.classpath;
-                args += " " + jarConfig.playerName + " 0";
+                args += entryPoint.classpath + " ";
+                args += $"\"{jarConfig.playerName}\" {jarConfig.sessionID} ";
+                args += jarConfig.gameArgs;
                 Console.WriteLine("Running command: java " + args);
 
                 //Process nproc = JarUtils.RunProcess("cmd", $"/c cd {MainWindow.instanceDir + "/" + jarConfig.instanceDirName + "/.minecraft"} && \"{MainWindow.javaHome}java\" {args}", Path.GetFullPath(MainWindow.instanceDir + "/" + jarConfig.instanceDirName));

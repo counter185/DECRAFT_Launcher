@@ -11,14 +11,16 @@ namespace DeCraftLauncher
 {
     public class AppletWrapper
     {
-        public static string GenerateHTTPStreamInjectorCode()
+        public static string GenerateHTTPStreamInjectorCode(JarConfig jar)
         {
             return $@"
 package decraft_internal;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.FileInputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -30,26 +32,64 @@ public class InjectedStreamHandlerFactory implements URLStreamHandlerFactory {{
     class InjectedURLConnection extends HttpURLConnection {{
         URL thisUrl;
         InputStream injectedDataStream;
+        int connectionType = 0;     //0: login
+                                    //1: skin server
+                                    //2: resource server
+        String strippedConnUrl = """";
 
-        protected InjectedURLConnection(URL url) {{
+        protected InjectedURLConnection(URL url, int connectionType) {{
             super(url);
-            injectedDataStream = new ByteArrayInputStream(new byte[] {{0x30, 0x0A}});
+            this.connectionType = connectionType;
+            strippedConnUrl = url+"""";
+            if (strippedConnUrl.startsWith(""http://"")){{
+                strippedConnUrl = strippedConnUrl.substring(7);
+            }}
+            if (strippedConnUrl.startsWith(""www."")){{
+                strippedConnUrl = strippedConnUrl.substring(4);
+            }}
+            switch (this.connectionType){{
+                case 0:
+                    injectedDataStream = new ByteArrayInputStream(new byte[] {{0x30, 0x0A}});
+                    break;
+                case 1:
+                    if (strippedConnUrl.startsWith(""minecraft.net/skin/"")){{
+                        strippedConnUrl = strippedConnUrl.substring(19);
+                    }}
+                    strippedConnUrl = ""{jar.appletSkinRedirectPath.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\n", "\\n")}/"" + strippedConnUrl;
+                    System.out.println(""[InjectedUrlConnection(""+connectionType+"")] requested skin from path: "" + strippedConnUrl);
+                    break;
+                case 2:
+                    break;
+            }}
             thisUrl = url;
         }}
 
         @Override
         public void connect() throws IOException {{
-            System.out.println(""[InjectedURLConnection] connect() url:"" + url);
+            System.out.println(""[InjectedURLConnection(""+connectionType+"")] connect() url:"" + url);
+            if (connectionType == 1){{
+                try {{
+                    injectedDataStream = new FileInputStream(strippedConnUrl);
+                }} catch (FileNotFoundException e) {{
+                    System.out.println(""[InjectedURLConnection(""+connectionType+"")] Skin file not found"");
+                    throw new IOException();
+                }}
+            }}
         }}
 
         @Override
         public InputStream getInputStream(){{
-            System.out.println(""[InjectedURLConnection] getInputStream() url:"" + url);
+            System.out.println(""[InjectedURLConnection(""+connectionType+"")] getInputStream() url:"" + url);
             return injectedDataStream;
         }}
 
         @Override
         public void disconnect() {{
+            try {{
+                if (injectedDataStream != null) {{
+                    injectedDataStream.close();
+                }}
+            }} catch (IOException e) {{ }}
         }}
 
         @Override
@@ -61,6 +101,8 @@ public class InjectedStreamHandlerFactory implements URLStreamHandlerFactory {{
 
     class InjectedURLStreamHandler extends URLStreamHandler {{
 
+        final boolean DEBUG_ALL_HTTP_CONNECTIONS = true;
+        final boolean INJECT_SKIN_REQUESTS = {(jar.appletRedirectSkins ? "true" : "false")};
         String protocol;
 
         public InjectedURLStreamHandler(String protocol){{
@@ -71,7 +113,9 @@ public class InjectedStreamHandlerFactory implements URLStreamHandlerFactory {{
             //System.out.println(""[InjectedURLStreamHandler] url:"" + u);
             //System.out.println(""[InjectedURLStreamHandler] path:"" + u.getPath());
             if (u.toString().contains(""?n="")){{
-                return new InjectedURLConnection(u);
+                return new InjectedURLConnection(u, 0);
+            }} else if (u.toString().contains(""minecraft.net/skin/"") && INJECT_SKIN_REQUESTS) {{
+                return new InjectedURLConnection(u, 1);
             }} else {{
                 return new URL(null, u.toString(), new sun.net.www.protocol.http.Handler()).openConnection();
             }}
@@ -198,7 +242,7 @@ public class AppletWrapper {{
             File.WriteAllText("./java_temp/AppletWrapper.java", GenerateAppletWrapperCode(className, jar));
             if (jar.appletEmulateHTTP)
             {
-                File.WriteAllText("./java_temp/InjectedStreamHandlerFactory.java", GenerateHTTPStreamInjectorCode());
+                File.WriteAllText("./java_temp/InjectedStreamHandlerFactory.java", GenerateHTTPStreamInjectorCode(jar));
             }
             List<string> compilerOut = JarUtils.RunProcessAndGetOutput(MainWindow.javaHome + "javac", $"-cp \"{MainWindow.jarDir}/{jar.jarFileName}\" " +
                 $"./java_temp/AppletWrapper.java " +
@@ -227,7 +271,11 @@ public class AppletWrapper {{
             {
                 args += "--add-exports java.base/sun.net.www.protocol.http=ALL-UNNAMED ";
             }
-            args += "decraft_internal.AppletWrapper";
+            args += "decraft_internal.AppletWrapper ";
+            if (jar.gameArgs != "")
+            {
+                args += jar.gameArgs;
+            }
             //args += " " + jar.playerName + " 0";
             Console.WriteLine("[LaunchAppletWrapper] Running command: java " + args);
 

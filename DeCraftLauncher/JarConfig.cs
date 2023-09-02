@@ -32,6 +32,8 @@ namespace DeCraftLauncher
         public string gameArgs = "";
         public bool appletEmulateHTTP = true;
         public string documentBaseUrl = "http://www.minecraft.net/play.jsp";
+        public bool appletRedirectSkins = true;
+        public string appletSkinRedirectPath = "C:\\skincache";
 
         public JarConfig(string jarFileName)
         {
@@ -100,6 +102,8 @@ namespace DeCraftLauncher
             rootElement.AppendChild(SetVal(newXml.CreateNode("element", "GameArgs", ""), gameArgs));
             rootElement.AppendChild(SetVal(newXml.CreateNode("element", "AppletEmulateHTTP", ""), appletEmulateHTTP.ToString()));
             rootElement.AppendChild(SetVal(newXml.CreateNode("element", "AppletDocumentURL", ""), documentBaseUrl));
+            rootElement.AppendChild(SetVal(newXml.CreateNode("element", "AppletRedirectToLocalSkins", ""), appletRedirectSkins.ToString()));
+            rootElement.AppendChild(SetVal(newXml.CreateNode("element", "AppletSkinRedirectLocalPath", ""), appletSkinRedirectPath));
 
             XmlNode entryPointsList = rootElement.AppendChild(newXml.CreateNode("element", "EntryPoints", ""));
             foreach (EntryPoint a in entryPoints)
@@ -138,6 +142,8 @@ namespace DeCraftLauncher
                 newJarConf.gameArgs = GetInnerOrDefault(rootNode, "GameArgs");
                 newJarConf.appletEmulateHTTP = bool.Parse(GetInnerOrDefault(rootNode, "AppletEmulateHTTP", "true", "bool"));
                 newJarConf.documentBaseUrl = GetInnerOrDefault(rootNode, "AppletDocumentURL", "http://www.minecraft.net/play.jsp");
+                newJarConf.appletRedirectSkins = bool.Parse(GetInnerOrDefault(rootNode, "AppletRedirectToLocalSkins", "true", "bool"));
+                newJarConf.appletSkinRedirectPath = GetInnerOrDefault(rootNode, "AppletSkinRedirectLocalPath", "C:\\skincache");
 
                 newJarConf.entryPointsScanned = bool.Parse(GetInnerOrDefault(rootNode, "EntryPointsScanned", "false", "bool"));
 

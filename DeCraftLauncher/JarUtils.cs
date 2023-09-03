@@ -126,6 +126,10 @@ namespace DeCraftLauncher
 
             public int maxMajorVersion = -1;
             public int maxMinorVersion = -1;
+
+            public bool hasLWJGLBuiltIn = false;
+            public string lwjglNativesDir = "";
+
             public List<EntryPoint> entryPoints= new List<EntryPoint>();
         }
 
@@ -196,6 +200,23 @@ namespace DeCraftLauncher
             {
                 validClassCount = (from x in archive.Entries where x.Name.EndsWith(".class") && !x.Name.Contains('$') select x).Count();
 
+                ret.hasLWJGLBuiltIn = archive.Entries.Where((zipEntry) => zipEntry.FullName.StartsWith("org/lwjgl/")).Any();
+                if (ret.hasLWJGLBuiltIn)
+                {
+                    var lwjglDlls = (from x in archive.Entries
+                                     where x.Name == "lwjgl.dll" || x.Name == "lwjgl64.dll"
+                                     select x.FullName);
+                    if (lwjglDlls.Count() > 0)
+                    {
+                        string dllPath = lwjglDlls.First();
+                        dllPath = dllPath.Substring(0, dllPath.LastIndexOf('/'));
+                        ret.lwjglNativesDir = dllPath;
+                    } else
+                    {
+                        ret.hasLWJGLBuiltIn = false;
+                    }
+                }
+
                 bool firstClassEntry = true;
 
                 foreach (ZipArchiveEntry entry in archive.Entries)
@@ -260,7 +281,7 @@ namespace DeCraftLauncher
                                                     newEntryPoint.additionalInfo = stringEntry.value.Substring("starting minecraft server version ".Length);
                                                     break;
                                                 }
-                                                else if (stringEntry.value.StartsWith("Minecraft ") && stringEntry.value != "Minecraft main thread")
+                                                else if (stringEntry.value.StartsWith("Minecraft ") && stringEntry.value != "Minecraft main thread" && stringEntry.value != "Minecraft server properties")
                                                 {
                                                     newEntryPoint.additionalInfo = stringEntry.value.Substring("Minecraft ".Length);
                                                 }

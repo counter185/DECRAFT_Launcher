@@ -34,24 +34,33 @@ namespace DeCraftLauncher
 
         public static string currentDirectory = "";
 
-        public List<string> availableLWJGLVersions = new List<string>();
-
         public JarConfig currentlySelectedJar = null;
 
         public List<WorkerThread> currentScanThreads = new List<WorkerThread>();
 
         public void UpdateLWJGLVersions()
         {
-            availableLWJGLVersions.Clear();
-            foreach (string lwjglSubdir in Directory.GetDirectories("./lwjgl"))
+            string currentItem = combobox_lwjgl_version.Text;
+            combobox_lwjgl_version.Items.Clear();
+            if (currentlySelectedJar != null && currentlySelectedJar.jarHasLWJGLClasses)
             {
-                string versionName = lwjglSubdir.Substring(lwjglSubdir.LastIndexOf('\\') + 1);
-                availableLWJGLVersions.Add(versionName);
                 TextBlock nTextBlock = new TextBlock();
-                nTextBlock.Text = versionName;
+                nTextBlock.Text = "+ built-in";
                 nTextBlock.Foreground = Brushes.White;
                 combobox_lwjgl_version.Items.Add(nTextBlock);
             }
+            foreach (string lwjglSubdir in Directory.GetDirectories($"./lwjgl"))
+            {
+                string versionName = lwjglSubdir.Substring(lwjglSubdir.LastIndexOf('\\') + 1);
+                if (versionName != "_temp_builtin")
+                {
+                    TextBlock nTextBlock = new TextBlock();
+                    nTextBlock.Text = versionName;
+                    nTextBlock.Foreground = Brushes.White;
+                    combobox_lwjgl_version.Items.Add(nTextBlock);
+                }
+            }
+            combobox_lwjgl_version.Text = currentItem;
         }
 
         public void UpdateLaunchOptionsSegment()
@@ -101,6 +110,7 @@ namespace DeCraftLauncher
                     }
                     segment_launch_options.Visibility = Visibility.Visible;
                 }
+                UpdateLWJGLVersions();
             }
 
         }
@@ -253,6 +263,8 @@ namespace DeCraftLauncher
                 conf.entryPointsScanned = true;
                 conf.maxJavaVersion = $"{scanRes.maxMajorVersion}.{scanRes.maxMinorVersion}";
                 conf.minJavaVersion = $"{scanRes.minMajorVersion}.{scanRes.minMinorVersion}";
+                conf.jarHasLWJGLClasses = scanRes.hasLWJGLBuiltIn;
+                conf.jarBuiltInLWJGLDLLs = scanRes.lwjglNativesDir;
                 conf.SaveToXML(configDir + "/" + param.jar + ".xml");
                 if (currentlySelectedJar.jarFileName == param.jar)
                 {

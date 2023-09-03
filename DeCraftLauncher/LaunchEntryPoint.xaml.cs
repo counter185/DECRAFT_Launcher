@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -67,6 +68,24 @@ namespace DeCraftLauncher
         private void launchButton_Click(object sender, RoutedEventArgs e)
         {
             caller.SaveCurrentJarConfig();
+            if (jarConfig.LWJGLVersion == "+ built-in")
+            {
+                MainWindow.EnsureDir($"{MainWindow.currentDirectory}/lwjgl/_temp_builtin");
+                MainWindow.EnsureDir($"{MainWindow.currentDirectory}/lwjgl/_temp_builtin/native");
+                ZipArchive zip = ZipFile.OpenRead(Path.GetFullPath(MainWindow.jarDir + "/" + jarConfig.jarFileName));
+                var dllFilesToExtract = (from x in zip.Entries where x.FullName.StartsWith($"{jarConfig.jarBuiltInLWJGLDLLs}") && x.Name.EndsWith(".dll") select x);
+                DirectoryInfo nativesdir = new DirectoryInfo($"{MainWindow.currentDirectory}/lwjgl/_temp_builtin/native");
+                foreach (FileInfo f in nativesdir.EnumerateFiles())
+                {
+                    f.Delete();
+                }
+
+                foreach (ZipArchiveEntry dllFile in dllFilesToExtract)
+                {
+                    dllFile.ExtractToFile($"{MainWindow.currentDirectory}/lwjgl/_temp_builtin/native/{dllFile.Name}");
+                }
+                Console.WriteLine("Extracted temp LWJGL natives");
+            }
             if (entryPoint.type == JarUtils.EntryPointType.STATIC_VOID_MAIN)
             {
                 MainWindow.EnsureDir(MainWindow.instanceDir + "/" + jarConfig.instanceDirName);
@@ -75,14 +94,17 @@ namespace DeCraftLauncher
                 args += "-cp ";
                 args += "\"";
                 args += Path.GetFullPath(MainWindow.jarDir + "/" + jarConfig.jarFileName);
-                args += $";{Directory.GetCurrentDirectory()}/lwjgl/{jarConfig.LWJGLVersion}/*";
+                if (jarConfig.LWJGLVersion != "+ built-in")
+                {
+                    args += $";{MainWindow.currentDirectory}/lwjgl/{jarConfig.LWJGLVersion}/*";
+                }
                 args += "\" ";
                 if (jarConfig.proxyHost != "")
                 {
                     args += $"-Dhttp.proxyHost={jarConfig.proxyHost.Replace(" ", "%20")} ";
                 }
-                args += $"-Djava.library.path=\"{Directory.GetCurrentDirectory()}/lwjgl/{jarConfig.LWJGLVersion}/native\" ";
-                args += $"-Duser.dir=\"{Path.GetFullPath($"{MainWindow.instanceDir}/{jarConfig.instanceDirName}/.minecraft")}\" ";
+                args += $"-Djava.library.path=\"{MainWindow.currentDirectory}/lwjgl/{(jarConfig.LWJGLVersion == "+ built-in" ? "_temp_builtin" : jarConfig.LWJGLVersion)}/native\" ";
+                //args += $"-Duser.dir=\"{Path.GetFullPath($"{MainWindow.instanceDir}/{jarConfig.instanceDirName}/.minecraft")}\" ";
                 args += jarConfig.jvmArgs + " ";
                 args += entryPoint.classpath + " ";
                 args += $"\"{jarConfig.playerName}\" {jarConfig.sessionID} ";
@@ -90,8 +112,8 @@ namespace DeCraftLauncher
                 Console.WriteLine("Running command: java " + args);
 
                 //this is unclean but it's the only way
-                Directory.SetCurrentDirectory(Path.GetFullPath($"{MainWindow.instanceDir}/{jarConfig.instanceDirName}"));
-                Process nproc = JarUtils.RunProcess($"{MainWindow.javaHome}java", args, Path.GetFullPath(MainWindow.instanceDir + "/" + jarConfig.instanceDirName));
+                Directory.SetCurrentDirectory(Path.GetFullPath($"{MainWindow.currentDirectory}/{MainWindow.instanceDir}/{jarConfig.instanceDirName}"));
+                Process nproc = JarUtils.RunProcess($"{MainWindow.javaHome}java", args, Path.GetFullPath("."));
                 Directory.SetCurrentDirectory(MainWindow.currentDirectory);
                 new ProcessLog(nproc).Show();
             } 

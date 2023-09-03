@@ -9,7 +9,7 @@ namespace DeCraftLauncher
 {
     public class ReferenceType<T>
     {
-        public T value;
+        private T value;
 
         public ReferenceType(T value)
         {
@@ -26,4 +26,22 @@ namespace DeCraftLauncher
             return value;
         }
     }
+
+#if FALSE
+    public class ReferenceType<T>
+    {
+        private T value;
+
+        public T Value
+        {
+            get => this.value;
+            set => this.value = value;
+        }
+
+        public ReferenceType(T value)
+        {
+            this.value = value;
+        }
+    }
+#endif
 }

@@ -81,31 +81,41 @@ namespace DeCraftLauncher
             return a;
         }
 
+        const string NODETYPE_ELEMENT = "element";
+
+        private XmlNode GenElementChild(XmlDocument doc, string name, string value = null)
+        {
+            var result = doc.CreateNode(NODETYPE_ELEMENT, name, string.Empty);
+            if(!string.IsNullOrEmpty(value))
+                result.InnerText = value;
+            return result;
+        }
+
         public void SaveToXML(string path)
         {
             XmlDocument newXml = new XmlDocument();
             newXml.LoadXml("<?xml version=\"1.0\"?>\n<JarConfig>\n</JarConfig>");
             XmlNode rootElement = newXml.GetElementsByTagName("JarConfig")[0];
-            rootElement.AppendChild(SetVal(newXml.CreateNode("element", "FriendlyName", ""), friendlyName));
-            rootElement.AppendChild(SetVal(newXml.CreateNode("element", "LWJGLVersion", ""), LWJGLVersion));
-            rootElement.AppendChild(SetVal(newXml.CreateNode("element", "PlayerName", ""), playerName));
-            rootElement.AppendChild(SetVal(newXml.CreateNode("element", "InstanceDirectory", ""), instanceDirName));
-            rootElement.AppendChild(SetVal(newXml.CreateNode("element", "JVMArgs", ""), jvmArgs));
-            rootElement.AppendChild(SetVal(newXml.CreateNode("element", "WindowW", ""), windowW+""));
-            rootElement.AppendChild(SetVal(newXml.CreateNode("element", "WindowH", ""), windowH+""));
-            rootElement.AppendChild(SetVal(newXml.CreateNode("element", "EntryPointsScanned", ""), entryPointsScanned.ToString()));
-            rootElement.AppendChild(SetVal(newXml.CreateNode("element", "ProxyHost", ""), proxyHost));
-            rootElement.AppendChild(SetVal(newXml.CreateNode("element", "MaxJavaVersion", ""), maxJavaVersion));
-            rootElement.AppendChild(SetVal(newXml.CreateNode("element", "MinJavaVersion", ""), minJavaVersion));
+            rootElement.AppendChild(GenElementChild(newXml, "FriendlyName", friendlyName));
+            rootElement.AppendChild(GenElementChild(newXml, "LWJGLVersion", LWJGLVersion));
+            rootElement.AppendChild(GenElementChild(newXml, "PlayerName", playerName));
+            rootElement.AppendChild(GenElementChild(newXml, "InstanceDirectory", instanceDirName));
+            rootElement.AppendChild(GenElementChild(newXml, "JVMArgs", jvmArgs));
+            rootElement.AppendChild(GenElementChild(newXml, "WindowW", windowW.ToString()));
+            rootElement.AppendChild(GenElementChild(newXml, "WindowH", windowH.ToString()));
+            rootElement.AppendChild(GenElementChild(newXml, "EntryPointsScanned", entryPointsScanned.ToString()));
+            rootElement.AppendChild(GenElementChild(newXml, "ProxyHost", proxyHost));
+            rootElement.AppendChild(GenElementChild(newXml, "MaxJavaVersion", maxJavaVersion));
+            rootElement.AppendChild(GenElementChild(newXml, "MinJavaVersion", minJavaVersion));
 
-            rootElement.AppendChild(SetVal(newXml.CreateNode("element", "PassSessionID", ""), sessionID));
-            rootElement.AppendChild(SetVal(newXml.CreateNode("element", "GameArgs", ""), gameArgs));
-            rootElement.AppendChild(SetVal(newXml.CreateNode("element", "AppletEmulateHTTP", ""), appletEmulateHTTP.ToString()));
-            rootElement.AppendChild(SetVal(newXml.CreateNode("element", "AppletDocumentURL", ""), documentBaseUrl));
-            rootElement.AppendChild(SetVal(newXml.CreateNode("element", "AppletRedirectToLocalSkins", ""), appletRedirectSkins.ToString()));
-            rootElement.AppendChild(SetVal(newXml.CreateNode("element", "AppletSkinRedirectLocalPath", ""), appletSkinRedirectPath));
+            rootElement.AppendChild(GenElementChild(newXml, "PassSessionID", sessionID));
+            rootElement.AppendChild(GenElementChild(newXml, "GameArgs", gameArgs));
+            rootElement.AppendChild(GenElementChild(newXml, "AppletEmulateHTTP", appletEmulateHTTP.ToString()));
+            rootElement.AppendChild(GenElementChild(newXml, "AppletDocumentURL", documentBaseUrl));
+            rootElement.AppendChild(GenElementChild(newXml, "AppletRedirectToLocalSkins", appletRedirectSkins.ToString()));
+            rootElement.AppendChild(GenElementChild(newXml, "AppletSkinRedirectLocalPath", appletSkinRedirectPath));
 
-            XmlNode entryPointsList = rootElement.AppendChild(newXml.CreateNode("element", "EntryPoints", ""));
+            XmlNode entryPointsList = rootElement.AppendChild(GenElementChild(newXml, "EntryPoints"));
             foreach (EntryPoint a in entryPoints)
             {
                 XmlNode nEntryPoint = entryPointsList.AppendChild(newXml.CreateNode("element", "EntryPoint", ""));

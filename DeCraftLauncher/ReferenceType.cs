@@ -9,21 +9,17 @@ namespace DeCraftLauncher
 {
     public class ReferenceType<T>
     {
-        public T value;
+        private T value;
+
+        public T Value
+        {
+            get => this.value;
+            set => this.value = value;
+        }
 
         public ReferenceType(T value)
         {
             this.value = value;
-        }
-
-        public void Set(T v)
-        {
-            value = v;
-        }
-
-        public T Get()
-        {
-            return value;
         }
     }
 }

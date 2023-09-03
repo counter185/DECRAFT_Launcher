@@ -235,7 +235,8 @@ namespace DeCraftLauncher
                                 ret.minMinorVersion = classInfo.versionMinor;
                                 ret.maxMajorVersion = classInfo.versionMajor;
                                 ret.maxMinorVersion = classInfo.versionMinor;
-                            } else
+                            }
+                            else
                             {
                                 if (classInfo.versionMajor > ret.maxMajorVersion
                                     || (classInfo.versionMajor == ret.maxMajorVersion && classInfo.versionMinor > ret.maxMinorVersion))
@@ -251,13 +252,13 @@ namespace DeCraftLauncher
                                 }
                             }
                             firstClassEntry = false;
-                            
+
 
                             if (superClassName == "java.applet.Applet")
                             {
                                 ret.entryPoints.Add(new EntryPoint(className, EntryPointType.APPLET));
-                            } 
-                            else 
+                            }
+                            else
                             {
                                 foreach (JavaMethodInfo method in classInfo.methods)
                                 {
@@ -275,7 +276,7 @@ namespace DeCraftLauncher
                                                 {
                                                     newEntryPoint.additionalInfo = stringEntry.value.Substring("Minecraft Minecraft".Length);
                                                     break;
-                                                } 
+                                                }
                                                 else if (stringEntry.value.ToLower().StartsWith("starting minecraft server version "))
                                                 {
                                                     newEntryPoint.additionalInfo = stringEntry.value.Substring("starting minecraft server version ".Length);
@@ -294,7 +295,10 @@ namespace DeCraftLauncher
                             }
                             currentClassFile.Close();
                             doneClassCount++;
-                            progressReport?.Set(doneClassCount / (float)validClassCount);
+                            if (progressReport != null)
+                            {
+                                progressReport.Value = doneClassCount / (float)validClassCount;
+                            }
                         } catch (Exception e)
                         {
                             Console.WriteLine("error reading class " + e);

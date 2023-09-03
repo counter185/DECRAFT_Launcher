@@ -8,17 +8,26 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
+using PCInfo = Microsoft.VisualBasic.Devices.ComputerInfo;
+using WinColor = System.Windows.Media.Color;
+
 namespace DeCraftLauncher
 {
-    public class Utils
+    public static class Utils
     {
+
+        const string OS_WIN10 = "windows 10";
+
+        const byte TRANSPARENCY_ON = 0xA0;
+        const byte TRANSPARENCY_OFF = 0xF0;
 
         public static void UpdateAcrylicWindowBackground(AcrylicWindow window)
         {
             //THERE REALLY IS NO CLEANER WAY OF DOING THIS.
-            string osName = new Microsoft.VisualBasic.Devices.ComputerInfo().OSFullName;
-            bool setTransparent = osName.ToLower().Contains("windows 10");
-            window.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(setTransparent ? (byte)0xA0 : (byte)0xF0,0,0,0));
+            // Is there?
+            string osName = new PCInfo().OSFullName;
+            bool setTransparent = osName.ToLower().Contains(OS_WIN10);
+            window.Background = new SolidColorBrush(WinColor.FromArgb(setTransparent ? TRANSPARENCY_ON : TRANSPARENCY_OFF, 0, 0, 0));
             if (setTransparent)
             {
                 window.Opacity = 0.83;
@@ -57,15 +66,22 @@ namespace DeCraftLauncher
             return BitConverter.ToInt64(buffer, 0);
         }
 
-        static readonly Dictionary<int, string> JavaMajorVersionsToNames = new Dictionary<int, string>()
+        static readonly string[] Java_MajorVersionNames =
         {
-            {45, "JDK1.1"},
-            {46, "JDK1.2"},
-            {47, "JDK1.3"},
-            {48, "JDK1.4"},
-            {49, "Java5"},
-            {50, "Java6"},
+            "JDK1.1",
+            "JDK1.2",
+            "JDK1.3",
+            "JDK1.4",
+            "Java5",
+            "Java6",
         };
+
+        /// <summary>
+        /// Gets a name for a specific Java <paramref name="version"/>
+        /// </summary>
+        /// <param name="version">The numeric version ID to get a name for</param>
+        /// <returns>The name assigned to the specified <paramref name="version"/></returns>
+        static string GetNameFromVersion(int version) => Java_MajorVersionNames[version - 45];
 
         public static string JavaVersionFriendlyName(string majorDotMinorVer)
         {
@@ -79,7 +95,7 @@ namespace DeCraftLauncher
                 }
                 else if (v >= 45)
                 {
-                    return $"{majorDotMinorVer} ({JavaMajorVersionsToNames[v]})";
+                    return $"{majorDotMinorVer} ({GetNameFromVersion(v)})";
                 }
                 else
                 {

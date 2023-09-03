@@ -38,7 +38,7 @@ namespace DeCraftLauncher
                 Dispatcher.Invoke(delegate
                 {
                     cont = this.Parent != null;
-                    float v = progress.Get();
+                    float v = progress.Value;
                     search_progress.Value = v * 100;
                     progress_pct.Content = Math.Round(v * 100, 1) + "%";
                 });

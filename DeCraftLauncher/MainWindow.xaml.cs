@@ -32,6 +32,8 @@ namespace DeCraftLauncher
         public const string instanceDir = "./instance";
         public static string javaHome = "";
 
+        public static string currentDirectory = "";
+
         public List<string> availableLWJGLVersions = new List<string>();
 
         public JarConfig currentlySelectedJar = null;
@@ -137,6 +139,7 @@ namespace DeCraftLauncher
 
         public MainWindow()
         {
+            currentDirectory = Directory.GetCurrentDirectory();
             InitializeComponent();
             Utils.UpdateAcrylicWindowBackground(this);
             segment_launch_options.Visibility = Visibility.Hidden;

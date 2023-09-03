@@ -258,10 +258,11 @@ public class AppletWrapper {{
             MainWindow.EnsureDir(MainWindow.instanceDir + "/" + jar.instanceDirName);
             string args = "";
             args += "-cp ";
-            args += "\"./java_temp/;";
-            args += MainWindow.jarDir + "/" + jar.jarFileName;
-            args += $";./lwjgl/{jar.LWJGLVersion}/*\" ";
-            args += $"-Djava.library.path=lwjgl/{jar.LWJGLVersion}/native ";
+            //todo: make this cleaner (preferrably without getting rid of relative paths)
+            args += "\"../../java_temp/;";
+            args += "../../" + MainWindow.jarDir + "/" + jar.jarFileName;
+            args += $";../../lwjgl/{jar.LWJGLVersion}/*\" ";
+            args += $"-Djava.library.path=../../lwjgl/{jar.LWJGLVersion}/native ";
             args += jar.jvmArgs + " ";
             if (jar.proxyHost != "")
             {
@@ -279,7 +280,9 @@ public class AppletWrapper {{
             //args += " " + jar.playerName + " 0";
             Console.WriteLine("[LaunchAppletWrapper] Running command: java " + args);
 
+            Directory.SetCurrentDirectory(Path.GetFullPath($"{MainWindow.instanceDir}/{jar.instanceDirName}"));
             Process nproc = JarUtils.RunProcess(MainWindow.javaHome + "java", args, MainWindow.instanceDir + "/" + jar.instanceDirName);
+            Directory.SetCurrentDirectory(MainWindow.currentDirectory);
             new ProcessLog(nproc).Show();
 
 

@@ -88,8 +88,10 @@ namespace DeCraftLauncher
                 args += jarConfig.gameArgs;
                 Console.WriteLine("Running command: java " + args);
 
-                //Process nproc = JarUtils.RunProcess("cmd", $"/c cd {MainWindow.instanceDir + "/" + jarConfig.instanceDirName + "/.minecraft"} && \"{MainWindow.javaHome}java\" {args}", Path.GetFullPath(MainWindow.instanceDir + "/" + jarConfig.instanceDirName));
+                //this is unclean but it's the only way
+                Directory.SetCurrentDirectory(Path.GetFullPath($"{MainWindow.instanceDir}/{jarConfig.instanceDirName}"));
                 Process nproc = JarUtils.RunProcess($"{MainWindow.javaHome}java", args, Path.GetFullPath(MainWindow.instanceDir + "/" + jarConfig.instanceDirName));
+                Directory.SetCurrentDirectory(MainWindow.currentDirectory);
                 new ProcessLog(nproc).Show();
             } 
             else if (entryPoint.type == JarUtils.EntryPointType.APPLET)

@@ -88,6 +88,15 @@ namespace DeCraftLauncher
             }
         }
 
+        public static bool HasJREInstalled(string at)
+        {
+            return File.Exists(at + "java.exe");
+        }        
+        public static bool HasJDKInstalled(string at)
+        {
+            return at != "" ? File.Exists(at + "javac.exe") : GetJDKInstalled(at) != null;
+        }
+
         public enum EntryPointType
         {
             RUNNABLE = 0,

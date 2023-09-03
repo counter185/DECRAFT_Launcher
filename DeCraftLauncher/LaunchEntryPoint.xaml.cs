@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -102,7 +103,13 @@ namespace DeCraftLauncher
                 }
                 else
                 {
-                    AppletWrapper.LaunchAppletWrapper(entryPoint.classpath, jarConfig);
+                    try
+                    {
+                        AppletWrapper.LaunchAppletWrapper(entryPoint.classpath, jarConfig);
+                    } catch (Win32Exception)
+                    {
+                        MessageBox.Show("Applet wrapper requires JDK installed.");
+                    }
                 }
             } 
             else

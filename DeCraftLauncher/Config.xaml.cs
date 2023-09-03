@@ -30,21 +30,27 @@ namespace DeCraftLauncher
             jre_path.Text = MainWindow.javaHome;
         }
 
-        public void UpdateJREVersionString()
+        public void FixJavaHomeString()
         {
+            while (jre_path.Text.StartsWith(" "))
+            {
+                jre_path.Text = jre_path.Text.Substring(1);
+            }
             if (jre_path.Text != "" && !jre_path.Text.EndsWith("\\"))
             {
                 jre_path.Text += "\\";
             }
+        }
+
+        public void UpdateJREVersionString()
+        {
+            FixJavaHomeString();
+
             string verre = JarUtils.GetJREInstalled(jre_path.Text);
             string verdk = JarUtils.GetJDKInstalled(jre_path.Text);
-            if (verre == null || verdk == null)
-            {
-                jreconfig_version.Content = "<invalid java path>";
-            } else
-            {
-                jreconfig_version.Content = $"JRE: {verre}\nJDK: {verdk}";
-            }
+
+            jreconfig_version.Content = $"JRE: {(verre != null ? verre : "<none>")}\nJDK: {(verdk != null ? verdk : "<none>")}";
+
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -62,10 +68,7 @@ namespace DeCraftLauncher
 
         private void AcrylicWindow_Closed(object sender, EventArgs e)
         {
-            if (jre_path.Text != "" && !jre_path.Text.EndsWith("\\"))
-            {
-                jre_path.Text += "\\";
-            }
+            FixJavaHomeString();
             MainWindow.javaHome = jre_path.Text;
         }
     }

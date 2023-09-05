@@ -1,5 +1,6 @@
 ﻿using SourceChord.FluentWPF;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -23,6 +24,12 @@ namespace DeCraftLauncher
     /// </summary>
     public partial class ProcessLog : AcrylicWindow
     {
+
+        const int MAX_LINES = 100;
+        int trimmedLines = 0;
+        public IList lines = ArrayList.Synchronized(new List<string>() { "" });
+        public bool hasNewStdoutData = false;
+        public DispatcherTimer logPrintTimer = new DispatcherTimer();
 
         public Process target;
 
@@ -96,29 +103,56 @@ namespace DeCraftLauncher
             Utils.UpdateAcrylicWindowBackground(this);
             t.OutputDataReceived += (a, b) =>
             {
-                //Console.WriteLine("recvd: " + b.Data);
-                Dispatcher.Invoke(delegate
+                lines.Add(b.Data);
+                while (lines.Count > MAX_LINES)
                 {
-                    logtext.Text += b.Data + "\n";
-                    logscroller.ScrollToVerticalOffset(logscroller.ExtentHeight);
-                });
-                
+                    lines.RemoveAt(0);
+                    trimmedLines++;
+                }
+                hasNewStdoutData = true;
             };
             t.ErrorDataReceived += (a, b) =>
             {
-                Dispatcher.Invoke(delegate
+                lines.Add(b.Data);
+                while (lines.Count > MAX_LINES)
                 {
-                    logtext.Text += b.Data + "\n";
-                    logscroller.ScrollToVerticalOffset(logscroller.ExtentHeight);
-                });
-
+                    lines.RemoveAt(0);
+                    trimmedLines++;
+                }
+                hasNewStdoutData = true;
             };
+
+            logPrintTimer.Interval = TimeSpan.FromMilliseconds(32);    //30 fps
+            logPrintTimer.Tick += delegate
+            {
+                if (hasNewStdoutData)
+                {
+                    hasNewStdoutData = false;
+                    string logTextUpdate = trimmedLines != 0 ? $"(trimmed {trimmedLines} lines)\n" : "";
+                    try
+                    {
+                        foreach (string logLine in lines)
+                        {
+                            logTextUpdate += logLine + "\n";
+                        }
+                        logtext.Text = logTextUpdate;
+                        logscroller.ScrollToVerticalOffset(logscroller.ExtentHeight);
+                    } catch (InvalidOperationException)
+                    {
+                        //very crackhead fix for a concurrent list modification error...
+                        hasNewStdoutData = true;
+                    }
+                }
+            };
+            logPrintTimer.Start();
+
             t.BeginErrorReadLine();
             t.BeginOutputReadLine();
             t.EnableRaisingEvents = true;
             t.Exited += delegate
             {
                 Thread.Sleep(1000);
+                logPrintTimer.Stop();
                 Dispatcher.Invoke(delegate
                 {
                     logtext.Text += "Process exited with code " + t.ExitCode;

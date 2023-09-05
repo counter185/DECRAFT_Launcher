@@ -282,7 +282,13 @@ namespace DeCraftLauncher
                                                     newEntryPoint.additionalInfo = stringEntry.value.Substring("starting minecraft server version ".Length);
                                                     break;
                                                 }
-                                                else if (stringEntry.value.StartsWith("Minecraft ") && stringEntry.value != "Minecraft main thread" && stringEntry.value != "Minecraft server properties")
+                                                else if (stringEntry.value.StartsWith($"M\xCC\xB6i\xCC\xB6n\xCC{'\xB6'}e\xCC{'\xB6'}c\xCC\xB6r\xCC{'\xB6'}a\xCC{'\xB6'}f\xCC\xB6t\xCC\xB6 "))
+                                                {
+                                                    //ERR422 thinks it's really funny apparently...
+                                                    newEntryPoint.additionalInfo = stringEntry.value.Substring($"M\xCC\xB6i\xCC\xB6n\xCC{'\xB6'}e\xCC{'\xB6'}c\xCC\xB6r\xCC{'\xB6'}a\xCC{'\xB6'}f\xCC\xB6t\xCC\xB6 ".Length);
+                                                    break;
+                                                }
+                                                else if (stringEntry.value.StartsWith("Minecraft ") && !className.EndsWith("Server") && stringEntry.value != "Minecraft main thread")
                                                 {
                                                     newEntryPoint.additionalInfo = stringEntry.value.Substring("Minecraft ".Length);
                                                 }

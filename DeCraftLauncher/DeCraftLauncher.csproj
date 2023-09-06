@@ -36,6 +36,9 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>ImageRes\DECRAFTIcon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="FluentWPF, Version=0.10.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentWPF.0.10.2\lib\net45\FluentWPF.dll</HintPath>
@@ -156,6 +159,7 @@
     <Resource Include="ImageRes\decraft_logo.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="ImageRes\DECRAFTIcon.ico" />
     <Content Include="lwjgl\2.9.3\jinput.jar">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

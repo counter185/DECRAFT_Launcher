@@ -14,6 +14,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -150,7 +151,13 @@ namespace DeCraftLauncher
         public MainWindow()
         {
             currentDirectory = Directory.GetCurrentDirectory();
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            } catch (XamlParseException e)
+            {
+                MessageBox.Show($"Error starting main window:\n {e}", "DECRAFT");
+            }
             Utils.UpdateAcrylicWindowBackground(this);
             segment_launch_options.Visibility = Visibility.Hidden;
             //Console.WriteLine(JarUtils.GetJDKInstalled());

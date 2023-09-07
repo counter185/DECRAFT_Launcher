@@ -37,7 +37,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>ImageRes\DECRAFTIcon.ico</ApplicationIcon>
+    <ApplicationIcon>ImageRes\DECRAFTIconMain.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FluentWPF, Version=0.10.2.0, Culture=neutral, processorArchitecture=MSIL">
@@ -160,6 +160,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ImageRes\DECRAFTIcon.ico" />
+    <Resource Include="ImageRes\DECRAFTIconMain.ico" />
     <Content Include="lwjgl\2.9.3\jinput.jar">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

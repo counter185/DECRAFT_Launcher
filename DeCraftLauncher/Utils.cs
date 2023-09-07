@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
-
+using System.Xml;
 using PCInfo = Microsoft.VisualBasic.Devices.ComputerInfo;
 using WinColor = System.Windows.Media.Color;
 
@@ -32,6 +32,49 @@ namespace DeCraftLauncher
             {
                 window.Opacity = 0.83;
                 window.TintOpacity = 0.1;
+            }
+        }
+
+        const string NODETYPE_ELEMENT = "element";
+
+        public static XmlNode GenElementChild(XmlDocument doc, string name, string value = "")
+        {
+            var result = doc.CreateNode(NODETYPE_ELEMENT, name, string.Empty);
+            if (!string.IsNullOrEmpty(value))
+                result.InnerText = value;
+            return result;
+        }
+
+        public static string GetInnerOrDefault(XmlNode target, string property, string defaultValue = "", string enforceType = "string")
+        {
+            try
+            {
+                XmlNode node = target.SelectSingleNode(property);
+                if (node == null)
+                {
+                    return defaultValue;
+                }
+                switch (enforceType)
+                {
+                    case "bool":
+                        bool.Parse(node.InnerText);
+                        break;
+                    case "int":
+                        int.Parse(node.InnerText);
+                        break;
+                    case "uint":
+                        uint.Parse(node.InnerText);
+                        break;
+                }
+                return node.InnerText;
+            }
+            catch (NullReferenceException)
+            {
+                return defaultValue;
+            }
+            catch (ArgumentException)
+            {
+                return defaultValue;
             }
         }
 
@@ -106,6 +149,27 @@ namespace DeCraftLauncher
             {
                 return majorDotMinorVer;
             }
+        }
+
+        public static int TryParseJavaCVersionString(string str)
+        {
+            if (str.StartsWith("javac "))
+            {
+                try
+                {
+                    string[] splitJDKVer = str.Split(' ')[1].Split('.');
+                    string majorVersion = splitJDKVer[0];
+                    if (majorVersion == "1")
+                    {
+                        majorVersion = splitJDKVer[1];
+                    }
+                    return int.Parse(majorVersion);
+                }
+                catch (Exception)
+                {
+                }
+            }
+            return -1;
         }
     }
 }

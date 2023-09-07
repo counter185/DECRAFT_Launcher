@@ -31,7 +31,7 @@ namespace DeCraftLauncher
         public const string jarDir = "./jars";
         public const string configDir = "./config";
         public const string instanceDir = "./instance";
-        public static string javaHome = "";
+        public static RuntimeConfig mainRTConfig = new RuntimeConfig();
 
         public static string currentDirectory = "";
 
@@ -116,11 +116,6 @@ namespace DeCraftLauncher
 
         }
 
-        public void PushJarConfig()
-        {
-            currentlySelectedJar.windowW = uint.Parse(window_width.Text);
-        }
-
         public static void EnsureDir(string path)
         {
             if (!Directory.Exists(path))
@@ -158,6 +153,7 @@ namespace DeCraftLauncher
             {
                 MessageBox.Show($"Error starting main window:\n {e}", "DECRAFT");
             }
+            mainRTConfig = RuntimeConfig.LoadFromXML();
             Utils.UpdateAcrylicWindowBackground(this);
             segment_launch_options.Visibility = Visibility.Hidden;
             //Console.WriteLine(JarUtils.GetJDKInstalled());
@@ -184,21 +180,6 @@ namespace DeCraftLauncher
                 tbox_instance_dir,
                 tbox_proxyhost
             };
-
-            foreach (TextBox a in saveEvents)
-            {
-                a.IsKeyboardFocusedChanged += (s, e) =>
-                {
-                    if ((bool)e.NewValue == false)
-                    {
-                        PushJarConfig();
-                    }
-                };
-            }
-            jvmargs.IsKeyboardFocusedChanged += delegate { };
-
-            //entrypointlist.Items.Add(new LaunchEntryPoint(new JarUtils.EntryPoint("net.minecraft.client.Minecraft", JarUtils.EntryPointType.STATIC_VOID_MAIN), this));
-            //entrypointlist.Items.Add(new LaunchEntryPoint(new JarUtils.EntryPoint("net.minecraft.isom.IsomPreviewApplet", JarUtils.EntryPointType.APPLET), this));
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -219,6 +200,10 @@ namespace DeCraftLauncher
         private void jarlist_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Console.WriteLine($"Selection changed: {jarlist.SelectedItem}");
+            if (currentlySelectedJar != null)
+            {
+                SaveCurrentJarConfig();
+            }
             UpdateLaunchOptionsSegment();
         }        
 
@@ -303,7 +288,12 @@ namespace DeCraftLauncher
                 {
                     if (a.EndsWith(".jar") && File.Exists(a))
                     {
-                        File.Copy(a, jarDir + "/" + new FileInfo(a).Name);
+                        string copyName = $"{jarDir}/{new FileInfo(a).Name}";
+                        if (!File.Exists(copyName)
+                            || (File.Exists(copyName) 
+                                && MessageBox.Show($"{copyName} already exists. Overwrite?", "DECRAFT", MessageBoxButton.YesNo) == MessageBoxResult.Yes)) {
+                            File.Copy(a, copyName, true);
+                        }
                     }
                 }
             }
@@ -321,6 +311,11 @@ namespace DeCraftLauncher
             currentlySelectedJar.proxyHost = tbox_proxyhost.Text;
 
             currentlySelectedJar.SaveToXML(configDir + "/" + currentlySelectedJar.jarFileName + ".xml");
+        }
+
+        public static void SaveRuntimeConfig()
+        {
+            mainRTConfig.SaveToXML();
         }
     }
 }

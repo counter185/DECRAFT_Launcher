@@ -119,7 +119,7 @@ namespace DeCraftLauncher
 
                 //this is unclean but it's the only way
                 Directory.SetCurrentDirectory(Path.GetFullPath($"{MainWindow.currentDirectory}/{MainWindow.instanceDir}/{jarConfig.instanceDirName}"));
-                Process nproc = JarUtils.RunProcess($"{MainWindow.javaHome}java", args, Path.GetFullPath("."));
+                Process nproc = JarUtils.RunProcess($"{MainWindow.mainRTConfig.javaHome}java", args, Path.GetFullPath("."));
                 Directory.SetCurrentDirectory(MainWindow.currentDirectory);
                 new ProcessLog(nproc).Show();
             } 

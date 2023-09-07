@@ -27,7 +27,8 @@ namespace DeCraftLauncher
             InitializeComponent();
             Utils.UpdateAcrylicWindowBackground(this);
             this.parent = parent;
-            jre_path.Text = MainWindow.javaHome;
+            jre_path.Text = MainWindow.mainRTConfig.javaHome;
+            checkbox_isjava9.IsChecked = MainWindow.mainRTConfig.isJava9;
         }
 
         public void FixJavaHomeString()
@@ -48,8 +49,17 @@ namespace DeCraftLauncher
 
             string verre = JarUtils.GetJREInstalled(jre_path.Text);
             string verdk = JarUtils.GetJDKInstalled(jre_path.Text);
+            if (verdk != null)
+            {
+                int JDKVer = Utils.TryParseJavaCVersionString(verdk);
+                Console.WriteLine($"Detected JDK Version: {JDKVer}");
+                if (JDKVer != -1)
+                {
+                    checkbox_isjava9.IsChecked = JDKVer >= 9;
+                }
+            }
 
-            jreconfig_version.Content = $"JRE: {(verre != null ? verre : "<none>")}\nJDK: {(verdk != null ? verdk : "<none>")}";
+            jreconfig_version.Content = $"<press Enter to test>\nJRE: {(verre != null ? verre : "<none>")}\nJDK: {(verdk != null ? verdk : "<none>")}";
 
         }
 
@@ -69,7 +79,9 @@ namespace DeCraftLauncher
         private void AcrylicWindow_Closed(object sender, EventArgs e)
         {
             FixJavaHomeString();
-            MainWindow.javaHome = jre_path.Text;
+            MainWindow.mainRTConfig.javaHome = jre_path.Text;
+            MainWindow.mainRTConfig.isJava9 = checkbox_isjava9.IsChecked == true;
+            MainWindow.SaveRuntimeConfig();
         }
     }
 }

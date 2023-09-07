@@ -244,11 +244,11 @@ public class AppletWrapper {{
             {
                 File.WriteAllText("./java_temp/InjectedStreamHandlerFactory.java", GenerateHTTPStreamInjectorCode(jar));
             }
-            List<string> compilerOut = JarUtils.RunProcessAndGetOutput(MainWindow.javaHome + "javac", $"-cp \"{MainWindow.jarDir}/{jar.jarFileName}\" " +
+            List<string> compilerOut = JarUtils.RunProcessAndGetOutput(MainWindow.mainRTConfig.javaHome + "javac", $"-cp \"{MainWindow.jarDir}/{jar.jarFileName}\" " +
                 $"./java_temp/AppletWrapper.java " +
                 (jar.appletEmulateHTTP ? $"./java_temp/InjectedStreamHandlerFactory.java " : "") +
                 $"-d ./java_temp " +
-                (jar.appletEmulateHTTP ? "--add-exports java.base/sun.net.www.protocol.http=ALL-UNNAMED " : ""));
+                (jar.appletEmulateHTTP && MainWindow.mainRTConfig.isJava9 ? "--add-exports java.base/sun.net.www.protocol.http=ALL-UNNAMED " : ""));
             Console.WriteLine("Compilation log:");
             foreach (string a in compilerOut)
             {
@@ -272,7 +272,7 @@ public class AppletWrapper {{
             {
                 args += $"-Dhttp.proxyHost={jar.proxyHost.Replace(" ", "%20")} ";
             }
-            if (jar.appletEmulateHTTP)
+            if (jar.appletEmulateHTTP && MainWindow.mainRTConfig.isJava9)
             {
                 args += "--add-exports java.base/sun.net.www.protocol.http=ALL-UNNAMED ";
             }
@@ -285,7 +285,7 @@ public class AppletWrapper {{
             Console.WriteLine("[LaunchAppletWrapper] Running command: java " + args);
 
             Directory.SetCurrentDirectory(Path.GetFullPath($"{MainWindow.currentDirectory}/{MainWindow.instanceDir}/{jar.instanceDirName}"));
-            Process nproc = JarUtils.RunProcess(MainWindow.javaHome + "java", args, Path.GetFullPath("."));
+            Process nproc = JarUtils.RunProcess(MainWindow.mainRTConfig.javaHome + "java", args, Path.GetFullPath("."));
             Directory.SetCurrentDirectory(MainWindow.currentDirectory);
             new ProcessLog(nproc).Show();
 

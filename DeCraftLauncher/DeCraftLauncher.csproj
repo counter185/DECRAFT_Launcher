@@ -82,6 +82,7 @@
       <DependentUpon>ProcessLog.xaml</DependentUpon>
     </Compile>
     <Compile Include="ReferenceType.cs" />
+    <Compile Include="RuntimeConfig.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="Utils.cs" />
     <Page Include="Config.xaml">

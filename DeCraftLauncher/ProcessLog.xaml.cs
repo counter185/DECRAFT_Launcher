@@ -187,13 +187,19 @@ namespace DeCraftLauncher
                             logtext.Text += "\n\nAlternatively, if you know what you're doing, you can try adding \"--add-opens <module>/<export>=ALL-UNNAMED\" with the right fields to your JVM arguments.";
                         }
                     }                    
+                    else if (logtext.Text.Contains("java.lang.UnsupportedClassVersionError"))
+                    {
+                        logtext.Text += "\n----------------------------------------------";
+                        logtext.Text += "\n";
+                        logtext.Text += "\nYour current Java version is too old to run this.";
+                        logtext.Text += "\nOpen Runtime settings and set the path to the \"bin\" folder of a newer version of Java.";
+                    }                    
                     else if (logtext.Text.Contains("Unrecognized option: --add-exports"))
                     {
                         logtext.Text += "\n----------------------------------------------";
                         logtext.Text += "\n";
                         logtext.Text += "\nYour current Java version may be too old to support the \"--add-exports\" flag, which is required for the \"Emulate HTTP Server\" option.";
-                        logtext.Text += "\nOpen Runtime settings and set the path to the \"bin\" folder of a newer version of Java.";
-                        logtext.Text += "\n\nAlternatively, to try running anyway, open \"Advanced settings\" and disable the \"Emulate HTTP Server\" option. Note that disabling this option will trigger Indev's copy protection.";
+                        logtext.Text += "\nOpen Runtime settings and uncheck the \"Use required Java 9+ options\" option.";
                     }
                 });
             };

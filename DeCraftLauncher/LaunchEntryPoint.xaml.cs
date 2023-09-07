@@ -117,11 +117,24 @@ namespace DeCraftLauncher
                 args += jarConfig.gameArgs;
                 Console.WriteLine("Running command: java " + args);
 
+                Process nproc = null;
+
                 //this is unclean but it's the only way
                 Directory.SetCurrentDirectory(Path.GetFullPath($"{MainWindow.currentDirectory}/{MainWindow.instanceDir}/{jarConfig.instanceDirName}"));
-                Process nproc = JarUtils.RunProcess($"{MainWindow.mainRTConfig.javaHome}java", args, Path.GetFullPath("."));
+                try
+                {
+                    nproc = JarUtils.RunProcess($"{MainWindow.mainRTConfig.javaHome}java", args, Path.GetFullPath("."));
+                }
+                catch (Win32Exception w32e)
+                {
+                    MessageBox.Show($"Error launching java process: {w32e.Message}\n\nVerify that Java is installed in \"Runtime settings\".");
+                }
                 Directory.SetCurrentDirectory(MainWindow.currentDirectory);
-                new ProcessLog(nproc).Show();
+
+                if (nproc != null)
+                {
+                    new ProcessLog(nproc).Show();
+                }
             } 
             else if (entryPoint.type == JarUtils.EntryPointType.APPLET)
             {

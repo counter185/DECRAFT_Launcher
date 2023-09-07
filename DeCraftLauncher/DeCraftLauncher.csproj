@@ -161,6 +161,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ImageRes\DECRAFTIconMain.ico" />
+    <Content Include="LICENSE-LWJGL2.9.3.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="lwjgl\2.9.3\jinput.jar">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

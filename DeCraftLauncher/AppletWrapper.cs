@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using static DeCraftLauncher.JarUtils;
 
 namespace DeCraftLauncher
@@ -284,10 +286,21 @@ public class AppletWrapper {{
             //args += " " + jar.playerName + " 0";
             Console.WriteLine("[LaunchAppletWrapper] Running command: java " + args);
 
+            Process nproc = null;
+
             Directory.SetCurrentDirectory(Path.GetFullPath($"{MainWindow.currentDirectory}/{MainWindow.instanceDir}/{jar.instanceDirName}"));
-            Process nproc = JarUtils.RunProcess(MainWindow.mainRTConfig.javaHome + "java", args, Path.GetFullPath("."));
+            try
+            {
+                nproc = JarUtils.RunProcess(MainWindow.mainRTConfig.javaHome + "java", args, Path.GetFullPath("."));
+            } catch (Win32Exception w32e)
+            {
+                MessageBox.Show($"Error launching java process: {w32e.Message}\n\nVerify that Java is installed in \"Runtime settings\".");
+            }
             Directory.SetCurrentDirectory(MainWindow.currentDirectory);
-            new ProcessLog(nproc).Show();
+            if (nproc != null)
+            {
+                new ProcessLog(nproc).Show();
+            }
 
 
         }

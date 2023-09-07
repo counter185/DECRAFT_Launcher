@@ -1,6 +1,7 @@
 ﻿using SourceChord.FluentWPF;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,11 +34,8 @@ namespace DeCraftLauncher
 
         public void FixJavaHomeString()
         {
-            while (jre_path.Text.StartsWith(" "))
-            {
-                jre_path.Text = jre_path.Text.Substring(1);
-            }
-            if (jre_path.Text != "" && !jre_path.Text.EndsWith("\\"))
+            jre_path.Text = jre_path.Text.TrimEnd(' ').TrimStart(' ');
+            if (jre_path.Text != "" && (!jre_path.Text.EndsWith("\\") && !jre_path.Text.EndsWith("/")))
             {
                 jre_path.Text += "\\";
             }
@@ -46,6 +44,11 @@ namespace DeCraftLauncher
         public void UpdateJREVersionString()
         {
             FixJavaHomeString();
+
+            if (jre_path.Text != "" && !File.Exists(jre_path.Text + "java.exe") && File.Exists(jre_path.Text + "bin\\java.exe"))
+            {
+                jre_path.Text += "bin\\";
+            }
 
             string verre = JarUtils.GetJREInstalled(jre_path.Text);
             string verdk = JarUtils.GetJDKInstalled(jre_path.Text);

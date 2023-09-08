@@ -69,11 +69,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AppletParametersOptions.xaml.cs">
+      <DependentUpon>AppletParametersOptions.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AppletWrapper.cs" />
+    <Compile Include="Configs\JarConfig.cs" />
     <Compile Include="JarAdvancedOptions.xaml.cs">
       <DependentUpon>JarAdvancedOptions.xaml</DependentUpon>
     </Compile>
-    <Compile Include="JarConfig.cs" />
     <Compile Include="JavaClassReader.cs" />
     <Compile Include="LauncherEntryPointFinding.xaml.cs">
       <DependentUpon>LauncherEntryPointFinding.xaml</DependentUpon>
@@ -82,9 +85,13 @@
       <DependentUpon>ProcessLog.xaml</DependentUpon>
     </Compile>
     <Compile Include="ReferenceType.cs" />
-    <Compile Include="RuntimeConfig.cs" />
+    <Compile Include="Configs\RuntimeConfig.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="Utils.cs" />
+    <Page Include="AppletParametersOptions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Config.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

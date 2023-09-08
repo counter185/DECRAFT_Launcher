@@ -1,4 +1,5 @@
-﻿using SourceChord.FluentWPF;
+﻿using DeCraftLauncher.Configs;
+using SourceChord.FluentWPF;
 using System;
 using System.Collections.Generic;
 using System.Linq;

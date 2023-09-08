@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 
-namespace DeCraftLauncher
+namespace DeCraftLauncher.Configs
 {
     public class RuntimeConfig
     {
@@ -32,7 +32,8 @@ namespace DeCraftLauncher
         {
             RuntimeConfig ret = new RuntimeConfig();
             string rtConfXMLFilePath = $"{MainWindow.configDir}/_launcher_config.xml";
-            if (File.Exists(rtConfXMLFilePath)) {
+            if (File.Exists(rtConfXMLFilePath))
+            {
                 XmlDocument newXml = new XmlDocument();
                 newXml.Load(rtConfXMLFilePath);
                 XmlNode rootNode = newXml.SelectSingleNode("RuntimeConfig");
@@ -41,7 +42,8 @@ namespace DeCraftLauncher
                     ret.javaHome = Utils.GetInnerOrDefault(rootNode, "JavaPath");
                     ret.isJava9 = bool.Parse(Utils.GetInnerOrDefault(rootNode, "IsJava9", "true", "bool"));
                 }
-            } else
+            }
+            else
             {
                 ret.UpdateAutoIsJava9Option();
             }

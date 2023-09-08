@@ -1,0 +1,30 @@
+﻿<fw:AcrylicWindow x:Class="DeCraftLauncher.AppletParametersOptions"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DeCraftLauncher"
+        xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+        mc:Ignorable="d"
+        NoiseOpacity="0.0001"
+        TintColor="#000000"
+        TintOpacity="0.6"
+        Title="DECRAFT: Set applet parameters" Height="279" Width="335" MinHeight="325" Background="#FA000000" AcrylicWindowStyle="Normal">
+    <Grid>
+        <Label Content="Launch with applet parameters" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="White" FontSize="18" FontWeight="Bold"/>
+        <Label Content="Server IP" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Foreground="White"/>
+        <TextBox x:Name="tbox_param_server" Style="{DynamicResource TextBoxMainStyle}" Margin="84,64,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+        <Label Content="Server port" HorizontalAlignment="Left" Margin="10,86,0,0" VerticalAlignment="Top" Foreground="White"/>
+        <TextBox x:Name="tbox_param_port" Style="{DynamicResource TextBoxMainStyle}" Margin="84,90,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+        <Label Content="mppass" HorizontalAlignment="Left" Margin="10,131,0,0" VerticalAlignment="Top" Foreground="White"/>
+        <TextBox x:Name="tbox_param_mppass" Style="{DynamicResource TextBoxMainStyle}" Margin="94,135,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+        <Label Content="loadmap__user" HorizontalAlignment="Left" Margin="10,157,0,0" VerticalAlignment="Top" Foreground="White"/>
+        <Label Content="loadmap__id" HorizontalAlignment="Left" Margin="10,183,0,0" VerticalAlignment="Top" Foreground="White"/>
+        <TextBox x:Name="tbox_param_loadmap_user" Style="{DynamicResource TextBoxMainStyle}" Margin="94,161,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+        <TextBox x:Name="tbox_param_loadmap_id" Style="{DynamicResource TextBoxMainStyle}" Margin="94,187,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+        <Label Content="fullscreen" HorizontalAlignment="Left" Margin="10,231,0,0" VerticalAlignment="Top" Foreground="White"/>
+        <TextBox x:Name="tbox_param_fullscreen" Style="{DynamicResource TextBoxMainStyle}" Margin="94,235,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="Expected values: true, false"/>
+        <Button Style="{DynamicResource ButtonRevealStyle}" Content="Launch" Margin="0,0,10,10" Height="27" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="70" Click="Button_Click"/>
+
+    </Grid>
+</fw:AcrylicWindow>

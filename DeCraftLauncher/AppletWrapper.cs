@@ -1,9 +1,11 @@
-﻿using System;
+﻿using DeCraftLauncher.Configs;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -140,8 +142,19 @@ public class InjectedStreamHandlerFactory implements URLStreamHandlerFactory {{
 ";
         }
 
-        public static string GenerateAppletWrapperCode(string className, JarConfig jar)
+        public static string GenerateAppletWrapperCode(string className, JarConfig jar, Dictionary<string, string> appletParameters)
         {
+            string additionalParameters = "";
+
+            (from x in appletParameters
+            select $@"
+                else if (name.equals(""{x.Key}"")){{
+                    return ""{x.Value.Replace("\"", "\\\"").Replace("\n", "_")}"";
+                }}{'\n'}").ToList().ForEach((condition) =>
+            {
+                additionalParameters += condition;
+            });
+
             return 
                 $@"
 package decraft_internal;
@@ -202,18 +215,10 @@ public class AppletWrapper {{
                 else if (name.equals(""sessionid"")){{
                     return ""0"";
                 }}
-                else if (name.equals(""mppass"")){{
-                    return ""password"";
-                }}
                 else if (name.equals(""haspaid"")){{
                     return ""true"";
                 }}
-                /*else if (name.equals(""server"")){{
-                    return ""127.0.0.1"";
-                }}
-                else if (name.equals(""port"")){{
-                    return ""25565"";
-                }}*/
+                {additionalParameters}
 				return null;
 			}}
 
@@ -238,10 +243,10 @@ public class AppletWrapper {{
 ";
         }
 
-        public static void LaunchAppletWrapper(string className, JarConfig jar)
+        public static void LaunchAppletWrapper(string className, JarConfig jar, Dictionary<string, string> appletParameters)
         {
             MainWindow.EnsureDir("./java_temp");
-            File.WriteAllText("./java_temp/AppletWrapper.java", GenerateAppletWrapperCode(className, jar));
+            File.WriteAllText("./java_temp/AppletWrapper.java", GenerateAppletWrapperCode(className, jar, appletParameters));
             if (jar.appletEmulateHTTP)
             {
                 File.WriteAllText("./java_temp/InjectedStreamHandlerFactory.java", GenerateHTTPStreamInjectorCode(jar));
@@ -303,6 +308,25 @@ public class AppletWrapper {{
             }
 
 
+        }
+
+        public static void TryLaunchAppletWrapper(string classpath, JarConfig jarConfig, Dictionary<string, string> appletParameters = null)
+        {
+            if (!classpath.Contains('.'))
+            {
+                MessageBox.Show("Launching default package applets is not implemented.", "DECRAFT");
+            }
+            else
+            {
+                try
+                {
+                    AppletWrapper.LaunchAppletWrapper(classpath, jarConfig, appletParameters != null ? appletParameters : new Dictionary<string, string>());
+                }
+                catch (Win32Exception)
+                {
+                    MessageBox.Show("Applet wrapper requires JDK installed.");
+                }
+            }
         }
     }
 }

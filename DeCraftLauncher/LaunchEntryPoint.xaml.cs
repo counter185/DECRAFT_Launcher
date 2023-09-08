@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeCraftLauncher.Configs;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -68,6 +69,7 @@ namespace DeCraftLauncher
                 : entryPoint.type == JarUtils.EntryPointType.APPLET ? "(Applet)"
                 : "<unknown>";
             moreInfo.Content = target.additionalInfo.Replace("_", "__");
+            launchAdvancedButton.Visibility = entryPoint.type == JarUtils.EntryPointType.APPLET ? Visibility.Visible : Visibility.Hidden;
             this.jarConfig = jarConfig;
         }
 
@@ -92,6 +94,7 @@ namespace DeCraftLauncher
                 }
                 Console.WriteLine("Extracted temp LWJGL natives");
             }
+
             if (entryPoint.type == JarUtils.EntryPointType.STATIC_VOID_MAIN)
             {
                 MainWindow.EnsureDir(MainWindow.instanceDir + "/" + jarConfig.instanceDirName);
@@ -138,24 +141,20 @@ namespace DeCraftLauncher
             } 
             else if (entryPoint.type == JarUtils.EntryPointType.APPLET)
             {
-                if (!entryPoint.classpath.Contains('.'))
-                {
-                    MessageBox.Show("Launching default package applets is not implemented.", "DECRAFT");
-                }
-                else
-                {
-                    try
-                    {
-                        AppletWrapper.LaunchAppletWrapper(entryPoint.classpath, jarConfig);
-                    } catch (Win32Exception)
-                    {
-                        MessageBox.Show("Applet wrapper requires JDK installed.");
-                    }
-                }
+                AppletWrapper.TryLaunchAppletWrapper(entryPoint.classpath, jarConfig);
             } 
             else
             {
                 throw new NotImplementedException("bruh");
+            }
+        }
+
+        private void launchAdvancedButton_Click(object sender, RoutedEventArgs e)
+        {
+            caller.SaveCurrentJarConfig();
+            if (entryPoint.type == JarUtils.EntryPointType.APPLET)
+            {
+                new AppletParametersOptions(entryPoint.classpath, jarConfig).Show();
             }
         }
     }

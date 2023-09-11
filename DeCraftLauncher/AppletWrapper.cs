@@ -293,10 +293,11 @@ public class AppletWrapper {{
 
             Process nproc = null;
 
-            Directory.SetCurrentDirectory(Path.GetFullPath($"{MainWindow.currentDirectory}/{MainWindow.instanceDir}/{jar.instanceDirName}"));
+            string emulatedAppDataDir = Path.GetFullPath($"{MainWindow.currentDirectory}/{MainWindow.instanceDir}/{jar.instanceDirName}");
+            Directory.SetCurrentDirectory($"{emulatedAppDataDir}{(jar.cwdIsDotMinecraft ? "/.minecraft" : "")}");
             try
             {
-                nproc = JarUtils.RunProcess(MainWindow.mainRTConfig.javaHome + "java", args, Path.GetFullPath("."));
+                nproc = JarUtils.RunProcess(MainWindow.mainRTConfig.javaHome + "java", args, emulatedAppDataDir);
             } catch (Win32Exception w32e)
             {
                 MessageBox.Show($"Error launching java process: {w32e.Message}\n\nVerify that Java is installed in \"Runtime settings\".");

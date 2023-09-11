@@ -123,10 +123,11 @@ namespace DeCraftLauncher
                 Process nproc = null;
 
                 //this is unclean but it's the only way
-                Directory.SetCurrentDirectory(Path.GetFullPath($"{MainWindow.currentDirectory}/{MainWindow.instanceDir}/{jarConfig.instanceDirName}"));
+                string emulatedAppDataDir = Path.GetFullPath($"{MainWindow.currentDirectory}/{MainWindow.instanceDir}/{jarConfig.instanceDirName}");
+                Directory.SetCurrentDirectory($"{emulatedAppDataDir}{(jarConfig.cwdIsDotMinecraft ? "/.minecraft" : "")}");
                 try
                 {
-                    nproc = JarUtils.RunProcess($"{MainWindow.mainRTConfig.javaHome}java", args, Path.GetFullPath("."));
+                    nproc = JarUtils.RunProcess($"{MainWindow.mainRTConfig.javaHome}java", args, emulatedAppDataDir);
                 }
                 catch (Win32Exception w32e)
                 {

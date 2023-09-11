@@ -30,6 +30,7 @@ namespace DeCraftLauncher.Configs
         //advanced options
         public string sessionID = "0";
         public string gameArgs = "";
+        public bool cwdIsDotMinecraft = false;
         public bool appletEmulateHTTP = true;
         public string documentBaseUrl = "http://www.minecraft.net/play.jsp";
         public bool appletRedirectSkins = true;
@@ -66,6 +67,7 @@ namespace DeCraftLauncher.Configs
             //advanced options
             rootElement.AppendChild(Utils.GenElementChild(newXml, "PassSessionID", sessionID));
             rootElement.AppendChild(Utils.GenElementChild(newXml, "GameArgs", gameArgs));
+            rootElement.AppendChild(Utils.GenElementChild(newXml, "JavaCwdIsDotMinecraft", cwdIsDotMinecraft.ToString()));
             rootElement.AppendChild(Utils.GenElementChild(newXml, "AppletEmulateHTTP", appletEmulateHTTP.ToString()));
             rootElement.AppendChild(Utils.GenElementChild(newXml, "AppletDocumentURL", documentBaseUrl));
             rootElement.AppendChild(Utils.GenElementChild(newXml, "AppletRedirectToLocalSkins", appletRedirectSkins.ToString()));
@@ -113,6 +115,7 @@ namespace DeCraftLauncher.Configs
 
                 newJarConf.sessionID = Utils.GetInnerOrDefault(rootNode, "SessionID", "0");
                 newJarConf.gameArgs = Utils.GetInnerOrDefault(rootNode, "GameArgs");
+                newJarConf.cwdIsDotMinecraft = bool.Parse(Utils.GetInnerOrDefault(rootNode, "JavaCwdIsDotMinecraft", "true", "bool"));
                 newJarConf.appletEmulateHTTP = bool.Parse(Utils.GetInnerOrDefault(rootNode, "AppletEmulateHTTP", "true", "bool"));
                 newJarConf.documentBaseUrl = Utils.GetInnerOrDefault(rootNode, "AppletDocumentURL", "http://www.minecraft.net/play.jsp");
                 newJarConf.appletRedirectSkins = bool.Parse(Utils.GetInnerOrDefault(rootNode, "AppletRedirectToLocalSkins", "true", "bool"));

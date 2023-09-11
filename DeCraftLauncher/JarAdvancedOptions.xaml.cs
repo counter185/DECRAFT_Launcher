@@ -42,6 +42,7 @@ namespace DeCraftLauncher
         {
             tbox_sessionid.Text = targetConfig.sessionID;
             tbox_gameargs.Text = targetConfig.gameArgs;
+            checkbox_cwdisdotminecraft.IsChecked = targetConfig.cwdIsDotMinecraft;
             checkbox_emulatehttp.IsChecked = targetConfig.appletEmulateHTTP;
             tbox_appletdocumenturl.Text = targetConfig.documentBaseUrl;
             checkbox_redirecttolocalskins.IsChecked = targetConfig.appletRedirectSkins;
@@ -52,6 +53,7 @@ namespace DeCraftLauncher
         {
             targetConfig.sessionID = tbox_sessionid.Text;
             targetConfig.gameArgs = tbox_gameargs.Text;
+            targetConfig.cwdIsDotMinecraft = checkbox_cwdisdotminecraft.IsChecked == true;
             targetConfig.appletEmulateHTTP = checkbox_emulatehttp.IsChecked == true;
             targetConfig.documentBaseUrl = tbox_appletdocumenturl.Text;
             targetConfig.appletRedirectSkins = checkbox_redirecttolocalskins.IsChecked == true;

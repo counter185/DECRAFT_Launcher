@@ -266,14 +266,15 @@ public class AppletWrapper {{
             string args = "";
             args += "-cp ";
             //todo: make this cleaner (preferrably without getting rid of relative paths)
-            args += "\"../../java_temp/";
+            string relativePath = (jar.cwdIsDotMinecraft ? "../" : "") + "../../";
+            args += $"\"{relativePath}java_temp/";
             if (jar.LWJGLVersion != "+ built-in")
             {
-                args += $";../../lwjgl/{jar.LWJGLVersion}/*";
+                args += $";{relativePath}lwjgl/{jar.LWJGLVersion}/*";
             }
-            args += $";../../{MainWindow.jarDir}/{jar.jarFileName}\" ";
+            args += $";{relativePath}{MainWindow.jarDir}/{jar.jarFileName}\" ";
             
-            args += $"-Djava.library.path=../../lwjgl/{(jar.LWJGLVersion == "+ built-in" ? "_temp_builtin" : jar.LWJGLVersion)}/native ";
+            args += $"-Djava.library.path={relativePath}lwjgl/{(jar.LWJGLVersion == "+ built-in" ? "_temp_builtin" : jar.LWJGLVersion)}/native ";
             args += jar.jvmArgs + " ";
             if (jar.proxyHost != "")
             {

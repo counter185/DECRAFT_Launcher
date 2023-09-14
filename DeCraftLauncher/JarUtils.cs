@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Shapes;
 using static DeCraftLauncher.JavaClassReader;
 
 namespace DeCraftLauncher
@@ -95,6 +96,87 @@ namespace DeCraftLauncher
         public static bool HasJDKInstalled(string at)
         {
             return at != "" ? File.Exists(at + "javac.exe") : GetJDKInstalled(at) != null;
+        }
+
+        public static string GetJavaVersionFromReleaseFile(string fileAt)
+        {
+            if (File.Exists(fileAt))
+            {
+                string[] lines = File.ReadAllLines(fileAt);
+                foreach (string line in lines)
+                {
+                    string[] splt = line.Split('=');
+                    try
+                    {
+                        if (splt[0] == "JAVA_VERSION")
+                        {
+                            return splt[1].Replace("\"", "");
+                        }
+                    }
+                    catch (IndexOutOfRangeException) { }
+                }
+            }
+            return null;
+        }
+
+        public struct JavaFinderResult
+        {
+            public string version;
+            public string path;
+
+            public JavaFinderResult(string version, string path)
+            {
+                this.version = version;
+                this.path = path;
+            }
+        }
+
+        public static List<JavaFinderResult> FindAllJavaInstallations()
+        {
+            HashSet<string> potentialPaths = new HashSet<string>();
+            DriveInfo[] drives = DriveInfo.GetDrives();
+            (from drive in drives
+             select drive.Name.Replace('\\', '/')).ToList().ForEach((driveLabel) => {
+                 //please add
+                 string[] vendorPaths = new string[]
+                 {
+                     "Java",
+                     "Zulu",
+                     "Eclipse Adoptium",
+                     "AdoptOpenJDK",
+                     "Android/Android Studio",
+                     "Microsoft/jdk"
+                 };
+                 foreach (string vendorPath in vendorPaths)
+                 {
+                     potentialPaths.Add(driveLabel + "Program Files/" + vendorPath + "/");
+                     potentialPaths.Add(driveLabel + "Program Files (x86)/" + vendorPath + "/");
+                 }
+             });
+
+            string javahomeEnv = Environment.GetEnvironmentVariable("JAVA_HOME").Replace('\\', '/');
+            potentialPaths.Add(javahomeEnv + (javahomeEnv.EndsWith("/") ? "" : "/"));
+
+            List<JavaFinderResult> results = new List<JavaFinderResult>();
+            foreach (string ppath in potentialPaths)
+            {
+                List<string> potentialPotentialPaths = new List<string>();
+                potentialPotentialPaths.Add(ppath);
+                if (Directory.Exists(ppath))
+                {
+                    (from subdir in Directory.GetDirectories(ppath)
+                     select subdir + "/").ToList().ForEach((nsubdir) => { potentialPotentialPaths.Add(nsubdir); });
+                }
+
+                (from njavapath in potentialPotentialPaths
+                 where File.Exists(njavapath + "bin/java.exe")
+                 select new JavaFinderResult((File.Exists(njavapath + "release") ? GetJavaVersionFromReleaseFile(njavapath + "release") : "???"), (njavapath + "bin/")))
+                 .ToList().ForEach((a) => results.Add(a));
+
+            }
+            return (from x in results 
+                    group x by x.path into y
+                    select y.First()).ToList();
         }
 
         public enum EntryPointType

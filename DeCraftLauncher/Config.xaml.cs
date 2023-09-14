@@ -1,4 +1,5 @@
-﻿using SourceChord.FluentWPF;
+﻿using DeCraftLauncher.Configs;
+using SourceChord.FluentWPF;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -66,6 +67,12 @@ namespace DeCraftLauncher
 
         }
 
+        public void SetAndTestJavaPath(string path)
+        {
+            this.jre_path.Text = path;
+            UpdateJREVersionString();
+        }
+
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 
@@ -85,6 +92,11 @@ namespace DeCraftLauncher
             MainWindow.mainRTConfig.javaHome = jre_path.Text;
             MainWindow.mainRTConfig.isJava9 = checkbox_isjava9.IsChecked == true;
             MainWindow.SaveRuntimeConfig();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            new JavaFinder(this).Show();
         }
     }
 }

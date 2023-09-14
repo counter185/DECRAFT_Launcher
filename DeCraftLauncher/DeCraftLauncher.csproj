@@ -74,10 +74,16 @@
     </Compile>
     <Compile Include="AppletWrapper.cs" />
     <Compile Include="Configs\JarConfig.cs" />
+    <Compile Include="Configs\JavaFinder.xaml.cs">
+      <DependentUpon>JavaFinder.xaml</DependentUpon>
+    </Compile>
     <Compile Include="JarAdvancedOptions.xaml.cs">
       <DependentUpon>JarAdvancedOptions.xaml</DependentUpon>
     </Compile>
     <Compile Include="JavaClassReader.cs" />
+    <Compile Include="JavaFinderEntry.xaml.cs">
+      <DependentUpon>JavaFinderEntry.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LauncherEntryPointFinding.xaml.cs">
       <DependentUpon>LauncherEntryPointFinding.xaml</DependentUpon>
     </Compile>
@@ -96,7 +102,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Configs\JavaFinder.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="JarAdvancedOptions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="JavaFinderEntry.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

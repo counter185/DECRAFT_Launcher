@@ -15,7 +15,7 @@ namespace DeCraftLauncher
 {
     public unsafe class JarUtils
     {
-        public static List<string> RunProcessAndGetOutput(string program, string args) {
+        public static List<string> RunProcessAndGetOutput(string program, string args, bool throwOnNZEC = false) {
             Process proc = new Process
             {
                 StartInfo = new ProcessStartInfo
@@ -29,7 +29,12 @@ namespace DeCraftLauncher
                 }
             };
             proc.Start();
-            proc.WaitForExit(75);
+            proc.WaitForExit();
+            //proc.WaitForExit(75);
+            if (proc.ExitCode != 0 && throwOnNZEC)
+            {
+                throw new ApplicationException("Non-zero exit code");
+            }
             List<string> stdout = new List<string>();
             while (!proc.StandardOutput.EndOfStream)
             {

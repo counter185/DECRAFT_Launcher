@@ -231,7 +231,6 @@ public class AppletWrapper {{
 			@Override
 			public void appletResize(int width, int height) {{
 				mainFrame.setSize(width, height);
-				
 			}}
 			
 		}});
@@ -251,11 +250,19 @@ public class AppletWrapper {{
             {
                 File.WriteAllText("./java_temp/InjectedStreamHandlerFactory.java", GenerateHTTPStreamInjectorCode(jar));
             }
-            List<string> compilerOut = JarUtils.RunProcessAndGetOutput(MainWindow.mainRTConfig.javaHome + "javac", $"-cp \"{MainWindow.jarDir}/{jar.jarFileName}\" " +
-                $"./java_temp/AppletWrapper.java " +
-                (jar.appletEmulateHTTP ? $"./java_temp/InjectedStreamHandlerFactory.java " : "") +
-                $"-d ./java_temp " +
-                (jar.appletEmulateHTTP && MainWindow.mainRTConfig.isJava9 ? "--add-exports java.base/sun.net.www.protocol.http=ALL-UNNAMED " : ""));
+            List<string> compilerOut;
+            try
+            {
+                compilerOut = JarUtils.RunProcessAndGetOutput(MainWindow.mainRTConfig.javaHome + "javac", $"-cp \"{MainWindow.jarDir}/{jar.jarFileName}\" " +
+                    $"./java_temp/AppletWrapper.java " +
+                    (jar.appletEmulateHTTP ? $"./java_temp/InjectedStreamHandlerFactory.java " : "") +
+                    $"-d ./java_temp " +
+                    (jar.appletEmulateHTTP && MainWindow.mainRTConfig.isJava9 ? "--add-exports java.base/sun.net.www.protocol.http=ALL-UNNAMED " : ""), true);
+            } catch (ApplicationException)
+            {
+                MessageBox.Show("Error compiling Applet Wrapper.", "DECRAFT");
+                return;
+            }
             Console.WriteLine("Compilation log:");
             foreach (string a in compilerOut)
             {
@@ -263,6 +270,10 @@ public class AppletWrapper {{
             }
 
             MainWindow.EnsureDir(MainWindow.instanceDir + "/" + jar.instanceDirName);
+            if (jar.cwdIsDotMinecraft)
+            {
+                MainWindow.EnsureDir(MainWindow.instanceDir + "/" + jar.instanceDirName + "/.minecraft");
+            }
             string args = "";
             args += "-cp ";
             //todo: make this cleaner (preferrably without getting rid of relative paths)

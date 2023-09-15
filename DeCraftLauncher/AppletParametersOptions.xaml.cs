@@ -29,6 +29,7 @@ namespace DeCraftLauncher
             targetClassName = className;
             targetJarConfig = jar;
             InitializeComponent();
+            Utils.UpdateAcrylicWindowBackground(this);
         }
 
         private void AddToDictionaryIfStringNotEmpty(Dictionary<string,string> target, string key, string value, bool addAnyway = false)

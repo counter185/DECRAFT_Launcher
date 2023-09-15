@@ -27,6 +27,7 @@ namespace DeCraftLauncher.Configs
             this.caller = caller;
 
             InitializeComponent();
+            Utils.UpdateAcrylicWindowBackground(this);
             List<JarUtils.JavaFinderResult> javaInstalls = JarUtils.FindAllJavaInstallations();
             foreach (JarUtils.JavaFinderResult javaInstall in javaInstalls)
             {

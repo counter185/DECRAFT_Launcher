@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:DeCraftLauncher"
              mc:Ignorable="d" Height="28" Width="463">
     <Grid>
-        <Label x:Name="label_version" Content="17.0.0" HorizontalAlignment="Left" Margin="1,0,0,0" VerticalAlignment="Top" Width="78" Foreground="#FF616161" FontStyle="Italic"/>
+        <Label x:Name="label_version" Content="17.0.0" HorizontalAlignment="Left" Margin="1,0,0,0" VerticalAlignment="Top" Width="78" Foreground="#FF919191" FontStyle="Italic"/>
         <Label x:Name="label_path" Content="Full java path here" Margin="84,0,0,0" VerticalAlignment="Center" Foreground="White"/>
 
     </Grid>

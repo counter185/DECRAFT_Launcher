@@ -5,7 +5,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeCraftLauncher
+namespace DeCraftLauncher.Utils
 {
     public class ReferenceType<T>
     {

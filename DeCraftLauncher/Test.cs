@@ -1,4 +1,5 @@
 ﻿using DeCraftLauncher.Configs;
+using DeCraftLauncher.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,7 +7,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static DeCraftLauncher.JarUtils;
+using static DeCraftLauncher.Utils.JarUtils;
 
 namespace DeCraftLauncher
 {

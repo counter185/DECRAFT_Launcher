@@ -1,4 +1,5 @@
 ﻿using DeCraftLauncher.Configs;
+using DeCraftLauncher.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +10,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using static DeCraftLauncher.JarUtils;
+using static DeCraftLauncher.Utils.JarUtils;
 
 namespace DeCraftLauncher
 {
@@ -255,7 +256,7 @@ public class AppletWrapper {{
             List<string> compilerOut;
             try
             {
-                compilerOut = JarUtils.RunProcessAndGetOutput(MainWindow.mainRTConfig.javaHome + "javac", $"-cp \"{MainWindow.jarDir}/{jar.jarFileName}\" " +
+                compilerOut = RunProcessAndGetOutput(MainWindow.mainRTConfig.javaHome + "javac", $"-cp \"{MainWindow.jarDir}/{jar.jarFileName}\" " +
                     $"./java_temp/AppletWrapper.java " +
                     (jar.appletEmulateHTTP ? $"./java_temp/InjectedStreamHandlerFactory.java " : "") +
                     $"-d ./java_temp " +
@@ -317,7 +318,7 @@ public class AppletWrapper {{
             appletExec.workingDirectory = $"{emulatedAppDataDir}{(jar.cwdIsDotMinecraft ? "/.minecraft" : "")}";
             try
             {
-                new ProcessLog(appletExec.Start()).Show();
+                new WindowProcessLog(appletExec.Start()).Show();
                 //nproc = JarUtils.RunProcess(MainWindow.mainRTConfig.javaHome + "java", args, emulatedAppDataDir);
             } catch (Win32Exception w32e)
             {

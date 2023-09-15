@@ -1,4 +1,5 @@
-﻿using SourceChord.FluentWPF;
+﻿using DeCraftLauncher.Utils;
+using SourceChord.FluentWPF;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,10 +20,7 @@ using System.Windows.Threading;
 
 namespace DeCraftLauncher
 {
-    /// <summary>
-    /// Logika interakcji dla klasy ProcessLog.xaml
-    /// </summary>
-    public partial class ProcessLog : AcrylicWindow
+    public partial class WindowProcessLog : AcrylicWindow
     {
 
         const int MAX_LINES = 100;
@@ -95,12 +93,12 @@ namespace DeCraftLauncher
 
             Console.WriteLine("ThreadLoggerStdErr exit");
         }
-        public ProcessLog(Process t)
+        public WindowProcessLog(Process t)
         {
             target = t;
             InitializeComponent();
             this.Title = $"DECRAFT: Process Log [{t.ProcessName} : {t.Id}]";
-            Utils.UpdateAcrylicWindowBackground(this);
+            Util.UpdateAcrylicWindowBackground(this);
             t.OutputDataReceived += (a, b) =>
             {
                 lines.Add(b.Data);

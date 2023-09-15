@@ -11,9 +11,9 @@ using System.Xml;
 using PCInfo = Microsoft.VisualBasic.Devices.ComputerInfo;
 using WinColor = System.Windows.Media.Color;
 
-namespace DeCraftLauncher
+namespace DeCraftLauncher.Utils
 {
-    public static class Utils
+    public static class Util
     {
 
         const string OS_WIN10 = "windows 10";

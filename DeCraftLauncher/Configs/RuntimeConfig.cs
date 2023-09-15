@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeCraftLauncher.Utils;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace DeCraftLauncher.Configs
             string verdk = JarUtils.GetJDKInstalled(javaHome);
             if (verdk != null)
             {
-                int JDKVer = Utils.TryParseJavaCVersionString(verdk);
+                int JDKVer = Util.TryParseJavaCVersionString(verdk);
                 Console.WriteLine($"Detected JDK Version: {JDKVer}");
                 if (JDKVer != -1)
                 {
@@ -39,8 +40,8 @@ namespace DeCraftLauncher.Configs
                 XmlNode rootNode = newXml.SelectSingleNode("RuntimeConfig");
                 if (rootNode != null)
                 {
-                    ret.javaHome = Utils.GetInnerOrDefault(rootNode, "JavaPath");
-                    ret.isJava9 = bool.Parse(Utils.GetInnerOrDefault(rootNode, "IsJava9", "true", "bool"));
+                    ret.javaHome = Util.GetInnerOrDefault(rootNode, "JavaPath");
+                    ret.isJava9 = bool.Parse(Util.GetInnerOrDefault(rootNode, "IsJava9", "true", "bool"));
                 }
             }
             else
@@ -56,8 +57,8 @@ namespace DeCraftLauncher.Configs
             newXml.LoadXml("<?xml version=\"1.0\"?>\n<RuntimeConfig>\n</RuntimeConfig>");
             XmlNode rootElement = newXml.GetElementsByTagName("RuntimeConfig")[0];
 
-            rootElement.AppendChild(Utils.GenElementChild(newXml, "JavaPath", javaHome));
-            rootElement.AppendChild(Utils.GenElementChild(newXml, "IsJava9", isJava9.ToString()));
+            rootElement.AppendChild(Util.GenElementChild(newXml, "JavaPath", javaHome));
+            rootElement.AppendChild(Util.GenElementChild(newXml, "IsJava9", isJava9.ToString()));
 
             newXml.Save($"{MainWindow.configDir}/_launcher_config.xml");
         }

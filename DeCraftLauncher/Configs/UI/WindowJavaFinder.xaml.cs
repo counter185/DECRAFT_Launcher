@@ -1,4 +1,6 @@
-﻿using SourceChord.FluentWPF;
+﻿using DeCraftLauncher.UIControls;
+using DeCraftLauncher.Utils;
+using SourceChord.FluentWPF;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,21 +15,21 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace DeCraftLauncher.Configs
+namespace DeCraftLauncher.Configs.UI
 {
     /// <summary>
     /// Logika interakcji dla klasy JavaFinder.xaml
     /// </summary>
-    public partial class JavaFinder : AcrylicWindow
+    public partial class WindowJavaFinder : AcrylicWindow
     {
-        public Config caller;
+        public WindowRuntimeConfig caller;
 
-        public JavaFinder(Config caller)
+        public WindowJavaFinder(WindowRuntimeConfig caller)
         {
             this.caller = caller;
 
             InitializeComponent();
-            Utils.UpdateAcrylicWindowBackground(this);
+            Util.UpdateAcrylicWindowBackground(this);
             List<JarUtils.JavaFinderResult> javaInstalls = JarUtils.FindAllJavaInstallations();
             foreach (JarUtils.JavaFinderResult javaInstall in javaInstalls)
             {

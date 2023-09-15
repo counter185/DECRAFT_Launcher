@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeCraftLauncher
+namespace DeCraftLauncher.Utils
 {
     public class JavaClassReader
     {
@@ -96,7 +96,7 @@ namespace DeCraftLauncher
                 public override ConstantPoolEntry Parse(Stream target)
                 {
                     StringEntry newEntry = new StringEntry();
-                    short length = Utils.StreamReadShort(target);
+                    short length = Util.StreamReadShort(target);
                     for (int x = 0; x < length; x++)
                     {
                         newEntry.value += (char)target.ReadByte();
@@ -110,7 +110,7 @@ namespace DeCraftLauncher
                 public override ConstantPoolEntry Parse(Stream target)
                 {
                     IntegerEntry newEntry = new IntegerEntry();
-                    newEntry.value = Utils.StreamReadInt(target);
+                    newEntry.value = Util.StreamReadInt(target);
                     return newEntry;
                 }
             }
@@ -121,7 +121,7 @@ namespace DeCraftLauncher
                 {
                     FloatEntry newEntry = new FloatEntry();
                     //don't care
-                    newEntry.value = Utils.StreamReadInt(target);
+                    newEntry.value = Util.StreamReadInt(target);
                     return newEntry;
                 }
             }
@@ -131,7 +131,7 @@ namespace DeCraftLauncher
                 public override ConstantPoolEntry Parse(Stream target)
                 {
                     LongEntry newEntry = new LongEntry();
-                    newEntry.value = Utils.StreamReadLong(target);
+                    newEntry.value = Util.StreamReadLong(target);
                     return newEntry;
                 }
             }
@@ -142,7 +142,7 @@ namespace DeCraftLauncher
                 {
                     DoubleEntry newEntry = new DoubleEntry();
                     //don't care
-                    newEntry.value = Utils.StreamReadLong(target);
+                    newEntry.value = Util.StreamReadLong(target);
                     return newEntry;
                 }
             }
@@ -152,7 +152,7 @@ namespace DeCraftLauncher
                 public override ConstantPoolEntry Parse(Stream target)
                 {
                     ClassReferenceEntry newEntry = new ClassReferenceEntry();
-                    newEntry.indexOfClassNameString = Utils.StreamReadShort(target);
+                    newEntry.indexOfClassNameString = Util.StreamReadShort(target);
                     return newEntry;
                 }
                 public string GetName(List<ConstantPoolEntry> constantPool)
@@ -166,7 +166,7 @@ namespace DeCraftLauncher
                 public override ConstantPoolEntry Parse(Stream target)
                 {
                     StringReferenceEntry newEntry = new StringReferenceEntry();
-                    newEntry.indexOfTargetString = Utils.StreamReadShort(target);
+                    newEntry.indexOfTargetString = Util.StreamReadShort(target);
                     return newEntry;
                 }
             }
@@ -177,8 +177,8 @@ namespace DeCraftLauncher
                 public override ConstantPoolEntry Parse(Stream target)
                 {
                     FieldReferenceEntry newEntry = new FieldReferenceEntry();
-                    newEntry.indexOfClassReference = Utils.StreamReadShort(target);
-                    newEntry.indexOfNameAndTypeDescriptor = Utils.StreamReadShort(target);
+                    newEntry.indexOfClassReference = Util.StreamReadShort(target);
+                    newEntry.indexOfNameAndTypeDescriptor = Util.StreamReadShort(target);
                     return newEntry;
                 }
             }
@@ -189,8 +189,8 @@ namespace DeCraftLauncher
                 public override ConstantPoolEntry Parse(Stream target)
                 {
                     MethodReferenceEntry newEntry = new MethodReferenceEntry();
-                    newEntry.indexOfClassReference = Utils.StreamReadShort(target);
-                    newEntry.indexOfNameAndTypeDescriptor = Utils.StreamReadShort(target);
+                    newEntry.indexOfClassReference = Util.StreamReadShort(target);
+                    newEntry.indexOfNameAndTypeDescriptor = Util.StreamReadShort(target);
                     return newEntry;
                 }
             }
@@ -201,8 +201,8 @@ namespace DeCraftLauncher
                 public override ConstantPoolEntry Parse(Stream target)
                 {
                     InterfaceMethodReferenceEntry newEntry = new InterfaceMethodReferenceEntry();
-                    newEntry.indexOfClassReference = Utils.StreamReadShort(target);
-                    newEntry.indexOfNameAndTypeDescriptor = Utils.StreamReadShort(target);
+                    newEntry.indexOfClassReference = Util.StreamReadShort(target);
+                    newEntry.indexOfNameAndTypeDescriptor = Util.StreamReadShort(target);
                     return newEntry;
                 }
             }
@@ -213,8 +213,8 @@ namespace DeCraftLauncher
                 public override ConstantPoolEntry Parse(Stream target)
                 {
                     NameAndTypeDescriptorEntry newEntry = new NameAndTypeDescriptorEntry();
-                    newEntry.indexOfNameString = Utils.StreamReadShort(target);
-                    newEntry.indexOfTypeDescriptor = Utils.StreamReadShort(target);
+                    newEntry.indexOfNameString = Util.StreamReadShort(target);
+                    newEntry.indexOfTypeDescriptor = Util.StreamReadShort(target);
                     return newEntry;
                 }
             }
@@ -226,7 +226,7 @@ namespace DeCraftLauncher
                 {
                     MethodHandleEntry newEntry = new MethodHandleEntry();
                     newEntry.typeDescriptor = (byte)target.ReadByte();
-                    newEntry.indexOfMethod = Utils.StreamReadShort(target);
+                    newEntry.indexOfMethod = Util.StreamReadShort(target);
                     return newEntry;
                 }
             }
@@ -236,7 +236,7 @@ namespace DeCraftLauncher
                 public override ConstantPoolEntry Parse(Stream target)
                 {
                     MethodTypeEntry newEntry = new MethodTypeEntry();
-                    newEntry.indexOf = Utils.StreamReadShort(target);
+                    newEntry.indexOf = Util.StreamReadShort(target);
                     return newEntry;
                 }
             }
@@ -246,7 +246,7 @@ namespace DeCraftLauncher
                 public override ConstantPoolEntry Parse(Stream target)
                 {
                     DynamicEntry newEntry = new DynamicEntry();
-                    newEntry.data = Utils.StreamReadInt(target);
+                    newEntry.data = Util.StreamReadInt(target);
                     return newEntry;
                 }
             }
@@ -256,7 +256,7 @@ namespace DeCraftLauncher
                 public override ConstantPoolEntry Parse(Stream target)
                 {
                     InvokeDynamicEntry newEntry = new InvokeDynamicEntry();
-                    newEntry.data = Utils.StreamReadInt(target);
+                    newEntry.data = Util.StreamReadInt(target);
                     return newEntry;
                 }
             }
@@ -266,7 +266,7 @@ namespace DeCraftLauncher
                 public override ConstantPoolEntry Parse(Stream target)
                 {
                     ModuleEntry newEntry = new ModuleEntry();
-                    newEntry.id = Utils.StreamReadShort(target);
+                    newEntry.id = Util.StreamReadShort(target);
                     return newEntry;
                 }
             }
@@ -276,7 +276,7 @@ namespace DeCraftLauncher
                 public override ConstantPoolEntry Parse(Stream target)
                 {
                     PackageEntry newEntry = new PackageEntry();
-                    newEntry.id = Utils.StreamReadShort(target);
+                    newEntry.id = Util.StreamReadShort(target);
                     return newEntry;
                 }
             }
@@ -284,12 +284,12 @@ namespace DeCraftLauncher
         public static JavaClassInfo ReadJavaClassFromStream(Stream input)
         {
             JavaClassInfo ret = new JavaClassInfo();
-            ret.magicNumber = Utils.StreamReadInt(input);
+            ret.magicNumber = Util.StreamReadInt(input);
 
-            ret.versionMinor = Utils.StreamReadShort(input);
-            ret.versionMajor = Utils.StreamReadShort(input);
+            ret.versionMinor = Util.StreamReadShort(input);
+            ret.versionMajor = Util.StreamReadShort(input);
 
-            short nEntriesConstantPool = Utils.StreamReadShort(input);
+            short nEntriesConstantPool = Util.StreamReadShort(input);
             ret.entries = new List<ConstantPoolEntry>();
             ret.entries.Add(new ConstantPoolEntry());
             for (int x = 1; x < nEntriesConstantPool; x++)
@@ -312,9 +312,9 @@ namespace DeCraftLauncher
                 }
             }
 
-            ret.classAccessFlags = Utils.StreamReadShort(input);
-            ret.thisClassNameIndex = Utils.StreamReadShort(input);
-            ret.superClassNameIndex = Utils.StreamReadShort(input);
+            ret.classAccessFlags = Util.StreamReadShort(input);
+            ret.thisClassNameIndex = Util.StreamReadShort(input);
+            ret.superClassNameIndex = Util.StreamReadShort(input);
             //Console.WriteLine(((ConstantPoolEntry.ClassReferenceEntry)ret.entries[ret.thisClassNameIndex]).GetName(ret.entries));
             //Console.WriteLine(((ConstantPoolEntry.ClassReferenceEntry)ret.entries[ret.superClassNameIndex]).GetName(ret.entries));
             //ConstantPoolEntry.ClassReferenceEntry superClassRef = (ConstantPoolEntry.ClassReferenceEntry)ret.entries[ret.superClassNameIndex];
@@ -322,26 +322,26 @@ namespace DeCraftLauncher
             //Console.WriteLine("Superclass: " + ((ConstantPoolEntry.StringEntry)ret.entries[superClassRef.indexOfClassNameString]).value);
             
 
-            short nEntriesInterfacesTable = Utils.StreamReadShort(input);
+            short nEntriesInterfacesTable = Util.StreamReadShort(input);
             List<short> interfaceTable = new List<short>();
             for (int x = 0; x < nEntriesInterfacesTable; x++)
             {
-                interfaceTable.Add(Utils.StreamReadShort(input));
+                interfaceTable.Add(Util.StreamReadShort(input));
             }
 
-            short nEntriesFieldTable = Utils.StreamReadShort(input);
+            short nEntriesFieldTable = Util.StreamReadShort(input);
             for (int x = 0; x < nEntriesFieldTable; x++)
             {
                 //don't care
-                Utils.StreamReadShort(input);   //access flags
-                Utils.StreamReadShort(input);   //name index
-                Utils.StreamReadShort(input);   //descriptor index
-                short attributes_count = Utils.StreamReadShort(input);
+                Util.StreamReadShort(input);   //access flags
+                Util.StreamReadShort(input);   //name index
+                Util.StreamReadShort(input);   //descriptor index
+                short attributes_count = Util.StreamReadShort(input);
                 for (int y = 0; y < attributes_count; y++)
                 {
                     //don't care about any of this
-                    Utils.StreamReadShort(input);   //attribute name index
-                    int attribute_length = Utils.StreamReadInt(input);
+                    Util.StreamReadShort(input);   //attribute name index
+                    int attribute_length = Util.StreamReadInt(input);
                     for (int z = 0; z < attribute_length; z++)
                     {
                         input.ReadByte();   //info element
@@ -349,20 +349,20 @@ namespace DeCraftLauncher
                 }
             }
 
-            short nEntriesMethodTable = Utils.StreamReadShort(input);
+            short nEntriesMethodTable = Util.StreamReadShort(input);
             ret.methods = new List<JavaMethodInfo>();
             for (int x = 0; x < nEntriesMethodTable; x++)
             {
                 JavaMethodInfo newMethod = new JavaMethodInfo();
-                newMethod.accessFlags = Utils.StreamReadShort(input);
-                newMethod.nameIndex = Utils.StreamReadShort(input);
-                newMethod.descriptorIndex = Utils.StreamReadShort(input);
-                short attributes_count = Utils.StreamReadShort(input);
+                newMethod.accessFlags = Util.StreamReadShort(input);
+                newMethod.nameIndex = Util.StreamReadShort(input);
+                newMethod.descriptorIndex = Util.StreamReadShort(input);
+                short attributes_count = Util.StreamReadShort(input);
                 for (int y = 0; y < attributes_count; y++)
                 {
                     //don't care
-                    Utils.StreamReadShort(input);   //attribute name index
-                    int attribute_length = Utils.StreamReadInt(input);
+                    Util.StreamReadShort(input);   //attribute name index
+                    int attribute_length = Util.StreamReadInt(input);
                     for (int z = 0; z < attribute_length; z++)
                     {
                         input.ReadByte();   //info element

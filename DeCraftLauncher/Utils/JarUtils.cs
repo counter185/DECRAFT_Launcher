@@ -9,9 +9,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Shapes;
-using static DeCraftLauncher.JavaClassReader;
+using static DeCraftLauncher.Utils.JavaClassReader;
 
-namespace DeCraftLauncher
+namespace DeCraftLauncher.Utils
 {
     public unsafe class JarUtils
     {

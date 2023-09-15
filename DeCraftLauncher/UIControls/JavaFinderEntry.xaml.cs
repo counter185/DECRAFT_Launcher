@@ -1,4 +1,6 @@
 ﻿using DeCraftLauncher.Configs;
+using DeCraftLauncher.Configs.UI;
+using DeCraftLauncher.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DeCraftLauncher
+namespace DeCraftLauncher.UIControls
 {
     /// <summary>
     /// Logika interakcji dla klasy JavaFinderEntry.xaml
@@ -24,9 +26,9 @@ namespace DeCraftLauncher
         string versionString = "???";
         string path = "";
 
-        JavaFinder target;
+        WindowJavaFinder target;
 
-        public JavaFinderEntry(JavaFinder target, JarUtils.JavaFinderResult javaInstall)
+        public JavaFinderEntry(WindowJavaFinder target, JarUtils.JavaFinderResult javaInstall)
         {
             this.target = target;
             InitializeComponent();

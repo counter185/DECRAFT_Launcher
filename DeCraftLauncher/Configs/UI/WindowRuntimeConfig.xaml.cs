@@ -1,4 +1,5 @@
 ﻿using DeCraftLauncher.Configs;
+using DeCraftLauncher.Utils;
 using SourceChord.FluentWPF;
 using System;
 using System.Collections.Generic;
@@ -15,19 +16,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace DeCraftLauncher
+namespace DeCraftLauncher.Configs.UI
 {
-    /// <summary>
-    /// Logika interakcji dla klasy Config.xaml
-    /// </summary>
-    public partial class Config : AcrylicWindow
+
+    public partial class WindowRuntimeConfig : AcrylicWindow
     {
         MainWindow parent;
 
-        public Config(MainWindow parent)
+        public WindowRuntimeConfig(MainWindow parent)
         {
             InitializeComponent();
-            Utils.UpdateAcrylicWindowBackground(this);
+            Util.UpdateAcrylicWindowBackground(this);
             this.parent = parent;
             jre_path.Text = MainWindow.mainRTConfig.javaHome;
             checkbox_isjava9.IsChecked = MainWindow.mainRTConfig.isJava9;
@@ -55,7 +54,7 @@ namespace DeCraftLauncher
             string verdk = JarUtils.GetJDKInstalled(jre_path.Text);
             if (verdk != null)
             {
-                int JDKVer = Utils.TryParseJavaCVersionString(verdk);
+                int JDKVer = Util.TryParseJavaCVersionString(verdk);
                 Console.WriteLine($"Detected JDK Version: {JDKVer}");
                 if (JDKVer != -1)
                 {
@@ -96,7 +95,7 @@ namespace DeCraftLauncher
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            new JavaFinder(this).Show();
+            new WindowJavaFinder(this).Show();
         }
     }
 }

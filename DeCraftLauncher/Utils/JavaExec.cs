@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeCraftLauncher
+namespace DeCraftLauncher.Utils
 {
     public class JavaExec
     {

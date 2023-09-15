@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeCraftLauncher.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,11 +15,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DeCraftLauncher
+namespace DeCraftLauncher.UIControls
 {
-    /// <summary>
-    /// Logika interakcji dla klasy LaunchEntryPoint.xaml
-    /// </summary>
     public partial class LaunchEntryPointFinding : UserControl
     {
         ReferenceType<float> progress;
@@ -42,6 +40,7 @@ namespace DeCraftLauncher
                     search_progress.Value = v * 100;
                     progress_pct.Content = Math.Round(v * 100, 1) + "%";
                 });
+                Thread.Sleep(16);
             }
             Console.WriteLine("ThreadUpdate finished");
         }

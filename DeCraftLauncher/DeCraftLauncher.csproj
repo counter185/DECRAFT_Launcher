@@ -69,57 +69,57 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AppletParametersOptions.xaml.cs">
-      <DependentUpon>AppletParametersOptions.xaml</DependentUpon>
+    <Compile Include="Configs\UI\WindowAppletParametersOptions.xaml.cs">
+      <DependentUpon>WindowAppletParametersOptions.xaml</DependentUpon>
     </Compile>
     <Compile Include="AppletWrapper.cs" />
     <Compile Include="Configs\JarConfig.cs" />
-    <Compile Include="Configs\JavaFinder.xaml.cs">
-      <DependentUpon>JavaFinder.xaml</DependentUpon>
+    <Compile Include="Configs\UI\WindowJavaFinder.xaml.cs">
+      <DependentUpon>WindowJavaFinder.xaml</DependentUpon>
     </Compile>
-    <Compile Include="JarAdvancedOptions.xaml.cs">
-      <DependentUpon>JarAdvancedOptions.xaml</DependentUpon>
+    <Compile Include="Configs\UI\WindowJarAdvancedOptions.xaml.cs">
+      <DependentUpon>WindowJarAdvancedOptions.xaml</DependentUpon>
     </Compile>
-    <Compile Include="JavaClassReader.cs" />
-    <Compile Include="JavaExec.cs" />
-    <Compile Include="JavaFinderEntry.xaml.cs">
+    <Compile Include="Utils\JavaClassReader.cs" />
+    <Compile Include="Utils\JavaExec.cs" />
+    <Compile Include="UIControls\JavaFinderEntry.xaml.cs">
       <DependentUpon>JavaFinderEntry.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LauncherEntryPointFinding.xaml.cs">
+    <Compile Include="UIControls\LauncherEntryPointFinding.xaml.cs">
       <DependentUpon>LauncherEntryPointFinding.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ProcessLog.xaml.cs">
-      <DependentUpon>ProcessLog.xaml</DependentUpon>
+    <Compile Include="WindowProcessLog.xaml.cs">
+      <DependentUpon>WindowProcessLog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ReferenceType.cs" />
+    <Compile Include="Utils\ReferenceType.cs" />
     <Compile Include="Configs\RuntimeConfig.cs" />
     <Compile Include="Test.cs" />
-    <Compile Include="Utils.cs" />
-    <Page Include="AppletParametersOptions.xaml">
+    <Compile Include="Utils\Util.cs" />
+    <Page Include="Configs\UI\WindowAppletParametersOptions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Config.xaml">
+    <Page Include="Configs\UI\WindowRuntimeConfig.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Configs\JavaFinder.xaml">
+    <Page Include="Configs\UI\WindowJavaFinder.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="JarAdvancedOptions.xaml">
+    <Page Include="Configs\UI\WindowJarAdvancedOptions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="JavaFinderEntry.xaml">
+    <Page Include="UIControls\JavaFinderEntry.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LauncherEntryPointFinding.xaml">
+    <Page Include="UIControls\LauncherEntryPointFinding.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="LaunchEntryPoint.xaml">
+    <Page Include="UIControls\LaunchEntryPoint.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -131,18 +131,18 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Config.xaml.cs">
-      <DependentUpon>Config.xaml</DependentUpon>
+    <Compile Include="Configs\UI\WindowRuntimeConfig.xaml.cs">
+      <DependentUpon>WindowRuntimeConfig.xaml</DependentUpon>
     </Compile>
-    <Compile Include="JarUtils.cs" />
-    <Compile Include="LaunchEntryPoint.xaml.cs">
+    <Compile Include="Utils\JarUtils.cs" />
+    <Compile Include="UIControls\LaunchEntryPoint.xaml.cs">
       <DependentUpon>LaunchEntryPoint.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ProcessLog.xaml">
+    <Page Include="WindowProcessLog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

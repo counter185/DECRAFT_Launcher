@@ -1,4 +1,6 @@
 ﻿using DeCraftLauncher.Configs;
+using DeCraftLauncher.Configs.UI;
+using DeCraftLauncher.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,7 +19,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 
-namespace DeCraftLauncher
+namespace DeCraftLauncher.UIControls
 {
     /// <summary>
     /// Logika interakcji dla klasy LaunchEntryPoint.xaml
@@ -125,7 +127,7 @@ namespace DeCraftLauncher
                 mainFunctionExec.workingDirectory = $"{emulatedAppDataDir}{(jarConfig.cwdIsDotMinecraft ? "/.minecraft" : "")}";
                 try
                 {
-                    new ProcessLog(mainFunctionExec.Start()).Show();
+                    new WindowProcessLog(mainFunctionExec.Start()).Show();
                 }
                 catch (Win32Exception w32e)
                 {
@@ -147,7 +149,7 @@ namespace DeCraftLauncher
             caller.SaveCurrentJarConfig();
             if (entryPoint.type == JarUtils.EntryPointType.APPLET)
             {
-                new AppletParametersOptions(entryPoint.classpath, jarConfig).Show();
+                new WindowAppletParametersOptions(entryPoint.classpath, jarConfig).Show();
             }
         }
     }

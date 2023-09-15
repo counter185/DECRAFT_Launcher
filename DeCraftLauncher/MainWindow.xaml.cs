@@ -1,26 +1,18 @@
 ﻿using DeCraftLauncher.Configs;
+using DeCraftLauncher.Configs.UI;
+using DeCraftLauncher.UIControls;
+using DeCraftLauncher.Utils;
 using SourceChord.FluentWPF;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Interop;
 using System.Windows.Markup;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using static DeCraftLauncher.JarUtils;
+using static DeCraftLauncher.Utils.JarUtils;
 
 namespace DeCraftLauncher
 {
@@ -87,8 +79,8 @@ namespace DeCraftLauncher
                 {
                     label_reqJVMVersion.Content =
                         currentlySelectedJar.maxJavaVersion != currentlySelectedJar.minJavaVersion ?
-                        $"req.JVM: {Utils.JavaVersionFriendlyName(currentlySelectedJar.minJavaVersion)} - {Utils.JavaVersionFriendlyName(currentlySelectedJar.maxJavaVersion)}"
-                        : $"req.JVM: {Utils.JavaVersionFriendlyName(currentlySelectedJar.maxJavaVersion)}";
+                        $"req.JVM: {Util.JavaVersionFriendlyName(currentlySelectedJar.minJavaVersion)} - {Util.JavaVersionFriendlyName(currentlySelectedJar.maxJavaVersion)}"
+                        : $"req.JVM: {Util.JavaVersionFriendlyName(currentlySelectedJar.maxJavaVersion)}";
                 } else
                 {
                     label_reqJVMVersion.Content = "";
@@ -155,7 +147,7 @@ namespace DeCraftLauncher
                 MessageBox.Show($"Error starting main window:\n {e}", "DECRAFT");
             }
             mainRTConfig = RuntimeConfig.LoadFromXML();
-            Utils.UpdateAcrylicWindowBackground(this);
+            Util.UpdateAcrylicWindowBackground(this);
             segment_launch_options.Visibility = Visibility.Hidden;
             //Console.WriteLine(JarUtils.GetJDKInstalled());
             UpdateLWJGLVersions();
@@ -185,7 +177,7 @@ namespace DeCraftLauncher
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            new Config(this).Show();
+            new WindowRuntimeConfig(this).Show();
         }
 
         private void rtest_Click(object sender, RoutedEventArgs e)
@@ -219,7 +211,7 @@ namespace DeCraftLauncher
 
         private void btn_advanced_settings_Click(object sender, RoutedEventArgs e)
         {
-            new JarAdvancedOptions(currentlySelectedJar).Show();
+            new WindowJarAdvancedOptions(currentlySelectedJar).Show();
         }        
 
         private void btn_open_instance_dir_Click(object sender, RoutedEventArgs e)

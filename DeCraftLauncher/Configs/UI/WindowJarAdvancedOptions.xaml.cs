@@ -1,4 +1,5 @@
 ﻿using DeCraftLauncher.Configs;
+using DeCraftLauncher.Utils;
 using SourceChord.FluentWPF;
 using System;
 using System.Collections.Generic;
@@ -14,22 +15,22 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace DeCraftLauncher
+namespace DeCraftLauncher.Configs.UI
 {
     /// <summary>
     /// Logika interakcji dla klasy JarAdvancedOptions.xaml
     /// </summary>
-    public partial class JarAdvancedOptions : AcrylicWindow
+    public partial class WindowJarAdvancedOptions : AcrylicWindow
     {
         JarConfig targetConfig;
 
-        public JarAdvancedOptions(JarConfig target)
+        public WindowJarAdvancedOptions(JarConfig target)
         {
             this.targetConfig = target;
             InitializeComponent();
             label_title.Content = $"Advanced options: {target.jarFileName}";
             LoadConfig();
-            Utils.UpdateAcrylicWindowBackground(this);
+            Util.UpdateAcrylicWindowBackground(this);
         }
 
         protected override void OnClosed(EventArgs e)

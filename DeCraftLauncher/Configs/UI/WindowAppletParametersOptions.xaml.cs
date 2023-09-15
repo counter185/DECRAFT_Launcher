@@ -1,4 +1,5 @@
 ﻿using DeCraftLauncher.Configs;
+using DeCraftLauncher.Utils;
 using SourceChord.FluentWPF;
 using System;
 using System.Collections.Generic;
@@ -14,22 +15,22 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace DeCraftLauncher
+namespace DeCraftLauncher.Configs.UI
 {
     /// <summary>
     /// Logika interakcji dla klasy AppletParametersOptions.xaml
     /// </summary>
-    public partial class AppletParametersOptions : AcrylicWindow
+    public partial class WindowAppletParametersOptions : AcrylicWindow
     {
         string targetClassName;
         JarConfig targetJarConfig;
 
-        public AppletParametersOptions(string className, JarConfig jar)
+        public WindowAppletParametersOptions(string className, JarConfig jar)
         {
             targetClassName = className;
             targetJarConfig = jar;
             InitializeComponent();
-            Utils.UpdateAcrylicWindowBackground(this);
+            Util.UpdateAcrylicWindowBackground(this);
         }
 
         private void AddToDictionaryIfStringNotEmpty(Dictionary<string,string> target, string key, string value, bool addAnyway = false)

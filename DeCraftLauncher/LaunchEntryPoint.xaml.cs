@@ -99,45 +99,37 @@ namespace DeCraftLauncher
             {
                 MainWindow.EnsureDir(MainWindow.instanceDir + "/" + jarConfig.instanceDirName);
                 MainWindow.EnsureDir(MainWindow.instanceDir + "/" + jarConfig.instanceDirName + "/.minecraft");
-                string args = "";
-                args += "-cp ";
-                args += "\"";
-                args += Path.GetFullPath(MainWindow.jarDir + "/" + jarConfig.jarFileName);
+
+                JavaExec mainFunctionExec = new JavaExec(entryPoint.classpath);
+
+                mainFunctionExec.classPath.Add(Path.GetFullPath(MainWindow.jarDir + "/" + jarConfig.jarFileName));
                 if (jarConfig.LWJGLVersion != "+ built-in")
                 {
-                    args += $";{MainWindow.currentDirectory}/lwjgl/{jarConfig.LWJGLVersion}/*";
+                    mainFunctionExec.classPath.Add($"{MainWindow.currentDirectory}/lwjgl/{jarConfig.LWJGLVersion}/*");
                 }
-                args += "\" ";
+
                 if (jarConfig.proxyHost != "")
                 {
-                    args += $"-Dhttp.proxyHost={jarConfig.proxyHost.Replace(" ", "%20")} ";
+                    mainFunctionExec.jvmArgs.Add($"-Dhttp.proxyHost={jarConfig.proxyHost.Replace(" ", "%20")}");
                 }
-                args += $"-Djava.library.path=\"{MainWindow.currentDirectory}/lwjgl/{(jarConfig.LWJGLVersion == "+ built-in" ? "_temp_builtin" : jarConfig.LWJGLVersion)}/native\" ";
-                //args += $"-Duser.dir=\"{Path.GetFullPath($"{MainWindow.instanceDir}/{jarConfig.instanceDirName}/.minecraft")}\" ";
-                args += jarConfig.jvmArgs + " ";
-                args += entryPoint.classpath + " ";
-                args += $"\"{jarConfig.playerName}\" {jarConfig.sessionID} ";
-                args += jarConfig.gameArgs;
-                Console.WriteLine("Running command: java " + args);
+                mainFunctionExec.jvmArgs.Add($"-Djava.library.path=\"{MainWindow.currentDirectory}/lwjgl/{(jarConfig.LWJGLVersion == "+ built-in" ? "_temp_builtin" : jarConfig.LWJGLVersion)}/native\"");
+                mainFunctionExec.jvmArgs.Add(jarConfig.jvmArgs);
 
-                Process nproc = null;
+                mainFunctionExec.programArgs.Add($"\"{jarConfig.playerName}\"");
+                mainFunctionExec.programArgs.Add(jarConfig.sessionID);
+                mainFunctionExec.programArgs.Add(jarConfig.gameArgs);
+                Console.WriteLine("Running command: java " + mainFunctionExec.GetFullArgsString());
 
-                //this is unclean but it's the only way
                 string emulatedAppDataDir = Path.GetFullPath($"{MainWindow.currentDirectory}/{MainWindow.instanceDir}/{jarConfig.instanceDirName}");
-                Directory.SetCurrentDirectory($"{emulatedAppDataDir}{(jarConfig.cwdIsDotMinecraft ? "/.minecraft" : "")}");
+                mainFunctionExec.appdataDir = emulatedAppDataDir;
+                mainFunctionExec.workingDirectory = $"{emulatedAppDataDir}{(jarConfig.cwdIsDotMinecraft ? "/.minecraft" : "")}";
                 try
                 {
-                    nproc = JarUtils.RunProcess($"{MainWindow.mainRTConfig.javaHome}java", args, emulatedAppDataDir);
+                    new ProcessLog(mainFunctionExec.Start()).Show();
                 }
                 catch (Win32Exception w32e)
                 {
                     MessageBox.Show($"Error launching java process: {w32e.Message}\n\nVerify that Java is installed in \"Runtime settings\".");
-                }
-                Directory.SetCurrentDirectory(MainWindow.currentDirectory);
-
-                if (nproc != null)
-                {
-                    new ProcessLog(nproc).Show();
                 }
             } 
             else if (entryPoint.type == JarUtils.EntryPointType.APPLET)
@@ -146,7 +138,7 @@ namespace DeCraftLauncher
             } 
             else
             {
-                throw new NotImplementedException("bruh");
+                throw new NotImplementedException("What");
             }
         }
 

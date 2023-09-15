@@ -359,9 +359,9 @@ namespace DeCraftLauncher
                                             if (cPoolEntry is ConstantPoolEntry.StringEntry)
                                             {
                                                 ConstantPoolEntry.StringEntry stringEntry = (ConstantPoolEntry.StringEntry)cPoolEntry;
-                                                if (stringEntry.value.StartsWith("Minecraft Minecraft"))
+                                                if (stringEntry.value.StartsWith("Minecraft Minecraft "))
                                                 {
-                                                    newEntryPoint.additionalInfo = stringEntry.value.Substring("Minecraft Minecraft".Length);
+                                                    newEntryPoint.additionalInfo = stringEntry.value.Substring("Minecraft Minecraft ".Length);
                                                     break;
                                                 }
                                                 else if (stringEntry.value.ToLower().StartsWith("starting minecraft server version "))

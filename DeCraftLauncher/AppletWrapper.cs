@@ -244,6 +244,8 @@ public class AppletWrapper {{
 
         public static void LaunchAppletWrapper(string className, JarConfig jar, Dictionary<string, string> appletParameters)
         {
+            //first, compile the applet wrapper
+            //todo: clean this up in the same way as i did with javaexec
             MainWindow.EnsureDir("./java_temp");
             File.WriteAllText("./java_temp/AppletWrapper.java", GenerateAppletWrapperCode(className, jar, appletParameters));
             if (jar.appletEmulateHTTP)
@@ -269,58 +271,58 @@ public class AppletWrapper {{
                 Console.WriteLine(a);
             }
 
+
+            //now we launch the compiled class
             MainWindow.EnsureDir(MainWindow.instanceDir + "/" + jar.instanceDirName);
             if (jar.cwdIsDotMinecraft)
             {
                 MainWindow.EnsureDir(MainWindow.instanceDir + "/" + jar.instanceDirName + "/.minecraft");
             }
-            string args = "";
-            args += "-cp ";
+
+            JavaExec appletExec = new JavaExec("decraft_internal.AppletWrapper");
+
+            //class paths
             //todo: make this cleaner (preferrably without getting rid of relative paths)
             string relativePath = (jar.cwdIsDotMinecraft ? "../" : "") + "../../";
-            args += $"\"{relativePath}java_temp/";
+            appletExec.classPath.Add($"{relativePath}java_temp/");
             if (jar.LWJGLVersion != "+ built-in")
             {
-                args += $";{relativePath}lwjgl/{jar.LWJGLVersion}/*";
+                appletExec.classPath.Add($"{relativePath}lwjgl/{jar.LWJGLVersion}/*");
             }
-            args += $";{relativePath}{MainWindow.jarDir}/{jar.jarFileName}\" ";
-            
-            args += $"-Djava.library.path={relativePath}lwjgl/{(jar.LWJGLVersion == "+ built-in" ? "_temp_builtin" : jar.LWJGLVersion)}/native ";
-            args += jar.jvmArgs + " ";
+            appletExec.classPath.Add($"{relativePath}{MainWindow.jarDir}/{jar.jarFileName}");
+
+
+            //jvm args
+            appletExec.jvmArgs.Add($"-Djava.library.path={relativePath}lwjgl/{(jar.LWJGLVersion == "+ built-in" ? "_temp_builtin" : jar.LWJGLVersion)}/native");
+            appletExec.jvmArgs.Add(jar.jvmArgs);
             if (jar.proxyHost != "")
             {
-                args += $"-Dhttp.proxyHost={jar.proxyHost.Replace(" ", "%20")} ";
+                appletExec.jvmArgs.Add($"-Dhttp.proxyHost={jar.proxyHost.Replace(" ", "%20")}");
             }
             if (jar.appletEmulateHTTP && MainWindow.mainRTConfig.isJava9)
             {
-                args += "--add-exports java.base/sun.net.www.protocol.http=ALL-UNNAMED ";
+                appletExec.jvmArgs.Add("--add-exports java.base/sun.net.www.protocol.http=ALL-UNNAMED");
             }
-            args += "decraft_internal.AppletWrapper ";
+
+            //game args
             if (jar.gameArgs != "")
             {
-                args += jar.gameArgs;
+                appletExec.programArgs.Add(jar.gameArgs);
             }
-            //args += " " + jar.playerName + " 0";
-            Console.WriteLine("[LaunchAppletWrapper] Running command: java " + args);
 
-            Process nproc = null;
+            Console.WriteLine($"[LaunchAppletWrapper] Running command: java {appletExec.GetFullArgsString()}");
 
             string emulatedAppDataDir = Path.GetFullPath($"{MainWindow.currentDirectory}/{MainWindow.instanceDir}/{jar.instanceDirName}");
-            Directory.SetCurrentDirectory($"{emulatedAppDataDir}{(jar.cwdIsDotMinecraft ? "/.minecraft" : "")}");
+            appletExec.appdataDir = emulatedAppDataDir;
+            appletExec.workingDirectory = $"{emulatedAppDataDir}{(jar.cwdIsDotMinecraft ? "/.minecraft" : "")}";
             try
             {
-                nproc = JarUtils.RunProcess(MainWindow.mainRTConfig.javaHome + "java", args, emulatedAppDataDir);
+                new ProcessLog(appletExec.Start()).Show();
+                //nproc = JarUtils.RunProcess(MainWindow.mainRTConfig.javaHome + "java", args, emulatedAppDataDir);
             } catch (Win32Exception w32e)
             {
                 MessageBox.Show($"Error launching java process: {w32e.Message}\n\nVerify that Java is installed in \"Runtime settings\".");
             }
-            Directory.SetCurrentDirectory(MainWindow.currentDirectory);
-            if (nproc != null)
-            {
-                new ProcessLog(nproc).Show();
-            }
-
-
         }
 
         public static void TryLaunchAppletWrapper(string classpath, JarConfig jarConfig, Dictionary<string, string> appletParameters = null)

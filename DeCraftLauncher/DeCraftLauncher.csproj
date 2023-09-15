@@ -81,6 +81,7 @@
       <DependentUpon>JarAdvancedOptions.xaml</DependentUpon>
     </Compile>
     <Compile Include="JavaClassReader.cs" />
+    <Compile Include="JavaExec.cs" />
     <Compile Include="JavaFinderEntry.xaml.cs">
       <DependentUpon>JavaFinderEntry.xaml</DependentUpon>
     </Compile>

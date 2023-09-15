@@ -9,8 +9,8 @@
         Title="DECRAFT: Runtime configuration" Height="391" Width="464" Background="#00000000" Closed="AcrylicWindow_Closed">
     <Grid>
         <Label Content="Java path" HorizontalAlignment="Left" Margin="10,71,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
-        <TextBox x:Name="jre_path" Style="{DynamicResource TextBoxMainStyle}" Margin="103,75,37,0" TextWrapping="NoWrap" VerticalAlignment="Top" Height="20" Background="Transparent" TextChanged="TextBox_TextChanged" KeyDown="jre_path_KeyDown" ToolTip=""/>
-        <Button Content="..." Margin="0,75,16,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" BorderBrush="#FF3C3C3C" HorizontalAlignment="Right" Width="21" Click="Button_Click"/>
+        <TextBox x:Name="jre_path" Style="{DynamicResource TextBoxMainStyle}" Margin="103,75,54,0" TextWrapping="NoWrap" VerticalAlignment="Top" Height="20" Background="Transparent" TextChanged="TextBox_TextChanged" KeyDown="jre_path_KeyDown" ToolTip=""/>
+        <Button Content="Find..." Margin="0,75,16,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" BorderBrush="#FF3C3C3C" HorizontalAlignment="Right" Width="38" Click="Button_Click"/>
         <Label Content="Runtime configuration" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="22"/>
         <Label x:Name="jreconfig_version" Content="&lt;press Enter to test&gt;" Margin="10,148,16,0" VerticalAlignment="Top" Foreground="White" Height="135"/>
         <Label Content="(leave empty to use the system-wide java installation)" Margin="10,125,16,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" FontStyle="Italic"/>

@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Windows.Media;
+using System.Windows.Shapes;
 using static DeCraftLauncher.Utils.JarUtils;
 
 namespace DeCraftLauncher
@@ -25,6 +26,16 @@ namespace DeCraftLauncher
         public const string configDir = "./config";
         public const string instanceDir = "./instance";
         public static RuntimeConfig mainRTConfig = new RuntimeConfig();
+
+        public readonly string[] unimportantClasspaths = new string[] { 
+            "org.jsoup.",
+            "org.newdawn.",
+            "org.lwjgl.",
+            "org.mozilla.javascript.",
+            "com.jcraft.jorbis.",
+            "net.java.games.",
+            "ibxm."
+        };
 
         public static string currentDirectory = "";
 
@@ -93,10 +104,36 @@ namespace DeCraftLauncher
                 }
                 else
                 {
-                    foreach (EntryPoint a in currentlySelectedJar.entryPoints)
+
+                    IEnumerable<EntryPoint> unimportantLaunchEntryPoints = (from x in currentlySelectedJar.entryPoints
+                                                                            where (from y in unimportantClasspaths
+                                                                                   where x.classpath.StartsWith(y)
+                                                                                   select y).Any()
+                                                                            select x);
+                    IEnumerable<EntryPoint> importantLaunchEntryPoints = (from x in currentlySelectedJar.entryPoints
+                                                                          where !unimportantLaunchEntryPoints.Contains(x)
+                                                                          select x);
+
+                    foreach (EntryPoint a in importantLaunchEntryPoints)
                     {
                         entrypointlist.Items.Add(new LaunchEntryPoint(a, this, currentlySelectedJar));
                     }
+                    if (unimportantLaunchEntryPoints.Any())
+                    {
+                        //add a line to separate them
+                        entrypointlist.Items.Add(new Rectangle
+                        {
+                            Width = 400,
+                            Height = 1,
+                            Fill = Brushes.White,
+                            Opacity = 0.3
+                        });
+                        foreach (EntryPoint a in unimportantLaunchEntryPoints)
+                        {
+                            entrypointlist.Items.Add(new UnimportantLaunchEntryPoint(a, this, currentlySelectedJar));
+                        }
+                    }
+
                     if (entrypointlist.Items.Count == 0 && !currentlySelectedJar.entryPointsScanned)
                     {
                         btn_scan_entrypoints_Click(null, null);

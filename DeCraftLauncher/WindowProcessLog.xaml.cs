@@ -199,6 +199,12 @@ namespace DeCraftLauncher
                         logtext.Text += "\nYour current Java version may be too old to support the \"--add-exports\" flag, which is required for the \"Emulate HTTP Server\" option.";
                         logtext.Text += "\nOpen Runtime settings and uncheck the \"Use required Java 9+ options\" option.";
                     }
+                    else if (logtext.Text.Contains("NoClassDefFoundError: joptsimple/OptionSpec"))
+                    {
+                        logtext.Text += "\n----------------------------------------------";
+                        logtext.Text += "\n";
+                        logtext.Text += "\nDECRAFT does not support versions newer than release 1.5.2.";
+                    }
                 });
             };
         }

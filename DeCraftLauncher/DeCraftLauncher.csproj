@@ -80,6 +80,9 @@
     <Compile Include="Configs\UI\WindowJarAdvancedOptions.xaml.cs">
       <DependentUpon>WindowJarAdvancedOptions.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UIControls\UnimportantLaunchEntryPoint.xaml.cs">
+      <DependentUpon>UnimportantLaunchEntryPoint.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utils\JavaClassReader.cs" />
     <Compile Include="Utils\JavaExec.cs" />
     <Compile Include="UIControls\JavaFinderEntry.xaml.cs">
@@ -114,6 +117,10 @@
     <Page Include="UIControls\JavaFinderEntry.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UIControls\UnimportantLaunchEntryPoint.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UIControls\LauncherEntryPointFinding.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -31,7 +31,7 @@ namespace DeCraftLauncher.Configs
         //advanced options
         public string sessionID = "0";
         public string gameArgs = "";
-        public bool cwdIsDotMinecraft = false;
+        public bool cwdIsDotMinecraft = true;
         public bool appletEmulateHTTP = true;
         public string documentBaseUrl = "http://www.minecraft.net/play.jsp";
         public bool appletRedirectSkins = true;

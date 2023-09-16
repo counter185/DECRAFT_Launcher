@@ -43,18 +43,20 @@ namespace DeCraftLauncher.Utils
                 { 0x0400, "abstract" },
             };
 
+            public bool IsPublic => (accessFlags & 0x0001) != 0;
+            public bool IsStatic => (accessFlags & 0x0008) != 0;
+
+            public string Name(List<ConstantPoolEntry> constantPool) => ((ConstantPoolEntry.StringEntry)constantPool[nameIndex]).value;
+            public string Descriptor(List<ConstantPoolEntry> constantPool) => ((ConstantPoolEntry.StringEntry)constantPool[descriptorIndex]).value;
+
+            [Obsolete]
             public string GetNameAndDescriptor(List<ConstantPoolEntry> constantPool)
             {
-                string modifier = "";
-                foreach (KeyValuePair<int, string> a in accessFlagNames)
-                { 
-                    if ((accessFlags & (short)a.Key) != 0)
-                    {
-                        modifier += a.Value + " ";
-                    }
-                }
+                string modifier = String.Join(" ", (from a in accessFlagNames
+                                                    where (accessFlags & (short)a.Key) != 0
+                                                    select a.Value));
 
-                return modifier + ((ConstantPoolEntry.StringEntry)constantPool[nameIndex]).value + ((ConstantPoolEntry.StringEntry)constantPool[descriptorIndex]).value;
+                return $"{modifier} {Name(constantPool)}{Descriptor(constantPool)}";
             }
         }
         public class ConstantPoolEntry

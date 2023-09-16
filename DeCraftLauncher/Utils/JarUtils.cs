@@ -285,7 +285,10 @@ namespace DeCraftLauncher.Utils
 
             using (ZipArchive archive = ZipFile.OpenRead(jarfile))
             {
-                validClassCount = (from x in archive.Entries where x.Name.EndsWith(".class") && !x.Name.Contains('$') select x).Count();
+                //we look through all classes that also aren't synthetic classes
+                IEnumerable<ZipArchiveEntry> classesToScan = (from x in archive.Entries where x.Name.EndsWith(".class") && !x.Name.Contains('$') select x);
+
+                validClassCount = classesToScan.Count();
 
                 ret.hasLWJGLBuiltIn = archive.Entries.Where((zipEntry) => zipEntry.FullName.StartsWith("org/lwjgl/")).Any();
                 if (ret.hasLWJGLBuiltIn)
@@ -306,96 +309,86 @@ namespace DeCraftLauncher.Utils
 
                 bool firstClassEntry = true;
 
-                foreach (ZipArchiveEntry entry in archive.Entries)
+                foreach (ZipArchiveEntry entry in classesToScan)
                 {
-                    if (entry.Name.EndsWith(".class") && !entry.Name.Contains('$'))
+                    try
                     {
-                        try
+                        Stream currentClassFile = entry.Open();
+                        JavaClassInfo classInfo = ReadJavaClassFromStream(currentClassFile);
+                        string className = ((ConstantPoolEntry.ClassReferenceEntry)classInfo.entries[classInfo.thisClassNameIndex]).GetName(classInfo.entries).Replace('/', '.');
+                        string superClassName = ((ConstantPoolEntry.ClassReferenceEntry)classInfo.entries[classInfo.superClassNameIndex]).GetName(classInfo.entries).Replace('/', '.');
+                        if (firstClassEntry 
+                            || (classInfo.versionMajor > ret.maxMajorVersion)
+                            || (classInfo.versionMajor == ret.maxMajorVersion && classInfo.versionMinor > ret.maxMinorVersion))
                         {
-                            Stream currentClassFile = entry.Open();
-                            JavaClassInfo classInfo = ReadJavaClassFromStream(currentClassFile);
-                            string className = ((ConstantPoolEntry.ClassReferenceEntry)classInfo.entries[classInfo.thisClassNameIndex]).GetName(classInfo.entries).Replace('/', '.');
-                            string superClassName = ((ConstantPoolEntry.ClassReferenceEntry)classInfo.entries[classInfo.superClassNameIndex]).GetName(classInfo.entries).Replace('/', '.');
-                            if (firstClassEntry)
-                            {
-                                ret.minMajorVersion = classInfo.versionMajor;
-                                ret.minMinorVersion = classInfo.versionMinor;
-                                ret.maxMajorVersion = classInfo.versionMajor;
-                                ret.maxMinorVersion = classInfo.versionMinor;
-                            }
-                            else
-                            {
-                                if (classInfo.versionMajor > ret.maxMajorVersion
-                                    || (classInfo.versionMajor == ret.maxMajorVersion && classInfo.versionMinor > ret.maxMinorVersion))
-                                {
-                                    ret.maxMajorVersion = classInfo.versionMajor;
-                                    ret.maxMinorVersion = classInfo.versionMinor;
-                                }
-                                if (classInfo.versionMajor < ret.minMajorVersion
-                                    || (classInfo.versionMajor == ret.minMajorVersion && classInfo.versionMinor < ret.minMinorVersion))
-                                {
-                                    ret.minMajorVersion = classInfo.versionMajor;
-                                    ret.minMinorVersion = classInfo.versionMinor;
-                                }
-                            }
-                            firstClassEntry = false;
+                            ret.maxMajorVersion = classInfo.versionMajor;
+                            ret.maxMinorVersion = classInfo.versionMinor;
+                        }
+                        if (firstClassEntry
+                            || (classInfo.versionMajor < ret.minMajorVersion)
+                            || (classInfo.versionMajor == ret.minMajorVersion && classInfo.versionMinor < ret.minMinorVersion))
+                        {
+                            ret.minMajorVersion = classInfo.versionMajor;
+                            ret.minMinorVersion = classInfo.versionMinor;
+                        }
+                        firstClassEntry = false;
 
 
-                            if (superClassName == "java.applet.Applet")
+                        if (superClassName == "java.applet.Applet")
+                        {
+                            ret.entryPoints.Add(new EntryPoint(className, EntryPointType.APPLET));
+                        }
+                        else
+                        {
+                            foreach (JavaMethodInfo method in classInfo.methods.Where((x) =>
+                                                                x.IsPublic
+                                                                && x.IsStatic
+                                                                && x.Name(classInfo.entries) == "main"
+                                                                && x.Descriptor(classInfo.entries) == "([Ljava/lang/String;)V")
+                            )
                             {
-                                ret.entryPoints.Add(new EntryPoint(className, EntryPointType.APPLET));
-                            }
-                            else
-                            {
-                                foreach (JavaMethodInfo method in classInfo.methods)
+                                EntryPoint newEntryPoint = new EntryPoint(className, EntryPointType.STATIC_VOID_MAIN);
+
+                                //try finding the version name...
+                                foreach (ConstantPoolEntry.StringEntry stringEntry in (from x in classInfo.entries 
+                                                                                        where x is ConstantPoolEntry.StringEntry 
+                                                                                        select (ConstantPoolEntry.StringEntry)x))
                                 {
-                                    string methodNameAndDescriptor = method.GetNameAndDescriptor(classInfo.entries);
-                                    if (methodNameAndDescriptor.Contains("public") && methodNameAndDescriptor.Contains("static") && methodNameAndDescriptor.Contains(" main([Ljava/lang/String;)"))
+                                    if (stringEntry.value.StartsWith("Minecraft Minecraft "))
                                     {
-                                        EntryPoint newEntryPoint = new EntryPoint(className, EntryPointType.STATIC_VOID_MAIN);
-                                        //try finding the version name...
-                                        foreach (ConstantPoolEntry cPoolEntry in classInfo.entries)
-                                        {
-                                            if (cPoolEntry is ConstantPoolEntry.StringEntry)
-                                            {
-                                                ConstantPoolEntry.StringEntry stringEntry = (ConstantPoolEntry.StringEntry)cPoolEntry;
-                                                if (stringEntry.value.StartsWith("Minecraft Minecraft "))
-                                                {
-                                                    newEntryPoint.additionalInfo = stringEntry.value.Substring("Minecraft Minecraft ".Length);
-                                                    break;
-                                                }
-                                                else if (stringEntry.value.ToLower().StartsWith("starting minecraft server version "))
-                                                {
-                                                    newEntryPoint.additionalInfo = stringEntry.value.Substring("starting minecraft server version ".Length);
-                                                    break;
-                                                }
-                                                else if (stringEntry.value.StartsWith($"M\xCC\xB6i\xCC\xB6n\xCC{'\xB6'}e\xCC{'\xB6'}c\xCC\xB6r\xCC{'\xB6'}a\xCC{'\xB6'}f\xCC\xB6t\xCC\xB6 "))
-                                                {
-                                                    //ERR422 thinks it's really funny apparently...
-                                                    newEntryPoint.additionalInfo = stringEntry.value.Substring($"M\xCC\xB6i\xCC\xB6n\xCC{'\xB6'}e\xCC{'\xB6'}c\xCC\xB6r\xCC{'\xB6'}a\xCC{'\xB6'}f\xCC\xB6t\xCC\xB6 ".Length);
-                                                    break;
-                                                }
-                                                else if (stringEntry.value.StartsWith("Minecraft ") && !className.EndsWith("Server") && stringEntry.value != "Minecraft main thread")
-                                                {
-                                                    newEntryPoint.additionalInfo = stringEntry.value.Substring("Minecraft ".Length);
-                                                }
-                                            }
-                                        }
-                                        ret.entryPoints.Add(newEntryPoint);
+                                        newEntryPoint.additionalInfo = stringEntry.value.Substring("Minecraft Minecraft ".Length);
                                         break;
                                     }
+                                    else if (stringEntry.value.ToLower().StartsWith("starting minecraft server version "))
+                                    {
+                                        newEntryPoint.additionalInfo = stringEntry.value.Substring("starting minecraft server version ".Length);
+                                        break;
+                                    }
+                                    else if (stringEntry.value.StartsWith($"M\xCC\xB6i\xCC\xB6n\xCC{'\xB6'}e\xCC{'\xB6'}c\xCC\xB6r\xCC{'\xB6'}a\xCC{'\xB6'}f\xCC\xB6t\xCC\xB6 "))
+                                    {
+                                        //ERR422 thinks it's really funny apparently...
+                                        newEntryPoint.additionalInfo = stringEntry.value.Substring($"M\xCC\xB6i\xCC\xB6n\xCC{'\xB6'}e\xCC{'\xB6'}c\xCC\xB6r\xCC{'\xB6'}a\xCC{'\xB6'}f\xCC\xB6t\xCC\xB6 ".Length);
+                                        break;
+                                    }
+                                    else if (stringEntry.value.StartsWith("Minecraft ") && !className.EndsWith("Server") && stringEntry.value != "Minecraft main thread")
+                                    {
+                                        newEntryPoint.additionalInfo = stringEntry.value.Substring("Minecraft ".Length);
+                                    }
                                 }
+
+                                ret.entryPoints.Add(newEntryPoint);
+                                break;
                             }
-                            currentClassFile.Close();
-                            doneClassCount++;
-                            if (progressReport != null)
-                            {
-                                progressReport.Value = doneClassCount / (float)validClassCount;
-                            }
-                        } catch (Exception e)
-                        {
-                            Console.WriteLine("error reading class " + e);
                         }
+                        currentClassFile.Close();
+                        doneClassCount++;
+                        if (progressReport != null)
+                        {
+                            progressReport.Value = doneClassCount / (float)validClassCount;
+                        }
+                    } catch (Exception e)
+                    {
+                        Console.WriteLine("error reading class " + e);
                     }
                 }
             }

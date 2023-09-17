@@ -150,7 +150,7 @@ namespace DeCraftLauncher.Utils
                      "Eclipse Adoptium",
                      "AdoptOpenJDK",
                      "Android/Android Studio",
-                     "Microsoft/jdk"
+                     "Microsoft"
                  };
                  foreach (string vendorPath in vendorPaths)
                  {

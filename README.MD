@@ -1,6 +1,7 @@
 ![logo](md_img/decraft_logo.png)
 # DECRAFT
 Advanced launcher for very old Minecraft.
+[Latest releases](https://github.com/counter185/DECRAFT_Launcher/releases)
 
 ![ui_image_1](md_img/ui_1.png)
 
@@ -13,11 +14,9 @@ This project's main purpose is **to help preserve these legacy versions**.
 
 All versions up until release 1.5.2 + modifications deriving from them are expected to work. If you find a version that fits this description but does not run, please open an issue.
 
-## Running
+## Building
 
-DECRAFT is currently in a work-in-progress state, so currently, the preferred way is to build it yourself. You will need Visual Studio 2019-2022 with `.NET desktop development` tools installed.
-
-Alternatively, you can get prebuilt versions from the [Releases](https://github.com/counter185/DECRAFT_Launcher/releases) tab.
+To build the project, you will need Visual Studio 2019/2022 with `.NET Desktop Development` tools and `.NET Framework SDK 4.7.2` installed.
 
 ## Features
 
@@ -25,6 +24,6 @@ Contributions through PRs are welcome.
 
 - Scanning all classes for entry points
 - Launching through `public static void main(String[])`
-- Launching `Applet`s through a wrapper
+- Launching `Applet`s through a wrapper with parameters
 - Simple old login server emulation
 - Custom instance directories

@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text.Json;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -77,7 +79,7 @@ namespace DeCraftLauncher
             }
             else
             {
-                string jar = (string)jarlist.SelectedItem;
+                string jar = ((JarListEntry)jarlist.SelectedItem).jarName;
                 currentlySelectedJar = JarConfig.LoadFromXML(configDir + "/" + jar + ".xml", jar);
                 tbox_playername.Text = currentlySelectedJar.playerName;
                 jvmargs.Text = currentlySelectedJar.jvmArgs;
@@ -164,7 +166,7 @@ namespace DeCraftLauncher
             foreach (string a in jars)
             {
                 string jarName = a.Substring(jarDir.Length + 1);
-                jarlist.Items.Add(jarName);
+                jarlist.Items.Add(new JarListEntry(jarName));
                 if (!File.Exists(configDir + "/" + jarName + ".xml"))
                 {
                     JarConfig newConf = new JarConfig(jarName);
@@ -229,7 +231,7 @@ namespace DeCraftLauncher
 
         private void jarlist_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Console.WriteLine($"Selection changed: {jarlist.SelectedItem}");
+            //Console.WriteLine($"Selection changed: JarListEntry:{((JarListEntry)jarlist.SelectedItem).jarName}");
             if (currentlySelectedJar != null)
             {
                 SaveCurrentJarConfig();
@@ -316,13 +318,48 @@ namespace DeCraftLauncher
                 string[] dt = (string[])e.Data.GetData(DataFormats.FileDrop);
                 foreach (string a in dt)
                 {
-                    if (a.EndsWith(".jar") && File.Exists(a))
+                    if (File.Exists(a)) // goofy edge case
                     {
-                        string copyName = $"{jarDir}/{new FileInfo(a).Name}";
-                        if (!File.Exists(copyName)
-                            || (File.Exists(copyName) 
-                                && MessageBox.Show($"{copyName} already exists. Overwrite?", "DECRAFT", MessageBoxButton.YesNo) == MessageBoxResult.Yes)) {
-                            File.Copy(a, copyName, true);
+                        if (a.EndsWith(".jar"))
+                        {
+                            string copyName = $"{jarDir}/{new FileInfo(a).Name}";
+                            if (!File.Exists(copyName)
+                                || (File.Exists(copyName)
+                                    && MessageBox.Show($"{copyName} already exists. Overwrite?", "DECRAFT", MessageBoxButton.YesNo) == MessageBoxResult.Yes))
+                            {
+                                File.Copy(a, copyName, true);
+                            }
+                        }
+                        else if (a.EndsWith(".json"))
+                        {
+                            try
+                            {
+                                JsonDocument jsonData = JsonDocument.Parse(File.ReadAllText(a));
+                                string versionID = jsonData.RootElement.GetProperty("id").GetString();
+                                JsonElement dlElement = jsonData.RootElement.GetProperty("downloads").GetProperty("client");
+                                if (MessageBox.Show($"Download {versionID}?\n\n Size: {dlElement.GetProperty("size").GetUInt64()}\n URL: {dlElement.GetProperty("url").GetString()}", "DECRAFT", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                                {
+                                    using (var client = new WebClient())
+                                    {
+                                        client.DownloadFileCompleted += (sender2, evt) =>
+                                        {
+                                            if (evt.Error != null)
+                                            {
+                                                MessageBox.Show("Download error", "DECRAFT");
+                                            } else
+                                            {
+                                                MessageBox.Show("Download complete", "DECRAFT");
+                                            }
+                                        };
+                                        //todo: progress bar for this
+                                        client.DownloadFileAsync(new Uri(dlElement.GetProperty("url").GetString()), $"{jarDir}/{versionID}.jar");
+                                    }
+                                }
+                                jsonData.Dispose();
+                            } catch (Exception ex)
+                            {
+                                MessageBox.Show($"Error reading {a}. The JSON file may be invalid or not in a standard launcher format.\n\n{ex}", "DECRAFT");
+                            }
                         }
                     }
                 }

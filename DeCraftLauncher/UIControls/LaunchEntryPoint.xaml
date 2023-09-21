@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DeCraftLauncher.UIControls"
-             mc:Ignorable="d" Height="120" Width="516">
+             mc:Ignorable="d" Height="120" MinWidth="516">
     <Grid>
         <Label x:Name="classname" Content="class.name" Margin="10,10,10,0" VerticalAlignment="Top" FontSize="25" Foreground="White" FontStyle="Italic"/>
         <Label x:Name="desc" Content="This class prolly launches the game ig" VerticalAlignment="Top" Foreground="White" FontStyle="Italic" Margin="10,53,10,0"/>

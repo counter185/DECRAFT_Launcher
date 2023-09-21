@@ -27,13 +27,7 @@
             </Rectangle.Fill>
         </Rectangle>
         <Label Content=".jar files" Margin="10,115,0,0" VerticalAlignment="Top" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalAlignment="Left" Width="84"/>
-        <ListBox x:Name="jarlist" d:ItemsSource="{d:SampleData ItemCount=5}" AllowDrop="True" Margin="0,157,0,0" Background="{x:Null}" Foreground="White" FontSize="16" BorderBrush="{x:Null}" SelectionChanged="jarlist_SelectionChanged" Drop="jarlist_Drop" HorizontalContentAlignment="Stretch" ScrollViewer.CanContentScroll="False">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Path=.}" TextWrapping="Wrap"></TextBlock>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        <ListBox x:Name="jarlist" TextSearch.TextPath="InnerText" IsTextSearchEnabled="True" d:ItemsSource="{d:SampleData ItemCount=5}" AllowDrop="True" Margin="0,157,0,0" Background="{x:Null}" Foreground="White" FontSize="16" BorderBrush="{x:Null}" SelectionChanged="jarlist_SelectionChanged" Drop="jarlist_Drop" HorizontalContentAlignment="Stretch" ScrollViewer.CanContentScroll="False"/>
         <Grid x:Name="segment_launch_options" Margin="0,10,10,10" Grid.Column="1" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="102*"/>

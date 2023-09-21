@@ -159,8 +159,11 @@ namespace DeCraftLauncher.Utils
                  }
              });
 
-            string javahomeEnv = Environment.GetEnvironmentVariable("JAVA_HOME").Replace('\\', '/');
-            potentialPaths.Add(javahomeEnv + (javahomeEnv.EndsWith("/") ? "" : "/"));
+            string envJAVA_HOME = Environment.GetEnvironmentVariable("JAVA_HOME");
+            if (envJAVA_HOME != null) {
+                envJAVA_HOME = envJAVA_HOME.Replace('\\', '/');
+                potentialPaths.Add(envJAVA_HOME + (envJAVA_HOME.EndsWith("/") ? "" : "/"));
+            }
 
             List<JavaFinderResult> results = new List<JavaFinderResult>();
             foreach (string ppath in potentialPaths)

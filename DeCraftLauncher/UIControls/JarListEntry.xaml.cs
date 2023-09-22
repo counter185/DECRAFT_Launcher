@@ -22,17 +22,30 @@ namespace DeCraftLauncher.UIControls
     /// </summary>
     public partial class JarListEntry : UserControl
     {
+        MainWindow caller;
         public JarEntry jar;
 
         public static readonly DependencyProperty InnerTextProperty =
             DependencyProperty.Register("InnerText", typeof(string), typeof(JarListEntry));
 
-        public JarListEntry(JarEntry jar)
+        public JarListEntry(MainWindow caller, JarEntry jar)
         {
+            this.caller = caller;
             InitializeComponent();
             this.jar = jar;
-            SetValue(InnerTextProperty, jar.jarFileName);
-            this.mainText.Text = this.jar.jarFileName;
+
+            bool hasFriendlyName = !String.IsNullOrEmpty(jar.friendlyName);
+            string mtext = jar.jarFileName;
+            if (hasFriendlyName)
+            {
+                mtext = jar.friendlyName;
+                this.Height = 38;
+                subText.Visibility = Visibility.Visible;
+                subText.Text = jar.jarFileName;
+            }
+            SetValue(InnerTextProperty, mtext);
+            this.mainText.Text = mtext;
+
         }
 
         public void RenameJar()
@@ -51,6 +64,15 @@ namespace DeCraftLauncher.UIControls
                 File.Move($"{MainWindow.configDir}/{jar.jarFileName}.xml", newJarConfName);
             }
         }
+        
+        public void SetFriendlyName()
+        {
+            string target = Interaction.InputBox($"Set friendly name of {jar.jarFileName}:", "DECRAFT", jar.friendlyName);
+            Console.WriteLine(target);
+            jar.friendlyName = target;
+            caller.SaveRuntimeConfig();
+            caller.ResetJarlist();
+        }
 
         public void DeleteJar()
         {
@@ -64,6 +86,11 @@ namespace DeCraftLauncher.UIControls
             }
         }
 
+        private void ContextSetFriendlyName_Click(object sender, RoutedEventArgs e)
+        {
+            SetFriendlyName();
+        }        
+        
         private void ContextRename_Click(object sender, RoutedEventArgs e)
         {
             RenameJar();

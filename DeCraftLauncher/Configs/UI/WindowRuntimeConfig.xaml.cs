@@ -90,7 +90,7 @@ namespace DeCraftLauncher.Configs.UI
             FixJavaHomeString();
             MainWindow.mainRTConfig.javaHome = jre_path.Text;
             MainWindow.mainRTConfig.isJava9 = checkbox_isjava9.IsChecked == true;
-            MainWindow.SaveRuntimeConfig();
+            parent.SaveRuntimeConfig();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

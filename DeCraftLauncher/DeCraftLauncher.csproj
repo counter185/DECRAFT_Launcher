@@ -119,6 +119,9 @@
     <Compile Include="UIControls\LauncherEntryPointFinding.xaml.cs">
       <DependentUpon>LauncherEntryPointFinding.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WindowNewCategory.xaml.cs">
+      <DependentUpon>WindowNewCategory.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WindowProcessLog.xaml.cs">
       <DependentUpon>WindowProcessLog.xaml</DependentUpon>
     </Compile>
@@ -181,6 +184,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="WindowNewCategory.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="WindowProcessLog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -45,6 +45,7 @@ namespace DeCraftLauncher
         public JarConfig currentlySelectedJar = null;
 
         public List<WorkerThread> currentScanThreads = new List<WorkerThread>();
+        public List<JarEntry> loadedJars = new List<JarEntry>();
 
         public void UpdateLWJGLVersions()
         {
@@ -160,20 +161,37 @@ namespace DeCraftLauncher
         public void ResetJarlist()
         {
             jarlist.Items.Clear();
+            loadedJars.Clear();
             EnsureDir(jarDir);
             EnsureDir(configDir);
             EnsureDir(instanceDir);
             string[] jars = Directory.GetFiles(jarDir);
+            bool hadNonMatchingEntries = false;
             foreach (string a in jars)
             {
                 string jarName = a.Substring(jarDir.Length + 1);
-                //todo: find jar entry from launcherconfig
-                jarlist.Items.Add(new JarListEntry(new JarEntry(jarName)));
+
+                IEnumerable<JarEntry> matchingEntries = (from x in mainRTConfig.jarEntries
+                                                         where x.jarFileName == jarName
+                                                         select x);
+                loadedJars.Add(matchingEntries.Any() ? matchingEntries.First() : new JarEntry(jarName));
+                if (!matchingEntries.Any())
+                {
+                    hadNonMatchingEntries = true;
+                }
+
                 if (!File.Exists(configDir + "/" + jarName + ".xml"))
                 {
                     JarConfig newConf = new JarConfig(jarName);
                     newConf.SaveToXML(configDir + "/" + jarName + ".xml");
                 }
+            }
+
+            loadedJars.ForEach((x) => { jarlist.Items.Add(new JarListEntry(this, x)); });
+
+            if (hadNonMatchingEntries)
+            {
+                SaveRuntimeConfig();
             }
         }
 
@@ -336,6 +354,7 @@ namespace DeCraftLauncher
                         {
                             try
                             {
+                                //todo: clean this up
                                 JObject rootObj = JObject.Parse(File.ReadAllText(a));
                                 string versionID = rootObj.SelectToken("id").Value<string>();
                                 JObject dlElement = rootObj.SelectToken("downloads").Value<JObject>().SelectToken("client").Value<JObject>();
@@ -347,7 +366,7 @@ namespace DeCraftLauncher
                                         {
                                             if (evt.Error != null)
                                             {
-                                                MessageBox.Show("Download error", "DECRAFT");
+                                                MessageBox.Show($"Download error:\n{evt.Error.Message}", "DECRAFT");
                                             } else
                                             {
                                                 MessageBox.Show("Download complete", "DECRAFT");
@@ -359,7 +378,7 @@ namespace DeCraftLauncher
                                 }
                             } catch (Exception ex)
                             {
-                                MessageBox.Show($"Error reading {a}. The JSON file may be invalid or not in a standard launcher format.\n\n{ex}", "DECRAFT");
+                                MessageBox.Show($"Error reading {a}.\nThe JSON file may be invalid or not in a standard launcher format.\n\n{ex.Message}", "DECRAFT");
                             }
                         }
                     }
@@ -381,9 +400,9 @@ namespace DeCraftLauncher
             currentlySelectedJar.SaveToXML(configDir + "/" + currentlySelectedJar.jarFileName + ".xml");
         }
 
-        public static void SaveRuntimeConfig()
+        public void SaveRuntimeConfig()
         {
-            mainRTConfig.SaveToXML();
+            mainRTConfig.SaveToXML(this);
         }
     }
 }

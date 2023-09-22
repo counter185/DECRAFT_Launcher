@@ -1,0 +1,16 @@
+﻿<fw:AcrylicWindow x:Class="DeCraftLauncher.WindowNewCategory"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DeCraftLauncher"
+        xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+        mc:Ignorable="d"
+        NoiseOpacity="0.0001"
+        TintColor="#000000"
+        TintOpacity="0.6"
+        Title="DECRAFT: New category" Height="450" Width="800" Background="#FA000000" AcrylicWindowStyle="Normal">
+    <Grid>
+        
+    </Grid>
+</fw:AcrylicWindow>

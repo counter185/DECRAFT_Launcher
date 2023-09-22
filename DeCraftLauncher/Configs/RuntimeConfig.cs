@@ -91,7 +91,7 @@ namespace DeCraftLauncher.Configs
             return ret;
         }
 
-        public void SaveToXML()
+        public void SaveToXML(MainWindow caller)
         {
             XmlDocument newXml = new XmlDocument();
             newXml.LoadXml("<?xml version=\"1.0\"?>\n<RuntimeConfig>\n</RuntimeConfig>");
@@ -112,12 +112,15 @@ namespace DeCraftLauncher.Configs
 
 
             XmlNode jarEntries = Util.GenElementChild(newXml, "Jars");
-            foreach (JarEntry jarEntry in jarEntries)
+            foreach (JarEntry jarEntry in caller.loadedJars)
             {
                 XmlNode jarEntryNode = Util.GenElementChild(newXml, "JarEntry");
                 jarEntryNode.AppendChild(Util.GenElementChild(newXml, "JarFileName", jarEntry.jarFileName));
                 jarEntryNode.AppendChild(Util.GenElementChild(newXml, "FriendlyName", jarEntry.friendlyName));
-                jarEntryNode.AppendChild(Util.GenElementChild(newXml, "Category", jarEntry.category.name));
+                if (jarEntry.category != null)
+                {
+                    jarEntryNode.AppendChild(Util.GenElementChild(newXml, "Category", jarEntry.category.name));
+                }
                 jarEntries.AppendChild(jarEntryNode);
             }
             rootElement.AppendChild(jarEntries);

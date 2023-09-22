@@ -12,6 +12,7 @@
                     <Grid Background="#FF121212" MinWidth="100">
                         <Rectangle Stroke="#FF383838" Margin="0,0,0,0" />
                         <StackPanel>
+                            <Button Name="ContextSetFriendlyName" Content="Set friendly name" Style="{StaticResource ButtonRevealStyle}" Height="30" Background="Transparent" HorizontalContentAlignment="Left" Padding="3" Click="ContextSetFriendlyName_Click" />
                             <Button Name="ContextShowInExplorer" Content="Show in Explorer" Style="{StaticResource ButtonRevealStyle}" Height="30" Background="Transparent" HorizontalContentAlignment="Left" Padding="3" Click="ContextShowInExplorer_Click" />
                             <Button Name="ContextRename" Content="Rename file" Style="{StaticResource ButtonRevealStyle}" Height="30" Background="Transparent" HorizontalContentAlignment="Left" Padding="3" Click="ContextRename_Click" />
                             <Button Name="ContextDelete" Content="Delete" Style="{StaticResource ButtonRevealStyle}" Height="30" Background="Transparent" HorizontalContentAlignment="Left" Padding="3" Click="ContextDelete_Click" />
@@ -23,6 +24,7 @@
     </UserControl.ContextMenu>
     <Grid>
         <TextBlock x:Name="mainText" Text="Label" FontSize="16" Margin="0,0,0,0" Foreground="White" />
+        <TextBlock x:Name="subText" Text="Label" FontSize="12" Margin="6,20,0,0" Foreground="#FF7F7F7F" FontStyle="Italic" />
 
     </Grid>
 </UserControl>

@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualBasic;
+﻿using DeCraftLauncher.Utils;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -45,7 +46,11 @@ namespace DeCraftLauncher.UIControls
             }
             SetValue(InnerTextProperty, mtext);
             this.mainText.Text = mtext;
-
+            if (jar.category != null)
+            {
+                byte[] argbCatColor = Util.hexStringToAARRGGBBBytes(jar.category.color);
+                mainText.Foreground = new SolidColorBrush(Color.FromArgb(argbCatColor[0], argbCatColor[1], argbCatColor[2], argbCatColor[3]));
+            }
         }
 
         public void RenameJar()
@@ -105,6 +110,11 @@ namespace DeCraftLauncher.UIControls
         {
 
             Process.Start("explorer", $"/select,\"{Path.GetFullPath($"{MainWindow.jarDir}/{jar.jarFileName}")}\"");
+        }
+        
+        private void ContextSetCategory_Click(object sender, RoutedEventArgs e)
+        {
+            new WindowSetCategory(caller, jar).Show();
         }
     }
 }

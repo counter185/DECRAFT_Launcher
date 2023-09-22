@@ -9,9 +9,9 @@ namespace DeCraftLauncher
     public class Category
     {
         public string name;
-        public UInt32 color;
+        public string color;
 
-        public Category(string name, uint color)
+        public Category(string name, string color)
         {
             this.name = name;
             this.color = color;

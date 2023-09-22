@@ -129,6 +129,9 @@
     <Compile Include="Configs\RuntimeConfig.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="Utils\Util.cs" />
+    <Compile Include="WindowSetCategory.xaml.cs">
+      <DependentUpon>WindowSetCategory.xaml</DependentUpon>
+    </Compile>
     <Page Include="Configs\UI\WindowAppletParametersOptions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -195,6 +198,10 @@
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WindowSetCategory.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

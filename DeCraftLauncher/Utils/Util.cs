@@ -171,5 +171,21 @@ namespace DeCraftLauncher.Utils
             }
             return -1;
         }
+
+        public static byte[] hexStringToAARRGGBBBytes(string a)
+        {
+            try
+            {
+                byte[] ret = new byte[4];
+                ret[0] = Convert.ToByte(a.Substring(0, 2), 16);
+                ret[1] = Convert.ToByte(a.Substring(2, 2), 16);
+                ret[2] = Convert.ToByte(a.Substring(4, 2), 16);
+                ret[3] = Convert.ToByte(a.Substring(6, 2), 16);
+                return ret;
+            } catch (Exception)
+            {
+                return null;
+            }
+        }
     }
 }

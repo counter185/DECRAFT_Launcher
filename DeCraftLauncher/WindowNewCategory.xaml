@@ -9,8 +9,15 @@
         NoiseOpacity="0.0001"
         TintColor="#000000"
         TintOpacity="0.6"
-        Title="DECRAFT: New category" Height="450" Width="800" Background="#FA000000" AcrylicWindowStyle="Normal">
+        Title="DECRAFT: New category" Height="180" Width="378" Background="#FA000000" AcrylicWindowStyle="Normal">
     <Grid>
-        
+        <Label Content="New category" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="White" FontSize="18" FontWeight="Bold"/>
+        <Label Content="Name" HorizontalAlignment="Left" Margin="24,49,0,0" VerticalAlignment="Top" Foreground="White"/>
+        <TextBox x:Name="tbox_categoryName" Style="{StaticResource TextBoxMainStyle}" Margin="89,53,10,0" TextWrapping="Wrap" Text="Category 1" VerticalAlignment="Top"/>
+        <Label Content="Color (hex. AARRGGBB)" HorizontalAlignment="Left" Margin="24,80,0,0" VerticalAlignment="Top" Foreground="White"/>
+        <TextBox x:Name="tbox_colorargb" Style="{StaticResource TextBoxMainStyle}" Margin="172,84,86,0" TextWrapping="Wrap" Text="FFFFFFFF" VerticalAlignment="Top" TextChanged="tbox_colorargb_TextChanged"/>
+        <Rectangle x:Name="rect_colorPreview" Height="18" Margin="0,84,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="71" Fill="White" Stroke="#FF2F2F2F"/>
+        <Button x:Name="btn_addCategory" Style="{StaticResource ButtonRevealStyle}" Content="Add" HorizontalAlignment="Left" Margin="282,117,0,0" VerticalAlignment="Top" Height="27" Width="86" Background="#80212121" Click="btn_addCategory_Click"/>
+
     </Grid>
 </fw:AcrylicWindow>

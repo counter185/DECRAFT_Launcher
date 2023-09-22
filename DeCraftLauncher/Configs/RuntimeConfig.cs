@@ -53,13 +53,18 @@ namespace DeCraftLauncher.Configs
                     {
                         string catName = Util.GetInnerOrDefault(catNode, "Name", null);
                         string colorText = Util.GetInnerOrDefault(catNode, "Color", null);
-                        UInt32 catColor = colorText != null ? UInt32.Parse(colorText, System.Globalization.NumberStyles.HexNumber) : 0;
-                        if (catName != null && colorText != null)
+                        //todo: verify if it's actually a hex value
+                        try
                         {
-                            Category cat = new Category(catName, catColor);
-                            ret.jarCategories.Add(cat);
+                            UInt32 catColor = colorText != null ? UInt32.Parse(colorText, System.Globalization.NumberStyles.HexNumber) : 0;
+                            if (catName != null && colorText != null)
+                            {
+                                Category cat = new Category(catName, colorText);
+                                ret.jarCategories.Add(cat);
+                            }
+                        } catch (FormatException)
+                        {
                         }
-
                     }
                 }
 
@@ -105,7 +110,7 @@ namespace DeCraftLauncher.Configs
             {
                 XmlNode catEntryNode = Util.GenElementChild(newXml, "Category");
                 catEntryNode.AppendChild(Util.GenElementChild(newXml, "Name", cat.name));
-                catEntryNode.AppendChild(Util.GenElementChild(newXml, "Color", cat.color.ToString("X8")));
+                catEntryNode.AppendChild(Util.GenElementChild(newXml, "Color", cat.color));
                 catEntries.AppendChild(catEntryNode);
             }
             rootElement.AppendChild(catEntries);

@@ -17,6 +17,7 @@
                             <Button Name="ContextShowInExplorer" Content="Show in Explorer" Style="{StaticResource ButtonRevealStyle}" Height="30" Background="Transparent" HorizontalContentAlignment="Left" Padding="3" Click="ContextShowInExplorer_Click" />
                             <Button Name="ContextRename" Content="Rename file" Style="{StaticResource ButtonRevealStyle}" Height="30" Background="Transparent" HorizontalContentAlignment="Left" Padding="3" Click="ContextRename_Click" />
                             <Button Name="ContextDelete" Content="Delete" Style="{StaticResource ButtonRevealStyle}" Height="30" Background="Transparent" HorizontalContentAlignment="Left" Padding="3" Click="ContextDelete_Click" />
+                            <Button Name="ContextDeployToMobile" Content="Deploy to PojavLauncher (WIP)" Style="{StaticResource ButtonRevealStyle}" Height="30" Background="Transparent" HorizontalContentAlignment="Left" Padding="3" Click="ContextDeployToMobile_Click" />
                         </StackPanel>
                     </Grid>
                 </ControlTemplate>

@@ -1,4 +1,5 @@
 ﻿using DeCraftLauncher.Utils;
+using MediaDevices;
 using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
@@ -119,6 +120,12 @@ namespace DeCraftLauncher.UIControls
         private void ContextSetCategory_Click(object sender, RoutedEventArgs e)
         {
             new WindowSetCategory(caller, jar).Show();
+            ctxMenu.IsOpen = false;
+        }
+
+        private void ContextDeployToMobile_Click(object sender, RoutedEventArgs e)
+        {
+            new WindowDeployMTP(jar).Show();
             ctxMenu.IsOpen = false;
         }
     }

@@ -11,8 +11,8 @@
         TintOpacity="0.6"
         Title="DECRAFT: Set category" Height="336" Width="529" Background="#FA000000" AcrylicWindowStyle="Normal">
     <Grid>
-        <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" Background="Transparent" BorderBrush="#39FFFFFF" Margin="10,53,10,44"/>
-        <Button x:Name="btn_categorynew" Style="{StaticResource ButtonRevealStyle}" Content="New category" HorizontalAlignment="Right"  Margin="428,281,10,5" VerticalAlignment="Bottom" Width="91" Height="30"/>
+        <ListBox x:Name="listbox_categories" Background="Transparent" BorderBrush="#39FFFFFF" Margin="10,53,10,44"/>
+        <Button x:Name="btn_categorynew" Style="{StaticResource ButtonRevealStyle}" Content="New category" HorizontalAlignment="Right"  Margin="0,0,10,5" VerticalAlignment="Bottom" Width="98" Height="34" Click="btn_categorynew_Click"/>
 
     </Grid>
 </fw:AcrylicWindow>

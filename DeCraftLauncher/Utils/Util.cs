@@ -187,5 +187,17 @@ namespace DeCraftLauncher.Utils
                 return null;
             }
         }
+
+        public static System.Windows.Media.Brush hexStringToAARRGGBBBrush(string a, System.Windows.Media.Brush def = null)
+        {
+            byte[] col = hexStringToAARRGGBBBytes(a);
+            if (col == null)
+            {
+                return def;
+            } else
+            {
+                return new SolidColorBrush(WinColor.FromArgb(col[0], col[1], col[2], col[3]));
+            }
+        }
     }
 }

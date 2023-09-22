@@ -30,13 +30,18 @@ namespace DeCraftLauncher
             Util.UpdateAcrylicWindowBackground(this);
             this.caller = caller;
             this.target = target;
+            label_header.Content = $"Set category for {target.jarFileName}";
             UpdateCategories();
         }
 
         void UpdateCategories()
         {
             listbox_categories.Items.Clear();
-            foreach (Category a in MainWindow.mainRTConfig.jarCategories) {
+
+            foreach (Category a in (from x in MainWindow.mainRTConfig.jarCategories
+                                    orderby x.name
+                                    select x))
+            {
                 TextBlock nTextBlock = new TextBlock();
                 nTextBlock.Text = a.name;
                 nTextBlock.Foreground = Util.hexStringToAARRGGBBBrush(a.color, Brushes.White);

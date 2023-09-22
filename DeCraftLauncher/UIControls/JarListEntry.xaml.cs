@@ -94,27 +94,32 @@ namespace DeCraftLauncher.UIControls
         private void ContextSetFriendlyName_Click(object sender, RoutedEventArgs e)
         {
             SetFriendlyName();
+            ctxMenu.IsOpen = false;
         }        
         
         private void ContextRename_Click(object sender, RoutedEventArgs e)
         {
             RenameJar();
+            ctxMenu.IsOpen = false;
         }
 
         private void ContextDelete_Click(object sender, RoutedEventArgs e)
         {
             DeleteJar();
+            ctxMenu.IsOpen = false;
         }
 
         private void ContextShowInExplorer_Click(object sender, RoutedEventArgs e)
         {
 
             Process.Start("explorer", $"/select,\"{Path.GetFullPath($"{MainWindow.jarDir}/{jar.jarFileName}")}\"");
+            ctxMenu.IsOpen = false;
         }
         
         private void ContextSetCategory_Click(object sender, RoutedEventArgs e)
         {
             new WindowSetCategory(caller, jar).Show();
+            ctxMenu.IsOpen = false;
         }
     }
 }

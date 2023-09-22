@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:DeCraftLauncher.UIControls"
              mc:Ignorable="d" Height="22" HorizontalContentAlignment="Stretch">
     <UserControl.ContextMenu>
-        <ContextMenu>
+        <ContextMenu x:Name="ctxMenu">
             <ContextMenu.Template>
                 <ControlTemplate>
                     <Grid Background="#FF121212" MinWidth="100">

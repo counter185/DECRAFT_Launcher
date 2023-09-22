@@ -166,6 +166,9 @@ namespace DeCraftLauncher
             EnsureDir(configDir);
             EnsureDir(instanceDir);
             string[] jars = Directory.GetFiles(jarDir);
+
+            List<JarEntry> categorizedEntries = new List<JarEntry>();
+
             bool hadNonMatchingEntries = false;
             foreach (string a in jars)
             {
@@ -174,10 +177,17 @@ namespace DeCraftLauncher
                 IEnumerable<JarEntry> matchingEntries = (from x in mainRTConfig.jarEntries
                                                          where x.jarFileName == jarName
                                                          select x);
-                loadedJars.Add(matchingEntries.Any() ? matchingEntries.First() : new JarEntry(jarName));
-                if (!matchingEntries.Any())
+                if (matchingEntries.Any() && matchingEntries.First().category != null)
                 {
-                    hadNonMatchingEntries = true;
+                    categorizedEntries.Add(matchingEntries.First());
+                }
+                else
+                {
+                    loadedJars.Add(matchingEntries.Any() ? matchingEntries.First() : new JarEntry(jarName));
+                    if (!matchingEntries.Any())
+                    {
+                        hadNonMatchingEntries = true;
+                    }
                 }
 
                 if (!File.Exists(configDir + "/" + jarName + ".xml"))
@@ -186,6 +196,10 @@ namespace DeCraftLauncher
                     newConf.SaveToXML(configDir + "/" + jarName + ".xml");
                 }
             }
+
+            // we want categorized entries to appear first
+            categorizedEntries.Sort((a, b) => { return a.category.name.CompareTo(b.category.name); });
+            loadedJars = categorizedEntries.Concat(loadedJars).ToList();
 
             loadedJars.ForEach((x) => { jarlist.Items.Add(new JarListEntry(this, x)); });
 
@@ -237,16 +251,6 @@ namespace DeCraftLauncher
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             new WindowRuntimeConfig(this).Show();
-        }
-
-        private void rtest_Click(object sender, RoutedEventArgs e)
-        {
-            List<JarUtils.EntryPoint> epoints = JarUtils.FindAllEntryPoints("./a1.0.16.jar").entryPoints;
-            Console.WriteLine(epoints.Count + " entry points");
-            foreach (JarUtils.EntryPoint entry in epoints)
-            {
-                Console.WriteLine(entry.classpath + ", " + entry.type.ToString());
-            }
         }
 
         private void jarlist_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -328,6 +332,13 @@ namespace DeCraftLauncher
                 {
                     MessageBox.Show($"Error analyzing {param.jar}: {e.Message}\n\nThe jar file must be a valid zip archive.", "DECRAFT");
                 });
+                if (currentlySelectedJar.jarFileName == param.jar)
+                {
+                    Dispatcher.Invoke(delegate
+                    {
+                        UpdateLaunchOptionsSegment();
+                    });
+                }
             }
             Console.WriteLine("ThreadFindEntryPointsAndSaveToXML done");
         }

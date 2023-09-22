@@ -289,7 +289,9 @@ namespace DeCraftLauncher.Utils
             using (ZipArchive archive = ZipFile.OpenRead(jarfile))
             {
                 //we look through all classes that also aren't synthetic classes
-                IEnumerable<ZipArchiveEntry> classesToScan = (from x in archive.Entries where x.Name.EndsWith(".class") && !x.Name.Contains('$') select x);
+                IEnumerable<ZipArchiveEntry> classesToScan = from x in archive.Entries 
+                                                             where x.Name.EndsWith(".class") && !x.Name.Contains('$') 
+                                                             select x;
 
                 validClassCount = classesToScan.Count();
 

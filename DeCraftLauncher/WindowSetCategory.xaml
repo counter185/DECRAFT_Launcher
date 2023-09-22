@@ -9,10 +9,11 @@
         NoiseOpacity="0.0001"
         TintColor="#000000"
         TintOpacity="0.6"
-        Title="DECRAFT: Set category" Height="336" Width="529" Background="#FA000000" AcrylicWindowStyle="Normal">
+        Title="DECRAFT: Set category" Height="336" Width="359.5" Background="#FA000000" AcrylicWindowStyle="Normal">
     <Grid>
         <ListBox x:Name="listbox_categories" Background="Transparent" BorderBrush="#39FFFFFF" Margin="10,53,10,44"/>
         <Button x:Name="btn_categorynew" Style="{StaticResource ButtonRevealStyle}" Content="New category" HorizontalAlignment="Right"  Margin="0,0,10,5" VerticalAlignment="Bottom" Width="98" Height="34" Click="btn_categorynew_Click"/>
+        <Label x:Name="label_header" Content="Set category" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="White" FontSize="18" FontWeight="Bold"/>
 
     </Grid>
 </fw:AcrylicWindow>

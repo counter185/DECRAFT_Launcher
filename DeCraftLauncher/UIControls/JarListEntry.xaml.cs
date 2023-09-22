@@ -22,41 +22,41 @@ namespace DeCraftLauncher.UIControls
     /// </summary>
     public partial class JarListEntry : UserControl
     {
-        public string jarName;
+        public JarEntry jar;
 
         public static readonly DependencyProperty InnerTextProperty =
             DependencyProperty.Register("InnerText", typeof(string), typeof(JarListEntry));
 
-        public JarListEntry(string jarName)
+        public JarListEntry(JarEntry jar)
         {
             InitializeComponent();
-            this.jarName = jarName;
-            SetValue(InnerTextProperty, jarName);
-            this.mainText.Text = this.jarName;
+            this.jar = jar;
+            SetValue(InnerTextProperty, jar.jarFileName);
+            this.mainText.Text = this.jar.jarFileName;
         }
 
         public void RenameJar()
         {
             //todo: replace this visualbasic lmao
-            string target = Interaction.InputBox($"Rename {jarName}:", "DECRAFT", jarName.Substring(0,jarName.Length-4));
+            string target = Interaction.InputBox($"Rename {jar.jarFileName}:", "DECRAFT", jar.jarFileName.Substring(0, jar.jarFileName.Length-4));
             string newJarName = $"{MainWindow.jarDir}/{target}.jar";
             string newJarConfName = $"{MainWindow.configDir}/{target}.jar.xml";
             if (!File.Exists(newJarName))
             {
-                File.Move($"{MainWindow.jarDir}/{jarName}", newJarName);
+                File.Move($"{MainWindow.jarDir}/{jar.jarFileName}", newJarName);
                 if (File.Exists(newJarConfName))
                 {
                     File.Delete(newJarConfName);
                 }
-                File.Move($"{MainWindow.configDir}/{jarName}.xml", newJarConfName);
+                File.Move($"{MainWindow.configDir}/{jar.jarFileName}.xml", newJarConfName);
             }
         }
 
         public void DeleteJar()
         {
-            if (MessageBox.Show($"Delete {jarName}?", "DECRAFT", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            if (MessageBox.Show($"Delete {jar.jarFileName}?", "DECRAFT", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                string path = $"{MainWindow.jarDir}/{jarName}";
+                string path = $"{MainWindow.jarDir}/{jar.jarFileName}";
                 if (File.Exists(path))
                 {
                     File.Delete(path);
@@ -77,7 +77,7 @@ namespace DeCraftLauncher.UIControls
         private void ContextShowInExplorer_Click(object sender, RoutedEventArgs e)
         {
 
-            Process.Start("explorer", $"/select,\"{Path.GetFullPath($"{MainWindow.jarDir}/{jarName}")}\"");
+            Process.Start("explorer", $"/select,\"{Path.GetFullPath($"{MainWindow.jarDir}/{jar.jarFileName}")}\"");
         }
     }
 }

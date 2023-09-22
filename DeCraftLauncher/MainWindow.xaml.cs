@@ -3,12 +3,13 @@ using DeCraftLauncher.Configs.UI;
 using DeCraftLauncher.UIControls;
 using DeCraftLauncher.Utils;
 using SourceChord.FluentWPF;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text.Json;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -79,7 +80,7 @@ namespace DeCraftLauncher
             }
             else
             {
-                string jar = ((JarListEntry)jarlist.SelectedItem).jarName;
+                string jar = ((JarListEntry)jarlist.SelectedItem).jar.jarFileName;
                 currentlySelectedJar = JarConfig.LoadFromXML(configDir + "/" + jar + ".xml", jar);
                 tbox_playername.Text = currentlySelectedJar.playerName;
                 jvmargs.Text = currentlySelectedJar.jvmArgs;
@@ -166,7 +167,8 @@ namespace DeCraftLauncher
             foreach (string a in jars)
             {
                 string jarName = a.Substring(jarDir.Length + 1);
-                jarlist.Items.Add(new JarListEntry(jarName));
+                //todo: find jar entry from launcherconfig
+                jarlist.Items.Add(new JarListEntry(new JarEntry(jarName)));
                 if (!File.Exists(configDir + "/" + jarName + ".xml"))
                 {
                     JarConfig newConf = new JarConfig(jarName);
@@ -334,10 +336,10 @@ namespace DeCraftLauncher
                         {
                             try
                             {
-                                JsonDocument jsonData = JsonDocument.Parse(File.ReadAllText(a));
-                                string versionID = jsonData.RootElement.GetProperty("id").GetString();
-                                JsonElement dlElement = jsonData.RootElement.GetProperty("downloads").GetProperty("client");
-                                if (MessageBox.Show($"Download {versionID}?\n\n Size: {dlElement.GetProperty("size").GetUInt64()}\n URL: {dlElement.GetProperty("url").GetString()}", "DECRAFT", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                                JObject rootObj = JObject.Parse(File.ReadAllText(a));
+                                string versionID = rootObj.SelectToken("id").Value<string>();
+                                JObject dlElement = rootObj.SelectToken("downloads").Value<JObject>().SelectToken("client").Value<JObject>();
+                                if (MessageBox.Show($"Download {versionID}?\n\n Size: {dlElement.SelectToken("size").Value<UInt64>()}\n URL: {dlElement.SelectToken("url").Value<string>()}", "DECRAFT", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                                 {
                                     using (var client = new WebClient())
                                     {
@@ -352,10 +354,9 @@ namespace DeCraftLauncher
                                             }
                                         };
                                         //todo: progress bar for this
-                                        client.DownloadFileAsync(new Uri(dlElement.GetProperty("url").GetString()), $"{jarDir}/{versionID}.jar");
+                                        client.DownloadFileAsync(new Uri(dlElement.SelectToken("url").Value<string>()), $"{jarDir}/{versionID}.jar");
                                     }
                                 }
-                                jsonData.Dispose();
                             } catch (Exception ex)
                             {
                                 MessageBox.Show($"Error reading {a}. The JSON file may be invalid or not in a standard launcher format.\n\n{ex}", "DECRAFT");

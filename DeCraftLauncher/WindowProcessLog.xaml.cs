@@ -157,7 +157,7 @@ namespace DeCraftLauncher
                     logscroller.ScrollToVerticalOffset(logscroller.ExtentHeight);
                     proc_kill.Visibility = Visibility.Hidden;
 
-                    if (t.ExitCode == -1 && logtext.Text.Contains("java.lang.VerifyError"))
+                    if (logtext.Text.Contains("java.lang.VerifyError"))
                     {
                         logtext.Text += "\n----------------------------------------------";
                         logtext.Text += "\n";
@@ -204,6 +204,13 @@ namespace DeCraftLauncher
                         logtext.Text += "\n----------------------------------------------";
                         logtext.Text += "\n";
                         logtext.Text += "\nDECRAFT does not support versions newer than release 1.5.2.";
+                    }
+                    else if (logtext.Text.Contains("NoSuchMethodError: getPointer"))
+                    {
+                        logtext.Text += "\n----------------------------------------------";
+                        logtext.Text += "\n";
+                        logtext.Text += "\nThe launch failed due to a version mismatch between LWJGL's Java library and its DLLs.";
+                        logtext.Text += "\nThis jar may have been packaged with a different LWJGL version. ";
                     }
                 });
             };

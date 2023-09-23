@@ -73,7 +73,12 @@ namespace DeCraftLauncher.UIControls
             this.caller = caller;
             this.jarConfig = jarConfig;
             this.entryPoint = target;
-            classname.Content = entryPoint.type == JarUtils.EntryPointType.CUSTOM_LAUNCH_COMMAND ? "Custom" : Util.CleanStringForXAML(entryPoint.classpath);
+
+            string cleanClassPath = Util.CleanStringForXAML(entryPoint.classpath);
+            cleanClassPath = cleanClassPath.Length > 50 ? cleanClassPath.Substring(0, 50) + "..." : cleanClassPath;
+            classname.Content = entryPoint.type == JarUtils.EntryPointType.CUSTOM_LAUNCH_COMMAND ? "Custom" : cleanClassPath;
+            classname.ToolTip = Util.CleanStringForXAML(entryPoint.classpath);
+
             desc.Content = GetDescription();
             mode.Content =
                 entryPoint.type == JarUtils.EntryPointType.STATIC_VOID_MAIN ? "(main function)"

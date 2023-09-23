@@ -37,6 +37,7 @@ namespace DeCraftLauncher
             "org.mozilla.javascript.",
             "com.jcraft.jorbis.",
             "net.java.games.",
+            "javazoom.jl",
             "ibxm."
         };
 

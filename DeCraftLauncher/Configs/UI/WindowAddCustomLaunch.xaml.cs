@@ -30,6 +30,7 @@ namespace DeCraftLauncher.Configs.UI
             this.target = target;
             this.parent = parent;
             InitializeComponent();
+            Util.UpdateAcrylicWindowBackground(this);
         }
 
         private void btn_add_Click(object sender, RoutedEventArgs e)

@@ -1,4 +1,5 @@
-﻿using MediaDevices;
+﻿using DeCraftLauncher.Utils;
+using MediaDevices;
 using SourceChord.FluentWPF;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,7 @@ namespace DeCraftLauncher
         public WindowDeployMTP(JarEntry target)
         {
             InitializeComponent();
+            Util.UpdateAcrylicWindowBackground(this);
             this.target = target;
 
             label_header.Content = $"Deploy {target.jarFileName} to mobile device";

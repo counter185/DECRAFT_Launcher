@@ -189,10 +189,10 @@ namespace DeCraftLauncher.Utils
 
         public enum EntryPointType
         {
-            RUNNABLE = 0,
-            APPLET = 1, //definitely todo for a long time
+            RUNNABLE = 0,   //obsolete lmao
+            APPLET = 1,
             STATIC_VOID_MAIN = 2,
-
+            CUSTOM_LAUNCH_COMMAND = 3
         }
 
         public struct EntryPoint

@@ -23,10 +23,11 @@ namespace DeCraftLauncher.Configs.UI
     public partial class WindowJarAdvancedOptions : AcrylicWindow
     {
         JarConfig targetConfig;
-
-        public WindowJarAdvancedOptions(JarConfig target)
+        MainWindow parent;
+        public WindowJarAdvancedOptions(JarConfig target, MainWindow parent)
         {
             this.targetConfig = target;
+            this.parent = parent;
             InitializeComponent();
             label_title.Content = $"Advanced options: {target.jarFileName}";
             LoadConfig();
@@ -59,7 +60,12 @@ namespace DeCraftLauncher.Configs.UI
             targetConfig.documentBaseUrl = tbox_appletdocumenturl.Text;
             targetConfig.appletRedirectSkins = checkbox_redirecttolocalskins.IsChecked == true;
             targetConfig.appletSkinRedirectPath = tbox_skinredirectpath.Text;
-            targetConfig.SaveToXML(MainWindow.configDir + "/" + targetConfig.jarFileName + ".xml");
+            targetConfig.SaveToXMLDefault();
+        }
+
+        private void btn_addcmdentrypoint_Click(object sender, RoutedEventArgs e)
+        {
+            new WindowAddCustomLaunch(targetConfig, parent).Show();
         }
     }
 }

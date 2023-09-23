@@ -30,8 +30,12 @@ namespace DeCraftLauncher.UIControls
         JarConfig jarConfig;
         MainWindow caller;
 
-        public String GetDescription()
+        public string GetDescription()
         {
+            if (entryPoint.type == JarUtils.EntryPointType.CUSTOM_LAUNCH_COMMAND)
+            {
+                return entryPoint.classpath.Replace("_", "__");
+            }
             switch (entryPoint.classpath)
             {
                 case "com.mojang.rubydung.RubyDung":
@@ -65,17 +69,30 @@ namespace DeCraftLauncher.UIControls
         {
             InitializeComponent();
             this.caller = caller;
-            entryPoint = target;
-            classname.Content = entryPoint.classpath;
+            this.jarConfig = jarConfig;
+            this.entryPoint = target;
+            classname.Content = entryPoint.type == JarUtils.EntryPointType.CUSTOM_LAUNCH_COMMAND ? "Custom" : entryPoint.classpath;
             desc.Content = GetDescription();
             mode.Content =
                 entryPoint.type == JarUtils.EntryPointType.STATIC_VOID_MAIN ? "(main function)"
                 : entryPoint.type == JarUtils.EntryPointType.RUNNABLE ? "(Runnable)"
                 : entryPoint.type == JarUtils.EntryPointType.APPLET ? "(Applet)"
+                : entryPoint.type == JarUtils.EntryPointType.CUSTOM_LAUNCH_COMMAND ? "(custom launch command)"
                 : "<unknown>";
             moreInfo.Content = target.additionalInfo.Replace("_", "__");
-            launchAdvancedButton.Visibility = entryPoint.type == JarUtils.EntryPointType.APPLET ? Visibility.Visible : Visibility.Hidden;
-            this.jarConfig = jarConfig;
+            switch (entryPoint.type)
+            {
+                case JarUtils.EntryPointType.CUSTOM_LAUNCH_COMMAND:
+                    launchAdvancedButton.Content = "Remove...";
+                    break;
+                case JarUtils.EntryPointType.APPLET:
+                    launchAdvancedButton.Content = "Parameters...";
+                    break;
+                default:
+                    launchAdvancedButton.Visibility = Visibility.Hidden;
+                    break;
+            }
+            
         }
 
         private void launchButton_Click(object sender, RoutedEventArgs e)
@@ -140,7 +157,11 @@ namespace DeCraftLauncher.UIControls
             else if (entryPoint.type == JarUtils.EntryPointType.APPLET)
             {
                 AppletWrapper.TryLaunchAppletWrapper(entryPoint.classpath, jarConfig);
-            } 
+            }
+            else if (entryPoint.type == JarUtils.EntryPointType.CUSTOM_LAUNCH_COMMAND)
+            {
+                new WindowProcessLog(new JavaExec(null).StartWithCustomArgsString(entryPoint.classpath)).Show();
+            }
             else
             {
                 throw new NotImplementedException("What");
@@ -153,6 +174,14 @@ namespace DeCraftLauncher.UIControls
             if (entryPoint.type == JarUtils.EntryPointType.APPLET)
             {
                 new WindowAppletParametersOptions(entryPoint.classpath, jarConfig).Show();
+            } else if (entryPoint.type == JarUtils.EntryPointType.CUSTOM_LAUNCH_COMMAND)
+            {
+                if (MessageBox.Show($"Remove the custom launch command?\n\njava {this.entryPoint.classpath}", "DECRAFT", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    jarConfig.entryPoints.Remove(this.entryPoint);
+                    jarConfig.SaveToXMLDefault();
+                    caller.UpdateLaunchOptionsSegment();
+                }
             }
         }
     }

@@ -93,6 +93,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Category.cs" />
+    <Compile Include="Configs\UI\WindowAddCustomLaunch.xaml.cs">
+      <DependentUpon>WindowAddCustomLaunch.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Configs\UI\WindowAppletParametersOptions.xaml.cs">
       <DependentUpon>WindowAppletParametersOptions.xaml</DependentUpon>
     </Compile>
@@ -138,6 +141,10 @@
     <Compile Include="WindowSetCategory.xaml.cs">
       <DependentUpon>WindowSetCategory.xaml</DependentUpon>
     </Compile>
+    <Page Include="Configs\UI\WindowAddCustomLaunch.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Configs\UI\WindowAppletParametersOptions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

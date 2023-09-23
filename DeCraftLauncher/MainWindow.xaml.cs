@@ -198,7 +198,7 @@ namespace DeCraftLauncher
                 if (!File.Exists(configDir + "/" + jarName + ".xml"))
                 {
                     JarConfig newConf = new JarConfig(jarName);
-                    newConf.SaveToXML(configDir + "/" + jarName + ".xml");
+                    newConf.SaveToXMLDefault();
                 }
             }
 
@@ -285,7 +285,7 @@ namespace DeCraftLauncher
 
         private void btn_advanced_settings_Click(object sender, RoutedEventArgs e)
         {
-            new WindowJarAdvancedOptions(currentlySelectedJar).Show();
+            new WindowJarAdvancedOptions(currentlySelectedJar, this).Show();
         }        
 
         private void btn_open_instance_dir_Click(object sender, RoutedEventArgs e)
@@ -325,7 +325,7 @@ namespace DeCraftLauncher
                 conf.jarHasLWJGLClasses = scanRes.hasLWJGLBuiltIn;
                 conf.jarBuiltInLWJGLDLLs = scanRes.lwjglNativesDir;
                 conf.foundMods = scanRes.modsFound;
-                conf.SaveToXML(configDir + "/" + param.jar + ".xml");
+                conf.SaveToXMLDefault();
                 if (currentlySelectedJar.jarFileName == param.jar)
                 {
                     Dispatcher.Invoke(delegate
@@ -339,7 +339,7 @@ namespace DeCraftLauncher
                 JarConfig conf = JarConfig.LoadFromXML(configDir + "/" + param.jar + ".xml", param.jar);
                 conf.entryPoints = new List<EntryPoint>();
                 conf.entryPointsScanned = true;
-                conf.SaveToXML(configDir + "/" + param.jar + ".xml");
+                conf.SaveToXMLDefault();
                 Dispatcher.Invoke(delegate
                 {
                     MessageBox.Show($"Error analyzing {param.jar}: {e.Message}\n\nThe jar file must be a valid zip archive.", "DECRAFT");
@@ -420,7 +420,7 @@ namespace DeCraftLauncher
             currentlySelectedJar.instanceDirName = tbox_instance_dir.Text;
             currentlySelectedJar.proxyHost = tbox_proxyhost.Text;
 
-            currentlySelectedJar.SaveToXML(configDir + "/" + currentlySelectedJar.jarFileName + ".xml");
+            currentlySelectedJar.SaveToXMLDefault();
         }
 
         public void SaveRuntimeConfig()

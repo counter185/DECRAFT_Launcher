@@ -52,6 +52,11 @@ namespace DeCraftLauncher.Configs
             return a;
         }
 
+        public void SaveToXMLDefault()
+        {
+            SaveToXML($"{MainWindow.configDir}/{jarFileName}.xml");
+        }
+
         public void SaveToXML(string path)
         {
             XmlDocument newXml = new XmlDocument();

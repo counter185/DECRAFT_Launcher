@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="DeCraftLauncher.UIControls.ModsFoundEntryPoint"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DeCraftLauncher.UIControls"
+             mc:Ignorable="d" Height="Auto" MinWidth="516">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="label_modsfound" Margin="10,0,10,0" TextWrapping="Wrap" Text="Mods found:" VerticalAlignment="Top" Height="Auto" Foreground="#FF6E6E6E" FontSize="14" FontStyle="Italic"/>
+
+    </Grid>
+</UserControl>

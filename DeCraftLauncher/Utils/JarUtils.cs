@@ -220,7 +220,8 @@ namespace DeCraftLauncher.Utils
             public bool hasLWJGLBuiltIn = false;
             public string lwjglNativesDir = "";
 
-            public List<EntryPoint> entryPoints= new List<EntryPoint>();
+            public List<EntryPoint> entryPoints = new List<EntryPoint>();
+            public List<string> modsFound = new List<string>();
         }
 
         [Obsolete("related to the old entry point finder.")]
@@ -311,6 +312,12 @@ namespace DeCraftLauncher.Utils
                         ret.hasLWJGLBuiltIn = false;
                     }
                 }
+
+                ret.modsFound = (from x in archive.Entries
+                                 where x.FullName.EndsWith(".class") && 
+                                    (x.FullName.StartsWith("mod_")
+                                    || x.FullName == "ModLoader.class")
+                                 select x.FullName.Substring(0, x.FullName.Length - 6)).ToList();
 
                 bool firstClassEntry = true;
 

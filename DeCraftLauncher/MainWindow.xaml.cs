@@ -138,9 +138,14 @@ namespace DeCraftLauncher
                         }
                     }
 
+                    if (currentlySelectedJar.foundMods.Any())
+                    {
+                        entrypointlist.Items.Add(new ModsFoundEntryPoint(currentlySelectedJar.foundMods));
+                    }
+
                     if (entrypointlist.Items.Count == 0 && !currentlySelectedJar.entryPointsScanned)
                     {
-                        btn_scan_entrypoints_Click(null, null);
+                        StartEntryPointScan();
                         entrypointlist.Items.Add(new LaunchEntryPointFinding(wthreads.First().report));
                     }
                     segment_launch_options.Visibility = Visibility.Visible;
@@ -263,13 +268,19 @@ namespace DeCraftLauncher
             UpdateLaunchOptionsSegment();
         }        
 
-        private void btn_scan_entrypoints_Click(object sender, RoutedEventArgs e)
+        private void StartEntryPointScan()
         {
             //List<EntryPoint> entryPoint = JarUtils.FindAllEntryPoints(jarDir + "/" + currentlySelectedJar.jarFileName);
             Thread nthread = new Thread(ThreadFindEntryPointsAndSaveToXML);
             WorkerThread a = new WorkerThread(nthread, currentlySelectedJar.jarFileName, new ReferenceType<float>(0));
             currentScanThreads.Add(a);
             nthread.Start(a);
+        }
+
+        private void btn_scan_entrypoints_Click(object sender, RoutedEventArgs e)
+        {
+            StartEntryPointScan();
+            UpdateLaunchOptionsSegment();
         }
 
         private void btn_advanced_settings_Click(object sender, RoutedEventArgs e)
@@ -313,6 +324,7 @@ namespace DeCraftLauncher
                 conf.minJavaVersion = $"{scanRes.minMajorVersion}.{scanRes.minMinorVersion}";
                 conf.jarHasLWJGLClasses = scanRes.hasLWJGLBuiltIn;
                 conf.jarBuiltInLWJGLDLLs = scanRes.lwjglNativesDir;
+                conf.foundMods = scanRes.modsFound;
                 conf.SaveToXML(configDir + "/" + param.jar + ".xml");
                 if (currentlySelectedJar.jarFileName == param.jar)
                 {

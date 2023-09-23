@@ -34,7 +34,7 @@ namespace DeCraftLauncher.UIControls
         {
             if (entryPoint.type == JarUtils.EntryPointType.CUSTOM_LAUNCH_COMMAND)
             {
-                return entryPoint.classpath.Replace("_", "__");
+                return Util.CleanStringForXAML(entryPoint.classpath);
             }
             switch (entryPoint.classpath)
             {
@@ -56,6 +56,8 @@ namespace DeCraftLauncher.UIControls
                 case "net.minecraft.client.main.Main":
                 case "net.minecraft.data.Main":
                     return "1.6+ launch class. Not supported by this launcher.";
+                case "decraft_internal.AppletWrapper":
+                    return "What";
                 default:
                     if (entryPoint.classpath.StartsWith("com.jdotsoft.jarloader"))
                     {
@@ -71,7 +73,7 @@ namespace DeCraftLauncher.UIControls
             this.caller = caller;
             this.jarConfig = jarConfig;
             this.entryPoint = target;
-            classname.Content = entryPoint.type == JarUtils.EntryPointType.CUSTOM_LAUNCH_COMMAND ? "Custom" : entryPoint.classpath;
+            classname.Content = entryPoint.type == JarUtils.EntryPointType.CUSTOM_LAUNCH_COMMAND ? "Custom" : Util.CleanStringForXAML(entryPoint.classpath);
             desc.Content = GetDescription();
             mode.Content =
                 entryPoint.type == JarUtils.EntryPointType.STATIC_VOID_MAIN ? "(main function)"
@@ -79,7 +81,7 @@ namespace DeCraftLauncher.UIControls
                 : entryPoint.type == JarUtils.EntryPointType.APPLET ? "(Applet)"
                 : entryPoint.type == JarUtils.EntryPointType.CUSTOM_LAUNCH_COMMAND ? "(custom launch command)"
                 : "<unknown>";
-            moreInfo.Content = target.additionalInfo.Replace("_", "__");
+            moreInfo.Content = Util.CleanStringForXAML(target.additionalInfo);
             switch (entryPoint.type)
             {
                 case JarUtils.EntryPointType.CUSTOM_LAUNCH_COMMAND:

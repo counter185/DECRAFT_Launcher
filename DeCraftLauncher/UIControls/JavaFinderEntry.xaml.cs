@@ -35,8 +35,8 @@ namespace DeCraftLauncher.UIControls
             this.versionString = javaInstall.version;
             this.path = javaInstall.path;
 
-            label_version.Content = versionString.Replace("_", "__");
-            label_path.Content = path.Replace("_", "__");
+            label_version.Content = Util.CleanStringForXAML(versionString);
+            label_path.Content = Util.CleanStringForXAML(path);
         }
 
         protected override void OnMouseDoubleClick(MouseButtonEventArgs e)

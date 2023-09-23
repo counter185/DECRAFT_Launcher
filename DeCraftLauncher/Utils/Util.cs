@@ -199,5 +199,10 @@ namespace DeCraftLauncher.Utils
                 return new SolidColorBrush(WinColor.FromArgb(col[0], col[1], col[2], col[3]));
             }
         }
+
+        public static string CleanStringForXAML(string a)
+        {
+            return a.Replace("_", "__");
+        }
     }
 }

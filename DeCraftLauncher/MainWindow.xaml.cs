@@ -477,24 +477,27 @@ namespace DeCraftLauncher
             {
                 if (pauseBreakEECount++ == 5)
                 {
-                    FontFamily targetFontFamily = new FontFamily("Comic Sans MS");
-                    foreach (TextBlock a in FindLogicalChildren<TextBlock>(this))
-                    {
-                        a.FontFamily = targetFontFamily;
+                    if (!Util.RunningOnWine())      //the font isn't installed there by default so it will crash
+                    {                               //sorry linux people no comic sans
+                        FontFamily targetFontFamily = new FontFamily("Comic Sans MS");
+                        foreach (TextBlock a in FindLogicalChildren<TextBlock>(this))
+                        {
+                            a.FontFamily = targetFontFamily;
+                        }
+                        foreach (Label a in FindLogicalChildren<Label>(this))
+                        {
+                            a.FontFamily = targetFontFamily;
+                        }
+                        foreach (TextBox a in FindLogicalChildren<TextBox>(this))
+                        {
+                            a.FontFamily = targetFontFamily;
+                        }
+                        foreach (Button a in FindLogicalChildren<Button>(this))
+                        {
+                            a.FontFamily = targetFontFamily;
+                        }
+                        pauseBreakEECount = 0;
                     }
-                    foreach (Label a in FindLogicalChildren<Label>(this))
-                    {
-                        a.FontFamily = targetFontFamily;
-                    }
-                    foreach (TextBox a in FindLogicalChildren<TextBox>(this))
-                    {
-                        a.FontFamily = targetFontFamily;
-                    }
-                    foreach (Button a in FindLogicalChildren<Button>(this))
-                    {
-                        a.FontFamily = targetFontFamily;
-                    }
-                    pauseBreakEECount = 0;
                 }
             }
             base.OnKeyDown(e);

@@ -39,21 +39,7 @@ namespace DeCraftLauncher.Utils
 
         public Process Start(string javaPath = null)
         {
-            javaPath = javaPath ?? (MainWindow.mainRTConfig.javaHome + "java");
-
-            string argsString = GetFullArgsString();
-
-            if (workingDirectory != null)
-            {
-                Directory.SetCurrentDirectory(workingDirectory);
-            }
-            Process ret = JarUtils.RunProcess(javaPath, argsString, appdataDir);
-            if (workingDirectory != null)
-            {
-                Directory.SetCurrentDirectory(MainWindow.currentDirectory);
-            }
-
-            return ret;
+            return StartWithCustomArgsString(GetFullArgsString(), javaPath);
         }
 
         public Process StartWithCustomArgsString(string argsString, string javaPath = null)
@@ -64,13 +50,22 @@ namespace DeCraftLauncher.Utils
             {
                 Directory.SetCurrentDirectory(workingDirectory);
             }
-            Process ret = JarUtils.RunProcess(javaPath, argsString, appdataDir);
-            if (workingDirectory != null)
-            {
-                Directory.SetCurrentDirectory(MainWindow.currentDirectory);
-            }
 
-            return ret;
+            try
+            {
+                return JarUtils.RunProcess(javaPath, argsString, appdataDir);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                if (workingDirectory != null)
+                {
+                    Directory.SetCurrentDirectory(MainWindow.currentDirectory);
+                }
+            }
         }
     }
 }

@@ -12,7 +12,7 @@
         TintColor="#000000"
         TintOpacity="0.6"
         fw:AcrylicWindow.Enabled="False"
-        Title="DECRAFT Launcher" Background="#FA000000">
+        Title="DECRAFT Launcher" Background="#FF000000">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="4*"/>

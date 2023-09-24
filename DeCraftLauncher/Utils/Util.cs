@@ -55,7 +55,7 @@ namespace DeCraftLauncher.Utils
                 window.Background = new SolidColorBrush(WinColor.FromArgb(setTransparent ? TRANSPARENCY_ON : TRANSPARENCY_OFF, 0, 0, 0));
                 if (setTransparent)
                 {
-                    window.Opacity = 0.83;
+                    window.Opacity = 0.88;
                     window.TintOpacity = 0.1;
                 }
             }

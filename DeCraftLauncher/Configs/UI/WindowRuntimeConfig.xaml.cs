@@ -87,10 +87,16 @@ namespace DeCraftLauncher.Configs.UI
 
         private void AcrylicWindow_Closed(object sender, EventArgs e)
         {
-            FixJavaHomeString();
-            MainWindow.mainRTConfig.javaHome = jre_path.Text;
-            MainWindow.mainRTConfig.isJava9 = checkbox_isjava9.IsChecked == true;
-            parent.SaveRuntimeConfig();
+            try
+            {
+                FixJavaHomeString();
+                MainWindow.mainRTConfig.javaHome = jre_path.Text;
+                MainWindow.mainRTConfig.isJava9 = checkbox_isjava9.IsChecked == true;
+                parent.SaveRuntimeConfig();
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "DECRAFT");
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

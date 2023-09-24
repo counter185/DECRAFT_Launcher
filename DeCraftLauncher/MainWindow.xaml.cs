@@ -23,7 +23,7 @@ namespace DeCraftLauncher
     /// <summary>
     /// Logika interakcji dla klasy MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : AcrylicWindow
     {
         public const string jarDir = "./jars";
         public const string configDir = "./config";
@@ -223,7 +223,7 @@ namespace DeCraftLauncher
                 MessageBox.Show($"Error starting main window:\n {e}", "DECRAFT");
             }
             mainRTConfig = RuntimeConfig.LoadFromXML();
-            //Util.UpdateAcrylicWindowBackground(this);
+            Util.UpdateAcrylicWindowBackground(this);
             segment_launch_options.Visibility = Visibility.Hidden;
             //Console.WriteLine(JarUtils.GetJDKInstalled());
             UpdateLWJGLVersions();
@@ -249,6 +249,11 @@ namespace DeCraftLauncher
                 tbox_instance_dir,
                 tbox_proxyhost
             };
+
+            if (Util.RunningOnWine())
+            {
+                MessageBox.Show("You may be running DECRAFT on the Wine compatibility layer.\nIf the launcher crashes after this popup, open \"winecfg\" and set your Windows version to Windows 7.\nDECRAFT can only use Windows versions of Java, so be sure to install one into your Wine prefix.\n\nGood luck, and expect bugs.", "DECRAFT");
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

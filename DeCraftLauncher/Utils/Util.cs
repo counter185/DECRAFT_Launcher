@@ -1,6 +1,7 @@
 ﻿using SourceChord.FluentWPF;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -58,6 +59,11 @@ namespace DeCraftLauncher.Utils
                     window.TintOpacity = 0.1;
                 }
             }
+        }
+
+        public static bool RunningOnWine()
+        {
+            return Process.GetProcessesByName("csrss").Length == 0;
         }
 
         const string NODETYPE_ELEMENT = "element";

@@ -34,7 +34,7 @@ namespace DeCraftLauncher.Utils
                 //when you do fw:AcrylicWindow.Disable
                 //it calls the private DisableBlur() function
                 //which for some reason removes the action bar????????
-                //https://github.com/sourcechord/FluentWPF/blob/9acc2519f36c60e830c4603d01363c5bfa8909b5/FluentWPF/AcrylicWindow.cs#L234C43-L234C43
+                //https://github.com/sourcechord/FluentWPF/blob/9acc2519f36c60e830c4603d01363c5bfa8909b5/FluentWPF/AcrylicWindow.cs#L290
                 var closeBinding = new CommandBinding(SystemCommands.CloseWindowCommand, (_, __) => { SystemCommands.CloseWindow(window); });
                 var minimizeBinding = new CommandBinding(SystemCommands.MinimizeWindowCommand, (_, __) => { SystemCommands.MinimizeWindow(window); });
                 var maximizeBinding = new CommandBinding(SystemCommands.MaximizeWindowCommand, (_, __) => { SystemCommands.MaximizeWindow(window); });

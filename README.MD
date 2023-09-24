@@ -14,9 +14,11 @@ This project's main purpose is **to help preserve these legacy versions**.
 
 All versions up until release 1.5.2 + modifications deriving from them are expected to work. If you find a version that fits this description but does not run, please open an issue.
 
+To run DECRAFT, you will need at least Windows Vista with .NET Framework 4.5.2 installed.
+
 ## Building
 
-To build the project, you will need Visual Studio 2019/2022 with `.NET Desktop Development` tools and `.NET Framework SDK 4.7.2` installed.
+To build the project, you will need Visual Studio 2019/2022 with `.NET Desktop Development` tools and `.NET Framework SDK 4.5.2` installed.
 
 ## Features
 

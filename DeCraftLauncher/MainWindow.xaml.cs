@@ -83,6 +83,7 @@ namespace DeCraftLauncher
             else
             {
                 string jar = ((JarListEntry)jarlist.SelectedItem).jar.jarFileName;
+                EnsureDefaultJarConfig(jar);
                 currentlySelectedJar = JarConfig.LoadFromXML(configDir + "/" + jar + ".xml", jar);
                 tbox_playername.Text = currentlySelectedJar.playerName;
                 jvmargs.Text = currentlySelectedJar.jvmArgs;
@@ -196,11 +197,7 @@ namespace DeCraftLauncher
                     }
                 }
 
-                if (!File.Exists(configDir + "/" + jarName + ".xml"))
-                {
-                    JarConfig newConf = new JarConfig(jarName);
-                    newConf.SaveToXMLDefault();
-                }
+                EnsureDefaultJarConfig(jarName);
             }
 
             // we want categorized entries to appear first
@@ -407,6 +404,14 @@ namespace DeCraftLauncher
                         }
                     }
                 }
+            }
+        }
+
+        void EnsureDefaultJarConfig(string jarName) {
+            if (!File.Exists(configDir + "/" + jarName + ".xml"))
+            {
+                JarConfig newConf = new JarConfig(jarName);
+                newConf.SaveToXMLDefault();
             }
         }
 

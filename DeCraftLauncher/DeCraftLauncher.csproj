@@ -118,6 +118,7 @@
       <DependentUpon>UnimportantLaunchEntryPoint.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\JavaClassReader.cs" />
+    <Compile Include="Utils\JavaCode.cs" />
     <Compile Include="Utils\JavaExec.cs" />
     <Compile Include="UIControls\JavaFinderEntry.xaml.cs">
       <DependentUpon>JavaFinderEntry.xaml</DependentUpon>

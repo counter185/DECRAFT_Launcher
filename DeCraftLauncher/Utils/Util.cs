@@ -204,5 +204,10 @@ namespace DeCraftLauncher.Utils
         {
             return a.Replace("_", "__");
         }
+
+        public static string CleanStringForJava(string a)
+        {
+            return a.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\n", "\\n");
+        }
     }
 }

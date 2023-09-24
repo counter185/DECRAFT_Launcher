@@ -28,10 +28,11 @@ namespace DeCraftLauncher.Utils
         {
             string classPaths = classPath.Count != 0 ? $"-cp \"{String.Join(";", classPath)}\"" : "";
 
+            // do not use Append here or it will be incompatible with .net 4.5.2
             return String.Join(" ", new List<string>()
-                .Append(classPaths)
+                .Concat(new string[] { classPaths })
                 .Concat(jvmArgs)
-                .Append(className)
+                .Concat(new string[] { className })
                 .Concat(programArgs)
             );
         }

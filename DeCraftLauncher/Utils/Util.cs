@@ -4,8 +4,12 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Xml;
 using PCInfo = Microsoft.VisualBasic.Devices.ComputerInfo;
@@ -23,15 +27,36 @@ namespace DeCraftLauncher.Utils
 
         public static void UpdateAcrylicWindowBackground(AcrylicWindow window)
         {
-            //THERE REALLY IS NO CLEANER WAY OF DOING THIS.
-            // Is there?
-            string osName = new PCInfo().OSFullName;
-            bool setTransparent = osName.ToLower().Contains(OS_WIN10);
-            window.Background = new SolidColorBrush(WinColor.FromArgb(setTransparent ? TRANSPARENCY_ON : TRANSPARENCY_OFF, 0, 0, 0));
-            if (setTransparent)
+            if (Environment.OSVersion.Version.Major < 6 || (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor == 0))
             {
-                window.Opacity = 0.83;
-                window.TintOpacity = 0.1;
+                //COME ON FLUENTWPF
+                //okay so for context for this
+                //when you do fw:AcrylicWindow.Disable
+                //it calls the private DisableBlur() function
+                //which for some reason removes the action bar????????
+                //https://github.com/sourcechord/FluentWPF/blob/9acc2519f36c60e830c4603d01363c5bfa8909b5/FluentWPF/AcrylicWindow.cs#L234C43-L234C43
+                var closeBinding = new CommandBinding(SystemCommands.CloseWindowCommand, (_, __) => { SystemCommands.CloseWindow(window); });
+                var minimizeBinding = new CommandBinding(SystemCommands.MinimizeWindowCommand, (_, __) => { SystemCommands.MinimizeWindow(window); });
+                var maximizeBinding = new CommandBinding(SystemCommands.MaximizeWindowCommand, (_, __) => { SystemCommands.MaximizeWindow(window); });
+                var restoreBinding = new CommandBinding(SystemCommands.RestoreWindowCommand, (_, __) => { SystemCommands.RestoreWindow(window); });
+                window.CommandBindings.Add(closeBinding);
+                window.CommandBindings.Add(minimizeBinding);
+                window.CommandBindings.Add(maximizeBinding);
+                window.CommandBindings.Add(restoreBinding);
+            }
+            else
+            {
+                //THERE REALLY IS NO CLEANER WAY OF DOING THIS.
+                // Is there?
+                window.SetValue(AcrylicWindow.EnabledProperty, true);
+                string osName = new PCInfo().OSFullName;
+                bool setTransparent = osName.ToLower().Contains(OS_WIN10);
+                window.Background = new SolidColorBrush(WinColor.FromArgb(setTransparent ? TRANSPARENCY_ON : TRANSPARENCY_OFF, 0, 0, 0));
+                if (setTransparent)
+                {
+                    window.Opacity = 0.83;
+                    window.TintOpacity = 0.1;
+                }
             }
         }
 

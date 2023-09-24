@@ -9,6 +9,7 @@
         NoiseOpacity="0.0001"
         TintColor="#000000"
         TintOpacity="0.6"
+        fw:AcrylicWindow.Enabled="False"
         Title="DECRAFT: New category" Height="180" Width="378" Background="#FA000000" AcrylicWindowStyle="Normal">
     <Grid>
         <Label Content="New category" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="White" FontSize="18" FontWeight="Bold"/>

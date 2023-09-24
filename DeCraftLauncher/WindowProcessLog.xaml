@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
         xmlns:local="clr-namespace:DeCraftLauncher"
+        fw:AcrylicWindow.Enabled="False"
         mc:Ignorable="d"
         NoiseOpacity="0.0001"
         TintColor="#000000"

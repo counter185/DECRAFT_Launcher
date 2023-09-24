@@ -9,6 +9,7 @@
         NoiseOpacity="0.0001"
         TintColor="#000000"
         TintOpacity="0.6"
+        fw:AcrylicWindow.Enabled="False"
         Title="DECRAFT: Deploy to mobile device" Height="334" Width="732" Background="#FA000000" AcrylicWindowStyle="Normal">
     <Grid>
         <ListBox x:Name="listbox_devices" Background="Transparent" Foreground="White" Margin="10,86,0,10" SelectionChanged="listbox_devices_SelectionChanged" BorderBrush="#FF3C3C3C" HorizontalAlignment="Left" Width="169"/>

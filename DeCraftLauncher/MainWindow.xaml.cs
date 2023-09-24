@@ -218,7 +218,7 @@ namespace DeCraftLauncher
             try
             {
                 InitializeComponent();
-            } catch (XamlParseException e)
+            } catch (Exception e)
             {
                 MessageBox.Show($"Error starting main window:\n {e}", "DECRAFT");
             }
@@ -387,7 +387,12 @@ namespace DeCraftLauncher
                                         {
                                             if (evt.Error != null)
                                             {
-                                                MessageBox.Show($"Download error:\n{evt.Error.Message}", "DECRAFT");
+                                                string errorString = $"Download error:\n{evt.Error.Message}";
+                                                if (evt.Error is System.Net.WebException && evt.Error.Message.Contains("SSL/TLS"))
+                                                {
+                                                    errorString += "\n\nYour system's SSL certificates may have expired.";
+                                                }
+                                                MessageBox.Show(errorString, "DECRAFT");
                                             } else
                                             {
                                                 MessageBox.Show("Download complete", "DECRAFT");

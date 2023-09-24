@@ -12,6 +12,7 @@
         AcrylicWindowStyle="Normal"
         MinWidth="770"
         MinHeight="400"
+        fw:AcrylicWindow.Enabled="False"
         Title="DECRAFT Launcher" Height="508" Width="800" Background="#FA000000" ClipToBounds="False" Opacity="0.985">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -27,7 +28,7 @@
             </Rectangle.Fill>
         </Rectangle>
         <Label Content=".jar files" Margin="10,115,0,0" VerticalAlignment="Top" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalAlignment="Left" Width="84"/>
-        <ListBox x:Name="jarlist" TextSearch.TextPath="InnerText" IsTextSearchEnabled="True" d:ItemsSource="{d:SampleData ItemCount=5}" AllowDrop="True" Margin="0,157,0,0" Background="{x:Null}" Foreground="White" FontSize="16" BorderBrush="{x:Null}" SelectionChanged="jarlist_SelectionChanged" Drop="jarlist_Drop" HorizontalContentAlignment="Stretch" ScrollViewer.CanContentScroll="False"/>
+        <ListBox x:Name="jarlist" TextSearch.TextPath="InnerText" IsTextSearchEnabled="True" AllowDrop="True" Margin="0,157,0,0" Background="{x:Null}" Foreground="White" FontSize="16" BorderBrush="{x:Null}" SelectionChanged="jarlist_SelectionChanged" Drop="jarlist_Drop" HorizontalContentAlignment="Stretch" ScrollViewer.CanContentScroll="False"/>
         <Grid x:Name="segment_launch_options" Margin="0,10,10,10" Grid.Column="1" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="102*"/>
@@ -39,7 +40,7 @@
 
             <TextBox Style="{DynamicResource TextBoxMainStyle}" x:Name="tbox_playername" Margin="124,97,9,0" TextWrapping="NoWrap" Text="DECRAFT_Player" VerticalAlignment="Top"/>
             <Label Content="Player name" Margin="10,93,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" HorizontalAlignment="Left" Width="109"/>
-            <ListBox x:Name="entrypointlist" d:ItemsSource="{d:SampleData ItemCount=5}" Foreground="White" Margin="0,209,0,-10" BorderBrush="{x:Null}" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.CanContentScroll="False" Grid.ColumnSpan="2">
+            <ListBox x:Name="entrypointlist" Foreground="White" Margin="0,209,0,-10" BorderBrush="{x:Null}" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.CanContentScroll="False" Grid.ColumnSpan="2">
                 <ListBox.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="#50000000"/>

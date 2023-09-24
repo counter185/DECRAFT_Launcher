@@ -9,7 +9,7 @@
         NoiseOpacity="0.0001"
         TintColor="#000000"
         TintOpacity="0.6"
-        Title="DECRAFT: Set applet parameters" Height="279" Width="335" MinHeight="325" Background="#FA000000" AcrylicWindowStyle="Normal">
+        fw:AcrylicWindow.Enabled="False" Title="DECRAFT: Set applet parameters" Height="279" Width="335" MinHeight="325" Background="#FA000000" AcrylicWindowStyle="Normal">
     <Grid>
         <Label Content="Launch with applet parameters" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="White" FontSize="18" FontWeight="Bold"/>
         <Label Content="Server IP" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Foreground="White"/>

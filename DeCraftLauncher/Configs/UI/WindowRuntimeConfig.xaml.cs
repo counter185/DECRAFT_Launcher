@@ -62,7 +62,7 @@ namespace DeCraftLauncher.Configs.UI
                 }
             }
 
-            jreconfig_version.Content = $"<press Enter to test>\nJRE: {(verre != null ? verre : "<none>")}\nJDK: {(verdk != null ? verdk : "<none>")}";
+            jreconfig_version.Content = Util.CleanStringForXAML($"<press Enter to test>\nJRE: {(verre != null ? verre : "<none>")}\nJDK: {(verdk != null ? verdk : "<none>")}");
 
         }
 

@@ -9,7 +9,7 @@
         NoiseOpacity="0.0001"
         TintColor="#000000"
         TintOpacity="0.6"
-        Title="DECRAFT: Add custom launch" Height="212" MinWidth="306" MinHeight="216" Background="#FA000000" AcrylicWindowStyle="Normal" Width="534">
+        fw:AcrylicWindow.Enabled="False" Title="DECRAFT: Add custom launch" Height="212" MinWidth="306" MinHeight="216" Background="#FA000000" AcrylicWindowStyle="Normal" Width="534">
     <Grid>
         <Label Content="Add custom launch option" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="White" FontSize="18" FontWeight="Bold"/>
         <Label Content="Full command:" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top" Foreground="White"/>

@@ -23,7 +23,7 @@ namespace DeCraftLauncher
     /// <summary>
     /// Logika interakcji dla klasy MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : AcrylicWindow
+    public partial class MainWindow : Window
     {
         public const string jarDir = "./jars";
         public const string configDir = "./config";
@@ -223,7 +223,7 @@ namespace DeCraftLauncher
                 MessageBox.Show($"Error starting main window:\n {e}", "DECRAFT");
             }
             mainRTConfig = RuntimeConfig.LoadFromXML();
-            Util.UpdateAcrylicWindowBackground(this);
+            //Util.UpdateAcrylicWindowBackground(this);
             segment_launch_options.Visibility = Visibility.Hidden;
             //Console.WriteLine(JarUtils.GetJDKInstalled());
             UpdateLWJGLVersions();

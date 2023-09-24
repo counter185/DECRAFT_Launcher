@@ -334,6 +334,85 @@
                     </Trigger>
                 </Style.Triggers>
             </Style>
+
+            <LinearGradientBrush x:Key="LBoxSelectedItemGradient" EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#0378c7ff"/>
+                <GradientStop Color="#3078c7ff" Offset="1"/>
+            </LinearGradientBrush>            
+            
+            <LinearGradientBrush x:Key="LBoxHoveredItemGradient" EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#0321cfff"/>
+                <GradientStop Color="#10ffffff" Offset="1"/>
+            </LinearGradientBrush>           
+            
+            <LinearGradientBrush x:Key="LBoxNoBorderHoveredItemGradient" EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#03ffffff"/>
+                <GradientStop Color="#10ffffff" Offset="1"/>
+            </LinearGradientBrush>
+
+            <SolidColorBrush x:Key="LBoxSelectedItemBorder" Color="#FF78c7ff"/>
+
+            <Style x:Key="MainListBoxItemStyle" TargetType="ListBoxItem">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListBoxItem">
+                            <Border Name="_Border"
+                                Padding="2"
+                                SnapsToDevicePixels="true">
+                                <ContentPresenter />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="true">
+                                    <Setter TargetName="_Border" Property="Background" Value="{StaticResource LBoxSelectedItemGradient}"/>
+                                    <Setter TargetName="_Border" Property="BorderBrush" Value="{StaticResource LBoxSelectedItemBorder}"/>
+                                    <Setter TargetName="_Border" Property="BorderThickness" Value="0.4"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </Trigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsMouseOver" Value="true" />
+                                        <Condition Property="IsSelected" Value="false" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter TargetName="_Border" Property="Background" Value="{StaticResource LBoxHoveredItemGradient}"/>
+                                    <Setter TargetName="_Border" Property="BorderBrush" Value="White"/>
+                                    <Setter TargetName="_Border" Property="BorderThickness" Value="0.2"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </MultiTrigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>            
+
+            <Style x:Key="MainListBoxItemStyleNoSelectBorder" TargetType="ListBoxItem">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListBoxItem">
+                            <Border Name="_Border"
+                                Padding="2"
+                                SnapsToDevicePixels="true">
+                                <ContentPresenter />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="true">
+                                    <Setter TargetName="_Border" Property="Background" Value="{StaticResource LBoxSelectedItemGradient}"/>
+                                    <Setter TargetName="_Border" Property="BorderBrush" Value="{StaticResource LBoxSelectedItemBorder}"/>
+                                    <Setter TargetName="_Border" Property="BorderThickness" Value="0.4"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </Trigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsMouseOver" Value="true" />
+                                        <Condition Property="IsSelected" Value="false" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter TargetName="_Border" Property="Background" Value="{StaticResource LBoxNoBorderHoveredItemGradient}"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </MultiTrigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
 
     </Application.Resources>

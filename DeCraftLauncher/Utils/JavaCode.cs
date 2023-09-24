@@ -33,6 +33,7 @@ public class InjectedStreamHandlerFactory implements URLStreamHandlerFactory {{
         int connectionType = 0;     //0: login
                                     //1: skin server
                                     //2: resource server
+                                    //3: 1_6_has_been_released.flag
         String strippedConnUrl = """";
 
         protected InjectedURLConnection(URL url, int connectionType) {{
@@ -63,6 +64,9 @@ public class InjectedStreamHandlerFactory implements URLStreamHandlerFactory {{
                     System.out.println(""[InjectedUrlConnection(""+connectionType+"")] requested skin from path: "" + strippedConnUrl);
                     break;
                 case 2:
+                    break;
+                case 3:
+                    injectedDataStream = new ByteArrayInputStream(""https://github.com/counter185/DECRAFT_Launcher"".getBytes());
                     break;
             }}
             thisUrl = url;
@@ -106,6 +110,7 @@ public class InjectedStreamHandlerFactory implements URLStreamHandlerFactory {{
     class InjectedURLStreamHandler extends URLStreamHandler {{
 
         final boolean LOG_ALL_HTTP_CONNECTIONS = {(jar.appletLogHTTPRequests ? "true" : "false")};
+        final boolean IS_ONEPOINTSIX_HERE_YET = {(jar.appletIsOnePointSixHereYet ? "true" : "false")};
         final boolean INJECT_SKIN_REQUESTS = {(jar.appletRedirectSkins ? "true" : "false")};
         String protocol;
 
@@ -116,12 +121,18 @@ public class InjectedStreamHandlerFactory implements URLStreamHandlerFactory {{
         protected URLConnection openConnection(URL u) throws IOException {{
             //System.out.println(""[InjectedURLStreamHandler] url:"" + u);
             //System.out.println(""[InjectedURLStreamHandler] path:"" + u.getPath());
-            if (u.toString().contains(""?n="")){{
+            if (u.toString().contains(""?n=""))
+            {{
                 return new InjectedURLConnection(u, 0);
             }} else if ((u.toString().contains(""minecraft.net/skin/"")
                         || u.toString().contains(""skins.minecraft.net/MinecraftSkins/""))
-                        && INJECT_SKIN_REQUESTS) {{
+                        && INJECT_SKIN_REQUESTS) 
+            {{
                 return new InjectedURLConnection(u, 1);
+            }} else if (u.toString().contains(""assets.minecraft.net/1_6_has_been_released.flag"")
+                        && IS_ONEPOINTSIX_HERE_YET) 
+            {{
+                return new InjectedURLConnection(u, 3);
             }} else {{
                 if (LOG_ALL_HTTP_CONNECTIONS) {{
                     System.out.println(""[InjectedURLStreamHandler] url: "" + u + "" , path: "" + u.getPath());

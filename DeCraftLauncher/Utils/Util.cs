@@ -1,6 +1,7 @@
 ﻿using SourceChord.FluentWPF;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -54,10 +55,15 @@ namespace DeCraftLauncher.Utils
                 window.Background = new SolidColorBrush(WinColor.FromArgb(setTransparent ? TRANSPARENCY_ON : TRANSPARENCY_OFF, 0, 0, 0));
                 if (setTransparent)
                 {
-                    window.Opacity = 0.83;
+                    window.Opacity = 0.88;
                     window.TintOpacity = 0.1;
                 }
             }
+        }
+
+        public static bool RunningOnWine()
+        {
+            return Process.GetProcessesByName("csrss").Length == 0;
         }
 
         const string NODETYPE_ELEMENT = "element";

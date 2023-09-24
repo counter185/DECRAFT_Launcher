@@ -6,29 +6,27 @@
         xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
         xmlns:local="clr-namespace:DeCraftLauncher"
         mc:Ignorable="d"
-        NoiseOpacity="0.0001"
-        TintColor="#30000000"
-        TintOpacity="0.3"
-        AcrylicWindowStyle="Normal"
-        MinWidth="770"
-        MinHeight="400"
+        Height="508" Width="800"
+        MinWidth="800" MinHeight="400"
+        NoiseOpacity="0.001"
+        TintColor="#000000"
+        TintOpacity="0.6"
         fw:AcrylicWindow.Enabled="False"
-        Title="DECRAFT Launcher" Height="508" Width="800" Background="#FA000000" ClipToBounds="False" Opacity="0.985">
+        Title="DECRAFT Launcher" Background="#FF000000">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="235"/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="9*"/>
         </Grid.ColumnDefinitions>
-        <Rectangle HorizontalAlignment="Left" Width="232" Margin="0,157,0,0">
-            <Rectangle.Fill>
+        <Label Content=".jar files" Margin="10,115,10,0" VerticalAlignment="Top" Foreground="White" FontSize="20" FontWeight="Bold"/>
+        <ListBox x:Name="jarlist" TextSearch.TextPath="InnerText" ItemContainerStyle="{StaticResource MainListBoxItemStyleNoSelectBorder}" IsTextSearchEnabled="True" AllowDrop="True" Margin="0,157,0,0" Foreground="White" FontSize="16" BorderBrush="{x:Null}" SelectionChanged="jarlist_SelectionChanged" Drop="jarlist_Drop" HorizontalContentAlignment="Stretch" ScrollViewer.CanContentScroll="False">
+            <ListBox.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#50000000"/>
                     <GradientStop Color="#A0171717" Offset="1"/>
                 </LinearGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
-        <Label Content=".jar files" Margin="10,115,0,0" VerticalAlignment="Top" Foreground="White" FontSize="20" FontWeight="Bold" HorizontalAlignment="Left" Width="84"/>
-        <ListBox x:Name="jarlist" TextSearch.TextPath="InnerText" IsTextSearchEnabled="True" AllowDrop="True" Margin="0,157,0,0" Background="{x:Null}" Foreground="White" FontSize="16" BorderBrush="{x:Null}" SelectionChanged="jarlist_SelectionChanged" Drop="jarlist_Drop" HorizontalContentAlignment="Stretch" ScrollViewer.CanContentScroll="False"/>
+            </ListBox.Background>
+        </ListBox>
         <Grid x:Name="segment_launch_options" Margin="0,10,10,10" Grid.Column="1" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="102*"/>
@@ -40,7 +38,7 @@
 
             <TextBox Style="{DynamicResource TextBoxMainStyle}" x:Name="tbox_playername" Margin="124,97,9,0" TextWrapping="NoWrap" Text="DECRAFT_Player" VerticalAlignment="Top"/>
             <Label Content="Player name" Margin="10,93,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" HorizontalAlignment="Left" Width="109"/>
-            <ListBox x:Name="entrypointlist" Foreground="White" Margin="0,209,0,-10" BorderBrush="{x:Null}" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.CanContentScroll="False" Grid.ColumnSpan="2">
+            <ListBox x:Name="entrypointlist" Foreground="White" Margin="0,209,0,-10" ItemContainerStyle="{StaticResource MainListBoxItemStyle}" BorderBrush="{x:Null}" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.CanContentScroll="False" Grid.ColumnSpan="2">
                 <ListBox.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="#50000000"/>
@@ -67,7 +65,7 @@
         </Grid>
         <Image HorizontalAlignment="Left" Height="128" Margin="-12,0,0,0" VerticalAlignment="Top" Width="128" Source="/ImageRes/decraft_logo.png"/>
         <Label Content="DECRAFT" HorizontalAlignment="Left" Margin="71,2,0,0" VerticalAlignment="Top" Foreground="White" FontSize="36"/>
-        <Label x:Name="versionString" Content="1.0-dev" Margin="0,84,48,0" VerticalAlignment="Top" Foreground="#FF505050" HorizontalAlignment="Right" Width="107" FontStyle="Italic"/>
+        <Label x:Name="versionString" Content="1.0-dev" Margin="80,84,0,0" VerticalAlignment="Top" Foreground="#FF505050" FontStyle="Italic" HorizontalAlignment="Left" Width="107"/>
         <Button Content="Runtime settings" Margin="0,26,20,0" VerticalAlignment="Top" Height="26" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" Click="Button_Click" HorizontalAlignment="Right" Width="106" Grid.Column="1"/>
 
     </Grid>

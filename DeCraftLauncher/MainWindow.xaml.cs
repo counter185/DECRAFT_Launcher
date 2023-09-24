@@ -17,6 +17,7 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using static DeCraftLauncher.Utils.JarUtils;
+using System.Windows.Input;
 
 namespace DeCraftLauncher
 {
@@ -249,6 +250,11 @@ namespace DeCraftLauncher
                 tbox_instance_dir,
                 tbox_proxyhost
             };
+
+            if (Util.RunningOnWine())
+            {
+                MessageBox.Show("You may be running DECRAFT on the Wine compatibility layer.\nIf the launcher crashes after this popup, open \"winecfg\" and set your Windows version to Windows 7.\nDECRAFT can only use Windows versions of Java, so be sure to install one into your Wine prefix.\n\nGood luck, and expect bugs.", "DECRAFT");
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -437,6 +443,64 @@ namespace DeCraftLauncher
         public void SaveRuntimeConfig()
         {
             mainRTConfig.SaveToXML(this);
+        }
+
+        public static IEnumerable<T> FindLogicalChildren<T>(DependencyObject depObj) where T : DependencyObject
+        {
+            if (depObj != null)
+            {
+                foreach (object rawChild in LogicalTreeHelper.GetChildren(depObj))
+                {
+                    if (rawChild is DependencyObject)
+                    {
+                        DependencyObject child = (DependencyObject)rawChild;
+                        if (child is T)
+                        {
+                            yield return (T)child;
+                        }
+
+                        foreach (T childOfChild in FindLogicalChildren<T>(child))
+                        {
+                            yield return childOfChild;
+                        }
+                    }
+                }
+            }
+        }
+
+        int pauseBreakEECount = 0;
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            //comic sans easter egg
+            if (e.Key == Key.Pause)
+            {
+                if (pauseBreakEECount++ == 5)
+                {
+                    if (!Util.RunningOnWine())      //the font isn't installed there by default so it will crash
+                    {                               //sorry linux people no comic sans
+                        FontFamily targetFontFamily = new FontFamily("Comic Sans MS");
+                        foreach (TextBlock a in FindLogicalChildren<TextBlock>(this))
+                        {
+                            a.FontFamily = targetFontFamily;
+                        }
+                        foreach (Label a in FindLogicalChildren<Label>(this))
+                        {
+                            a.FontFamily = targetFontFamily;
+                        }
+                        foreach (TextBox a in FindLogicalChildren<TextBox>(this))
+                        {
+                            a.FontFamily = targetFontFamily;
+                        }
+                        foreach (Button a in FindLogicalChildren<Button>(this))
+                        {
+                            a.FontFamily = targetFontFamily;
+                        }
+                        pauseBreakEECount = 0;
+                    }
+                }
+            }
+            base.OnKeyDown(e);
         }
     }
 }

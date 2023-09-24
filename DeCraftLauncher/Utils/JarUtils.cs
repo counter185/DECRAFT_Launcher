@@ -150,6 +150,8 @@ namespace DeCraftLauncher.Utils
                      "Eclipse Adoptium",
                      "AdoptOpenJDK",
                      "Android/Android Studio",
+                     "BellSoft",    //Liberica
+                     "Semeru",      //IBM
                      "Microsoft"
                  };
                  foreach (string vendorPath in vendorPaths)

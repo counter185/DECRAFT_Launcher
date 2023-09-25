@@ -8,9 +8,9 @@
     <Grid>
         <Rectangle Fill="Transparent"/>
         <StackPanel Orientation="Horizontal">
-            <Label x:Name="label_arch" Content="??" Foreground="#6060FF" MinWidth="50" Margin="0,0,-5,0"></Label>
+            <Label x:Name="label_arch" Content="arch." Foreground="#6060FF" MinWidth="50" Margin="0,0,-5,0"></Label>
             <StackPanel Orientation="Vertical" MinWidth="85">
-                <Label x:Name="label_version" Content="17.0.0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="12" Margin="0,-6" Foreground="#FF919191" FontStyle="Italic"/>
+                <Label x:Name="label_version" Content="17.0.0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="12" Margin="0,-6" Foreground="#FFD8D8D8" FontStyle="Italic" FontWeight="DemiBold"/>
                 <Label x:Name="label_implementor" Content="whoever" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="9" Margin="0,-6" Foreground="#FF919191" FontStyle="Italic"/>
             </StackPanel>
             <Separator Width="3" Margin="2,0,2,0" ></Separator>

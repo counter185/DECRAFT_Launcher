@@ -16,6 +16,11 @@ All versions up until release 1.5.2 + modifications deriving from them are expec
 
 To run DECRAFT, you will need at least Windows Vista with .NET Framework 4.5.2 installed.
 
+Alternatively, you can run it on Linux through the Wine compatibility layer. With `winetricks` installed, use this command to install all prerequisites:
+```sh
+winetricks dotnet472 vcrun2012 d3dcompiler_47
+```
+
 ## Building
 
 To build the project, you will need Visual Studio 2019/2022 with `.NET Desktop Development` tools and `.NET Framework SDK 4.5.2` installed.

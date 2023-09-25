@@ -36,7 +36,7 @@ namespace DeCraftLauncher
                     (jar.appletEmulateHTTP && MainWindow.mainRTConfig.isJava9 ? "--add-exports java.base/sun.net.www.protocol.http=ALL-UNNAMED " : ""), true);
             } catch (ApplicationException)
             {
-                MessageBox.Show("Error compiling Applet Wrapper.", "DECRAFT");
+                MessageBox.Show("Failed to compile the Applet Wrapper.\n\nNote: the Applet Wrapper only supports JDK 6+", "DECRAFT");
                 return;
             }
             Console.WriteLine("Compilation log:");

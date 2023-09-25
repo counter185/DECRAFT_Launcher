@@ -144,7 +144,25 @@ namespace DeCraftLauncher.UIControls
                     mainFunctionExec.classPath.Add(Path.GetFullPath(MainWindow.jarDir + "/" + jarConfig.jarFileName));
                     if (jarConfig.LWJGLVersion != "+ built-in")
                     {
-                        mainFunctionExec.classPath.Add($"{MainWindow.currentDirectory}/lwjgl/{jarConfig.LWJGLVersion}/*");
+                        //mainFunctionExec.classPath.Add($"{MainWindow.currentDirectory}/lwjgl/{jarConfig.LWJGLVersion}/*");
+
+                        //the above is a much more efficient way of doing this right???
+                        //yeah
+                        //but it doesn't work with java 5 which can't handle wildcards
+
+                        try
+                        {
+                            foreach (string f in Directory.GetFiles($"{MainWindow.currentDirectory}/lwjgl/{jarConfig.LWJGLVersion}/"))
+                            {
+                                if (f.EndsWith(".jar"))
+                                {
+                                    mainFunctionExec.classPath.Add(f);
+                                }
+                            }
+                        } catch (Exception ex)
+                        {
+                            // don't care i think
+                        }
                     }
 
                     if (jarConfig.proxyHost != "")

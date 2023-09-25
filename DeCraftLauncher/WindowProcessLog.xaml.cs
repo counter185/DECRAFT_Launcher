@@ -191,6 +191,7 @@ namespace DeCraftLauncher
                         logtext.Text += "\n";
                         logtext.Text += "\nYour current Java version is too old to run this.";
                         logtext.Text += "\nOpen Runtime settings and set the path to the \"bin\" folder of a newer version of Java.";
+                        logtext.Text += "\n\n(Note: if you're running Java 5 and trying to launch a jar built with JDK 5, use an older version of LWJGL.)";
                     }                    
                     else if (logtext.Text.Contains("Unrecognized option: --add-exports"))
                     {

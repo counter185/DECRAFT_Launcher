@@ -32,7 +32,7 @@ namespace DeCraftLauncher
             }
             catch (ApplicationException)
             {
-                MessageBox.Show("Error compiling Main Wrapper.", "DECRAFT");
+                MessageBox.Show("Failed to compile the Main function Wrapper.\n\nNote: the Main function Wrapper only supports JDK 6+", "DECRAFT");
                 return;
             }
             Console.WriteLine("Compilation log:");

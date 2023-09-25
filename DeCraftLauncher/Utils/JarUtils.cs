@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Shapes;
 using static DeCraftLauncher.Utils.JavaClassReader;
 
@@ -31,10 +32,6 @@ namespace DeCraftLauncher.Utils
             proc.Start();
             proc.WaitForExit();
             //proc.WaitForExit(75);
-            if (proc.ExitCode != 0 && throwOnNZEC)
-            {
-                throw new ApplicationException("Non-zero exit code");
-            }
             List<string> stdout = new List<string>();
             while (!proc.StandardOutput.EndOfStream)
             {
@@ -43,6 +40,13 @@ namespace DeCraftLauncher.Utils
             while (!proc.StandardError.EndOfStream)
             {
                 stdout.Add(proc.StandardError.ReadLine());
+            }
+            if (proc.ExitCode != 0 && throwOnNZEC)
+            {
+#if DEBUG
+                MessageBox.Show(String.Join("\n", stdout), "DECRAFT Debug");
+#endif
+                throw new ApplicationException("Non-zero exit code");
             }
             return stdout;
         }

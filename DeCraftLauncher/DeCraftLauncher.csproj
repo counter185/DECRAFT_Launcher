@@ -109,6 +109,7 @@
       <DependentUpon>WindowJarAdvancedOptions.xaml</DependentUpon>
     </Compile>
     <Compile Include="JarEntry.cs" />
+    <Compile Include="MainFunctionWrapper.cs" />
     <Compile Include="UIControls\JarListEntry.xaml.cs">
       <DependentUpon>JarListEntry.xaml</DependentUpon>
     </Compile>

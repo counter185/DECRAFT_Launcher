@@ -47,12 +47,6 @@ namespace DeCraftLauncher
 
 
             //now we launch the compiled class
-            MainWindow.EnsureDir(MainWindow.instanceDir + "/" + jar.instanceDirName);
-            if (jar.cwdIsDotMinecraft)
-            {
-                MainWindow.EnsureDir(MainWindow.instanceDir + "/" + jar.instanceDirName + "/.minecraft");
-            }
-
             JavaExec appletExec = new JavaExec("decraft_internal.AppletWrapper");
 
             //class paths

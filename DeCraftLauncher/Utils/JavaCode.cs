@@ -258,5 +258,31 @@ public class AppletWrapper {{
 }}
 ";
         }
+        
+        public static string GenerateMainFunctionWrapperCode(string className, JarConfig jar)
+        {
+
+            return
+                $@"
+package decraft_internal;
+
+import java.applet.Applet;
+import java.applet.AppletContext;
+import java.applet.AppletStub;
+import java.net.MalformedURLException;
+import java.net.URL;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+import {className};
+
+public class MainFunctionWrapper {{
+
+    public static void main(String[] args){{
+        {(jar.appletEmulateHTTP ? "" : "//")}URL.setURLStreamHandlerFactory(new InjectedStreamHandlerFactory());
+        {className}.main(args);
+    }}
+}}
+";
+        }
     }
 }

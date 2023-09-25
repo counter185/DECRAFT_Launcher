@@ -14,7 +14,7 @@
     <Grid>
 
         <ScrollViewer x:Name="logscroller" SizeChanged="ScrollViewer_SizeChanged" Margin="0,0,0,44">
-            <TextBlock x:Name="logtext" TextWrapping="Wrap" Margin="10,10,10,10"/>
+            <TextBlock x:Name="logtext" TextWrapping="Wrap" Margin="10,10,10,10" />
         </ScrollViewer>
         <Button x:Name="proc_kill" Content="Kill process" HorizontalAlignment="Left" Margin="10,0,0,10" Width="97" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" Click="proc_kill_Click" Height="29" VerticalAlignment="Bottom"/>
 

@@ -124,41 +124,52 @@ namespace DeCraftLauncher.UIControls
                 Console.WriteLine("Extracted temp LWJGL natives");
             }
 
+            MainWindow.EnsureDir(MainWindow.instanceDir + "/" + jarConfig.instanceDirName);
+            if (jarConfig.cwdIsDotMinecraft)
+            {
+                MainWindow.EnsureDir(MainWindow.instanceDir + "/" + jarConfig.instanceDirName + "/.minecraft");
+            }
+
             if (entryPoint.type == JarUtils.EntryPointType.STATIC_VOID_MAIN)
             {
-                MainWindow.EnsureDir(MainWindow.instanceDir + "/" + jarConfig.instanceDirName);
-                MainWindow.EnsureDir(MainWindow.instanceDir + "/" + jarConfig.instanceDirName + "/.minecraft");
-
-                JavaExec mainFunctionExec = new JavaExec(entryPoint.classpath);
-
-                mainFunctionExec.classPath.Add(Path.GetFullPath(MainWindow.jarDir + "/" + jarConfig.jarFileName));
-                if (jarConfig.LWJGLVersion != "+ built-in")
+                if (Keyboard.IsKeyDown(Key.LeftShift))
                 {
-                    mainFunctionExec.classPath.Add($"{MainWindow.currentDirectory}/lwjgl/{jarConfig.LWJGLVersion}/*");
-                }
-
-                if (jarConfig.proxyHost != "")
+                    //todo: make this an advanced option
+                    MainFunctionWrapper.LaunchMainFunctionWrapper(entryPoint.classpath, jarConfig);
+                } 
+                else 
                 {
-                    mainFunctionExec.jvmArgs.Add($"-Dhttp.proxyHost={jarConfig.proxyHost.Replace(" ", "%20")}");
-                }
-                mainFunctionExec.jvmArgs.Add($"-Djava.library.path=\"{MainWindow.currentDirectory}/lwjgl/{(jarConfig.LWJGLVersion == "+ built-in" ? "_temp_builtin" : jarConfig.LWJGLVersion)}/native\"");
-                mainFunctionExec.jvmArgs.Add(jarConfig.jvmArgs);
+                    JavaExec mainFunctionExec = new JavaExec(entryPoint.classpath);
 
-                mainFunctionExec.programArgs.Add($"\"{jarConfig.playerName}\"");
-                mainFunctionExec.programArgs.Add(jarConfig.sessionID);
-                mainFunctionExec.programArgs.Add(jarConfig.gameArgs);
-                Console.WriteLine("Running command: java " + mainFunctionExec.GetFullArgsString());
+                    mainFunctionExec.classPath.Add(Path.GetFullPath(MainWindow.jarDir + "/" + jarConfig.jarFileName));
+                    if (jarConfig.LWJGLVersion != "+ built-in")
+                    {
+                        mainFunctionExec.classPath.Add($"{MainWindow.currentDirectory}/lwjgl/{jarConfig.LWJGLVersion}/*");
+                    }
 
-                string emulatedAppDataDir = Path.GetFullPath($"{MainWindow.currentDirectory}/{MainWindow.instanceDir}/{jarConfig.instanceDirName}");
-                mainFunctionExec.appdataDir = emulatedAppDataDir;
-                mainFunctionExec.workingDirectory = $"{emulatedAppDataDir}{(jarConfig.cwdIsDotMinecraft ? "/.minecraft" : "")}";
-                try
-                {
-                    new WindowProcessLog(mainFunctionExec.Start()).Show();
-                }
-                catch (Win32Exception w32e)
-                {
-                    MessageBox.Show($"Error launching java process: {w32e.Message}\n\nVerify that Java is installed in \"Runtime settings\".");
+                    if (jarConfig.proxyHost != "")
+                    {
+                        mainFunctionExec.jvmArgs.Add($"-Dhttp.proxyHost={jarConfig.proxyHost.Replace(" ", "%20")}");
+                    }
+                    mainFunctionExec.jvmArgs.Add($"-Djava.library.path=\"{MainWindow.currentDirectory}/lwjgl/{(jarConfig.LWJGLVersion == "+ built-in" ? "_temp_builtin" : jarConfig.LWJGLVersion)}/native\"");
+                    mainFunctionExec.jvmArgs.Add(jarConfig.jvmArgs);
+
+                    mainFunctionExec.programArgs.Add($"\"{jarConfig.playerName}\"");
+                    mainFunctionExec.programArgs.Add(jarConfig.sessionID);
+                    mainFunctionExec.programArgs.Add(jarConfig.gameArgs);
+                    Console.WriteLine("Running command: java " + mainFunctionExec.GetFullArgsString());
+
+                    string emulatedAppDataDir = Path.GetFullPath($"{MainWindow.currentDirectory}/{MainWindow.instanceDir}/{jarConfig.instanceDirName}");
+                    mainFunctionExec.appdataDir = emulatedAppDataDir;
+                    mainFunctionExec.workingDirectory = $"{emulatedAppDataDir}{(jarConfig.cwdIsDotMinecraft ? "/.minecraft" : "")}";
+                    try
+                    {
+                        new WindowProcessLog(mainFunctionExec.Start()).Show();
+                    }
+                    catch (Win32Exception w32e)
+                    {
+                        MessageBox.Show($"Error launching java process: {w32e.Message}\n\nVerify that Java is installed in \"Runtime settings\".");
+                    }
                 }
             } 
             else if (entryPoint.type == JarUtils.EntryPointType.APPLET)

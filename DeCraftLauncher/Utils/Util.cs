@@ -182,6 +182,24 @@ namespace DeCraftLauncher.Utils
             }
         }
 
+        public static int TryParseJavaVersionString(string str)
+        {
+            try
+            {
+                string[] splitJDKVer = str.Split('.');
+                string majorVersion = splitJDKVer[0];
+                if (majorVersion == "1")
+                {
+                    majorVersion = splitJDKVer[1];
+                }
+                return int.Parse(majorVersion);
+            }
+            catch (Exception)
+            {
+            }
+            return -1;
+        }
+
         public static int TryParseJavaCVersionString(string str)
         {
             if (str.StartsWith("javac "))

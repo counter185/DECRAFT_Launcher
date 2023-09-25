@@ -25,6 +25,8 @@ namespace DeCraftLauncher.UIControls
     {
         string versionString = "???";
         string path = "";
+        string implementor = "";
+        string arch = "??";
 
         WindowJavaFinder target;
 
@@ -34,9 +36,30 @@ namespace DeCraftLauncher.UIControls
             InitializeComponent();
             this.versionString = javaInstall.version;
             this.path = javaInstall.path;
+            this.implementor = javaInstall.implementor;
+            this.arch = javaInstall.arch;
 
             label_version.Content = Util.CleanStringForXAML(versionString);
             label_path.Content = Util.CleanStringForXAML(path);
+            label_implementor.Content = Util.CleanStringForXAML(implementor);
+            label_arch.Content = Util.CleanStringForXAML(arch);
+            label_arch.Foreground = GetBrushForArch(arch);
+        }
+
+        Brush GetBrushForArch(string archV)
+        {
+            switch (archV)
+            {
+                case "amd64":
+                    return Brushes.Green;
+                case "x86_64":
+                    return Brushes.LawnGreen;
+                case "i586":
+                    return Brushes.Red;
+                case "x86":
+                    return Brushes.OrangeRed;
+            }
+            return Brushes.DeepSkyBlue;
         }
 
         protected override void OnMouseDoubleClick(MouseButtonEventArgs e)

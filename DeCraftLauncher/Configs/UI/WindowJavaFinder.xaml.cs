@@ -31,7 +31,9 @@ namespace DeCraftLauncher.Configs.UI
             InitializeComponent();
             Util.UpdateAcrylicWindowBackground(this);
             List<JarUtils.JavaFinderResult> javaInstalls = JarUtils.FindAllJavaInstallations();
-            foreach (JarUtils.JavaFinderResult javaInstall in javaInstalls)
+            foreach (JarUtils.JavaFinderResult javaInstall in (from x in javaInstalls 
+                                                               orderby Util.TryParseJavaVersionString(x.version) descending
+                                                               select x))
             {
                 listbox_javaversions.Items.Add(new JavaFinderEntry(this, javaInstall));
             }

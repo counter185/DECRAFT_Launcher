@@ -103,36 +103,48 @@ namespace DeCraftLauncher.Utils
             return at != "" ? File.Exists(at + "javac.exe") : GetJDKInstalled(at) != null;
         }
 
-        public static string GetJavaVersionFromReleaseFile(string fileAt)
-        {
-            if (File.Exists(fileAt))
-            {
-                string[] lines = File.ReadAllLines(fileAt);
-                foreach (string line in lines)
-                {
-                    string[] splt = line.Split('=');
-                    try
-                    {
-                        if (splt[0] == "JAVA_VERSION")
-                        {
-                            return splt[1].Replace("\"", "");
-                        }
-                    }
-                    catch (IndexOutOfRangeException) { }
-                }
-            }
-            return null;
-        }
-
         public struct JavaFinderResult
         {
             public string version;
             public string path;
+            public string implementor;
+            public string arch;
 
-            public JavaFinderResult(string version, string path)
+            public JavaFinderResult(string path)
             {
-                this.version = version;
+                this.version = "???";
                 this.path = path;
+                this.implementor = "---";
+                this.arch = "(unk.)";
+            }
+
+            public JavaFinderResult UpdateFromReleaseFile(string fileAt)
+            {
+                if (File.Exists(fileAt))
+                {
+                    string[] lines = File.ReadAllLines(fileAt);
+                    foreach (string line in lines)
+                    {
+                        string[] splt = line.Split('=');
+                        try
+                        {
+                            switch (splt[0])
+                            {
+                                case "JAVA_VERSION":
+                                    this.version = splt[1].Replace("\"", "");
+                                    break;
+                                case "IMPLEMENTOR":
+                                    this.implementor = splt[1].Replace("\"", "");
+                                    break;
+                                case "OS_ARCH":
+                                    this.arch = splt[1].Replace("\"", "");
+                                    break;
+                            }
+                        }
+                        catch (IndexOutOfRangeException) { }
+                    }
+                }
+                return this;
             }
         }
 
@@ -180,11 +192,11 @@ namespace DeCraftLauncher.Utils
 
                 (from njavapath in potentialPotentialPaths
                  where File.Exists(njavapath + "bin/java.exe")
-                 select new JavaFinderResult((File.Exists(njavapath + "release") ? GetJavaVersionFromReleaseFile(njavapath + "release") : "???"), (njavapath + "bin/")))
+                 select new JavaFinderResult(njavapath + "bin/").UpdateFromReleaseFile(njavapath + "release"))
                  .ToList().ForEach((a) => results.Add(a));
 
             }
-            return (from x in results 
+            return (from x in results
                     group x by x.path into y
                     select y.First()).ToList();
         }

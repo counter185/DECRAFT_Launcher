@@ -183,6 +183,14 @@ namespace DeCraftLauncher.Utils
                 potentialPaths.Add(envJAVA_HOME + (envJAVA_HOME.EndsWith("/") ? "" : "/"));
             }
 
+            string envLOCALAPPDATA = Environment.GetEnvironmentVariable("localappdata");
+            if (envLOCALAPPDATA != null)
+            {
+                envLOCALAPPDATA = envLOCALAPPDATA.Replace('\\', '/');
+                //lmao if this works
+                potentialPaths.Add($"{envLOCALAPPDATA}/Packages/Microsoft.4297127D64EC6_8wekyb3d8bbwe/LocalCache/Local/runtime/jre-legacy/windows-x64/");
+            }
+
             List<JavaFinderResult> results = new List<JavaFinderResult>();
             foreach (string ppath in potentialPaths)
             {

@@ -58,6 +58,10 @@ namespace DeCraftLauncher
             }
             mainFunctionExec.jvmArgs.Add($"-Djava.library.path=\"{MainWindow.currentDirectory}/lwjgl/{(jar.LWJGLVersion == "+ built-in" ? "_temp_builtin" : jar.LWJGLVersion)}/native\"");
             mainFunctionExec.jvmArgs.Add(jar.jvmArgs);
+            if (jar.appletEmulateHTTP && MainWindow.mainRTConfig.isJava9)
+            {
+                mainFunctionExec.jvmArgs.Add("--add-exports java.base/sun.net.www.protocol.http=ALL-UNNAMED");
+            }
 
             mainFunctionExec.programArgs.Add($"\"{jar.playerName}\"");
             mainFunctionExec.programArgs.Add(jar.sessionID);

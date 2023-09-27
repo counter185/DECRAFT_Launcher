@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -232,6 +233,73 @@ namespace DeCraftLauncher
                 //??????
             }
             proc_kill.Visibility = Visibility.Hidden;
+        }
+
+        public string ProcessLogTranslateString(string a, TinyV2Mapper tinyV2Mapper)
+        {
+            if (a.StartsWith("\tat "))
+            {
+                string classPathString = a.Substring(4).Split('(')[0];
+                int l = classPathString.LastIndexOf('.');
+                string classPath = classPathString.Substring(0, l);
+                string methodName = classPathString.Substring(l+1);
+
+                var possibleClassPaths = (from x in tinyV2Mapper.remappedClasses
+                                          where x.@from == classPath.Replace('.', '/')
+                                          select x);
+                if (!possibleClassPaths.Any())
+                {
+                    possibleClassPaths = (from x in tinyV2Mapper.remappedClasses
+                                          where x.to == classPath.Replace('.', '/')
+                                          select x);
+                }
+                if (possibleClassPaths.Any())
+                {
+                    TinyV2Mapper.ClassMapping fClassPath = possibleClassPaths.First();
+                    classPath = fClassPath.to.Replace('/', '.');
+                    try
+                    {
+                        var possibleMethodNames = (from x in fClassPath.remappedMethods
+                                                   where x.@from == methodName
+                                                   select x.to);
+                        if (possibleMethodNames.Count() == 1)
+                        {
+                            methodName = possibleMethodNames.First();
+                        }
+                        else if (possibleMethodNames.Count() > 1)
+                        {
+                            methodName = $"<multiple choices: {String.Join(",", possibleMethodNames)}>";
+                        }
+                    } catch (InvalidOperationException)
+                    {
+                    }
+                }
+
+                return $"\tat {classPath}.{methodName}{a.Substring(a.LastIndexOf('('))}";
+
+            } else
+            {
+                return a;
+            }
+        }
+
+        protected override void OnKeyDown(System.Windows.Input.KeyEventArgs e)
+        {
+            //todo: make this a visible option
+            if (e.Key == Key.Pause)
+            {
+                OpenFileDialog tinyV2MapDialog = new OpenFileDialog();
+                tinyV2MapDialog.Filter = "TinyV2 Files|*.tiny";
+                if (tinyV2MapDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    TinyV2Mapper tinyV2Mapper = TinyV2Mapper.FromMappingsFile(tinyV2MapDialog.FileName);
+                    Console.WriteLine("Read " + tinyV2Mapper.remappedClasses.Count + " remapped classes");
+                    string currentLogText = logtext.Text;
+                    logtext.Text = String.Join("\n", (from x in currentLogText.Split('\n')
+                                                      select ProcessLogTranslateString(x, tinyV2Mapper)));
+                }
+            }
+            base.OnKeyDown(e);
         }
     }
 }

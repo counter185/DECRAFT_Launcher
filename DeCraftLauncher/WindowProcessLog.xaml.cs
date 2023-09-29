@@ -155,6 +155,10 @@ namespace DeCraftLauncher
                 Dispatcher.Invoke(delegate
                 {
                     logtext.Text += "Process exited with code " + t.ExitCode;
+                    if (logtext.Text.Contains("\n\tat "))
+                    {
+                        logtext.Text += "\n[F1]: translate the stack trace using a TinyV2 mappings file";
+                    }
                     logscroller.ScrollToVerticalOffset(logscroller.ExtentHeight);
                     proc_kill.Visibility = Visibility.Hidden;
 
@@ -286,7 +290,7 @@ namespace DeCraftLauncher
         protected override void OnKeyDown(System.Windows.Input.KeyEventArgs e)
         {
             //todo: make this a visible option
-            if (e.Key == Key.Pause)
+            if (e.Key == Key.F1)
             {
                 OpenFileDialog tinyV2MapDialog = new OpenFileDialog();
                 tinyV2MapDialog.Filter = "TinyV2 Files|*.tiny";

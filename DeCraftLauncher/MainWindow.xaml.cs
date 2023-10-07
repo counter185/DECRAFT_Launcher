@@ -224,7 +224,6 @@ namespace DeCraftLauncher
             {
                 MessageBox.Show($"Error starting main window:\n {e}", "DECRAFT");
             }
-            NBTReader.NBTData testNBT = NBTReader.NBTData.FromFile("C:/Users/count/Desktop/cntrpl.dat");
             mainRTConfig = RuntimeConfig.LoadFromXML();
             Util.UpdateAcrylicWindowBackground(this);
             segment_launch_options.Visibility = Visibility.Hidden;

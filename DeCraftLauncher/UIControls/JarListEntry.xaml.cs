@@ -60,7 +60,7 @@ namespace DeCraftLauncher.UIControls
             string target = Interaction.InputBox($"Rename {jar.jarFileName}:", "DECRAFT", jar.jarFileName.Substring(0, jar.jarFileName.Length-4));
             string newJarName = $"{MainWindow.jarDir}/{target}.jar";
             string newJarConfName = $"{MainWindow.configDir}/{target}.jar.xml";
-            if (!File.Exists(newJarName))
+            if (target != "" && !File.Exists(newJarName))
             {
                 File.Move($"{MainWindow.jarDir}/{jar.jarFileName}", newJarName);
                 if (File.Exists(newJarConfName))

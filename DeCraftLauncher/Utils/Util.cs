@@ -139,6 +139,27 @@ namespace DeCraftLauncher.Utils
             }
             return BitConverter.ToInt64(buffer, 0);
         }
+        
+        public static float StreamReadFloat(Stream input)
+        {
+            byte[] buffer = new byte[4];
+            input.Read(buffer, 0, 4);
+            if (BitConverter.IsLittleEndian)
+            {
+                buffer = buffer.Reverse().ToArray();
+            }
+            return BitConverter.ToSingle(buffer, 0);
+        }        
+        public static double StreamReadDouble(Stream input)
+        {
+            byte[] buffer = new byte[8];
+            input.Read(buffer, 0, 8);
+            if (BitConverter.IsLittleEndian)
+            {
+                buffer = buffer.Reverse().ToArray();
+            }
+            return BitConverter.ToDouble(buffer, 0);
+        }
 
         static readonly string[] Java_MajorVersionNames =
         {

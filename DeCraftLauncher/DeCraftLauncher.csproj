@@ -110,6 +110,7 @@
     </Compile>
     <Compile Include="JarEntry.cs" />
     <Compile Include="MainFunctionWrapper.cs" />
+    <Compile Include="NBTReader\NBTData.cs" />
     <Compile Include="UIControls\JarListEntry.xaml.cs">
       <DependentUpon>JarListEntry.xaml</DependentUpon>
     </Compile>

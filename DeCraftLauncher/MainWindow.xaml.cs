@@ -18,6 +18,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using static DeCraftLauncher.Utils.JarUtils;
 using System.Windows.Input;
+using DeCraftLauncher.NBTReader;
 
 namespace DeCraftLauncher
 {
@@ -223,6 +224,7 @@ namespace DeCraftLauncher
             {
                 MessageBox.Show($"Error starting main window:\n {e}", "DECRAFT");
             }
+            NBTReader.NBTData testNBT = NBTReader.NBTData.FromFile("C:/Users/count/Desktop/cntrpl.dat");
             mainRTConfig = RuntimeConfig.LoadFromXML();
             Util.UpdateAcrylicWindowBackground(this);
             segment_launch_options.Visibility = Visibility.Hidden;
@@ -411,6 +413,17 @@ namespace DeCraftLauncher
                             } catch (Exception ex)
                             {
                                 MessageBox.Show($"Error reading {a}.\nThe JSON file may be invalid or not in a standard launcher format.\n\n{ex.Message}", "DECRAFT");
+                            }
+                        }
+                        else if (a.EndsWith(".dat") || a.EndsWith(".nbt"))
+                        {
+                            try
+                            {
+                                NBTData nbtData = NBTData.FromFile(a);
+                                NBTData.PrintNBT(nbtData.rootNode);
+                            } catch (Exception ex)
+                            {
+                                MessageBox.Show($"Error reading NBT data:\n {ex.Message}", "DECRAFT");
                             }
                         }
                     }

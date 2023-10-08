@@ -80,7 +80,6 @@ namespace DeCraftLauncher
             if (jarlist.SelectedItem == null)
             {
                 currentlySelectedJar = null;
-                segment_launch_options.Visibility = Visibility.Hidden;
             }
             else
             {
@@ -152,7 +151,6 @@ namespace DeCraftLauncher
                         StartEntryPointScan();
                         entrypointlist.Items.Add(new LaunchEntryPointFinding(wthreads.First().report));
                     }
-                    segment_launch_options.Visibility = Visibility.Visible;
                 }
                 UpdateLWJGLVersions();
             }
@@ -226,7 +224,7 @@ namespace DeCraftLauncher
             }
             mainRTConfig = RuntimeConfig.LoadFromXML();
             Util.UpdateAcrylicWindowBackground(this);
-            segment_launch_options.Visibility = Visibility.Hidden;
+            ShowPanelWelcome();
             //Console.WriteLine(JarUtils.GetJDKInstalled());
             UpdateLWJGLVersions();
             FileSystemWatcher lwjglVersionWatcher = new FileSystemWatcher("./lwjgl");
@@ -269,8 +267,17 @@ namespace DeCraftLauncher
             if (currentlySelectedJar != null)
             {
                 SaveCurrentJarConfig();
+                
+            } 
+            if (jarlist.SelectedItem == null)
+            {
+                ShowPanelWelcome();
+            } else
+            {
+                UpdateLaunchOptionsSegment();
+                ShowPanelLaunchSettings();
             }
-            UpdateLaunchOptionsSegment();
+            
         }        
 
         private void StartEntryPointScan()
@@ -513,6 +520,17 @@ namespace DeCraftLauncher
                 }
             }
             base.OnKeyDown(e);
+        }
+
+        public void ShowPanelLaunchSettings()
+        {
+            segment_welcome.Visibility = Visibility.Hidden;
+            segment_launch_options.Visibility = Visibility.Visible;
+        }        
+        public void ShowPanelWelcome()
+        {
+            segment_welcome.Visibility = Visibility.Visible;
+            segment_launch_options.Visibility = Visibility.Hidden;
         }
     }
 }

@@ -34,6 +34,7 @@ namespace DeCraftLauncher.UIControls
         {
             this.caller = caller;
             InitializeComponent();
+
             this.jar = jar;
 
             bool hasFriendlyName = !String.IsNullOrEmpty(jar.friendlyName);

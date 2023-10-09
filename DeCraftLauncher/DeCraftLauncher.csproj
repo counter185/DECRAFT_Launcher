@@ -109,6 +109,7 @@
       <DependentUpon>WindowJarAdvancedOptions.xaml</DependentUpon>
     </Compile>
     <Compile Include="JarEntry.cs" />
+    <Compile Include="Localization\LocalizationData.cs" />
     <Compile Include="MainFunctionWrapper.cs" />
     <Compile Include="NBTReader\NBTData.cs" />
     <Compile Include="UIControls\JarListEntry.xaml.cs">
@@ -248,6 +249,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Localization\LocEnglish.ini" />
     <None Include="MediaDevices.chm" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

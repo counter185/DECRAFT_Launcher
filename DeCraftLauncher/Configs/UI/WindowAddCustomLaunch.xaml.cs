@@ -30,6 +30,14 @@ namespace DeCraftLauncher.Configs.UI
             this.target = target;
             this.parent = parent;
             InitializeComponent();
+
+            Dictionary<object, string> localization = new Dictionary<object, string>() {
+                {label_windowaddcustomlaunch, "l.ui.window_add_custom_launch"},
+                {label_fullcommand, "l.ui.window_custom_launch_fullcommand"},
+                {btn_add, "btn.ui.window_custom_launch_add"},
+            };
+            MainWindow.locale.Localize(localization);
+
             Util.UpdateAcrylicWindowBackground(this);
         }
 

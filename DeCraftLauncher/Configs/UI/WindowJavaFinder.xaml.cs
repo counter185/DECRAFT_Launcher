@@ -29,6 +29,12 @@ namespace DeCraftLauncher.Configs.UI
             this.caller = caller;
 
             InitializeComponent();
+
+            Dictionary<object, string> localization = new Dictionary<object, string>() {
+                {label_header, "l.ui.window_select_java"},
+            };
+            MainWindow.locale.Localize(localization);
+
             Util.UpdateAcrylicWindowBackground(this);
             List<JarUtils.JavaFinderResult> javaInstalls = JarUtils.FindAllJavaInstallations();
             foreach (JarUtils.JavaFinderResult javaInstall in (from x in javaInstalls 

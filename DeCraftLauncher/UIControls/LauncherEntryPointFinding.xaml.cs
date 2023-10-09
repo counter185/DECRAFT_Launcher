@@ -24,6 +24,12 @@ namespace DeCraftLauncher.UIControls
         public LaunchEntryPointFinding(ReferenceType<float> target)
         {
             InitializeComponent();
+
+            Dictionary<object, string> localization = new Dictionary<object, string>() {
+                {label_classname, "l.ui.searching_entry_points"},
+            };
+            MainWindow.locale.Localize(localization);
+
             progress = target;
             new Thread(ThreadUpdate).Start();
         }

@@ -19,6 +19,7 @@ using System.Windows.Shapes;
 using static DeCraftLauncher.Utils.JarUtils;
 using System.Windows.Input;
 using DeCraftLauncher.NBTReader;
+using DeCraftLauncher.Localization;
 
 namespace DeCraftLauncher
 {
@@ -31,6 +32,7 @@ namespace DeCraftLauncher
         public const string configDir = "./config";
         public const string instanceDir = "./instance";
         public static RuntimeConfig mainRTConfig = new RuntimeConfig();
+        public static LocalizationData locale = new LocalizationData();
 
         public readonly string[] unimportantClasspaths = new string[] { 
             "org.jsoup.",
@@ -49,6 +51,70 @@ namespace DeCraftLauncher
 
         public List<WorkerThread> currentScanThreads = new List<WorkerThread>();
         public List<JarEntry> loadedJars = new List<JarEntry>();
+
+        public MainWindow()
+        {
+            currentDirectory = Directory.GetCurrentDirectory();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"Error starting main window:\n {e}", "DECRAFT");
+            }
+
+            locale.InitLocalization();
+            locale.DebugSaveDefaultLoc("LocEng.ini");
+            Dictionary<object, string> localization = new Dictionary<object, string>() {
+                {btn_rtsettings, "btn.runtime_settings"},
+                {btn_advanced_settings, "btn.advanced_settings"},
+                {btn_scan_entrypoints, "btn.rescan_entry_points"},
+                {label_launchoptions, "l.launch_options"},
+                {label_jarfiles, "l.jar_files"},
+                {label_entrypoints, "l.entry_points"},
+                {label_jvmoptions, "l.jvm_options"},
+                {label_player_name, "l.player_name"},
+                {label_lwjglversion, "l.lwjgl_version"},
+                {label_proxyhost, "l.proxy_host"},
+                {label_instancedir, "l.instance_directory"},
+                {label_windowsize, "l.window_size"},
+            };
+            locale.Localize(localization);
+
+            mainRTConfig = RuntimeConfig.LoadFromXML();
+            Util.UpdateAcrylicWindowBackground(this);
+            ShowPanelWelcome();
+            //Console.WriteLine(JarUtils.GetJDKInstalled());
+            UpdateLWJGLVersions();
+            FileSystemWatcher lwjglVersionWatcher = new FileSystemWatcher("./lwjgl");
+            lwjglVersionWatcher.EnableRaisingEvents = true;
+            lwjglVersionWatcher.Created += delegate { Dispatcher.Invoke(UpdateLWJGLVersions); };
+            lwjglVersionWatcher.Deleted += delegate { Dispatcher.Invoke(UpdateLWJGLVersions); };
+            lwjglVersionWatcher.Renamed += delegate { Dispatcher.Invoke(UpdateLWJGLVersions); };
+            ResetJarlist();
+            //Test.TestXMLSaveLoad();
+            //Test.TestClassParse();
+            FileSystemWatcher watcher = new FileSystemWatcher("./jars", "*.jar");
+            watcher.EnableRaisingEvents = true;
+            watcher.Created += delegate { Dispatcher.Invoke(ResetJarlist); };
+            watcher.Deleted += delegate { Dispatcher.Invoke(ResetJarlist); };
+            watcher.Renamed += delegate { Dispatcher.Invoke(ResetJarlist); };
+
+            TextBox[] saveEvents = new TextBox[] {
+                jvmargs,
+                window_width,
+                window_height,
+                tbox_playername,
+                tbox_instance_dir,
+                tbox_proxyhost
+            };
+
+            if (Util.RunningOnWine())
+            {
+                MessageBox.Show("You may be running DECRAFT on the Wine compatibility layer.\nIf the launcher crashes after this popup, open \"winecfg\" and set your Windows version to Windows 7.\nDECRAFT can only use Windows versions of Java, so be sure to install one into your Wine prefix.\n\nGood luck, and expect bugs.", "DECRAFT");
+            }
+        }
 
         public void UpdateLWJGLVersions()
         {
@@ -209,50 +275,6 @@ namespace DeCraftLauncher
             if (hadNonMatchingEntries)
             {
                 SaveRuntimeConfig();
-            }
-        }
-
-        public MainWindow()
-        {
-            currentDirectory = Directory.GetCurrentDirectory();
-            try
-            {
-                InitializeComponent();
-            } catch (Exception e)
-            {
-                MessageBox.Show($"Error starting main window:\n {e}", "DECRAFT");
-            }
-            mainRTConfig = RuntimeConfig.LoadFromXML();
-            Util.UpdateAcrylicWindowBackground(this);
-            ShowPanelWelcome();
-            //Console.WriteLine(JarUtils.GetJDKInstalled());
-            UpdateLWJGLVersions();
-            FileSystemWatcher lwjglVersionWatcher = new FileSystemWatcher("./lwjgl");
-            lwjglVersionWatcher.EnableRaisingEvents = true;
-            lwjglVersionWatcher.Created += delegate { Dispatcher.Invoke(UpdateLWJGLVersions); };
-            lwjglVersionWatcher.Deleted += delegate { Dispatcher.Invoke(UpdateLWJGLVersions); };
-            lwjglVersionWatcher.Renamed += delegate { Dispatcher.Invoke(UpdateLWJGLVersions); };
-            ResetJarlist();
-            //Test.TestXMLSaveLoad();
-            //Test.TestClassParse();
-            FileSystemWatcher watcher = new FileSystemWatcher("./jars", "*.jar");
-            watcher.EnableRaisingEvents = true;
-            watcher.Created += delegate { Dispatcher.Invoke(ResetJarlist); };
-            watcher.Deleted += delegate { Dispatcher.Invoke(ResetJarlist); };
-            watcher.Renamed += delegate { Dispatcher.Invoke(ResetJarlist); };
-
-            TextBox[] saveEvents = new TextBox[] {
-                jvmargs,
-                window_width,
-                window_height,
-                tbox_playername,
-                tbox_instance_dir,
-                tbox_proxyhost
-            };
-
-            if (Util.RunningOnWine())
-            {
-                MessageBox.Show("You may be running DECRAFT on the Wine compatibility layer.\nIf the launcher crashes after this popup, open \"winecfg\" and set your Windows version to Windows 7.\nDECRAFT can only use Windows versions of Java, so be sure to install one into your Wine prefix.\n\nGood luck, and expect bugs.", "DECRAFT");
             }
         }
 

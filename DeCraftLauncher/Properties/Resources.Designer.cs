@@ -19,7 +19,7 @@ namespace DeCraftLauncher.Properties {
     // przez narzędzie, takie jak ResGen lub Visual Studio.
     // Aby dodać lub usunąć składową, edytuj plik ResX, a następnie ponownie uruchom narzędzie ResGen
     // z opcją /str lub ponownie utwórz projekt VS.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -57,6 +57,28 @@ namespace DeCraftLauncher.Properties {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu btn.runtime_settings=Runtime settings
+        ///btn.advanced_settings=Advanced settings
+        ///btn.rescan_entry_points=Rescan entry points
+        ///l.launch_options=Launch options
+        ///l.jar_files=.jar files
+        ///l.entry_points=Entry points
+        ///l.jvm_options=JVM options
+        ///l.player_name=Player name
+        ///l.lwjgl_version=LWJGL Version
+        ///l.proxy_host=Proxy host
+        ///l.instance_directory=Instance directory
+        ///l.window_size=Window size
+        ///l.ui.searching_entry_points=Searching classes for entry points...
+        ///.
+        /// </summary>
+        internal static string LocEnglish {
+            get {
+                return ResourceManager.GetString("LocEnglish", resourceCulture);
             }
         }
     }

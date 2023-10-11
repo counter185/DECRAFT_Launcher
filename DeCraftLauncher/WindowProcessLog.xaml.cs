@@ -218,6 +218,13 @@ namespace DeCraftLauncher
                         logtext.Text += "\nThe launch failed due to a version mismatch between LWJGL's Java library and its DLLs.";
                         logtext.Text += "\nThis jar may have been packaged with a different LWJGL version. ";
                     }
+                    else if (logtext.Text.Contains("Can't load IA 32-bit .dll on a ARM 64-bit platform"))
+                    {
+                        logtext.Text += "\n----------------------------------------------";
+                        logtext.Text += "\n";
+                        logtext.Text += "\nThe launch failed, because you are using a Java version designed for ARM64, which cannot load x86 DLLs.";
+                        logtext.Text += "\nOpen Runtime settings set the Java path to a non-ARM version of Java.";
+                    }
                 });
             };
         }

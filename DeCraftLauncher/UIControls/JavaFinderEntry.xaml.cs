@@ -58,6 +58,8 @@ namespace DeCraftLauncher.UIControls
                     return Brushes.IndianRed;
                 case "x86":
                     return Brushes.Red;
+                case "aarch64":
+                    return Brushes.Yellow;
             }
             return Brushes.DeepSkyBlue;
         }

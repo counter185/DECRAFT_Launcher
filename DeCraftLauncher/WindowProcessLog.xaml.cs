@@ -223,7 +223,8 @@ namespace DeCraftLauncher
                         logtext.Text += "\n----------------------------------------------";
                         logtext.Text += "\n";
                         logtext.Text += "\nThe launch failed, because you are using a Java version designed for ARM64, which cannot load x86 DLLs.";
-                        logtext.Text += "\nOpen Runtime settings set the Java path to a non-ARM version of Java.";
+                        logtext.Text += "\nIf possible, open Runtime settings set the Java path to a non-ARM version of Java.";
+                        logtext.Text += "\nAlternatively, add a version of LWJGL with ARM DLLs.";
                     }
                 });
             };

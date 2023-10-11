@@ -174,6 +174,7 @@ namespace DeCraftLauncher.Utils
                  {
                      potentialPaths.Add(driveLabel + "Program Files/" + vendorPath + "/");
                      potentialPaths.Add(driveLabel + "Program Files (x86)/" + vendorPath + "/");
+                     potentialPaths.Add(driveLabel + "Program Files (Arm)/" + vendorPath + "/");
                  }
              });
 

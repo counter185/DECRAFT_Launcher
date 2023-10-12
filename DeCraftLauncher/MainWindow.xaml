@@ -19,7 +19,7 @@
             <ColumnDefinition Width="9*"/>
         </Grid.ColumnDefinitions>
         <Label Content=".jar files" Margin="10,115,10,0" VerticalAlignment="Top" Foreground="White" FontSize="20" FontWeight="Bold"/>
-        <ListBox x:Name="jarlist" TextSearch.TextPath="InnerText" ItemContainerStyle="{StaticResource MainListBoxItemStyleNoSelectBorder}" IsTextSearchEnabled="True" AllowDrop="True" Margin="0,157,0,0" Foreground="White" FontSize="16" BorderBrush="{x:Null}" SelectionChanged="jarlist_SelectionChanged" Drop="jarlist_Drop" HorizontalContentAlignment="Stretch" ScrollViewer.CanContentScroll="False">
+        <ListBox x:Name="jarlist" TextSearch.TextPath="InnerText" ItemContainerStyle="{StaticResource MainListBoxItemStyleNoSelectBorder}" IsTextSearchEnabled="True" AllowDrop="True" Margin="0,157,0,0" Foreground="White" FontSize="16" BorderBrush="{x:Null}" SelectionChanged="jarlist_SelectionChanged" Drop="jarlist_Drop" HorizontalContentAlignment="Stretch" ScrollViewer.CanContentScroll="False" KeyDown="jarlist_KeyDown">
             <ListBox.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#50000000"/>

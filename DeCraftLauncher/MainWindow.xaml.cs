@@ -532,5 +532,13 @@ namespace DeCraftLauncher
             segment_welcome.Visibility = Visibility.Visible;
             segment_launch_options.Visibility = Visibility.Hidden;
         }
+
+        private void jarlist_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (jarlist.SelectedItem != null && jarlist.SelectedItem is JarListEntry)
+            {
+                ((JarListEntry)jarlist.SelectedItem).DeleteJar();
+            }
+        }
     }
 }

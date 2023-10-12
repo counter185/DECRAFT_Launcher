@@ -70,7 +70,7 @@ namespace DeCraftLauncher.UIControls
                 File.Move($"{MainWindow.configDir}/{jar.jarFileName}.xml", newJarConfName);
             }
         }
-        
+
         public void SetFriendlyName()
         {
             string target = Interaction.InputBox($"Set friendly name of {jar.jarFileName}:", "DECRAFT", jar.friendlyName);

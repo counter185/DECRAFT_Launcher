@@ -191,6 +191,18 @@ namespace DeCraftLauncher.Utils
                 //lmao if this works
                 potentialPaths.Add($"{envLOCALAPPDATA}/Packages/Microsoft.4297127D64EC6_8wekyb3d8bbwe/LocalCache/Local/runtime/jre-legacy/windows-x64/");
             }
+            
+            string envUSERPROFILE = Environment.GetEnvironmentVariable("userprofile");
+            if (envUSERPROFILE != null)
+            {
+                //double lmao if this works
+                string rhSearchPath = $"{envUSERPROFILE}/.vscode/extensions";
+                if (Directory.Exists(rhSearchPath))
+                {
+                    (from x in Directory.GetDirectories(rhSearchPath, "redhat.java*")
+                     select x + "/jre/").ToList().ForEach((x) => { potentialPaths.Add(x.Replace('\\', '/')); });
+                }
+            }
 
             List<JavaFinderResult> results = new List<JavaFinderResult>();
             foreach (string ppath in potentialPaths)

@@ -48,16 +48,18 @@ namespace DeCraftLauncher.UIControls
 
         Brush GetBrushForArch(string archV)
         {
-            switch (archV)
+            switch (archV.ToLower())
             {
                 case "amd64":
                     return Brushes.Green;
                 case "x86_64":
                     return Brushes.LawnGreen;
+                case "i386":
                 case "i586":
                     return Brushes.IndianRed;
                 case "x86":
                     return Brushes.Red;
+                case "arm64":
                 case "aarch64":
                     return Brushes.Yellow;
             }

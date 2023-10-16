@@ -109,21 +109,21 @@ namespace DeCraftLauncher.Utils
             }
         }
 
-        public static short StreamReadShort(Stream input)
+        public static short StreamReadShort(Stream input, bool bigEndian = true)
         {
             byte[] buffer = new byte[2];
             input.Read(buffer, 0, 2);
-            if (BitConverter.IsLittleEndian)
+            if (BitConverter.IsLittleEndian == bigEndian)
             {
                 buffer = buffer.Reverse().ToArray();
             }
             return BitConverter.ToInt16(buffer, 0);
         }        
-        public static int StreamReadInt(Stream input)
+        public static int StreamReadInt(Stream input, bool bigEndian = true)
         {
             byte[] buffer = new byte[4];
             input.Read(buffer, 0, 4);
-            if (BitConverter.IsLittleEndian)
+            if (BitConverter.IsLittleEndian == bigEndian)
             {
                 buffer = buffer.Reverse().ToArray();
             }

@@ -535,7 +535,7 @@ namespace DeCraftLauncher
 
         private void jarlist_KeyDown(object sender, KeyEventArgs e)
         {
-            if (jarlist.SelectedItem != null && jarlist.SelectedItem is JarListEntry)
+            if (jarlist.SelectedItem != null && jarlist.SelectedItem is JarListEntry && e.Key == Key.Delete)
             {
                 ((JarListEntry)jarlist.SelectedItem).DeleteJar();
             }

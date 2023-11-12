@@ -130,6 +130,7 @@
       <DependentUpon>LauncherEntryPointFinding.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\TinyV2Mapper.cs" />
+    <Compile Include="Utils\UIListBoxMaxWidthLimiter.cs" />
     <Compile Include="WindowDeployMTP.xaml.cs">
       <DependentUpon>WindowDeployMTP.xaml</DependentUpon>
     </Compile>

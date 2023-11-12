@@ -18,6 +18,9 @@ namespace DeCraftLauncher
         {
             SourceChord.FluentWPF.ResourceDictionaryEx.GlobalTheme = SourceChord.FluentWPF.ElementTheme.Dark;
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+            string[] args = Environment.GetCommandLineArgs();
+
         }
     }
 }

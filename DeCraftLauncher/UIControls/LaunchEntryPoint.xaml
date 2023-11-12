@@ -10,7 +10,7 @@
         <util:UIListBoxMaxWidthLimiter x:Key="widthLimiter" />
     </UserControl.Resources>
     <Grid>
-        <Label x:Name="classname" Margin="10,10,10,0" Content="class.name" VerticalAlignment="Top" FontSize="25" Foreground="White" ClipToBounds="True" FontStyle="Italic" HorizontalContentAlignment="Left" ScrollViewer.CanContentScroll="True" MaxWidth="{Binding ActualWidth, Converter={StaticResource widthLimiter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBox}}}" />
+        <Label x:Name="classname" Margin="10,10,0,0" Content="class.name" VerticalAlignment="Top" FontSize="25" Foreground="White" ClipToBounds="True" FontStyle="Italic" HorizontalContentAlignment="Left" ScrollViewer.CanContentScroll="True" Width="{Binding ActualWidth, Converter={StaticResource widthLimiter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBox}}}" HorizontalAlignment="Left" />
         <Label x:Name="desc" Content="This class prolly launches the game ig" VerticalAlignment="Top" Foreground="White" FontStyle="Italic" Margin="10,53,10,0"/>
         <Button x:Name="launchButton" Content="Launch" Margin="0,80,10,12" Background="{x:Null}" Foreground="White" BorderBrush="#FF292929" Click="launchButton_Click" HorizontalAlignment="Right" Width="83"/>
         <Label x:Name="mode" Content="(main class)" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top" Width="224" Foreground="White"/>

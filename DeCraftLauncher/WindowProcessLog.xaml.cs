@@ -3,6 +3,7 @@ using SourceChord.FluentWPF;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -31,69 +32,9 @@ namespace DeCraftLauncher
         public DispatcherTimer logPrintTimer = new DispatcherTimer();
 
         public Process target;
+        private volatile bool autoExitTimerStarted = false;
+        private volatile bool abortAutoExit = false;
 
-        public void ThreadLoggerStdOut()
-        {
-            Stopwatch timer = new Stopwatch();
-            string stdout_buffer = "";
-            while (!target.HasExited)
-            {
-                if (!target.StandardOutput.EndOfStream)
-                {
-                    stdout_buffer += target.StandardOutput.ReadLine() + "\n";
-                    if (!timer.IsRunning)
-                    {
-                        timer.Start();
-                    }
-                }
-                if (timer.IsRunning && timer.ElapsedMilliseconds > 64)
-                {
-                    timer.Stop();
-                }
-                if (stdout_buffer != "" && !timer.IsRunning)
-                {
-                    Dispatcher.Invoke(delegate
-                    {
-                        logtext.Text += stdout_buffer;
-                        logscroller.ScrollToVerticalOffset(logscroller.ExtentHeight);
-                        stdout_buffer = "";
-                    });
-
-                }
-                Thread.Sleep(1);
-            }
-
-            Console.WriteLine("ThreadLogger exit");
-        }
-        public void ThreadLoggerStdErr()
-        {
-            int dispatcherTimer = 0;
-            string stderr_buffer = "";
-            while (!target.HasExited)
-            {
-                if (!target.StandardError.EndOfStream)
-                {
-                    stderr_buffer += target.StandardError.ReadLine() + "\n";
-                }
-                if (stderr_buffer != "" && dispatcherTimer <= 0)
-                {
-                    Dispatcher.Invoke(delegate
-                    {
-                        logtext.Text += stderr_buffer;
-                        logscroller.ScrollToVerticalOffset(logscroller.ExtentHeight);
-                        stderr_buffer = "";
-                    });
-                    dispatcherTimer = 100;
-                }
-                Thread.Sleep(1);
-                if (dispatcherTimer > 0)
-                {
-                    dispatcherTimer--;
-                }
-            }
-
-            Console.WriteLine("ThreadLoggerStdErr exit");
-        }
         public WindowProcessLog(Process t)
         {
             target = t;
@@ -226,7 +167,26 @@ namespace DeCraftLauncher
                         logtext.Text += "\nIf possible, open Runtime settings set the Java path to a non-ARM version of Java.";
                         logtext.Text += "\nAlternatively, add a version of LWJGL with ARM DLLs.";
                     }
+                    if (MainWindow.mainRTConfig.autoExitProcessLog)
+                    {
+                        logtext.Text += "\n\nExiting in 5 seconds... [F2] to keep this window open";
+                    }
                 });
+                autoExitTimerStarted = true;
+                if (MainWindow.mainRTConfig.autoExitProcessLog)
+                {
+                    Thread.Sleep(5000);
+                    if (!abortAutoExit)
+                    {
+                        Dispatcher.Invoke(delegate
+                        {
+                            if (!this.IsFocused)
+                            {
+                                this.Close();
+                            }
+                        });
+                    }
+                }
             };
         }
 
@@ -297,7 +257,6 @@ namespace DeCraftLauncher
 
         protected override void OnKeyDown(System.Windows.Input.KeyEventArgs e)
         {
-            //todo: make this a visible option
             if (e.Key == Key.F1)
             {
                 OpenFileDialog tinyV2MapDialog = new OpenFileDialog();
@@ -311,7 +270,30 @@ namespace DeCraftLauncher
                                                       select ProcessLogTranslateString(x, tinyV2Mapper)));
                 }
             }
+            else if (e.Key == Key.F2)
+            {
+                if (autoExitTimerStarted)
+                {
+                    abortAutoExit = true;
+                    Dispatcher.Invoke(delegate
+                    {
+                        logtext.Text += "\nAuto exit aborted.";
+                    });
+                }
+            }
             base.OnKeyDown(e);
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            if (!target.HasExited)
+            {
+                if (System.Windows.MessageBox.Show("This process is still running.\nClosing this window will keep it in the background. Close anyway?", "DECRAFT", MessageBoxButton.YesNo) == MessageBoxResult.No)
+                {
+                    e.Cancel = true;
+                }
+            }
+            base.OnClosing(e);
         }
     }
 }

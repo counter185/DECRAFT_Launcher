@@ -30,6 +30,7 @@ namespace DeCraftLauncher.Configs.UI
             this.parent = parent;
             jre_path.Text = MainWindow.mainRTConfig.javaHome;
             checkbox_isjava9.IsChecked = MainWindow.mainRTConfig.isJava9;
+            checkbox_autoexitprocesslog.IsChecked = MainWindow.mainRTConfig.autoExitProcessLog;
         }
 
         public void FixJavaHomeString()
@@ -92,6 +93,7 @@ namespace DeCraftLauncher.Configs.UI
                 FixJavaHomeString();
                 MainWindow.mainRTConfig.javaHome = jre_path.Text;
                 MainWindow.mainRTConfig.isJava9 = checkbox_isjava9.IsChecked == true;
+                MainWindow.mainRTConfig.autoExitProcessLog = checkbox_autoexitprocesslog.IsChecked == true;
                 parent.SaveRuntimeConfig();
             } catch (Exception ex)
             {

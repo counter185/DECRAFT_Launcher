@@ -16,6 +16,7 @@ namespace DeCraftLauncher.Configs
         public bool isJava9 = true;
         public List<Category> jarCategories = new List<Category>();
         public List<JarEntry> jarEntries = new List<JarEntry>();
+        public bool autoExitProcessLog = false;
 
         public void UpdateAutoIsJava9Option()
         {
@@ -44,48 +45,50 @@ namespace DeCraftLauncher.Configs
                 {
                     ret.javaHome = Util.GetInnerOrDefault(rootNode, "JavaPath");
                     ret.isJava9 = bool.Parse(Util.GetInnerOrDefault(rootNode, "IsJava9", "true", "bool"));
-                }
+                    ret.autoExitProcessLog = bool.Parse(Util.GetInnerOrDefault(rootNode, "AutoExitProcessLog", "true", "bool"));
 
-                XmlNode categoriesNode = rootNode.SelectSingleNode("Categories");
-                if (categoriesNode != null)
-                {
-                    foreach (XmlNode catNode in categoriesNode.SelectNodes("Category"))
+                    XmlNode categoriesNode = rootNode.SelectSingleNode("Categories");
+                    if (categoriesNode != null)
                     {
-                        string catName = Util.GetInnerOrDefault(catNode, "Name", null);
-                        string colorText = Util.GetInnerOrDefault(catNode, "Color", null);
-                        //todo: verify if it's actually a hex value
-                        try
+                        foreach (XmlNode catNode in categoriesNode.SelectNodes("Category"))
                         {
-                            UInt32 catColor = colorText != null ? UInt32.Parse(colorText, System.Globalization.NumberStyles.HexNumber) : 0;
-                            if (catName != null && colorText != null)
+                            string catName = Util.GetInnerOrDefault(catNode, "Name", null);
+                            string colorText = Util.GetInnerOrDefault(catNode, "Color", null);
+                            //todo: verify if it's actually a hex value
+                            try
                             {
-                                Category cat = new Category(catName, colorText);
-                                ret.jarCategories.Add(cat);
+                                UInt32 catColor = colorText != null ? UInt32.Parse(colorText, System.Globalization.NumberStyles.HexNumber) : 0;
+                                if (catName != null && colorText != null)
+                                {
+                                    Category cat = new Category(catName, colorText);
+                                    ret.jarCategories.Add(cat);
+                                }
                             }
-                        } catch (FormatException)
-                        {
+                            catch (FormatException)
+                            {
+                            }
                         }
                     }
-                }
 
-                XmlNode jarsNode = rootNode.SelectSingleNode("Jars");
-                if (jarsNode != null)
-                {
-                    foreach (XmlNode jarNode in jarsNode.SelectNodes("JarEntry"))
+                    XmlNode jarsNode = rootNode.SelectSingleNode("Jars");
+                    if (jarsNode != null)
                     {
-                        string jarFileName = Util.GetInnerOrDefault(jarNode, "JarFileName", null);
-                        string jarFriendlyName = Util.GetInnerOrDefault(jarNode, "FriendlyName", "");
-                        string category = Util.GetInnerOrDefault(jarNode, "Category", null);
-                        IEnumerable<Category> matchingCategories = 
-                            (from x in ret.jarCategories
-                             where category != null && x.name == category
-                             select x);
+                        foreach (XmlNode jarNode in jarsNode.SelectNodes("JarEntry"))
+                        {
+                            string jarFileName = Util.GetInnerOrDefault(jarNode, "JarFileName", null);
+                            string jarFriendlyName = Util.GetInnerOrDefault(jarNode, "FriendlyName", "");
+                            string category = Util.GetInnerOrDefault(jarNode, "Category", null);
+                            IEnumerable<Category> matchingCategories =
+                                (from x in ret.jarCategories
+                                 where category != null && x.name == category
+                                 select x);
 
-                        JarEntry jarEntry = new JarEntry(jarFileName);
-                        jarEntry.friendlyName = jarFriendlyName;
-                        jarEntry.category = matchingCategories.Any() ? matchingCategories.First() : null;
+                            JarEntry jarEntry = new JarEntry(jarFileName);
+                            jarEntry.friendlyName = jarFriendlyName;
+                            jarEntry.category = matchingCategories.Any() ? matchingCategories.First() : null;
 
-                        ret.jarEntries.Add(jarEntry);
+                            ret.jarEntries.Add(jarEntry);
+                        }
                     }
                 }
             }
@@ -104,6 +107,7 @@ namespace DeCraftLauncher.Configs
 
             rootElement.AppendChild(Util.GenElementChild(newXml, "JavaPath", javaHome));
             rootElement.AppendChild(Util.GenElementChild(newXml, "IsJava9", isJava9.ToString()));
+            rootElement.AppendChild(Util.GenElementChild(newXml, "AutoExitProcessLog", autoExitProcessLog.ToString()));
 
             XmlNode catEntries = Util.GenElementChild(newXml, "Categories");
             foreach (Category cat in jarCategories) //meow

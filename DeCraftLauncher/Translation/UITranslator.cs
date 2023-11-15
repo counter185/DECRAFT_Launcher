@@ -73,6 +73,10 @@ namespace DeCraftLauncher.Translation
             }
         }
 
+        public string GetTranslatedString(string key)
+        {
+            return currentKeyToString[key].Replace("\\n", "\n");
+        }
 
         public void Translate(IEnumerable<Translatable> translatables)
         {

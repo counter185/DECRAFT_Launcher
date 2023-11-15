@@ -219,7 +219,6 @@ namespace DeCraftLauncher
         public MainWindow()
         {
             tl.LoadIni("default");
-            tl.LoadIni("jp");
             currentDirectory = Directory.GetCurrentDirectory();
             try
             {

@@ -119,6 +119,7 @@ namespace DeCraftLauncher
                                                                             select x);
                     IEnumerable<EntryPoint> importantLaunchEntryPoints = (from x in currentlySelectedJar.entryPoints
                                                                           where !unimportantLaunchEntryPoints.Contains(x)
+                                                                          orderby x.GetImportance() descending
                                                                           select x);
 
                     foreach (EntryPoint a in importantLaunchEntryPoints)

@@ -111,6 +111,7 @@
     <Compile Include="JarEntry.cs" />
     <Compile Include="MainFunctionWrapper.cs" />
     <Compile Include="NBTReader\NBTData.cs" />
+    <Compile Include="Translation\UITranslator.cs" />
     <Compile Include="UIControls\JarListEntry.xaml.cs">
       <DependentUpon>JarListEntry.xaml</DependentUpon>
     </Compile>
@@ -266,6 +267,7 @@
     <Content Include="LICENSE-MediaDevices.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Translation\default.txt" />
     <Resource Include="ImageRes\DECRAFTIconMain.ico" />
     <Content Include="LICENSE-FluentWPF.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

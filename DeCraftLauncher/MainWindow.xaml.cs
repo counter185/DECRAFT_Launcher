@@ -19,6 +19,7 @@ using System.Windows.Shapes;
 using static DeCraftLauncher.Utils.JarUtils;
 using System.Windows.Input;
 using DeCraftLauncher.NBTReader;
+using DeCraftLauncher.Translation;
 
 namespace DeCraftLauncher
 {
@@ -49,6 +50,8 @@ namespace DeCraftLauncher
 
         public List<WorkerThread> currentScanThreads = new List<WorkerThread>();
         public List<JarEntry> loadedJars = new List<JarEntry>();
+
+        public static UITranslator tl = new UITranslator();
 
         public void UpdateLWJGLVersions()
         {
@@ -215,6 +218,8 @@ namespace DeCraftLauncher
 
         public MainWindow()
         {
+            tl.LoadIni("default");
+            tl.LoadIni("jp");
             currentDirectory = Directory.GetCurrentDirectory();
             try
             {
@@ -255,6 +260,23 @@ namespace DeCraftLauncher
             {
                 MessageBox.Show("You may be running DECRAFT on the Wine compatibility layer.\nIf the launcher crashes after this popup, open \"winecfg\" and set your Windows version to Windows 7.\nDECRAFT can only use Windows versions of Java, so be sure to install one into your Wine prefix.\n\nGood luck, and expect bugs.", "DECRAFT");
             }
+
+            tl.Translate(new Translatable[]
+            {
+                new Translatable(label_welcometext1,    "window.main.welcome1"),
+                new Translatable(txblock_welcometext2,  "window.main.welcome2"),
+                new Translatable(label_entrypoints,     "window.main.entrypoints"),
+                new Translatable(label_jarfiles,        "window.main.jarfiles"),
+                new Translatable(label_jvmoptions,      "window.main.jvmoptions"),
+                new Translatable(label_instancedir,     "window.main.instancedir"),
+                new Translatable(label_launchoptions,   "window.main.launchoptions"),
+                new Translatable(label_proxyhost,       "window.main.proxyhost"),
+                new Translatable(label_windowsize,      "window.main.windowsize"),
+                new Translatable(btn_runtimesettings,   "window.main.runtimesettings"),
+                new Translatable(btn_advanced_settings, "window.main.advancedsettings"),
+                new Translatable(btn_open_instance_dir, "window.main.openinstancedir"),
+                new Translatable(btn_scan_entrypoints,  "window.main.rescanentrypoints"),
+            });
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

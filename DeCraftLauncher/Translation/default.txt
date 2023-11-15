@@ -1,0 +1,13 @@
+window.main.welcome1=---
+window.main.welcome2=---
+window.main.entrypoints=---
+window.main.jarfiles=---
+window.main.jvmoptions=---
+window.main.instancedir=---
+window.main.launchoptions=---
+window.main.proxyhost=---
+window.main.windowsize=---
+window.main.runtimesettings=---
+window.main.advancedsettings=---
+window.main.openinstancedir=---
+window.main.rescanentrypoints=---

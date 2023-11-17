@@ -32,46 +32,61 @@
             <TextBlock Text="To get started, select a jar file from the list on the left.&#x0a;&#x0a;If you have none, drag one in from the file browser or copy it to the &quot;jars&quot; folder in the program directory." TextWrapping="Wrap" Margin="20,122,10,0" VerticalAlignment="Top" Foreground="White" FontSize="16" Height="253"/>
             <Image Source="/ImageRes/decraft_logo.png" Margin="0,0,-44,-58" HorizontalAlignment="Right" Width="534" Height="470" VerticalAlignment="Bottom" Opacity="0.15" />
         </Grid>
-        <Grid x:Name="segment_launch_options" Margin="0,10" Grid.Column="1" Visibility="Visible" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="102*"/>
-                <ColumnDefinition Width="83*"/>
-            </Grid.ColumnDefinitions>
-            <Label Content="Launch options" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" FontSize="24" FontWeight="Bold" Width="196"/>
-            <TextBox x:Name="jvmargs" Style="{DynamicResource TextBoxMainStyle}" Margin="124,64,10,0" TextWrapping="NoWrap" Text="-Djava.util.Arrays.useLegacyMergeSort=true" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
-            <Label Content="JVM options" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="109" Background="{x:Null}" Foreground="White"/>
+        <Grid x:Name="segment_launch_options" Margin="0,0" Grid.Column="1" Visibility="Visible" >
+            <DockPanel LastChildFill="True">
+                <!-- base options -->
+                <StackPanel Orientation="Vertical" DockPanel.Dock="Top">
+                    <Grid>
+                        <Label Content="Launch options" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" FontSize="24" FontWeight="Bold" Width="196"/>
+                        <TextBox x:Name="jvmargs" Style="{DynamicResource TextBoxMainStyle}" Margin="124,64,10,0" TextWrapping="NoWrap" Text="-Djava.util.Arrays.useLegacyMergeSort=true" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+                        <Label Content="JVM options" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="109" Background="{x:Null}" Foreground="White"/>
+                    </Grid>
 
-            <TextBox Style="{DynamicResource TextBoxMainStyle}" x:Name="tbox_playername" Margin="124,97,9,0" TextWrapping="NoWrap" Text="DECRAFT_Player" VerticalAlignment="Top"/>
-            <Label Content="Player name" Margin="10,93,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" HorizontalAlignment="Left" Width="109"/>
-            <ListBox x:Name="entrypointlist" Foreground="White" Margin="0,209,0,-10" ItemContainerStyle="{StaticResource MainListBoxItemStyle}" BorderBrush="{x:Null}" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.CanContentScroll="False" Grid.ColumnSpan="2">
-                <ListBox.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#50000000"/>
-                        <GradientStop Color="#A0151515" Offset="1"/>
-                    </LinearGradientBrush>
-                </ListBox.Background>
-            </ListBox>
-            <Label Content="Entry points" HorizontalAlignment="Left" Margin="0,170,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" FontSize="18" Width="196"/>
-            <Label Content="LWJGL Version" Margin="5,93,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" Grid.Column="1" HorizontalAlignment="Left" Width="87"/>
-            <Button x:Name="btn_scan_entrypoints" Content="Rescan entry points" Margin="0,174,10,0" VerticalAlignment="Top" Height="26" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" Click="btn_scan_entrypoints_Click" HorizontalAlignment="Right" Width="125" Grid.Column="1"/>
-            <Label Content="Window size" Margin="5,116,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" Grid.Column="1" HorizontalAlignment="Left" Width="88"/>
-            <TextBox x:Name="window_width" Style="{DynamicResource TextBoxMainStyle}" Margin="0,120,103,0" TextWrapping="NoWrap" Text="960" VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Right" Width="53"/>
-            <TextBox x:Name="window_height" Style="{DynamicResource TextBoxMainStyle}" Margin="0,120,33,0" TextWrapping="NoWrap" Text="540" VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Right" Width="52"/>
-            <Label Content="x" Margin="0,116,85,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" Grid.Column="1" HorizontalAlignment="Right" Width="18"/>
-            <Label Content="Instance directory" HorizontalAlignment="Left" Margin="10,142,0,0" VerticalAlignment="Top" Width="109" Background="{x:Null}" Foreground="White" Height="26"/>
-            <TextBox x:Name="tbox_instance_dir" Style="{DynamicResource TextBoxMainStyle}" Margin="124,146,48,0" TextWrapping="NoWrap" VerticalAlignment="Top" Height="22"/>
-            <Label Content="Proxy host" Margin="10,116,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" HorizontalAlignment="Left" Width="83"/>
-            <TextBox x:Name="tbox_proxyhost" Style="{DynamicResource TextBoxMainStyle}" Margin="124,120,9,0" TextWrapping="NoWrap" VerticalAlignment="Top"/>
-            <Label x:Name="label_reqJVMVersion" Content="minimum JRE: 7" Margin="0,16,129,0" VerticalAlignment="Top" Foreground="#FF878787" HorizontalAlignment="Right" Width="238" HorizontalContentAlignment="Right" Grid.ColumnSpan="2"/>
-            <ComboBox Style="{DynamicResource ComboBoxMainStyle}" x:Name="combobox_lwjgl_version" Margin="93,95,33,0" VerticalAlignment="Top" Height="22" IsEditable="True" Background="{x:Null}" Text="2.9.3" BorderBrush="#FF252525" Foreground="Black" Grid.Column="1"/>
-            <Button x:Name="btn_advanced_settings" Content="Advanced settings" Margin="0,142,33,0" VerticalAlignment="Top" Height="24" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" Click="btn_advanced_settings_Click" HorizontalAlignment="Right" Width="137" Grid.Column="1"/>
-            <Button x:Name="btn_open_instance_dir" Content="Open" Margin="0,146,8,0" VerticalAlignment="Top" Height="22" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" Click="btn_open_instance_dir_Click" HorizontalAlignment="Right" Width="40"/>
+                    <Grid x:Name="panel_launch_client_options">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="102*"/>
+                            <ColumnDefinition Width="83*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Style="{DynamicResource TextBoxMainStyle}" x:Name="tbox_playername" Margin="124,17,9,0" TextWrapping="NoWrap" Text="DECRAFT_Player" VerticalAlignment="Top"/>
+                        <Label Content="Player name" Margin="10,13,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" HorizontalAlignment="Left" Width="109"/>
+                        <Label Content="LWJGL Version" Margin="5,13,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" Grid.Column="1" HorizontalAlignment="Left" Width="87"/>
+                        <Label Content="Window size" Margin="5,36,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" Grid.Column="1" HorizontalAlignment="Left" Width="88"/>
+                        <TextBox x:Name="window_width" Style="{DynamicResource TextBoxMainStyle}" Margin="0,40,103,0" TextWrapping="NoWrap" Text="960" VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Right" Width="53"/>
+                        <TextBox x:Name="window_height" Style="{DynamicResource TextBoxMainStyle}" Margin="0,40,33,0" TextWrapping="NoWrap" Text="540" VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Right" Width="52"/>
+                        <Label Content="x" Margin="0,36,85,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" Grid.Column="1" HorizontalAlignment="Right" Width="18"/>
+                        <Label Content="Instance directory" HorizontalAlignment="Left" Margin="10,62,0,0" VerticalAlignment="Top" Width="109" Background="{x:Null}" Foreground="White" Height="26"/>
+                        <TextBox x:Name="tbox_instance_dir" Style="{DynamicResource TextBoxMainStyle}" Margin="124,66,48,0" TextWrapping="NoWrap" VerticalAlignment="Top" Height="22"/>
+                        <Label Content="Proxy host" Margin="10,36,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" HorizontalAlignment="Left" Width="83"/>
+                        <TextBox x:Name="tbox_proxyhost" Style="{DynamicResource TextBoxMainStyle}" Margin="124,40,9,0" TextWrapping="NoWrap" VerticalAlignment="Top"/>
+                        <ComboBox Style="{DynamicResource ComboBoxMainStyle}" x:Name="combobox_lwjgl_version" Margin="93,15,33,0" VerticalAlignment="Top" Height="22" IsEditable="True" Background="{x:Null}" Text="2.9.3" BorderBrush="#FF252525" Foreground="Black" Grid.Column="1"/>
+                        <Button x:Name="btn_advanced_settings" Content="Advanced settings" Margin="0,62,33,0" VerticalAlignment="Top" Height="24" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" Click="btn_advanced_settings_Click" HorizontalAlignment="Right" Width="137" Grid.Column="1"/>
+                        <Button x:Name="btn_open_instance_dir" Content="Open" Margin="0,66,8,0" VerticalAlignment="Top" Height="22" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" Click="btn_open_instance_dir_Click" HorizontalAlignment="Right" Width="40"/>
+                    </Grid>
+                
+                    <Grid>
+                        <Label Content="Entry points" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" FontSize="18" Width="196"/>
+                        <Button x:Name="btn_scan_entrypoints" Content="Rescan entry points" Margin="0,16,10,0" VerticalAlignment="Top" Height="26" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" Click="btn_scan_entrypoints_Click" HorizontalAlignment="Right" Width="125" Grid.Column="1"/>
+                    </Grid>
+                </StackPanel>
+                <Grid VerticalAlignment="Stretch" DockPanel.Dock="Bottom">
+                    <ListBox x:Name="entrypointlist" Height="Auto" Foreground="White" Margin="0,0,0,0" ItemContainerStyle="{StaticResource MainListBoxItemStyle}" BorderBrush="{x:Null}" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.CanContentScroll="False" Grid.ColumnSpan="2">
+                        <ListBox.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#50000000"/>
+                                <GradientStop Color="#A0151515" Offset="1"/>
+                            </LinearGradientBrush>
+                        </ListBox.Background>
+                    </ListBox>
+                </Grid>
+            </DockPanel>
+
 
         </Grid>
         <Image HorizontalAlignment="Left" Height="128" Margin="-12,0,0,0" VerticalAlignment="Top" Width="128" Source="/ImageRes/decraft_logo.png"/>
         <Label Content="DECRAFT" HorizontalAlignment="Left" Margin="71,2,0,0" VerticalAlignment="Top" Foreground="White" FontSize="36"/>
         <Label x:Name="versionString" Content="1.1-dev" Margin="80,84,0,0" VerticalAlignment="Top" Foreground="#FF505050" FontStyle="Italic" HorizontalAlignment="Left" Width="107"/>
         <Button Content="Runtime settings" Margin="0,26,20,0" VerticalAlignment="Top" Height="26" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" Click="Button_Click" HorizontalAlignment="Right" Width="106" Grid.Column="1"/>
+        <Label x:Name="label_reqJVMVersion" Content="minimum JRE: 7" Margin="0,26,131,0" VerticalAlignment="Top" Foreground="#FF878787" HorizontalAlignment="Right" Width="238" HorizontalContentAlignment="Right" Grid.Column="1"/>
 
     </Grid>
 </fw:AcrylicWindow>

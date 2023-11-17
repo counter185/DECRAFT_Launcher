@@ -15,6 +15,8 @@ namespace DeCraftLauncher.Translation
         public object target;
         public string key;
 
+        const bool DEBUG_TRANSLATIONS = true;
+
         public Translatable(object target, string key)
         {
             this.target = target;
@@ -24,6 +26,10 @@ namespace DeCraftLauncher.Translation
         public void Translate(Dictionary<string,string> dict)
         {
             string text = dict[key].Replace("\\n","\n");
+            if (DEBUG_TRANSLATIONS)
+            {
+                text = "--Translated string--";
+            }
             if (text == "---")
             {
                 return;
@@ -73,9 +79,14 @@ namespace DeCraftLauncher.Translation
             }
         }
 
-        public string GetTranslatedString(string key)
+        public string TlString(string key, string defaultString)
         {
-            return currentKeyToString[key].Replace("\\n", "\n");
+            string text = currentKeyToString[key].Replace("\\n", "\n");
+            if (text == "---")
+            {
+                text = defaultString;
+            }
+            return text;
         }
 
         public void Translate(IEnumerable<Translatable> translatables)

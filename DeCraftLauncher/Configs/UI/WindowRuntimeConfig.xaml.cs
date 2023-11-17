@@ -1,4 +1,5 @@
 ﻿using DeCraftLauncher.Configs;
+using DeCraftLauncher.Translation;
 using DeCraftLauncher.Utils;
 using SourceChord.FluentWPF;
 using System;
@@ -31,6 +32,17 @@ namespace DeCraftLauncher.Configs.UI
             jre_path.Text = MainWindow.mainRTConfig.javaHome;
             checkbox_isjava9.IsChecked = MainWindow.mainRTConfig.isJava9;
             checkbox_autoexitprocesslog.IsChecked = MainWindow.mainRTConfig.autoExitProcessLog;
+
+            MainWindow.tl.Translate(new Translatable[]
+            {
+                new Translatable(label_rtconfig,            "window.rtconfig.title"),
+                new Translatable(label_autoexitprocesslog,  "window.rtconfig.autoexitprocesslog"),
+                new Translatable(label_javapath,            "window.rtconfig.javapath"),
+                new Translatable(btn_findjava,              "window.rtconfig.findjava"),
+                new Translatable(label_usejava9,            "window.rtconfig.usejava9"),
+                new Translatable(label_javapathhint,        "window.rtconfig.javapathhint"),
+                new Translatable(jreconfig_version,         "window.rtconfig.testjreconfig"),
+            });
         }
 
         public void FixJavaHomeString()
@@ -63,7 +75,7 @@ namespace DeCraftLauncher.Configs.UI
                 }
             }
 
-            jreconfig_version.Content = Util.CleanStringForXAML($"<press Enter to test>\nJRE: {(verre != null ? verre : "<none>")}\nJDK: {(verdk != null ? verdk : "<none>")}");
+            jreconfig_version.Content = Util.CleanStringForXAML($"{MainWindow.tl.TlString("window.rtconfig.testjreconfig", "<press Enter to test>")}\nJRE: {(verre != null ? verre : MainWindow.tl.TlString("window.rtconfig.detectnone", "<none>"))}\nJDK: {(verdk != null ? verdk : MainWindow.tl.TlString("window.rtconfig.detectnone", "<none>"))}");
 
         }
 

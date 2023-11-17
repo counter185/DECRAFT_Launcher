@@ -1,4 +1,5 @@
-﻿using DeCraftLauncher.Utils;
+﻿using DeCraftLauncher.Translation;
+using DeCraftLauncher.Utils;
 using SourceChord.FluentWPF;
 using System;
 using System.Collections;
@@ -39,6 +40,12 @@ namespace DeCraftLauncher
         {
             target = t;
             InitializeComponent();
+
+            MainWindow.tl.Translate(new Translatable[]
+            {
+                new Translatable(proc_kill, "window.proclog.kill"),
+            });
+
             this.Title = $"DECRAFT: Process Log [{t.ProcessName} : {t.Id}]";
             Util.UpdateAcrylicWindowBackground(this);
             t.OutputDataReceived += (a, b) =>
@@ -264,7 +271,7 @@ namespace DeCraftLauncher
                 if (tinyV2MapDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     TinyV2Mapper tinyV2Mapper = TinyV2Mapper.FromMappingsFile(tinyV2MapDialog.FileName);
-                    Console.WriteLine("Read " + tinyV2Mapper.remappedClasses.Count + " remapped classes");
+                    Console.WriteLine($"Read {tinyV2Mapper.remappedClasses.Count} remapped classes");
                     string currentLogText = logtext.Text;
                     logtext.Text = String.Join("\n", (from x in currentLogText.Split('\n')
                                                       select ProcessLogTranslateString(x, tinyV2Mapper)));

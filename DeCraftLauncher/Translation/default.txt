@@ -11,3 +11,17 @@ window.main.runtimesettings=---
 window.main.advancedsettings=---
 window.main.openinstancedir=---
 window.main.rescanentrypoints=---
+window.main.lwjglversion=---
+window.main.playername=---
+window.main.reqjvm=---
+
+window.rtconfig.title=---
+window.rtconfig.autoexitprocesslog=---
+window.rtconfig.javapath=---
+window.rtconfig.findjava=---
+window.rtconfig.usejava9=---
+window.rtconfig.javapathhint=---
+window.rtconfig.testjreconfig=---
+window.rtconfig.detectnone=---
+
+window.proclog.kill=---

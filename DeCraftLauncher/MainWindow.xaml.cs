@@ -100,8 +100,8 @@ namespace DeCraftLauncher
                 {
                     label_reqJVMVersion.Content =
                         currentlySelectedJar.maxJavaVersion != currentlySelectedJar.minJavaVersion ?
-                        $"req.JVM: {Util.JavaVersionFriendlyName(currentlySelectedJar.minJavaVersion)} - {Util.JavaVersionFriendlyName(currentlySelectedJar.maxJavaVersion)}"
-                        : $"req.JVM: {Util.JavaVersionFriendlyName(currentlySelectedJar.maxJavaVersion)}";
+                        $"{tl.TlString("window.main.reqjvm", "req.JVM")}: {Util.JavaVersionFriendlyName(currentlySelectedJar.minJavaVersion)} - {Util.JavaVersionFriendlyName(currentlySelectedJar.maxJavaVersion)}"
+                        : $"{tl.TlString("window.main.reqjvm", "req.JVM")}: {Util.JavaVersionFriendlyName(currentlySelectedJar.maxJavaVersion)}";
                 } else
                 {
                     label_reqJVMVersion.Content = "";
@@ -271,6 +271,8 @@ namespace DeCraftLauncher
                 new Translatable(label_launchoptions,   "window.main.launchoptions"),
                 new Translatable(label_proxyhost,       "window.main.proxyhost"),
                 new Translatable(label_windowsize,      "window.main.windowsize"),
+                new Translatable(label_lwjglversion,    "window.main.lwjglversion"),
+                new Translatable(label_playername,      "window.main.playername"),
                 new Translatable(btn_runtimesettings,   "window.main.runtimesettings"),
                 new Translatable(btn_advanced_settings, "window.main.advancedsettings"),
                 new Translatable(btn_open_instance_dir, "window.main.openinstancedir"),

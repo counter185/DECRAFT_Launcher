@@ -8,16 +8,16 @@
         mc:Ignorable="d"
         fw:AcrylicWindow.Enabled="False" Title="DECRAFT: Runtime configuration" Height="391" Width="464" Background="#00000000" Closed="AcrylicWindow_Closed">
     <Grid>
-        <Label Content="Java path" HorizontalAlignment="Left" Margin="10,71,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
-        <TextBox x:Name="jre_path" Style="{DynamicResource TextBoxMainStyle}" Margin="103,75,54,0" TextWrapping="NoWrap" VerticalAlignment="Top" Height="20" Background="Transparent" TextChanged="TextBox_TextChanged" KeyDown="jre_path_KeyDown" ToolTip=""/>
-        <Button Content="Find..." Margin="0,75,16,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" BorderBrush="#FF3C3C3C" HorizontalAlignment="Right" Width="38" Click="Button_Click"/>
-        <Label Content="Runtime configuration" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="22"/>
+        <Label x:Name="label_javapath" Content="Java path" HorizontalAlignment="Left" Margin="10,111,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
+        <TextBox x:Name="jre_path" Style="{DynamicResource TextBoxMainStyle}" Margin="103,115,54,0" TextWrapping="NoWrap" VerticalAlignment="Top" Height="20" Background="Transparent" TextChanged="TextBox_TextChanged" KeyDown="jre_path_KeyDown" ToolTip=""/>
+        <Button x:Name="btn_findjava" Content="Find..." Margin="0,115,16,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" BorderBrush="#FF3C3C3C" HorizontalAlignment="Right" Width="38" Click="Button_Click"/>
+        <Label x:Name="label_rtconfig" Content="Runtime configuration" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="22"/>
         <Label x:Name="jreconfig_version" Content="&lt;press Enter to test&gt;" Margin="10,188,16,0" VerticalAlignment="Top" Foreground="White" Height="135"/>
-        <Label Content="(leave empty to use the system-wide java installation)" Margin="10,165,16,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" FontStyle="Italic"/>
-        <Label Content="Use required Java 9+ options" HorizontalAlignment="Left" Margin="10,94,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" Width="179"/>
-        <CheckBox x:Name="checkbox_isjava9" Content="" HorizontalAlignment="Left" Margin="209,94,0,0" VerticalAlignment="Top" Height="26" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsChecked="True" ToolTip="Check this option if you are using Java version 9 or newer."/>
-        <Label Content="Close Process Log automatically" HorizontalAlignment="Left" Margin="10,125,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
-        <CheckBox x:Name="checkbox_autoexitprocesslog" Content="" HorizontalAlignment="Left" Margin="209,125,0,0" VerticalAlignment="Top" Height="26" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsChecked="True" ToolTip="Check this option if you are using Java version 9 or newer."/>
+        <Label x:Name="label_javapathhint" Content="(leave empty to use the system-wide java installation)" Margin="10,165,16,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" FontStyle="Italic"/>
+        <Label x:Name="label_usejava9" Content="Use required Java 9+ options" HorizontalAlignment="Left" Margin="10,134,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" Width="179"/>
+        <CheckBox x:Name="checkbox_isjava9" Content="" HorizontalAlignment="Left" Margin="209,134,0,0" VerticalAlignment="Top" Height="26" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsChecked="True" ToolTip="Check this option if you are using Java version 9 or newer."/>
+        <Label x:Name="label_autoexitprocesslog" Content="Close Process Log automatically" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
+        <CheckBox x:Name="checkbox_autoexitprocesslog" Content="" HorizontalAlignment="Left" Margin="209,72,0,0" VerticalAlignment="Top" Height="26" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsChecked="True" ToolTip="Check this option if you are using Java version 9 or newer."/>
 
     </Grid>
 </fw:AcrylicWindow>

@@ -35,7 +35,16 @@ namespace DeCraftLauncher.Utils
         public static void SetWindowDarkMode(IntPtr windowHandle)
         {
             int val = 1;
-            DwmSetWindowAttribute(windowHandle, 20, ref val, sizeof(uint));
+            try
+            {
+                if (windowHandle != IntPtr.Zero)
+                {
+                    DwmSetWindowAttribute(windowHandle, 20, ref val, sizeof(uint));
+                }
+            } catch (COMException e)
+            {
+                Console.WriteLine($"Error setting dark mode: {e.Message}");
+            }
         }
 
         public static void UpdateAcrylicWindowBackground(AcrylicWindow window)

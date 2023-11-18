@@ -30,16 +30,19 @@ namespace DeCraftLauncher
         public IList lines = ArrayList.Synchronized(new List<string>() { "" });
         public bool hasNewStdoutData = false;
         public DispatcherTimer logPrintTimer = new DispatcherTimer();
+        private bool allowStdin;
 
         public Process target;
         private volatile bool autoExitTimerStarted = false;
         private volatile bool abortAutoExit = false;
 
-        public WindowProcessLog(Process t)
+        public WindowProcessLog(Process t, bool allowStdin = false)
         {
             target = t;
+            this.allowStdin = allowStdin;
             InitializeComponent();
             this.Title = $"DECRAFT: Process Log [{t.ProcessName} : {t.Id}]";
+            panel_stdin.Visibility = allowStdin ? Visibility.Visible : Visibility.Collapsed;
             Util.UpdateAcrylicWindowBackground(this);
             t.OutputDataReceived += (a, b) =>
             {
@@ -60,6 +63,13 @@ namespace DeCraftLauncher
                     trimmedLines++;
                 }
                 hasNewStdoutData = true;
+            };
+            tbox_contentstdin.KeyDown += (s, e) =>
+            {
+                if (e.Key == Key.Enter)
+                {
+                    SendSTDIN();
+                }
             };
 
             logPrintTimer.Interval = TimeSpan.FromMilliseconds(32);    //30 fps
@@ -180,10 +190,7 @@ namespace DeCraftLauncher
                     {
                         Dispatcher.Invoke(delegate
                         {
-                            if (!this.IsFocused)
-                            {
-                                this.Close();
-                            }
+                            this.Close();
                         });
                     }
                 }
@@ -281,6 +288,10 @@ namespace DeCraftLauncher
                     });
                 }
             }
+            else if (e.Key == Key.F3)
+            {
+                panel_stdin.Visibility = Visibility.Visible;
+            }
             base.OnKeyDown(e);
         }
 
@@ -294,6 +305,20 @@ namespace DeCraftLauncher
                 }
             }
             base.OnClosing(e);
+        }
+
+        public void SendSTDIN()
+        {
+            if (!target.HasExited)
+            {
+                target.StandardInput.WriteLine(tbox_contentstdin.Text);
+                tbox_contentstdin.Text = "";
+            }
+        }
+
+        private void btn_sendstdin_Click(object sender, RoutedEventArgs e)
+        {
+            SendSTDIN();
         }
     }
 }

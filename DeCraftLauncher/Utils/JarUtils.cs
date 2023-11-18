@@ -61,6 +61,7 @@ namespace DeCraftLauncher.Utils
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
+                RedirectStandardInput = true,
                 CreateNoWindow = true
             };
             if (appdataDir != "") {

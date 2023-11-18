@@ -156,7 +156,7 @@ namespace DeCraftLauncher.UIControls
                     try
                     {
                         Process newProcess = mainFunctionExec.Start();
-                        new WindowProcessLog(newProcess).Show();
+                        new WindowProcessLog(newProcess, jarConfig.isServer).Show();
                         Thread.Sleep(1000);
                         Util.SetWindowDarkMode(newProcess.MainWindowHandle);
                     }

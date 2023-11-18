@@ -13,9 +13,15 @@
         Title="Process Log" Height="450" Width="800" Background="#FA000000" AcrylicWindowStyle="Normal">
     <Grid>
 
-        <ScrollViewer x:Name="logscroller" SizeChanged="ScrollViewer_SizeChanged" Margin="0,0,0,44">
-            <TextBlock x:Name="logtext" TextWrapping="Wrap" Margin="10,10,10,10" />
-        </ScrollViewer>
+        <DockPanel Margin="0,0,0,44" LastChildFill="True">
+            <Grid x:Name="panel_stdin" DockPanel.Dock="Bottom">
+                <TextBox x:Name="tbox_contentstdin" Margin="10,0,75,0" Style="{DynamicResource TextBoxMainStyle}"></TextBox>
+                <Button x:Name="btn_sendstdin" Margin="730,0,10,0" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" Content="Send" Click="btn_sendstdin_Click"></Button>
+            </Grid>
+            <ScrollViewer x:Name="logscroller" SizeChanged="ScrollViewer_SizeChanged" DockPanel.Dock="Top">
+                <TextBlock x:Name="logtext" TextWrapping="Wrap" Margin="10,10,10,10" />
+            </ScrollViewer>
+        </DockPanel>
         <Button x:Name="proc_kill" Content="Kill process" HorizontalAlignment="Left" Margin="10,0,0,10" Width="97" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" Click="proc_kill_Click" Height="29" VerticalAlignment="Bottom"/>
 
     </Grid>

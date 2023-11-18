@@ -86,13 +86,18 @@ namespace DeCraftLauncher
                 string jar = ((JarListEntry)jarlist.SelectedItem).jar.jarFileName;
                 EnsureDefaultJarConfig(jar);
                 currentlySelectedJar = JarConfig.LoadFromXML(configDir + "/" + jar + ".xml", jar);
-                tbox_playername.Text = currentlySelectedJar.playerName;
                 jvmargs.Text = currentlySelectedJar.jvmArgs;
+                tbox_instance_dir.Text = tbox_server_instance_dir.Text = currentlySelectedJar.instanceDirName;
+                tbox_proxyhost.Text = tbox_server_proxyhost.Text = currentlySelectedJar.proxyHost;
+
+                panel_launch_client_options.Visibility = !currentlySelectedJar.isServer ? Visibility.Visible : Visibility.Collapsed;
+                panel_launch_server_options.Visibility = currentlySelectedJar.isServer ? Visibility.Visible : Visibility.Collapsed;
+
+                tbox_playername.Text = currentlySelectedJar.playerName;
                 window_width.Text = currentlySelectedJar.windowW+"";
                 window_height.Text = currentlySelectedJar.windowH+"";
-                tbox_instance_dir.Text = currentlySelectedJar.instanceDirName;
-                tbox_proxyhost.Text = currentlySelectedJar.proxyHost;
                 combobox_lwjgl_version.Text = currentlySelectedJar.LWJGLVersion;
+
                 if (currentlySelectedJar.maxJavaVersion != "")
                 {
                     label_reqJVMVersion.Content =
@@ -243,6 +248,7 @@ namespace DeCraftLauncher
             watcher.Renamed += delegate { Dispatcher.Invoke(ResetJarlist); };
 
             label_versionString.Content = GlobalVars.versionCode;
+            label_reqJVMVersion.Content = "";
 
             TextBox[] saveEvents = new TextBox[] {
                 jvmargs,
@@ -340,6 +346,12 @@ namespace DeCraftLauncher
                 conf.jarHasLWJGLClasses = scanRes.hasLWJGLBuiltIn;
                 conf.jarBuiltInLWJGLDLLs = scanRes.lwjglNativesDir;
                 conf.foundMods = scanRes.modsFound;
+                string[] serverClassPaths = new string[]
+                {
+                    "com.mojang.minecraft.server.MinecraftServer",
+                    "net.minecraft.server.MinecraftServer",
+                };
+                conf.isServer = scanRes.entryPoints.Count == 1 && serverClassPaths.Contains(scanRes.entryPoints[0].classpath);
                 conf.SaveToXMLDefault();
                 if (currentlySelectedJar.jarFileName == param.jar)
                 {
@@ -454,10 +466,12 @@ namespace DeCraftLauncher
             currentlySelectedJar.windowH = uint.TryParse(window_height.Text, out currentlySelectedJar.windowH) ? currentlySelectedJar.windowH : 540;
 
             currentlySelectedJar.jvmArgs = jvmargs.Text;
+
+            currentlySelectedJar.proxyHost = currentlySelectedJar.isServer ? tbox_server_proxyhost.Text : tbox_proxyhost.Text;
+            currentlySelectedJar.instanceDirName = currentlySelectedJar.isServer ? tbox_server_instance_dir.Text : tbox_instance_dir.Text;
+
             currentlySelectedJar.LWJGLVersion = combobox_lwjgl_version.Text;
             currentlySelectedJar.playerName = tbox_playername.Text;
-            currentlySelectedJar.instanceDirName = tbox_instance_dir.Text;
-            currentlySelectedJar.proxyHost = tbox_proxyhost.Text;
 
             currentlySelectedJar.SaveToXMLDefault();
         }

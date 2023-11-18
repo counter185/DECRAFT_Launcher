@@ -89,7 +89,7 @@ namespace DeCraftLauncher
                 Process newProcess = appletExec.Start();
                 WindowProcessLog processLog = new WindowProcessLog(newProcess, caller);
                 processLog.Show();
-                caller.AddRunningInstance(new UIControls.InstanceListElement.RunningInstanceData(jar.friendlyName == "" ? jar.jarFileName : jar.jarFileName, processLog));
+                caller.AddRunningInstance(new UIControls.InstanceListElement.RunningInstanceData(jar.friendlyName != "" ? jar.friendlyName : jar.jarFileName, processLog));
                 Thread.Sleep(1000);
                 Util.SetWindowDarkMode(newProcess.MainWindowHandle);
 

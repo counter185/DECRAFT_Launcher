@@ -578,5 +578,10 @@ namespace DeCraftLauncher
                 ((JarListEntry)jarlist.SelectedItem).DeleteJar();
             }
         }
+
+        private void btn_editproperties_Click(object sender, RoutedEventArgs e)
+        {
+            //todo
+        }
     }
 }

@@ -8,6 +8,6 @@ namespace DeCraftLauncher
 {
     public class GlobalVars
     {
-        public static string versionCode = "1.1-dev";
+        public static string versionCode = "1.2-dev";
     }
 }

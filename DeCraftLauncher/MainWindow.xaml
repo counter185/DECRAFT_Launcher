@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
         xmlns:local="clr-namespace:DeCraftLauncher"
+        xmlns:c="clr-namespace:DeCraftLauncher.UIControls"
         mc:Ignorable="d"
         Height="508" Width="800"
         MinWidth="800" MinHeight="400"
@@ -32,9 +33,6 @@
                 <Label x:Name="label_instancesrunning" Content="Running instances: {x} (click to open log)" Foreground="White" />
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
                     <StackPanel x:Name="panel_runninginstances"  Orientation="Horizontal" Margin="0,30,0,0">
-                        <Button Content="Instance 1" Padding="10,0,10,0" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131"/>
-                        <Button Content="Instance 2" Padding="10,0,10,0" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131"/>
-                        <Button Content="Instance 2" Padding="10,0,10,0" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131"/>
                     </StackPanel>
                 </ScrollViewer>
             </Grid>
@@ -75,7 +73,7 @@
                                 <Button x:Name="btn_open_instance_dir" Content="Open" Margin="0,66,8,0" VerticalAlignment="Top" Height="22" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" Click="btn_open_instance_dir_Click" HorizontalAlignment="Right" Width="40"/>
                             </Grid>
 
-                            <Grid x:Name="panel_launch_server_options" Visibility="Collapsed">
+                            <Grid x:Name="panel_launch_server_options" Visibility="Visible">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="102*"/>
                                     <ColumnDefinition Width="83*"/>
@@ -86,7 +84,8 @@
                                 <TextBox x:Name="tbox_server_proxyhost" Style="{DynamicResource TextBoxMainStyle}" Margin="124,7,9,0" TextWrapping="NoWrap" VerticalAlignment="Top"/>
 
                                 <Button x:Name="btn_advanced_settings2" Content="Advanced settings" Margin="0,29,33,0" VerticalAlignment="Top" Height="24" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" Click="btn_advanced_settings_Click" HorizontalAlignment="Right" Width="137" Grid.Column="1"/>
-                                <Button x:Name="btn_open_instance_dir2" Content="Open" Margin="257,31,0,0" VerticalAlignment="Top" Height="22" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" Click="btn_open_instance_dir_Click" HorizontalAlignment="Left" Width="40"/>
+                                <Button x:Name="btn_open_instance_dir2" Content="Open" Margin="0,31,8,0" VerticalAlignment="Top" Height="22" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" Click="btn_open_instance_dir_Click" HorizontalAlignment="Right" Width="40"/>
+                                <Button x:Name="btn_editproperties" Content="Edit server properties" Margin="0,1,33,0" VerticalAlignment="Top" Height="24" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" HorizontalAlignment="Right" Width="137" Grid.Column="1" Click="btn_editproperties_Click"/>
                             </Grid>
 
                             <Grid>

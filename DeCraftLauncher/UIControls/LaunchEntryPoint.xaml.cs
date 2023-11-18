@@ -158,7 +158,7 @@ namespace DeCraftLauncher.UIControls
                         Process newProcess = mainFunctionExec.Start();
                         WindowProcessLog processLog = new WindowProcessLog(newProcess, caller, jarConfig.isServer);
                         processLog.Show();
-                        caller.AddRunningInstance(new UIControls.InstanceListElement.RunningInstanceData(jarConfig.friendlyName == "" ? jarConfig.jarFileName : jarConfig.jarFileName, processLog));
+                        caller.AddRunningInstance(new UIControls.InstanceListElement.RunningInstanceData(jarConfig.friendlyName != "" ? jarConfig.friendlyName : jarConfig.jarFileName, processLog));
                         Thread.Sleep(1000);
                         Util.SetWindowDarkMode(newProcess.MainWindowHandle);
                     }
@@ -176,7 +176,7 @@ namespace DeCraftLauncher.UIControls
             {
                 WindowProcessLog processLog = new WindowProcessLog(new JavaExec(null).StartWithCustomArgsString(entryPoint.classpath), caller, jarConfig.isServer);
                 processLog.Show();
-                caller.AddRunningInstance(new UIControls.InstanceListElement.RunningInstanceData(jarConfig.friendlyName == "" ? jarConfig.jarFileName : jarConfig.jarFileName, processLog));
+                caller.AddRunningInstance(new UIControls.InstanceListElement.RunningInstanceData(jarConfig.friendlyName != "" ? jarConfig.friendlyName : jarConfig.jarFileName, processLog));
             }
             else
             {

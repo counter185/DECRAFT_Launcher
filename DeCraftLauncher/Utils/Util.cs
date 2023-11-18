@@ -26,6 +26,18 @@ namespace DeCraftLauncher.Utils
         const byte TRANSPARENCY_ON = 0xA0;
         const byte TRANSPARENCY_OFF = 0xF0;
 
+        [DllImport("dwmapi.dll", CharSet = CharSet.Unicode, PreserveSig = false)]
+        public static extern void DwmSetWindowAttribute(IntPtr hwnd,
+                                                uint attribute,
+                                                ref int pvAttribute,
+                                                uint cbAttribute);
+
+        public static void SetWindowDarkMode(IntPtr windowHandle)
+        {
+            int val = 1;
+            DwmSetWindowAttribute(windowHandle, 20, ref val, sizeof(uint));
+        }
+
         public static void UpdateAcrylicWindowBackground(AcrylicWindow window)
         {
             if (Environment.OSVersion.Version.Major < 6 || (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor == 0))

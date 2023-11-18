@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using static DeCraftLauncher.Utils.JarUtils;
@@ -85,7 +86,11 @@ namespace DeCraftLauncher
             appletExec.workingDirectory = $"{emulatedAppDataDir}{(jar.cwdIsDotMinecraft ? "/.minecraft" : "")}";
             try
             {
-                new WindowProcessLog(appletExec.Start()).Show();
+                Process newProcess = appletExec.Start();
+                new WindowProcessLog(newProcess).Show();
+                Thread.Sleep(1000);
+                Util.SetWindowDarkMode(newProcess.MainWindowHandle);
+
                 //nproc = JarUtils.RunProcess(MainWindow.mainRTConfig.javaHome + "java", args, emulatedAppDataDir);
             } catch (Win32Exception w32e)
             {

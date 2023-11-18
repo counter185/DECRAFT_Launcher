@@ -242,6 +242,8 @@ namespace DeCraftLauncher
             watcher.Deleted += delegate { Dispatcher.Invoke(ResetJarlist); };
             watcher.Renamed += delegate { Dispatcher.Invoke(ResetJarlist); };
 
+            label_versionString.Content = GlobalVars.versionCode;
+
             TextBox[] saveEvents = new TextBox[] {
                 jvmargs,
                 window_width,

@@ -108,6 +108,7 @@
     <Compile Include="Configs\UI\WindowJarAdvancedOptions.xaml.cs">
       <DependentUpon>WindowJarAdvancedOptions.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GlobalVars.cs" />
     <Compile Include="JarEntry.cs" />
     <Compile Include="MainFunctionWrapper.cs" />
     <Compile Include="NBTReader\NBTData.cs" />

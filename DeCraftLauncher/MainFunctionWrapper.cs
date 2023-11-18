@@ -3,9 +3,11 @@ using DeCraftLauncher.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -73,7 +75,10 @@ namespace DeCraftLauncher
             mainFunctionExec.workingDirectory = $"{emulatedAppDataDir}{(jar.cwdIsDotMinecraft ? "/.minecraft" : "")}";
             try
             {
-                new WindowProcessLog(mainFunctionExec.Start()).Show();
+                Process newProcess = mainFunctionExec.Start();
+                new WindowProcessLog(newProcess).Show();
+                Thread.Sleep(1000);
+                Util.SetWindowDarkMode(newProcess.MainWindowHandle);
             }
             catch (Win32Exception w32e)
             {

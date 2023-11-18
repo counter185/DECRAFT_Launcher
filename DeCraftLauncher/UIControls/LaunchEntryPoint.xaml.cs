@@ -9,6 +9,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -154,7 +155,10 @@ namespace DeCraftLauncher.UIControls
                     mainFunctionExec.workingDirectory = $"{emulatedAppDataDir}{(jarConfig.cwdIsDotMinecraft ? "/.minecraft" : "")}";
                     try
                     {
-                        new WindowProcessLog(mainFunctionExec.Start()).Show();
+                        Process newProcess = mainFunctionExec.Start();
+                        new WindowProcessLog(newProcess).Show();
+                        Thread.Sleep(1000);
+                        Util.SetWindowDarkMode(newProcess.MainWindowHandle);
                     }
                     catch (Win32Exception w32e)
                     {

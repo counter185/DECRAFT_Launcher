@@ -101,7 +101,11 @@ namespace DeCraftLauncher
             t.EnableRaisingEvents = true;
             t.Exited += delegate
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(500);
+                while (hasNewStdoutData)
+                {
+                    Thread.Sleep(100);
+                }
                 logPrintTimer.Stop();
                 Dispatcher.Invoke(delegate
                 {
@@ -169,6 +173,8 @@ namespace DeCraftLauncher
                         logtext.Text += "\n";
                         logtext.Text += "\nThe launch failed due to a version mismatch between LWJGL's Java library and its DLLs.";
                         logtext.Text += "\nThis jar may have been packaged with a different LWJGL version. ";
+                        logtext.Text += "\n";
+                        logtext.Text += "\nCheck if this jar contains a built-in LWJGL version in the \"LWJGL Version\" dropdown.";
                     }
                     else if (logtext.Text.Contains("Can't load IA 32-bit .dll on a ARM 64-bit platform"))
                     {

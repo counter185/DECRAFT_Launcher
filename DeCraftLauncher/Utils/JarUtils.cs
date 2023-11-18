@@ -335,7 +335,7 @@ namespace DeCraftLauncher.Utils
                     case "Start":
                         return 1;
                     default:
-                        return classpath.StartsWith("com.jdotsoft.jarloader") ? 4
+                        return classpath.StartsWith("com.jdotsoft.jarloader") ? 5
                                : -1;
                 }
             }

@@ -1,4 +1,5 @@
-﻿using SourceChord.FluentWPF;
+﻿using DeCraftLauncher.Configs;
+using SourceChord.FluentWPF;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -31,6 +32,11 @@ namespace DeCraftLauncher.Utils
                                                 uint attribute,
                                                 ref int pvAttribute,
                                                 uint cbAttribute);
+
+        [DllImport("user32.dll", EntryPoint = "SetWindowPos")]
+        public static extern IntPtr SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int y, int cx, int cy, int wFlags);
+        const int SWP_NOMOVE = 0x0002;
+        const int SWP_NOOWNERZORDER = 0x0200;
 
         public static void SetWindowDarkMode(IntPtr windowHandle)
         {
@@ -299,6 +305,14 @@ namespace DeCraftLauncher.Utils
         public static string CleanStringForJava(string a)
         {
             return a.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\n", "\\n");
+        }
+
+        internal static void SetWindowSize(IntPtr mainWindowHandle, JarConfig jarConfig)
+        {
+            if (mainWindowHandle != IntPtr.Zero)
+            {
+                SetWindowPos(mainWindowHandle, 0, 0, 0, (int)jarConfig.windowW, (int)jarConfig.windowH, SWP_NOMOVE | SWP_NOOWNERZORDER);
+            }
         }
     }
 }

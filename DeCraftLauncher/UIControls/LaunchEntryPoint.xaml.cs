@@ -161,6 +161,7 @@ namespace DeCraftLauncher.UIControls
                         caller.AddRunningInstance(new UIControls.InstanceListElement.RunningInstanceData(jarConfig.friendlyName != "" ? jarConfig.friendlyName : jarConfig.jarFileName, processLog));
                         Thread.Sleep(1000);
                         Util.SetWindowDarkMode(newProcess.MainWindowHandle);
+                        Util.SetWindowSize(newProcess.MainWindowHandle, jarConfig);
                     }
                     catch (Win32Exception w32e)
                     {

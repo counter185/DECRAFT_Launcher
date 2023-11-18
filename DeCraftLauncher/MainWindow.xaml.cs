@@ -19,6 +19,7 @@ using System.Windows.Shapes;
 using static DeCraftLauncher.Utils.JarUtils;
 using System.Windows.Input;
 using DeCraftLauncher.NBTReader;
+using System.Xml;
 
 namespace DeCraftLauncher
 {
@@ -105,7 +106,15 @@ namespace DeCraftLauncher
             {
                 string jar = ((JarListEntry)jarlist.SelectedItem).jar.jarFileName;
                 EnsureDefaultJarConfig(jar);
-                currentlySelectedJar = JarConfig.LoadFromXML(configDir + "/" + jar + ".xml", jar);
+                try
+                {
+                    currentlySelectedJar = JarConfig.LoadFromXML(configDir + "/" + jar + ".xml", jar);
+                } catch (XmlException)
+                {
+                    File.Delete(configDir + "/" + jar + ".xml");
+                    EnsureDefaultJarConfig(jar);
+                    currentlySelectedJar = JarConfig.LoadFromXML(configDir + "/" + jar + ".xml", jar);
+                }
                 jvmargs.Text = currentlySelectedJar.jvmArgs;
                 tbox_instance_dir.Text = tbox_server_instance_dir.Text = currentlySelectedJar.instanceDirName;
                 tbox_proxyhost.Text = tbox_server_proxyhost.Text = currentlySelectedJar.proxyHost;

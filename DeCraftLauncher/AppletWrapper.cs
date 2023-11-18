@@ -17,7 +17,7 @@ namespace DeCraftLauncher
 {
     public class AppletWrapper
     {
-        public static void LaunchAppletWrapper(string className, JarConfig jar, Dictionary<string, string> appletParameters)
+        public static void LaunchAppletWrapper(string className, MainWindow caller, JarConfig jar, Dictionary<string, string> appletParameters)
         {
             //first, compile the applet wrapper
             //todo: clean this up in the same way as i did with javaexec
@@ -87,7 +87,9 @@ namespace DeCraftLauncher
             try
             {
                 Process newProcess = appletExec.Start();
-                new WindowProcessLog(newProcess).Show();
+                WindowProcessLog processLog = new WindowProcessLog(newProcess, caller);
+                processLog.Show();
+                caller.AddRunningInstance(new UIControls.InstanceListElement.RunningInstanceData(jar.friendlyName == "" ? jar.jarFileName : jar.jarFileName, processLog));
                 Thread.Sleep(1000);
                 Util.SetWindowDarkMode(newProcess.MainWindowHandle);
 
@@ -98,7 +100,7 @@ namespace DeCraftLauncher
             }
         }
 
-        public static void TryLaunchAppletWrapper(string classpath, JarConfig jarConfig, Dictionary<string, string> appletParameters = null)
+        public static void TryLaunchAppletWrapper(string classpath, MainWindow caller, JarConfig jarConfig, Dictionary<string, string> appletParameters = null)
         {
             if (!classpath.Contains('.'))
             {
@@ -108,7 +110,7 @@ namespace DeCraftLauncher
             {
                 try
                 {
-                    AppletWrapper.LaunchAppletWrapper(classpath, jarConfig, appletParameters != null ? appletParameters : new Dictionary<string, string>());
+                    AppletWrapper.LaunchAppletWrapper(classpath, caller, jarConfig, appletParameters != null ? appletParameters : new Dictionary<string, string>());
                 }
                 catch (Win32Exception)
                 {

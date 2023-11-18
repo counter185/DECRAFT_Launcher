@@ -108,7 +108,7 @@ namespace DeCraftLauncher.UIControls
                 if (Keyboard.IsKeyDown(Key.LeftShift))
                 {
                     //todo: make this an advanced option
-                    MainFunctionWrapper.LaunchMainFunctionWrapper(entryPoint.classpath, jarConfig);
+                    MainFunctionWrapper.LaunchMainFunctionWrapper(entryPoint.classpath, caller, jarConfig);
                 } 
                 else 
                 {
@@ -156,7 +156,9 @@ namespace DeCraftLauncher.UIControls
                     try
                     {
                         Process newProcess = mainFunctionExec.Start();
-                        new WindowProcessLog(newProcess, jarConfig.isServer).Show();
+                        WindowProcessLog processLog = new WindowProcessLog(newProcess, caller, jarConfig.isServer);
+                        processLog.Show();
+                        caller.AddRunningInstance(new UIControls.InstanceListElement.RunningInstanceData(jarConfig.friendlyName == "" ? jarConfig.jarFileName : jarConfig.jarFileName, processLog));
                         Thread.Sleep(1000);
                         Util.SetWindowDarkMode(newProcess.MainWindowHandle);
                     }
@@ -168,11 +170,13 @@ namespace DeCraftLauncher.UIControls
             } 
             else if (entryPoint.type == JarUtils.EntryPointType.APPLET)
             {
-                AppletWrapper.TryLaunchAppletWrapper(entryPoint.classpath, jarConfig);
+                AppletWrapper.TryLaunchAppletWrapper(entryPoint.classpath, caller, jarConfig);
             }
             else if (entryPoint.type == JarUtils.EntryPointType.CUSTOM_LAUNCH_COMMAND)
             {
-                new WindowProcessLog(new JavaExec(null).StartWithCustomArgsString(entryPoint.classpath)).Show();
+                WindowProcessLog processLog = new WindowProcessLog(new JavaExec(null).StartWithCustomArgsString(entryPoint.classpath), caller, jarConfig.isServer);
+                processLog.Show();
+                caller.AddRunningInstance(new UIControls.InstanceListElement.RunningInstanceData(jarConfig.friendlyName == "" ? jarConfig.jarFileName : jarConfig.jarFileName, processLog));
             }
             else
             {
@@ -185,7 +189,7 @@ namespace DeCraftLauncher.UIControls
             caller.SaveCurrentJarConfig();
             if (entryPoint.type == JarUtils.EntryPointType.APPLET)
             {
-                new WindowAppletParametersOptions(entryPoint.classpath, jarConfig).Show();
+                new WindowAppletParametersOptions(entryPoint.classpath, caller, jarConfig).Show();
             } else if (entryPoint.type == JarUtils.EntryPointType.CUSTOM_LAUNCH_COMMAND)
             {
                 if (MessageBox.Show($"Remove the custom launch command?\n\njava {this.entryPoint.classpath}", "DECRAFT", MessageBoxButton.YesNo) == MessageBoxResult.Yes)

@@ -50,6 +50,26 @@ namespace DeCraftLauncher
         public List<WorkerThread> currentScanThreads = new List<WorkerThread>();
         public List<JarEntry> loadedJars = new List<JarEntry>();
 
+        public List<InstanceListElement.RunningInstanceData> runningInstances = new List<InstanceListElement.RunningInstanceData>();
+
+        public void AddRunningInstance(InstanceListElement.RunningInstanceData runningInstance)
+        {
+            runningInstances.Add(runningInstance);
+            UpdateRunningInstancesList();
+        }
+
+        public void UpdateRunningInstancesList()
+        {
+            label_instancesrunning.Content = $"{runningInstances.Count} running instance{(runningInstances.Count != 1 ? "s" : "")}";
+            panel_runninginstances.Children.Clear();
+            runningInstances.RemoveAll((x) => { return x.processLog.target.HasExited; });
+            foreach (InstanceListElement.RunningInstanceData process in runningInstances)
+            {
+                panel_runninginstances.Children.Add(new InstanceListElement(process));
+            }
+            panel_instances.Visibility = runningInstances.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
+        }
+
         public void UpdateLWJGLVersions()
         {
             string currentItem = combobox_lwjgl_version.Text;
@@ -233,6 +253,7 @@ namespace DeCraftLauncher
             ShowPanelWelcome();
             //Console.WriteLine(JarUtils.GetJDKInstalled());
             UpdateLWJGLVersions();
+            UpdateRunningInstancesList();
             FileSystemWatcher lwjglVersionWatcher = new FileSystemWatcher("./lwjgl");
             lwjglVersionWatcher.EnableRaisingEvents = true;
             lwjglVersionWatcher.Created += delegate { Dispatcher.Invoke(UpdateLWJGLVersions); };

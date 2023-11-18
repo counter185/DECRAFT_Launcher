@@ -24,22 +24,22 @@ namespace DeCraftLauncher
 {
     public partial class WindowProcessLog : AcrylicWindow
     {
-
         const int MAX_LINES = 100;
+
         int trimmedLines = 0;
         public IList lines = ArrayList.Synchronized(new List<string>() { "" });
         public bool hasNewStdoutData = false;
         public DispatcherTimer logPrintTimer = new DispatcherTimer();
-        private bool allowStdin;
+        public MainWindow parent;
 
         public Process target;
         private volatile bool autoExitTimerStarted = false;
         private volatile bool abortAutoExit = false;
 
-        public WindowProcessLog(Process t, bool allowStdin = false)
+        public WindowProcessLog(Process t, MainWindow parent, bool allowStdin = false)
         {
-            target = t;
-            this.allowStdin = allowStdin;
+            this.target = t;
+            this.parent = parent;
             InitializeComponent();
             this.Title = $"DECRAFT: Process Log [{t.ProcessName} : {t.Id}]";
             panel_stdin.Visibility = allowStdin ? Visibility.Visible : Visibility.Collapsed;
@@ -105,6 +105,7 @@ namespace DeCraftLauncher
                 logPrintTimer.Stop();
                 Dispatcher.Invoke(delegate
                 {
+                    parent.UpdateRunningInstancesList();
                     logtext.Text += "Process exited with code " + t.ExitCode;
                     if (logtext.Text.Contains("\n\tat "))
                     {
@@ -297,12 +298,16 @@ namespace DeCraftLauncher
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            if (!target.HasExited)
+            /*if (!target.HasExited)
             {
                 if (System.Windows.MessageBox.Show("This process is still running.\nClosing this window will keep it in the background. Close anyway?", "DECRAFT", MessageBoxButton.YesNo) == MessageBoxResult.No)
                 {
-                    e.Cancel = true;
+                    
                 }
+            }*/
+            if (!target.HasExited) {
+                e.Cancel = true;
+                this.Hide();
             }
             base.OnClosing(e);
         }

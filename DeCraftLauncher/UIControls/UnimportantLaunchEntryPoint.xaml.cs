@@ -9,6 +9,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -92,7 +93,12 @@ namespace DeCraftLauncher.UIControls
                 mainFunctionExec.workingDirectory = $"{emulatedAppDataDir}{(jarConfig.cwdIsDotMinecraft ? "/.minecraft" : "")}";
                 try
                 {
-                    new WindowProcessLog(mainFunctionExec.Start()).Show();
+                    Process newProcess = mainFunctionExec.Start();
+                    WindowProcessLog processLog = new WindowProcessLog(newProcess, caller, jarConfig.isServer);
+                    processLog.Show();
+                    caller.AddRunningInstance(new UIControls.InstanceListElement.RunningInstanceData(jarConfig.friendlyName == "" ? jarConfig.jarFileName : jarConfig.jarFileName, processLog));
+                    Thread.Sleep(1000);
+                    Util.SetWindowDarkMode(newProcess.MainWindowHandle);
                 }
                 catch (Win32Exception w32e)
                 {
@@ -101,7 +107,7 @@ namespace DeCraftLauncher.UIControls
             } 
             else if (entryPoint.type == JarUtils.EntryPointType.APPLET)
             {
-                AppletWrapper.TryLaunchAppletWrapper(entryPoint.classpath, jarConfig);
+                AppletWrapper.TryLaunchAppletWrapper(entryPoint.classpath, caller, jarConfig);
             } 
             else
             {
@@ -114,7 +120,7 @@ namespace DeCraftLauncher.UIControls
             caller.SaveCurrentJarConfig();
             if (entryPoint.type == JarUtils.EntryPointType.APPLET)
             {
-                new WindowAppletParametersOptions(entryPoint.classpath, jarConfig).Show();
+                new WindowAppletParametersOptions(entryPoint.classpath, caller, jarConfig).Show();
             }
         }
     }

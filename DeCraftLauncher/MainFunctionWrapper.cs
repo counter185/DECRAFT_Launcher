@@ -15,7 +15,7 @@ namespace DeCraftLauncher
 {
     public class MainFunctionWrapper
     {
-        public static void LaunchMainFunctionWrapper(string className, JarConfig jar)
+        public static void LaunchMainFunctionWrapper(string className, MainWindow caller, JarConfig jar)
         {
             MainWindow.EnsureDir("./java_temp");
             File.WriteAllText("./java_temp/MainFunctionWrapper.java", JavaCode.GenerateMainFunctionWrapperCode(className, jar));
@@ -76,7 +76,9 @@ namespace DeCraftLauncher
             try
             {
                 Process newProcess = mainFunctionExec.Start();
-                new WindowProcessLog(newProcess).Show();
+                WindowProcessLog processLog = new WindowProcessLog(newProcess, caller, jar.isServer);
+                processLog.Show();
+                caller.AddRunningInstance(new UIControls.InstanceListElement.RunningInstanceData(jar.friendlyName == "" ? jar.jarFileName : jar.jarFileName, processLog));
                 Thread.Sleep(1000);
                 Util.SetWindowDarkMode(newProcess.MainWindowHandle);
             }

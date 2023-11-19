@@ -36,6 +36,7 @@ namespace DeCraftLauncher.Configs
         public bool cwdIsDotMinecraft = true;
         public bool appletEmulateHTTP = true;
         public string documentBaseUrl = "http://www.minecraft.net/play.jsp";
+        public bool workaroundRetroMCP = true;
         public bool appletRedirectSkins = true;
         public string appletSkinRedirectPath = "C:\\skincache";
         public bool jarHasLWJGLClasses = false;

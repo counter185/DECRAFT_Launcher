@@ -9,6 +9,21 @@ namespace DeCraftLauncher.Utils
 {
     public static class JavaCode
     {
+        public static string GenerateAlphaModWorkaround()
+        {
+            return $@"
+package net.minecraft.client;
+
+public class Minecraft {{
+	class SyntheticClass_1{{
+		public static int[] $SwitchMap$net$minecraft$src$EnumOS = new int[] {{
+			1,2,3,4,5,6
+		}};
+	}}
+}}
+";
+        }
+
         public static string GenerateHTTPStreamInjectorCode(JarConfig jar)
         {
             return $@"

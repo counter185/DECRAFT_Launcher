@@ -184,6 +184,12 @@ namespace DeCraftLauncher
                         logtext.Text += "\nIf possible, open Runtime settings set the Java path to a non-ARM version of Java.";
                         logtext.Text += "\nAlternatively, add a version of LWJGL with ARM DLLs.";
                     }
+                    else if (logtext.Text.Contains("java.lang.NoClassDefFoundError: net/minecraft/client/Minecraft$SyntheticClass_1"))
+                    {
+                        logtext.Text += "\n----------------------------------------------";
+                        logtext.Text += "\n";
+                        logtext.Text += "\nYou are seeing this error, because a modding tool improperly packaged your build.";
+                    }
                     if (MainWindow.mainRTConfig.autoExitProcessLog)
                     {
                         logtext.Text += "\n\nExiting in 5 seconds... [F2] to keep this window open";

@@ -1,10 +1,12 @@
-﻿using System;
+﻿using DeCraftLauncher.Configs;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DeCraftLauncher.Utils
@@ -66,6 +68,30 @@ namespace DeCraftLauncher.Utils
                     Directory.SetCurrentDirectory(MainWindow.currentDirectory);
                 }
             }
+        }
+
+        public void StartOpenWindowAndAddToInstances(MainWindow caller, JarConfig jarConfig)
+        {
+            Process newProcess = Start();
+            WindowProcessLog processLog = new WindowProcessLog(newProcess, caller, jarConfig.isServer);
+            processLog.Show();
+            caller.AddRunningInstance(new UIControls.InstanceListElement.RunningInstanceData(jarConfig.friendlyName != "" ? jarConfig.friendlyName : jarConfig.jarFileName, processLog));
+            new Thread((process) =>
+            {
+                int timeoutMS = 20000;
+                int timeChecks = 500;
+                for (int x = 0; x < timeoutMS; x += timeChecks)
+                {
+                    if (((Process)process).MainWindowHandle != IntPtr.Zero)
+                    {
+                        Util.SetWindowDarkMode(newProcess.MainWindowHandle);
+                        Util.SetWindowSize(newProcess.MainWindowHandle, jarConfig);
+                        break;
+                    }
+                    Thread.Sleep(timeChecks);
+                }
+                Console.WriteLine("Dark mode set thread exited");
+            }).Start(newProcess);
         }
     }
 }

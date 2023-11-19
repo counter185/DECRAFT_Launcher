@@ -52,7 +52,10 @@ namespace DeCraftLauncher.Configs.UI
             AddToDictionaryIfStringNotEmpty(parameters, "loadmap_user", tbox_param_loadmap_user.Text);
             AddToDictionaryIfStringNotEmpty(parameters, "loadmap_id", tbox_param_loadmap_id.Text);
             AddToDictionaryIfStringNotEmpty(parameters, "fullscreen", tbox_param_fullscreen.Text);
-            AppletWrapper.TryLaunchAppletWrapper(targetClassName, parent, targetJarConfig, parameters);
+            if (targetJarConfig.EvalPrereqs())
+            {
+                AppletWrapper.TryLaunchAppletWrapper(targetClassName, parent, targetJarConfig, parameters);
+            }
             this.Close();
         }
     }

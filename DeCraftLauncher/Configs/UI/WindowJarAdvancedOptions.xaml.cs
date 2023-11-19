@@ -29,7 +29,7 @@ namespace DeCraftLauncher.Configs.UI
             this.targetConfig = target;
             this.parent = parent;
             InitializeComponent();
-            label_title.Content = $"Advanced options: {target.jarFileName}";
+            label_title.Content = $"Advanced options: {Util.CleanStringForXAML(target.jarFileName)}";
             LoadConfig();
             Util.UpdateAcrylicWindowBackground(this);
         }
@@ -49,6 +49,7 @@ namespace DeCraftLauncher.Configs.UI
             tbox_appletdocumenturl.Text = targetConfig.documentBaseUrl;
             checkbox_redirecttolocalskins.IsChecked = targetConfig.appletRedirectSkins;
             tbox_skinredirectpath.Text = targetConfig.appletSkinRedirectPath;
+            checkbox_workaroundretromcp.IsChecked = targetConfig.workaroundRetroMCP;
         }
 
         public void SaveConfig()
@@ -60,6 +61,7 @@ namespace DeCraftLauncher.Configs.UI
             targetConfig.documentBaseUrl = tbox_appletdocumenturl.Text;
             targetConfig.appletRedirectSkins = checkbox_redirecttolocalskins.IsChecked == true;
             targetConfig.appletSkinRedirectPath = tbox_skinredirectpath.Text;
+            targetConfig.workaroundRetroMCP = checkbox_workaroundretromcp.IsChecked == true;
             targetConfig.SaveToXMLDefault();
         }
 

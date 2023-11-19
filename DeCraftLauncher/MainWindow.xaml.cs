@@ -376,6 +376,7 @@ namespace DeCraftLauncher
                 conf.jarHasLWJGLClasses = scanRes.hasLWJGLBuiltIn;
                 conf.jarBuiltInLWJGLDLLs = scanRes.lwjglNativesDir;
                 conf.foundMods = scanRes.modsFound;
+                conf.workaroundRetroMCP = scanRes.hasMissingSynthetics;
                 string[] serverClassPaths = new string[]
                 {
                     "com.mojang.minecraft.server.MinecraftServer",

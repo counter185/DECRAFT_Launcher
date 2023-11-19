@@ -75,12 +75,7 @@ namespace DeCraftLauncher
             mainFunctionExec.workingDirectory = $"{emulatedAppDataDir}{(jar.cwdIsDotMinecraft ? "/.minecraft" : "")}";
             try
             {
-                Process newProcess = mainFunctionExec.Start();
-                WindowProcessLog processLog = new WindowProcessLog(newProcess, caller, jar.isServer);
-                processLog.Show();
-                caller.AddRunningInstance(new UIControls.InstanceListElement.RunningInstanceData(jar.friendlyName != "" ? jar.friendlyName : jar.jarFileName, processLog));
-                Thread.Sleep(1000);
-                Util.SetWindowDarkMode(newProcess.MainWindowHandle);
+                mainFunctionExec.StartOpenWindowAndAddToInstances(caller, jar);
             }
             catch (Win32Exception w32e)
             {

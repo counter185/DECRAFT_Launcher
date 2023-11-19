@@ -311,7 +311,7 @@ namespace DeCraftLauncher.Utils
         {
             if (mainWindowHandle != IntPtr.Zero)
             {
-                SetWindowPos(mainWindowHandle, 0, 0, 0, (int)jarConfig.windowW, (int)jarConfig.windowH, SWP_NOMOVE | SWP_NOOWNERZORDER);
+                SetWindowPos(mainWindowHandle, 0, 0, 0, (int)jarConfig.windowW, (int)jarConfig.windowH+39, SWP_NOMOVE | SWP_NOOWNERZORDER);
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeCraftLauncher.Configs;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -12,6 +13,7 @@ using System.Windows;
 using System.Windows.Shapes;
 using static DeCraftLauncher.Utils.JarUtils;
 using static DeCraftLauncher.Utils.JavaClassReader;
+using Path = System.IO.Path;
 
 namespace DeCraftLauncher.Utils
 {
@@ -352,6 +354,8 @@ namespace DeCraftLauncher.Utils
             public bool hasLWJGLBuiltIn = false;
             public string lwjglNativesDir = "";
 
+            public bool hasMissingSynthetics = false;
+
             public List<EntryPoint> entryPoints = new List<EntryPoint>();
             public List<string> modsFound = new List<string>();
         }
@@ -372,44 +376,6 @@ namespace DeCraftLauncher.Utils
                 this.num = num;
                 this.progress_rep = progress_rep;
             }
-        }
-
-        [Obsolete("much, much slower method of doing things. this is only kept in case there's something wrong with the classreader.")]
-        private static void Thread_EntryPointFinder(object arg)
-        {
-            EPFinderThread_args args = (EPFinderThread_args)arg;
-            string javap_prefix = $"-cp {args.jarfile} ";
-            foreach (ZipArchiveEntry entry in args.arcEntries)
-            {
-                string ename = entry.FullName.Substring(0, entry.FullName.Length - 6).Replace('/', '.');
-                //Console.WriteLine("[" + args.num + "] " + ename);
-                List<string> javap_output = RunProcessAndGetOutput("javap", javap_prefix + ename);
-                //args.mtx.WaitOne();
-                foreach (string a in javap_output)
-                {
-                    
-                    /*if (a.Contains("implements java.lang.Runnable"))
-                    {
-                        //Console.WriteLine("Entry point found");
-                        args.returnPoint.Add(new EntryPoint(ename, EntryPointType.RUNNABLE));
-                        
-                    }
-                    else */if (a.Contains("public static void main(java.lang.String[])"))
-                    {
-                        //Console.WriteLine("Entry point found");
-                        args.returnPoint.Add(new EntryPoint(ename, EntryPointType.STATIC_VOID_MAIN));
-                    }
-                    else if (a.Contains("extends java.applet.Applet"))
-                    {
-                        //Console.WriteLine("Entry point found");
-                        args.returnPoint.Add(new EntryPoint(ename, EntryPointType.APPLET));
-                    }
-                    
-                }
-                (*args.progress_rep)++;
-                //args.mtx.ReleaseMutex();
-            }
-            //Console.WriteLine("Thread "+args.num+" finished");
         }
 
         public unsafe static EntryPointScanResults FindAllEntryPoints(string jarfile, ReferenceType<float> progressReport = null)
@@ -477,6 +443,23 @@ namespace DeCraftLauncher.Utils
                         }
                         firstClassEntry = false;
 
+                        if (!ret.hasMissingSynthetics)
+                        {
+                            foreach (ConstantPoolEntry.ClassReferenceEntry x in (from y in classInfo.entries
+                                                                                 where y is ConstantPoolEntry.ClassReferenceEntry
+                                                                                 select y))
+                            {
+                                string referencedClassName = x.GetName(classInfo.entries);
+                                if (referencedClassName.StartsWith("net/minecraft/client/Minecraft$SyntheticClass")
+                                    && !(from y in archive.Entries
+                                         where y.FullName.StartsWith(referencedClassName)
+                                         select y).Any())
+                                {
+                                    ret.hasMissingSynthetics = true;
+                                    break;
+                                }
+                            }
+                        }
 
                         if (superClassName == "java.applet.Applet")
                         {
@@ -537,6 +520,25 @@ namespace DeCraftLauncher.Utils
                 }
             }
             return ret;
+        }
+
+        public static void ExtractBuiltInLWJGLToTempFolder(JarConfig jarConfig)
+        {
+            MainWindow.EnsureDir($"{MainWindow.currentDirectory}/lwjgl/_temp_builtin");
+            MainWindow.EnsureDir($"{MainWindow.currentDirectory}/lwjgl/_temp_builtin/native");
+            ZipArchive zip = ZipFile.OpenRead(Path.GetFullPath(MainWindow.jarDir + "/" + jarConfig.jarFileName));
+            var dllFilesToExtract = (from x in zip.Entries where x.FullName.StartsWith($"{jarConfig.jarBuiltInLWJGLDLLs}") && x.Name.EndsWith(".dll") select x);
+            DirectoryInfo nativesdir = new DirectoryInfo($"{MainWindow.currentDirectory}/lwjgl/_temp_builtin/native");
+            foreach (FileInfo f in nativesdir.EnumerateFiles())
+            {
+                f.Delete();
+            }
+
+            foreach (ZipArchiveEntry dllFile in dllFilesToExtract)
+            {
+                dllFile.ExtractToFile($"{MainWindow.currentDirectory}/lwjgl/_temp_builtin/native/{dllFile.Name}");
+            }
+            Console.WriteLine("Extracted temp LWJGL natives");
         }
     }
 }

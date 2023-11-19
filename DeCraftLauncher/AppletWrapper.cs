@@ -27,27 +27,18 @@ namespace DeCraftLauncher
             {
                 File.WriteAllText("./java_temp/InjectedStreamHandlerFactory.java", JavaCode.GenerateHTTPStreamInjectorCode(jar));
             }
-            if (jar.workaroundRetroMCP)
-            {
-                File.WriteAllText("./java_temp/Minecraft.java", JavaCode.GenerateAlphaModWorkaround());
-            }
             List<string> compilerOut;
             try
             {
                 compilerOut = RunProcessAndGetOutput(MainWindow.mainRTConfig.javaHome + "javac", $"-cp \"{MainWindow.jarDir}/{jar.jarFileName}\" " +
                     $"./java_temp/AppletWrapper.java " +
                     (jar.appletEmulateHTTP ? $"./java_temp/InjectedStreamHandlerFactory.java " : "") +
-                    (jar.workaroundRetroMCP ? $"./java_temp/Minecraft.java " : "") +
                     $"-d ./java_temp " +
                     (jar.appletEmulateHTTP && MainWindow.mainRTConfig.isJava9 ? "--add-exports java.base/sun.net.www.protocol.http=ALL-UNNAMED " : ""), true);
             } catch (ApplicationException)
             {
                 MessageBox.Show("Failed to compile the Applet Wrapper.\n\nNote: the Applet Wrapper only supports JDK 6+", "DECRAFT");
                 return;
-            }
-            if (jar.workaroundRetroMCP)
-            {
-                File.Delete("./java_temp/net/minecraft/client/Minecraft.class");
             }
             Console.WriteLine("Compilation log:");
             foreach (string a in compilerOut)
@@ -95,12 +86,7 @@ namespace DeCraftLauncher
             appletExec.workingDirectory = $"{emulatedAppDataDir}{(jar.cwdIsDotMinecraft ? "/.minecraft" : "")}";
             try
             {
-                Process newProcess = appletExec.Start();
-                WindowProcessLog processLog = new WindowProcessLog(newProcess, caller);
-                processLog.Show();
-                caller.AddRunningInstance(new UIControls.InstanceListElement.RunningInstanceData(jar.friendlyName != "" ? jar.friendlyName : jar.jarFileName, processLog));
-                Thread.Sleep(1000);
-                Util.SetWindowDarkMode(newProcess.MainWindowHandle);
+                appletExec.StartOpenWindowAndAddToInstances(caller, jar);
 
                 //nproc = JarUtils.RunProcess(MainWindow.mainRTConfig.javaHome + "java", args, emulatedAppDataDir);
             } catch (Win32Exception w32e)

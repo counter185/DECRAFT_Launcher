@@ -18,6 +18,9 @@ public class Minecraft {{
 	class SyntheticClass_1{{
 		public static int[] $SwitchMap$net$minecraft$src$EnumOS = new int[] {{
 			1,2,3,4,5,6
+		}};		
+        public static int[] $SwitchMap$net$minecraft$src$EnumOS2 = new int[] {{
+			1,2,3,4,5,6
 		}};
 	}}
 }}

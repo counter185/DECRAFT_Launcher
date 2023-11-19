@@ -189,6 +189,8 @@ namespace DeCraftLauncher
                         logtext.Text += "\n----------------------------------------------";
                         logtext.Text += "\n";
                         logtext.Text += "\nYou are seeing this error, because a modding tool improperly packaged your build.";
+                        logtext.Text += "\nTo launch this jar, open \"Advanced settings\" and enable \"Workaround missing synthetic classes\".";
+                        logtext.Text += "\nNote: a JDK is required to use this feature.";
                     }
                     if (MainWindow.mainRTConfig.autoExitProcessLog)
                     {

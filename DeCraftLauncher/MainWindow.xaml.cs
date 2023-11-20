@@ -592,7 +592,7 @@ namespace DeCraftLauncher
 
         private void btn_editproperties_Click(object sender, RoutedEventArgs e)
         {
-            new WindowServerPropertiesEditor($"./{currentlySelectedJar.instanceDirName}/server.properties").Show();
+            new WindowServerPropertiesEditor($"{instanceDir}/{currentlySelectedJar.instanceDirName}/server.properties").Show();
         }
     }
 }

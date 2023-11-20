@@ -246,8 +246,11 @@ namespace DeCraftLauncher.Configs
                     mainFunctionExec.jvmArgs.Add($"-Djava.library.path=\"{MainWindow.currentDirectory}/lwjgl/{(LWJGLVersion == "+ built-in" ? "_temp_builtin" : LWJGLVersion)}/native\"");
                     mainFunctionExec.jvmArgs.Add(jvmArgs);
 
-                    mainFunctionExec.programArgs.Add($"\"{playerName}\"");
-                    mainFunctionExec.programArgs.Add(sessionID);
+                    if (!isServer)
+                    {
+                        mainFunctionExec.programArgs.Add($"\"{playerName}\"");
+                        mainFunctionExec.programArgs.Add(sessionID);
+                    }
                     mainFunctionExec.programArgs.Add(gameArgs);
                     Console.WriteLine("Running command: java " + mainFunctionExec.GetFullArgsString());
 

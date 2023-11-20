@@ -20,12 +20,15 @@ namespace DeCraftLauncher
         public static void LaunchAppletWrapper(string className, MainWindow caller, JarConfig jar, Dictionary<string, string> appletParameters)
         {
             //first, compile the applet wrapper
+
+            bool isDefaultPackage = !className.Contains(".");
+
             //todo: clean this up in the same way as i did with javaexec
             MainWindow.EnsureDir("./java_temp");
-            File.WriteAllText("./java_temp/AppletWrapper.java", JavaCode.GenerateAppletWrapperCode(className, jar, appletParameters));
+            File.WriteAllText("./java_temp/AppletWrapper.java", JavaCode.GenerateAppletWrapperCode(className, jar, appletParameters, isDefaultPackage));
             if (jar.appletEmulateHTTP)
             {
-                File.WriteAllText("./java_temp/InjectedStreamHandlerFactory.java", JavaCode.GenerateHTTPStreamInjectorCode(jar));
+                File.WriteAllText("./java_temp/InjectedStreamHandlerFactory.java", JavaCode.GenerateHTTPStreamInjectorCode(jar, isDefaultPackage));
             }
             List<string> compilerOut;
             try
@@ -48,7 +51,7 @@ namespace DeCraftLauncher
 
 
             //now we launch the compiled class
-            JavaExec appletExec = new JavaExec("decraft_internal.AppletWrapper");
+            JavaExec appletExec = new JavaExec(!isDefaultPackage ? "decraft_internal.AppletWrapper" : "AppletWrapper");
 
             //class paths
             //todo: make this cleaner (preferrably without getting rid of relative paths)
@@ -97,21 +100,16 @@ namespace DeCraftLauncher
 
         public static void TryLaunchAppletWrapper(string classpath, MainWindow caller, JarConfig jarConfig, Dictionary<string, string> appletParameters = null)
         {
-            if (!classpath.Contains('.'))
+
+            try
             {
-                MessageBox.Show("Launching default package applets is not implemented.", "DECRAFT");
+                AppletWrapper.LaunchAppletWrapper(classpath, caller, jarConfig, appletParameters != null ? appletParameters : new Dictionary<string, string>());
             }
-            else
+            catch (Win32Exception)
             {
-                try
-                {
-                    AppletWrapper.LaunchAppletWrapper(classpath, caller, jarConfig, appletParameters != null ? appletParameters : new Dictionary<string, string>());
-                }
-                catch (Win32Exception)
-                {
-                    MessageBox.Show("Applet wrapper requires JDK installed.");
-                }
+                MessageBox.Show("Applet wrapper requires JDK installed.");
             }
+            
         }
     }
 }

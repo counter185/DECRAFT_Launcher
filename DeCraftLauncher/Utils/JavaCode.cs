@@ -27,10 +27,10 @@ public class Minecraft {{
 ";
         }
 
-        public static string GenerateHTTPStreamInjectorCode(JarConfig jar)
+        public static string GenerateHTTPStreamInjectorCode(JarConfig jar, bool isDefaultPackage)
         {
             return $@"
-package decraft_internal;
+{(!isDefaultPackage ? "package decraft_internal;" : "")}
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -177,7 +177,7 @@ public class InjectedStreamHandlerFactory implements URLStreamHandlerFactory {{
 ";
         }
 
-        public static string GenerateAppletWrapperCode(string className, JarConfig jar, Dictionary<string, string> appletParameters)
+        public static string GenerateAppletWrapperCode(string className, JarConfig jar, Dictionary<string, string> appletParameters, bool isDefaultPackage = false)
         {
             string additionalParameters = "";
 
@@ -192,7 +192,7 @@ public class InjectedStreamHandlerFactory implements URLStreamHandlerFactory {{
 
             return
                 $@"
-package decraft_internal;
+{(!isDefaultPackage ? "package decraft_internal;" : "")}
 
 import java.applet.Applet;
 import java.applet.AppletContext;
@@ -201,7 +201,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
-import {className};
+{(!isDefaultPackage ? $"import {className}" : "")};
 
 public class AppletWrapper {{
 
@@ -277,12 +277,12 @@ public class AppletWrapper {{
 ";
         }
         
-        public static string GenerateMainFunctionWrapperCode(string className, JarConfig jar)
+        public static string GenerateMainFunctionWrapperCode(string className, JarConfig jar, bool isDefaultPackage)
         {
 
             return
                 $@"
-package decraft_internal;
+{(!isDefaultPackage ? "package decraft_internal;" : "")}
 
 import java.applet.Applet;
 import java.applet.AppletContext;
@@ -291,7 +291,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
-import {className};
+{(!isDefaultPackage ? $"import {className};" : "")}
 
 public class MainFunctionWrapper {{
 

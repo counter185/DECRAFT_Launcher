@@ -17,11 +17,13 @@ namespace DeCraftLauncher
     {
         public static void LaunchMainFunctionWrapper(string className, MainWindow caller, JarConfig jar)
         {
+            bool isDefaultPackage = !className.Contains(".");
+
             MainWindow.EnsureDir("./java_temp");
-            File.WriteAllText("./java_temp/MainFunctionWrapper.java", JavaCode.GenerateMainFunctionWrapperCode(className, jar));
+            File.WriteAllText("./java_temp/MainFunctionWrapper.java", JavaCode.GenerateMainFunctionWrapperCode(className, jar, isDefaultPackage));
             if (jar.appletEmulateHTTP)
             {
-                File.WriteAllText("./java_temp/InjectedStreamHandlerFactory.java", JavaCode.GenerateHTTPStreamInjectorCode(jar));
+                File.WriteAllText("./java_temp/InjectedStreamHandlerFactory.java", JavaCode.GenerateHTTPStreamInjectorCode(jar, isDefaultPackage));
             }
             List<string> compilerOut;
             try
@@ -45,7 +47,7 @@ namespace DeCraftLauncher
 
 
             //launch
-            JavaExec mainFunctionExec = new JavaExec("decraft_internal.MainFunctionWrapper");
+            JavaExec mainFunctionExec = new JavaExec(!isDefaultPackage ? "decraft_internal.MainFunctionWrapper" : "MainFunctionWrapper");
 
             mainFunctionExec.classPath.Add(Path.GetFullPath("./java_temp/"));
             mainFunctionExec.classPath.Add(Path.GetFullPath(MainWindow.jarDir + "/" + jar.jarFileName));

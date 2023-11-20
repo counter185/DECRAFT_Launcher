@@ -383,6 +383,7 @@ namespace DeCraftLauncher
                     "net.minecraft.server.MinecraftServer",
                 };
                 conf.isServer = scanRes.entryPoints.Count == 1 && serverClassPaths.Contains(scanRes.entryPoints[0].classpath);
+                conf.cwdIsDotMinecraft = !conf.isServer;
                 conf.SaveToXMLDefault();
                 if (currentlySelectedJar.jarFileName == param.jar)
                 {
@@ -591,7 +592,7 @@ namespace DeCraftLauncher
 
         private void btn_editproperties_Click(object sender, RoutedEventArgs e)
         {
-            //todo
+            new WindowServerPropertiesEditor($"./{currentlySelectedJar.instanceDirName}/server.properties").Show();
         }
     }
 }

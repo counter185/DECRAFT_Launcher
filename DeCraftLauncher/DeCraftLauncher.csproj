@@ -124,6 +124,9 @@
     <Compile Include="UIControls\UnimportantLaunchEntryPoint.xaml.cs">
       <DependentUpon>UnimportantLaunchEntryPoint.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Configs\UI\WindowServerPropertiesEditor.xaml.cs">
+      <DependentUpon>WindowServerPropertiesEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utils\JavaClassReader.cs" />
     <Compile Include="Utils\JavaCode.cs" />
     <Compile Include="Utils\JavaExec.cs" />
@@ -218,6 +221,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Configs\UI\WindowServerPropertiesEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="WindowDeployMTP.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

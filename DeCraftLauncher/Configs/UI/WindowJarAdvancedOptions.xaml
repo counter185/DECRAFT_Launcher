@@ -18,7 +18,7 @@
         <TextBox x:Name="tbox_gameargs" Style="{DynamicResource TextBoxMainStyle}" Margin="173,87,10,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <Grid Margin="10,178,10,0" VerticalAlignment="Top" Height="109">
             <Rectangle Margin="0,0,0,0" Stroke="#FF272727"/>
-            <Label Content="Applet wrapper" HorizontalAlignment="Left" Margin="13,-14,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold"/>
+            <Label Content="Applet/Main wrapper" HorizontalAlignment="Left" Margin="13,-14,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold"/>
             <Label Content="Emulate HTTP server" HorizontalAlignment="Left" Margin="23,37,0,0" VerticalAlignment="Top" Foreground="White"/>
             <CheckBox x:Name="checkbox_emulatehttp" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Bottom" IsChecked="True" ToolTip="Emulate the old login server. This option must be enabled to run Indev." Height="23" Margin="235,39,0,0"/>
             <Label Content="Custom DocumentBase URL" HorizontalAlignment="Left" Margin="23,13,0,0" VerticalAlignment="Top" Foreground="White"/>

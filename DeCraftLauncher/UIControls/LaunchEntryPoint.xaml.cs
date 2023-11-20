@@ -62,6 +62,10 @@ namespace DeCraftLauncher.UIControls
             moreInfo.Content = Util.CleanStringForXAML(target.additionalInfo);
             switch (entryPoint.type)
             {
+                case JarUtils.EntryPointType.STATIC_VOID_MAIN:
+                    launchAdvancedButton.Content = "Launch+";
+                    launchAdvancedButton.ToolTip = "Launch using the Main function Wrapper. Allows you to use server redirection & other wrapper-specific settings.\nRequires a JDK.";
+                    break;
                 case JarUtils.EntryPointType.CUSTOM_LAUNCH_COMMAND:
                     launchAdvancedButton.Content = "Remove...";
                     break;
@@ -90,7 +94,15 @@ namespace DeCraftLauncher.UIControls
             if (entryPoint.type == JarUtils.EntryPointType.APPLET)
             {
                 new WindowAppletParametersOptions(entryPoint.classpath, caller, jarConfig).Show();
-            } else if (entryPoint.type == JarUtils.EntryPointType.CUSTOM_LAUNCH_COMMAND)
+            }
+            else if (entryPoint.type == JarUtils.EntryPointType.STATIC_VOID_MAIN)
+            {
+                if (jarConfig.EvalPrereqs())
+                {
+                    MainFunctionWrapper.LaunchMainFunctionWrapper(entryPoint.classpath, caller, jarConfig);
+                }
+            }
+            else if (entryPoint.type == JarUtils.EntryPointType.CUSTOM_LAUNCH_COMMAND)
             {
                 if (MessageBox.Show($"Remove the custom launch command?\n\njava {this.entryPoint.classpath}", "DECRAFT", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {

@@ -69,14 +69,18 @@ public class InjectedStreamHandlerFactory implements URLStreamHandlerFactory {{
                     injectedDataStream = new ByteArrayInputStream(new byte[] {{0x30, 0x0A}});
                     break;
                 case 1:
-                    //todo: handle cloak url
+                    //todo: handle cloak urls
                     //   http://skins.minecraft.net/MinecraftCloaks/(whatever player name).png
+                    //   http://www.minecraft.net/cloak/get.jsp?user=(whatever player name)
 
                     if (strippedConnUrl.startsWith(""minecraft.net/skin/"")){{
                         strippedConnUrl = strippedConnUrl.substring({"minecraft.net/skin/".Length});
                     }}
                     else if (strippedConnUrl.startsWith(""skins.minecraft.net/MinecraftSkins/"")){{
                         strippedConnUrl = strippedConnUrl.substring({"skins.minecraft.net/MinecraftSkins/".Length});
+                    }}
+                    else if (strippedConnUrl.startsWith(""s3.amazonaws.com/MinecraftSkins/"")){{
+                        strippedConnUrl = strippedConnUrl.substring({"s3.amazonaws.com/MinecraftSkins/".Length});
                     }}
                     strippedConnUrl = ""{jar.appletSkinRedirectPath.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\n", "\\n")}/"" + strippedConnUrl;
                     System.out.println(""[InjectedUrlConnection(""+connectionType+"")] requested skin from path: "" + strippedConnUrl);
@@ -143,7 +147,8 @@ public class InjectedStreamHandlerFactory implements URLStreamHandlerFactory {{
             {{
                 return new InjectedURLConnection(u, 0);
             }} else if ((u.toString().contains(""minecraft.net/skin/"")
-                        || u.toString().contains(""skins.minecraft.net/MinecraftSkins/""))
+                        || u.toString().contains(""skins.minecraft.net/MinecraftSkins/"")
+                        || u.toString().contains(""s3.amazonaws.com/MinecraftSkins/""))
                         && INJECT_SKIN_REQUESTS) 
             {{
                 return new InjectedURLConnection(u, 1);

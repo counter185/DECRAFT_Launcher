@@ -201,71 +201,64 @@ namespace DeCraftLauncher.Configs
         {
             if (entryPoint.type == JarUtils.EntryPointType.STATIC_VOID_MAIN)
             {
-                if (Keyboard.IsKeyDown(Key.LeftShift))
+                JavaExec mainFunctionExec = new JavaExec(entryPoint.classpath);
+
+                mainFunctionExec.classPath.Add(Path.GetFullPath(MainWindow.jarDir + "/" + jarFileName));
+                if (workaroundRetroMCP)
                 {
-                    //todo: make this an advanced option
-                    MainFunctionWrapper.LaunchMainFunctionWrapper(entryPoint.classpath, caller, this);
+                    mainFunctionExec.classPath.Add(Path.GetFullPath("./java_temp"));
                 }
-                else
+                if (LWJGLVersion != "+ built-in")
                 {
-                    JavaExec mainFunctionExec = new JavaExec(entryPoint.classpath);
+                    //mainFunctionExec.classPath.Add($"{MainWindow.currentDirectory}/lwjgl/{jarConfig.LWJGLVersion}/*");
 
-                    mainFunctionExec.classPath.Add(Path.GetFullPath(MainWindow.jarDir + "/" + jarFileName));
-                    if (workaroundRetroMCP)
-                    {
-                        mainFunctionExec.classPath.Add(Path.GetFullPath("./java_temp"));
-                    }
-                    if (LWJGLVersion != "+ built-in")
-                    {
-                        //mainFunctionExec.classPath.Add($"{MainWindow.currentDirectory}/lwjgl/{jarConfig.LWJGLVersion}/*");
+                    //the above is a much more efficient way of doing this right???
+                    //yeah
+                    //but it doesn't work with java 5 which can't handle wildcards
 
-                        //the above is a much more efficient way of doing this right???
-                        //yeah
-                        //but it doesn't work with java 5 which can't handle wildcards
-
-                        try
-                        {
-                            foreach (string f in Directory.GetFiles($"{MainWindow.currentDirectory}/lwjgl/{LWJGLVersion}/"))
-                            {
-                                if (f.EndsWith(".jar"))
-                                {
-                                    mainFunctionExec.classPath.Add(f);
-                                }
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            // don't care i think
-                        }
-                    }
-
-                    if (proxyHost != "")
-                    {
-                        mainFunctionExec.jvmArgs.Add($"-Dhttp.proxyHost={proxyHost.Replace(" ", "%20")}");
-                    }
-                    mainFunctionExec.jvmArgs.Add($"-Djava.library.path=\"{MainWindow.currentDirectory}/lwjgl/{(LWJGLVersion == "+ built-in" ? "_temp_builtin" : LWJGLVersion)}/native\"");
-                    mainFunctionExec.jvmArgs.Add(jvmArgs);
-
-                    if (!isServer)
-                    {
-                        mainFunctionExec.programArgs.Add($"\"{playerName}\"");
-                        mainFunctionExec.programArgs.Add(sessionID);
-                    }
-                    mainFunctionExec.programArgs.Add(gameArgs);
-                    Console.WriteLine("Running command: java " + mainFunctionExec.GetFullArgsString());
-
-                    string emulatedAppDataDir = Path.GetFullPath($"{MainWindow.currentDirectory}/{MainWindow.instanceDir}/{instanceDirName}");
-                    mainFunctionExec.appdataDir = emulatedAppDataDir;
-                    mainFunctionExec.workingDirectory = $"{emulatedAppDataDir}{(cwdIsDotMinecraft ? "/.minecraft" : "")}";
                     try
                     {
-                        mainFunctionExec.StartOpenWindowAndAddToInstances(caller, this);
+                        foreach (string f in Directory.GetFiles($"{MainWindow.currentDirectory}/lwjgl/{LWJGLVersion}/"))
+                        {
+                            if (f.EndsWith(".jar"))
+                            {
+                                mainFunctionExec.classPath.Add(f);
+                            }
+                        }
                     }
-                    catch (Win32Exception w32e)
+                    catch (Exception ex)
                     {
-                        MessageBox.Show($"Error launching java process: {w32e.Message}\n\nVerify that Java is installed in \"Runtime settings\".");
+                        // don't care i think
                     }
                 }
+
+                if (proxyHost != "")
+                {
+                    mainFunctionExec.jvmArgs.Add($"-Dhttp.proxyHost={proxyHost.Replace(" ", "%20")}");
+                }
+                mainFunctionExec.jvmArgs.Add($"-Djava.library.path=\"{MainWindow.currentDirectory}/lwjgl/{(LWJGLVersion == "+ built-in" ? "_temp_builtin" : LWJGLVersion)}/native\"");
+                mainFunctionExec.jvmArgs.Add(jvmArgs);
+
+                if (!isServer)
+                {
+                    mainFunctionExec.programArgs.Add($"\"{playerName}\"");
+                    mainFunctionExec.programArgs.Add(sessionID);
+                }
+                mainFunctionExec.programArgs.Add(gameArgs);
+                Console.WriteLine("Running command: java " + mainFunctionExec.GetFullArgsString());
+
+                string emulatedAppDataDir = Path.GetFullPath($"{MainWindow.currentDirectory}/{MainWindow.instanceDir}/{instanceDirName}");
+                mainFunctionExec.appdataDir = emulatedAppDataDir;
+                mainFunctionExec.workingDirectory = $"{emulatedAppDataDir}{(cwdIsDotMinecraft ? "/.minecraft" : "")}";
+                try
+                {
+                    mainFunctionExec.StartOpenWindowAndAddToInstances(caller, this);
+                }
+                catch (Win32Exception w32e)
+                {
+                    MessageBox.Show($"Error launching java process: {w32e.Message}\n\nVerify that Java is installed in \"Runtime settings\".");
+                }
+                
             }
             else if (entryPoint.type == JarUtils.EntryPointType.APPLET)
             {

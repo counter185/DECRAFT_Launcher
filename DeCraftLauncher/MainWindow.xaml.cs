@@ -239,6 +239,15 @@ namespace DeCraftLauncher
             categorizedEntries.Sort((a, b) => { return a.category.name.CompareTo(b.category.name); });
             loadedJars = categorizedEntries.Concat(loadedJars).ToList();
 
+            //filter loadedJars
+            if (tbox_jarlistfilter.Text != "")
+            {
+                loadedJars = (from x in loadedJars
+                              where x.jarFileName.Contains(tbox_jarlistfilter.Text)
+                              || x.friendlyName.Contains(tbox_jarlistfilter.Text)
+                              select x).ToList();
+            }
+
             loadedJars.ForEach((x) => { jarlist.Items.Add(new JarListEntry(this, x)); });
 
             if (hadNonMatchingEntries)
@@ -593,6 +602,11 @@ namespace DeCraftLauncher
         private void btn_editproperties_Click(object sender, RoutedEventArgs e)
         {
             new WindowServerPropertiesEditor($"{instanceDir}/{currentlySelectedJar.instanceDirName}/server.properties").Show();
+        }
+
+        private void tbox_jarlistfilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ResetJarlist();
         }
     }
 }

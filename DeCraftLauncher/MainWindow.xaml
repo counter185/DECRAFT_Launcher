@@ -19,15 +19,18 @@
             <ColumnDefinition Width="4*"/>
             <ColumnDefinition Width="9*"/>
         </Grid.ColumnDefinitions>
-        <Label Content=".jar files" Margin="10,115,10,0" VerticalAlignment="Top" Foreground="White" FontSize="20" FontWeight="Bold"/>
-        <ListBox x:Name="jarlist" TextSearch.TextPath="InnerText" ItemContainerStyle="{StaticResource MainListBoxItemStyleNoSelectBorder}" IsTextSearchEnabled="True" AllowDrop="True" Margin="0,157,0,0" Foreground="White" FontSize="16" BorderBrush="{x:Null}" SelectionChanged="jarlist_SelectionChanged" Drop="jarlist_Drop" HorizontalContentAlignment="Stretch" ScrollViewer.CanContentScroll="False" KeyDown="jarlist_KeyDown">
-            <ListBox.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#50000000"/>
-                    <GradientStop Color="#A0171717" Offset="1"/>
-                </LinearGradientBrush>
-            </ListBox.Background>
-        </ListBox>
+        <DockPanel Margin="0,115,0,0" LastChildFill="True">
+            <Label Content=".jar files" DockPanel.Dock="Top" Margin="10,0,0,0" VerticalAlignment="Top" Foreground="White" FontSize="20" FontWeight="Bold"/>
+            <TextBox x:Name="tbox_jarlistfilter" DockPanel.Dock="Top" Background="Transparent" Style="{DynamicResource TextBoxMainStyle}" TextChanged="tbox_jarlistfilter_TextChanged" />
+            <ListBox x:Name="jarlist" DockPanel.Dock="Bottom" TextSearch.TextPath="InnerText" ItemContainerStyle="{StaticResource MainListBoxItemStyleNoSelectBorder}" IsTextSearchEnabled="True" AllowDrop="True" Foreground="White" FontSize="16" BorderBrush="{x:Null}" SelectionChanged="jarlist_SelectionChanged" Drop="jarlist_Drop" HorizontalContentAlignment="Stretch" ScrollViewer.CanContentScroll="False" KeyDown="jarlist_KeyDown">
+                <ListBox.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#50000000"/>
+                        <GradientStop Color="#A0171717" Offset="1"/>
+                    </LinearGradientBrush>
+                </ListBox.Background>
+            </ListBox>
+        </DockPanel>
         <DockPanel Grid.Column="1" LastChildFill="True">
             <Grid x:Name="panel_instances" DockPanel.Dock="Bottom">
                 <Label x:Name="label_instancesrunning" Content="Running instances: {x} (click to open log)" Foreground="White" />

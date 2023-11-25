@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeCraftLauncher.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -38,7 +39,7 @@ namespace DeCraftLauncher.UIControls
         {
             this.targetLog = targetLog;
             InitializeComponent();
-            btn_main.Content = targetLog.InstanceName;
+            btn_main.Content = Util.CleanStringForXAML(targetLog.InstanceName);
             btn_main.Click += delegate
             {
                 this.targetLog.processLog.Show();

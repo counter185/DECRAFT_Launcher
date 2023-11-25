@@ -314,5 +314,37 @@ namespace DeCraftLauncher.Utils
                 SetWindowPos(mainWindowHandle, 0, 0, 0, (int)jarConfig.windowW, (int)jarConfig.windowH+39, SWP_NOMOVE | SWP_NOOWNERZORDER);
             }
         }
+
+        public static bool TryExtractPKFromExe(string filename, string targetfile)
+        {
+            using (FileStream inFile = File.OpenRead(filename))
+            {
+                byte[] searchHeader = new byte[] { (byte)'P', (byte)'K', 0x03, 0x04 };
+                int searchProgress = 0;
+                while (inFile.Position < inFile.Length)
+                {
+                    byte[] buffer = new byte[1];
+                    inFile.Read(buffer, 0, 1);
+                    if (buffer[0] == searchHeader[searchProgress])
+                    {
+                        if (++searchProgress == 4)
+                        {
+                            inFile.Position -= 4;
+                            Console.WriteLine($"Found PK header at {inFile.Position}");
+                            using (FileStream outFile = File.Open(targetfile, FileMode.Create, FileAccess.Write))
+                            {
+                                inFile.CopyTo(outFile);
+                            }
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        searchProgress = 0;
+                    }
+                }
+            }
+            return false;
+        }
     }
 }

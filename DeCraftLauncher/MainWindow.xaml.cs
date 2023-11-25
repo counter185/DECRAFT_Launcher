@@ -207,7 +207,9 @@ namespace DeCraftLauncher
             EnsureDir(jarDir);
             EnsureDir(configDir);
             EnsureDir(instanceDir);
-            string[] jars = Directory.GetFiles(jarDir);
+            IEnumerable<string> jars = from x in Directory.GetFiles(jarDir)
+                                       where x.EndsWith(".jar") || x.EndsWith(".zip")
+                                       select x;
 
             List<JarEntry> categorizedEntries = new List<JarEntry>();
 
@@ -441,6 +443,14 @@ namespace DeCraftLauncher
                                 File.Copy(a, copyName, true);
                             }
                         }
+                        else if (a.EndsWith(".exe"))
+                        {
+                            string copyName = $"{jarDir}/{new FileInfo(a).Name}.jar";
+                            if (!Util.TryExtractPKFromExe(a, copyName))
+                            {
+                                MessageBox.Show($"Failed to extract jar from executable.", "DECRAFT");
+                            }
+                        }
                         else if (a.EndsWith(".json"))
                         {
                             try
@@ -487,6 +497,9 @@ namespace DeCraftLauncher
                             {
                                 MessageBox.Show($"Error reading NBT data:\n {ex.Message}", "DECRAFT");
                             }
+                        } else
+                        {
+                            MessageBox.Show($"Unsupported file", "DECRAFT");
                         }
                     }
                 }

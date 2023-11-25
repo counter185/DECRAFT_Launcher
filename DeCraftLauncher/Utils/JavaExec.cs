@@ -8,6 +8,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Threading;
 
 namespace DeCraftLauncher.Utils
 {
@@ -80,15 +82,26 @@ namespace DeCraftLauncher.Utils
             {
                 int timeoutMS = 20000;
                 int timeChecks = 500;
-                for (int x = 0; x < timeoutMS; x += timeChecks)
+                try
                 {
-                    if (((Process)process).MainWindowHandle != IntPtr.Zero)
+                    for (int x = 0; x < timeoutMS; x += timeChecks)
                     {
-                        Util.SetWindowDarkMode(newProcess.MainWindowHandle);
-                        Util.SetWindowSize(newProcess.MainWindowHandle, jarConfig);
-                        break;
+                        if (((Process)process).MainWindowHandle != IntPtr.Zero)
+                        {
+                            Util.SetWindowDarkMode(newProcess.MainWindowHandle);
+                            Util.SetWindowSize(newProcess.MainWindowHandle, jarConfig);
+                            break;
+                        }
+                        Thread.Sleep(timeChecks);
                     }
-                    Thread.Sleep(timeChecks);
+                } catch (Exception e)
+                {
+#if DEBUG
+                    caller.Dispatcher.Invoke(delegate
+                    {
+                        MessageBox.Show($"windowupdate thread error: {e.Message}");
+                    });
+#endif
                 }
                 Console.WriteLine("Dark mode set thread exited");
             }).Start(newProcess);

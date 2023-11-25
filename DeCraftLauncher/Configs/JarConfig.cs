@@ -30,8 +30,8 @@ namespace DeCraftLauncher.Configs
         public string instanceDirName = "";
         public string jvmArgs = "-Djava.util.Arrays.useLegacyMergeSort=true";
         public string proxyHost = "";
-        public uint windowW = 854;
-        public uint windowH = 480;
+        public int windowW = 854;
+        public int windowH = 480;
         public string maxJavaVersion = "";
         public string minJavaVersion = "";
         public bool isServer = false;
@@ -77,7 +77,7 @@ namespace DeCraftLauncher.Configs
             rootElement.AppendChild(Util.GenElementChild(newXml, "PlayerName", playerName));
             rootElement.AppendChild(Util.GenElementChild(newXml, "InstanceDirectory", instanceDirName));
             rootElement.AppendChild(Util.GenElementChild(newXml, "JVMArgs", jvmArgs));
-            rootElement.AppendChild(Util.GenElementChild(newXml, "WindowW", windowW.ToString()));
+            rootElement.AppendChild(Util.GenElementChild(newXml, "WindowW", windowW + ""));
             rootElement.AppendChild(Util.GenElementChild(newXml, "WindowH", windowH + ""));
             rootElement.AppendChild(Util.GenElementChild(newXml, "ProxyHost", proxyHost));
 
@@ -135,8 +135,8 @@ namespace DeCraftLauncher.Configs
                 newJarConf.playerName = Util.GetInnerOrDefault(rootNode, "PlayerName", "DECRAFT_player");
                 newJarConf.jvmArgs = Util.GetInnerOrDefault(rootNode, "JVMArgs", "-Djava.util.Arrays.useLegacyMergeSort=true");
                 newJarConf.instanceDirName = Util.GetInnerOrDefault(rootNode, "InstanceDirectory", jarName);
-                newJarConf.windowW = uint.Parse(Util.GetInnerOrDefault(rootNode, "WindowW", "854", "uint"));
-                newJarConf.windowH = uint.Parse(Util.GetInnerOrDefault(rootNode, "WindowH", "480", "uint"));
+                newJarConf.windowW = int.Parse(Util.GetInnerOrDefault(rootNode, "WindowW", "854", "int"));
+                newJarConf.windowH = int.Parse(Util.GetInnerOrDefault(rootNode, "WindowH", "480", "int"));
                 newJarConf.proxyHost = Util.GetInnerOrDefault(rootNode, "ProxyHost");
 
                 newJarConf.sessionID = Util.GetInnerOrDefault(rootNode, "SessionID", "0");
@@ -241,8 +241,14 @@ namespace DeCraftLauncher.Configs
 
                 if (!isServer)
                 {
-                    mainFunctionExec.programArgs.Add($"\"{playerName}\"");
-                    mainFunctionExec.programArgs.Add(sessionID);
+                    if (playerName != "")
+                    {
+                        mainFunctionExec.programArgs.Add($"\"{playerName}\"");
+                    }
+                    if (sessionID != "")
+                    {
+                        mainFunctionExec.programArgs.Add(sessionID);
+                    }
                 }
                 mainFunctionExec.programArgs.Add(gameArgs);
                 Console.WriteLine("Running command: java " + mainFunctionExec.GetFullArgsString());

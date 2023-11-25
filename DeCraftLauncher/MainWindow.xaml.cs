@@ -516,8 +516,8 @@ namespace DeCraftLauncher
 
         public void SaveCurrentJarConfig()
         {
-            currentlySelectedJar.windowW = uint.TryParse(window_width.Text, out currentlySelectedJar.windowW) ? currentlySelectedJar.windowW : 960;
-            currentlySelectedJar.windowH = uint.TryParse(window_height.Text, out currentlySelectedJar.windowH) ? currentlySelectedJar.windowH : 540;
+            currentlySelectedJar.windowW = int.TryParse(window_width.Text, out currentlySelectedJar.windowW) ? currentlySelectedJar.windowW : 960;
+            currentlySelectedJar.windowH = int.TryParse(window_height.Text, out currentlySelectedJar.windowH) ? currentlySelectedJar.windowH : 540;
 
             currentlySelectedJar.jvmArgs = jvmargs.Text;
 

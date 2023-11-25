@@ -309,7 +309,7 @@ namespace DeCraftLauncher.Utils
 
         internal static void SetWindowSize(IntPtr mainWindowHandle, JarConfig jarConfig)
         {
-            if (mainWindowHandle != IntPtr.Zero)
+            if (mainWindowHandle != IntPtr.Zero && jarConfig.windowW > 0 && jarConfig.windowH > 0)
             {
                 SetWindowPos(mainWindowHandle, 0, 0, 0, (int)jarConfig.windowW, (int)jarConfig.windowH+39, SWP_NOMOVE | SWP_NOOWNERZORDER);
             }

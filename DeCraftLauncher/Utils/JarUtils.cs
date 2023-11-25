@@ -484,7 +484,7 @@ namespace DeCraftLauncher.Utils
                             }
                         }
 
-                        if (superClassName == "java.applet.Applet" && (from y in classInfo.methods
+                        if (superClassName == "java.applet.Applet" || superClassName == "javax.swing.JApplet" && (from y in classInfo.methods
                                                                        where y.Name(classInfo.entries) == "<init>"
                                                                             && y.Descriptor(classInfo.entries) == "()V"
                                                                        select y).Any())

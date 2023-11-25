@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -10,9 +11,11 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Shapes;
 using static DeCraftLauncher.Utils.JarUtils;
 using static DeCraftLauncher.Utils.JavaClassReader;
+using Brushes = System.Windows.Media.Brushes;
 using Path = System.IO.Path;
 
 namespace DeCraftLauncher.Utils
@@ -314,6 +317,26 @@ namespace DeCraftLauncher.Utils
                         return classpath.StartsWith("com.jdotsoft.jarloader") ? "Launch using a loader that will load its own dependencies."
                                : "<unknown>";
                 }
+            }
+
+            public System.Windows.Media.Brush GetUIColor()
+            {
+                switch (classpath)
+                {
+                    case "com.mojang.rubydung.RubyDung":
+                    case "com.mojang.minecraft.RubyDung":
+                    case "com.mojang.minecraft.Minecraft":
+                    case "net.minecraft.client.Minecraft":
+                        return Brushes.LightGreen;
+                    case "com.mojang.minecraft.MinecraftApplet":
+                    case "net.minecraft.client.MinecraftApplet":
+                        return Brushes.LimeGreen;
+                    case "com.mojang.minecraft.server.MinecraftServer":
+                    case "net.minecraft.server.MinecraftServer":
+                        return Brushes.LightSkyBlue;
+
+                }
+                return null;
             }
 
             public int GetImportance()

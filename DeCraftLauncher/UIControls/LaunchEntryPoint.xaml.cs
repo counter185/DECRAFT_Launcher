@@ -49,7 +49,8 @@ namespace DeCraftLauncher.UIControls
 
             string cleanClassPath = Util.CleanStringForXAML(entryPoint.classpath);
             //cleanClassPath = cleanClassPath.Length > 50 ? cleanClassPath.Substring(0, 50) + "..." : cleanClassPath;
-            classname.Content = entryPoint.type == JarUtils.EntryPointType.CUSTOM_LAUNCH_COMMAND ? "Custom" : cleanClassPath;
+            classname.Foreground = target.GetUIColor() ?? classname.Foreground;
+            classname.Content = (target.GetImportance() > 1 ? "★ " : "") + (entryPoint.type == JarUtils.EntryPointType.CUSTOM_LAUNCH_COMMAND ? "Custom" : cleanClassPath);
             classname.ToolTip = Util.CleanStringForXAML(entryPoint.classpath);
 
             desc.Content = GetDescription();

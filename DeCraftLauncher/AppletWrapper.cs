@@ -103,7 +103,7 @@ namespace DeCraftLauncher
 
             try
             {
-                AppletWrapper.LaunchAppletWrapper(classpath, caller, jarConfig, appletParameters != null ? appletParameters : new Dictionary<string, string>());
+                AppletWrapper.LaunchAppletWrapper(classpath, caller, jarConfig, appletParameters ?? new Dictionary<string, string>());
             }
             catch (Win32Exception)
             {

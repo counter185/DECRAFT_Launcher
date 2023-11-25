@@ -447,7 +447,7 @@ namespace DeCraftLauncher.Utils
                         {
                             foreach (ConstantPoolEntry.ClassReferenceEntry x in (from y in classInfo.entries
                                                                                  where y is ConstantPoolEntry.ClassReferenceEntry
-                                                                                 select y))
+                                                                                 select (ConstantPoolEntry.ClassReferenceEntry)y))
                             {
                                 string referencedClassName = x.GetName(classInfo.entries);
                                 if (referencedClassName.StartsWith("net/minecraft/client/Minecraft$SyntheticClass")

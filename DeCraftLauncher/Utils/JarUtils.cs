@@ -484,10 +484,12 @@ namespace DeCraftLauncher.Utils
                             }
                         }
 
-                        if (superClassName == "java.applet.Applet" || superClassName == "javax.swing.JApplet" && (from y in classInfo.methods
-                                                                       where y.Name(classInfo.entries) == "<init>"
-                                                                            && y.Descriptor(classInfo.entries) == "()V"
-                                                                       select y).Any())
+                        if (superClassName == "java.applet.Applet" 
+                            || superClassName == "javax.swing.JApplet" 
+                            && (from y in classInfo.methods
+                                where y.Name(classInfo.entries) == "<init>"
+                                    && y.Descriptor(classInfo.entries) == "()V"
+                                select y).Any())
                         {
                             ret.entryPoints.Add(new EntryPoint(className, EntryPointType.APPLET));
                         }

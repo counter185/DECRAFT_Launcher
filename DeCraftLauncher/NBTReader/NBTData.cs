@@ -76,6 +76,7 @@ namespace DeCraftLauncher.NBTReader
                 byte[] nextType = new byte[] { 0 };
                 if (input.Read(nextType, 0, 1) == 0)
                 {
+                    Console.WriteLine("[ReadNBTTagCompound] input.Read() read 0 bytes, ending.");
                     break;
                 }
                 NBTBase nextNBT = ReadNBTTagFromStream(input, true, nextType[0]);
@@ -88,12 +89,15 @@ namespace DeCraftLauncher.NBTReader
                 }
 
             }
+            ret.Value = ret.Value.OrderBy(x => x.Name).ToList();
             return ret;
         }
 
         public static NBTBase ReadNBTTagFromStream(Stream input, bool readName = true, byte? predefType = null)
         {
             byte typeID = predefType == null ? (byte)input.ReadByte() : predefType.Value;
+
+            readName = (typeID == 0) ? false : readName;
 
             short nameLength = readName ? Util.StreamReadShort(input) : (short)0;
             byte[] nameB = new byte[nameLength];
@@ -152,6 +156,10 @@ namespace DeCraftLauncher.NBTReader
                     {
                         ((NBTTagListNode)newNBT).Value.Add(ReadNBTTagFromStream(input, false, ((NBTTagListNode)newNBT).innerType));
                     }
+                    /*if (count == 0)
+                    {
+                        input.ReadByte();   //stray 0x00
+                    }*/
                     //Console.WriteLine($"End nameless list {name}");
                     break;
                 case 10:
@@ -164,7 +172,7 @@ namespace DeCraftLauncher.NBTReader
 
             newNBT.Tag = typeID;
             newNBT.Name = name;
-            //Console.WriteLine($"Read tag {(readName ? newNBT.Name : "<nameless list element>")} of tag {newNBT.Tag}\t({newNBT.GetType().Name})");
+            Console.WriteLine($"Read tag {(readName ? newNBT.Name : "<nameless list element>")} of tag {newNBT.Tag}\t({newNBT.GetType().Name})");
             return newNBT;
         }
 

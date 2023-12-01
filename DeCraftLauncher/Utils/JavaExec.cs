@@ -72,7 +72,7 @@ namespace DeCraftLauncher.Utils
             }
         }
 
-        public void StartOpenWindowAndAddToInstances(MainWindow caller, JarConfig jarConfig)
+        public void StartOpenWindowAndAddToInstances(MainWindow caller, JarConfig jarConfig, bool setWindowSize = true)
         {
             Process newProcess = Start();
             WindowProcessLog processLog = new WindowProcessLog(newProcess, caller, jarConfig.isServer);
@@ -89,7 +89,10 @@ namespace DeCraftLauncher.Utils
                         if (((Process)process).MainWindowHandle != IntPtr.Zero)
                         {
                             Util.SetWindowDarkMode(newProcess.MainWindowHandle);
-                            Util.SetWindowSize(newProcess.MainWindowHandle, jarConfig);
+                            if (setWindowSize)
+                            {
+                                Util.SetWindowSize(newProcess.MainWindowHandle, jarConfig);
+                            }
                             break;
                         }
                         Thread.Sleep(timeChecks);

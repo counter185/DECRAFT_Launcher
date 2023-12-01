@@ -89,7 +89,7 @@ namespace DeCraftLauncher
             appletExec.workingDirectory = $"{emulatedAppDataDir}{(jar.cwdIsDotMinecraft ? "/.minecraft" : "")}";
             try
             {
-                appletExec.StartOpenWindowAndAddToInstances(caller, jar);
+                appletExec.StartOpenWindowAndAddToInstances(caller, jar, false);
 
                 //nproc = JarUtils.RunProcess(MainWindow.mainRTConfig.javaHome + "java", args, emulatedAppDataDir);
             } catch (Win32Exception w32e)

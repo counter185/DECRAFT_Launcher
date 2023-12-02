@@ -57,11 +57,6 @@ namespace DeCraftLauncher
     }},
     ""assets"": ""legacy"",
     ""downloads"": {{
-        ""client"": {{
-            ""sha1"": ""{jarSHA1}"",
-            ""size"": 0,
-            ""url"": ""http://0.0.0.0/client.jar""
-        }}
     }},
     ""id"": ""{target.jarFileName.Substring(0, target.jarFileName.Length - 4)}"",
     ""libraries"": [

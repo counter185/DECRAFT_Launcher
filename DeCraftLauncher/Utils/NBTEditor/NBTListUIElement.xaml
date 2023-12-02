@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="DeCraftLauncher.Utils.NBTEditor.NBTListUIElement"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DeCraftLauncher.Utils.NBTEditor"
+             mc:Ignorable="d" >
+    <UserControl.ContextMenu>
+        <ContextMenu x:Name="ctxMenu">
+            <ContextMenu.Template>
+                <ControlTemplate>
+                    <Grid Background="#FF121212" MinWidth="100">
+                        <Rectangle Stroke="#FF383838" Margin="0,0,0,0" />
+                        <StackPanel>
+                            <Button Name="ContextDeleteNBT" Content="Delete" Style="{StaticResource ButtonRevealStyle}" Height="30" Background="Transparent" HorizontalContentAlignment="Left" Padding="3" Click="ContextDeleteNBT_Click" />
+                        </StackPanel>
+                    </Grid>
+                </ControlTemplate>
+            </ContextMenu.Template>
+        </ContextMenu>
+    </UserControl.ContextMenu>
+    <Grid>
+        <StackPanel Orientation="Vertical" Width="Auto" HorizontalAlignment="Stretch">
+            <StackPanel Orientation="Horizontal">
+                <Separator Foreground="White" Width="5"/>
+                <Label x:Name="label_nbtname" Padding="7,2" Content="NBT tag name here" Foreground="White" />
+                <Label x:Name="label_tagvalue" Padding="7,2" Content="NBT tag value" Foreground="#90FFFFFF" FontWeight="Bold" FontStyle="Italic" MouseDoubleClick="label_tagvalue_MouseDoubleClick" />
+                <TextBox x:Name="tbox_valedit" Visibility="Collapsed" Style="{StaticResource TextBoxMainStyle}" Width="200" />
+                <Label x:Name="label_typename" Padding="7,2" Content="NBT type name" Foreground="#40FFFFFF" FontStyle="Italic" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Rectangle x:Name="rect_padrect" Width="1"/>
+                <Rectangle Fill="#30FFFFFF" Width="1"/>
+                <Rectangle x:Name="rect_padrect2" Width="10"/>
+                <StackPanel x:Name="panel_nbtdata" Orientation="Vertical" Background="Transparent">
+                    <!-- Sub NBTs will go here -->
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

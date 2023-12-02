@@ -20,6 +20,7 @@ using static DeCraftLauncher.Utils.JarUtils;
 using System.Windows.Input;
 using DeCraftLauncher.NBTReader;
 using System.Xml;
+using DeCraftLauncher.Utils.NBTEditor;
 
 namespace DeCraftLauncher
 {
@@ -491,14 +492,15 @@ namespace DeCraftLauncher
                         }
                         else if (a.EndsWith(".dat") || a.EndsWith(".nbt"))
                         {
-                            try
+                            new WindowNBTEditor(a).Show();
+                            /*try
                             {
                                 NBTData nbtData = NBTData.FromFile(a);
                                 NBTData.PrintNBT(nbtData.rootNode);
                             } catch (Exception ex)
                             {
                                 MessageBox.Show($"Error reading NBT data:\n {ex.Message}", "DECRAFT");
-                            }
+                            }*/
                         } else
                         {
                             MessageBox.Show($"Unsupported file", "DECRAFT");

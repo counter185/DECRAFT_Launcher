@@ -69,6 +69,7 @@ namespace DeCraftLauncher
                 panel_runninginstances.Children.Add(new InstanceListElement(process));
             }
             panel_instances.Visibility = runningInstances.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
+            GlobalVars.discordRPCManager.UpdateActivity(this);
         }
 
         public void UpdateLWJGLVersions()
@@ -270,6 +271,7 @@ namespace DeCraftLauncher
             }
             mainRTConfig = RuntimeConfig.LoadFromXML();
             Util.UpdateAcrylicWindowBackground(this);
+            GlobalVars.discordRPCManager.Init(this);
             ShowPanelWelcome();
             //Console.WriteLine(JarUtils.GetJDKInstalled());
             UpdateLWJGLVersions();
@@ -299,9 +301,6 @@ namespace DeCraftLauncher
                 tbox_instance_dir,
                 tbox_proxyhost
             };
-
-            GlobalVars.discordRPCManager.Init(this);
-            GlobalVars.discordRPCManager.ActivityIdle();
 
             if (Util.RunningOnWine())
             {
@@ -535,6 +534,18 @@ namespace DeCraftLauncher
 
             currentlySelectedJar.LWJGLVersion = combobox_lwjgl_version.Text;
             currentlySelectedJar.playerName = tbox_playername.Text;
+
+            var friendlyNameUpdates = from y in loadedJars
+                                      where y.jarFileName == currentlySelectedJar.jarFileName
+                                      select y;
+
+            if (friendlyNameUpdates.Any())
+            {
+                if (friendlyNameUpdates.First().friendlyName != null)
+                {
+                    currentlySelectedJar.friendlyName = friendlyNameUpdates.First().friendlyName;
+                }
+            }
 
             currentlySelectedJar.SaveToXMLDefault();
         }

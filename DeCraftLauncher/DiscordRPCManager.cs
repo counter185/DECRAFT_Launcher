@@ -16,28 +16,30 @@ namespace DeCraftLauncher
         Discord.Discord discord;
         Discord.ActivityManager activityManager;
         Thread rpcThread;
+        bool inited = false;
 
         public void Init(MainWindow caller)
         {
             discord = new Discord.Discord(1180408357782298624, (UInt64)Discord.CreateFlags.Default);
             activityManager = discord.GetActivityManager();
-            rpcThread = new Thread (() =>
-            {
-                while (true)
-                {
-                    //activityMutex.WaitOne();
-                    //activityMutex.ReleaseMutex();
+            rpcThread = new Thread(() =>
+           {
+               while (true)
+               {
+                   //activityMutex.WaitOne();
+                   //activityMutex.ReleaseMutex();
 
-                    //RunCallbacks has to be done on main thread
-                    caller.Dispatcher.Invoke(delegate
-                    {
-                        discord.RunCallbacks();
-                    });
-                    Thread.Sleep(200);
-                }
-            });
-            
+                   //RunCallbacks has to be done on main thread
+                   caller.Dispatcher.Invoke(delegate
+                  {
+                      discord.RunCallbacks();
+                  });
+                   Thread.Sleep(200);
+               }
+           });
+
             rpcThread.Start();
+            inited = true;
         }
 
         public void Close()
@@ -48,20 +50,50 @@ namespace DeCraftLauncher
             }
         }
 
-        public void ActivityIdle()
+        Discord.Activity BaseActivity
         {
-            //activityMutex.WaitOne();
-            Discord.Activity act = new Discord.Activity();
-            act.Name = "DECRAFT";
-            act.ApplicationId = 1180408357782298624;
-            act.Details = "i am DECRAFTing so hard rn";
+            get => new Discord.Activity
+        {
+            Name = "DECRAFT",
+            ApplicationId = 1180408357782298624,
+            Assets = new Discord.ActivityAssets
+            {
+                LargeImage = "applogo"
+            },
+            Timestamps = new Discord.ActivityTimestamps
+            {
+                Start = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds
+            }
+        };
+        }
+
+
+        public void UpdateActivity(MainWindow caller)
+        {
+            if (!inited)
+            {
+                return;
+            }
+            Discord.Activity act = BaseActivity;
+            if (caller.runningInstances.Count == 0)
+            {
+                act.State = "Idle";
+            }
+            else if (caller.runningInstances.Count == 1)
+            {
+                act.Details = "Ingame";
+                act.State = $"Playing {caller.runningInstances.First().InstanceName}";
+            }
+            else
+            {
+                act.Details = "Ingame";
+                act.State = $"{caller.runningInstances.Count} running instances";
+            }
+
             activityManager.UpdateActivity(act, (a) =>
             {
                 Console.WriteLine(a);
             });
-
-            //activityMutex.ReleaseMutex();
-
         }
     }
 }

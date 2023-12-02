@@ -16,25 +16,29 @@ namespace DeCraftLauncher.NBTReader
             public byte Tag;
             public string Name;
 
+            public abstract string GetTypeName();
             public abstract string GetValue();
         }
         public class NBTNode<T> : NBTBase
         {
             public T Value;
 
-            public override string GetValue()
-            {
-                return Value.ToString();
-            }
+            public override string GetTypeName() => Value.GetType().Name;
+            public override string GetValue() => Value.ToString();
         }
         public class NBTTagCompoundNode : NBTNode<List<NBTBase>> { 
             public NBTTagCompoundNode()
             {
                 Value = new List<NBTBase>();
             }
+            public override string GetTypeName() => "Compound";
+            public override string GetValue() => $"({Value.Count} elements)";
         }
         public class NBTTagListNode : NBTTagCompoundNode {
             public byte innerType;
+            public override string GetTypeName() => "List";
+            public override string GetValue() => $"({Value.Count} elements)";
+
         } //tell noone
         public class NBTTagEndCompoundNode : NBTNode<object> { }
 
@@ -146,7 +150,16 @@ namespace DeCraftLauncher.NBTReader
                         Value = Util.StreamReadDouble(input)
                     };
                     break;
-                //todo: implement 7,8
+                //todo: implement 7
+                case 8:
+                    short strLen = Util.StreamReadShort(input);
+                    byte[] strBuffer = new byte[strLen];
+                    input.Read(strBuffer, 0, strLen);
+                    newNBT = new NBTNode<string>
+                    {
+                        Value = Encoding.UTF8.GetString(strBuffer)
+                    };
+                    break;
                 case 9:
                     newNBT = new NBTTagListNode();
                     ((NBTTagListNode)newNBT).innerType = (byte)input.ReadByte();

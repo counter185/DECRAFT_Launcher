@@ -136,6 +136,12 @@
     <Compile Include="UIControls\LauncherEntryPointFinding.xaml.cs">
       <DependentUpon>LauncherEntryPointFinding.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utils\NBTEditor\NBTListUIElement.xaml.cs">
+      <DependentUpon>NBTListUIElement.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\NBTEditor\WindowNBTEditor.xaml.cs">
+      <DependentUpon>WindowNBTEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utils\TinyV2Mapper.cs" />
     <Compile Include="Utils\UIListBoxMaxWidthLimiter.cs" />
     <Compile Include="WindowDeployMTP.xaml.cs">
@@ -224,6 +230,14 @@
     <Page Include="Configs\UI\WindowServerPropertiesEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Utils\NBTEditor\NBTListUIElement.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Utils\NBTEditor\WindowNBTEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="WindowDeployMTP.xaml">
       <SubType>Designer</SubType>

@@ -72,8 +72,8 @@
                                 <Label Content="Proxy host" Margin="10,36,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" HorizontalAlignment="Left" Width="83"/>
                                 <TextBox x:Name="tbox_proxyhost" Style="{DynamicResource TextBoxMainStyle}" Margin="124,40,9,0" TextWrapping="NoWrap" VerticalAlignment="Top"/>
                                 <ComboBox Style="{DynamicResource ComboBoxMainStyle}" x:Name="combobox_lwjgl_version" Margin="93,15,33,0" VerticalAlignment="Top" Height="22" IsEditable="True" Background="{x:Null}" Text="2.9.3" BorderBrush="#FF252525" Foreground="Black" Grid.Column="1"/>
-                                <Button x:Name="btn_advanced_settings" Content="Advanced settings" Margin="0,62,33,0" VerticalAlignment="Top" Height="24" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" Click="btn_advanced_settings_Click" HorizontalAlignment="Right" Width="137" Grid.Column="1"/>
-                                <Button x:Name="btn_open_instance_dir" Content="Open" Margin="0,66,8,0" VerticalAlignment="Top" Height="22" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" Click="btn_open_instance_dir_Click" HorizontalAlignment="Right" Width="40"/>
+                                <Button Style="{DynamicResource ButtonMainStyle}" x:Name="btn_advanced_settings" Content="Advanced settings" Margin="0,62,33,0" VerticalAlignment="Top" Height="24" Click="btn_advanced_settings_Click" HorizontalAlignment="Right" Width="137" Grid.Column="1"/>
+                                <Button x:Name="btn_open_instance_dir" Style="{DynamicResource ButtonMainStyle}" Content="Open" Margin="0,66,8,0" VerticalAlignment="Top" Height="22" Click="btn_open_instance_dir_Click" HorizontalAlignment="Right" Width="40"/>
                             </Grid>
 
                             <Grid x:Name="panel_launch_server_options" Visibility="Visible">
@@ -86,14 +86,14 @@
                                 <Label Content="Proxy host" Margin="10,3,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" HorizontalAlignment="Left" Width="83"/>
                                 <TextBox x:Name="tbox_server_proxyhost" Style="{DynamicResource TextBoxMainStyle}" Margin="124,7,9,0" TextWrapping="NoWrap" VerticalAlignment="Top"/>
 
-                                <Button x:Name="btn_advanced_settings2" Content="Advanced settings" Margin="0,29,33,0" VerticalAlignment="Top" Height="24" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" Click="btn_advanced_settings_Click" HorizontalAlignment="Right" Width="137" Grid.Column="1"/>
-                                <Button x:Name="btn_open_instance_dir2" Content="Open" Margin="0,31,8,0" VerticalAlignment="Top" Height="22" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" Click="btn_open_instance_dir_Click" HorizontalAlignment="Right" Width="40"/>
-                                <Button x:Name="btn_editproperties" Content="Edit server properties" Margin="0,1,33,0" VerticalAlignment="Top" Height="24" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" HorizontalAlignment="Right" Width="137" Grid.Column="1" Click="btn_editproperties_Click"/>
+                                <Button Style="{DynamicResource ButtonMainStyle}" x:Name="btn_advanced_settings2" Content="Advanced settings" Margin="0,29,33,0" VerticalAlignment="Top" Height="24" Click="btn_advanced_settings_Click" HorizontalAlignment="Right" Width="137" Grid.Column="1"/>
+                                <Button Style="{DynamicResource ButtonMainStyle}" x:Name="btn_open_instance_dir2" Content="Open" Margin="0,31,8,0" VerticalAlignment="Top" Height="22" Click="btn_open_instance_dir_Click" HorizontalAlignment="Right" Width="40"/>
+                                <Button Style="{DynamicResource ButtonMainStyle}" x:Name="btn_editproperties" Content="Edit server properties" Margin="0,1,33,0" VerticalAlignment="Top" Height="24" HorizontalAlignment="Right" Width="137" Grid.Column="1" Click="btn_editproperties_Click"/>
                             </Grid>
 
                             <Grid>
                                 <Label Content="Entry points" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" FontSize="18" Width="196"/>
-                                <Button x:Name="btn_scan_entrypoints" Content="Rescan entry points" Margin="0,16,10,0" VerticalAlignment="Top" Height="26" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" Click="btn_scan_entrypoints_Click" HorizontalAlignment="Right" Width="125" Grid.Column="1"/>
+                                <Button x:Name="btn_scan_entrypoints" Content="Rescan entry points" Margin="0,16,10,0" VerticalAlignment="Top" Height="26" Style="{DynamicResource ButtonMainStyle}" Click="btn_scan_entrypoints_Click" HorizontalAlignment="Right" Width="125" Grid.Column="1"/>
                             </Grid>
                         </StackPanel>
                         <Grid VerticalAlignment="Stretch" DockPanel.Dock="Bottom">
@@ -115,7 +115,7 @@
         <Image HorizontalAlignment="Left" Height="128" Margin="-12,0,0,0" VerticalAlignment="Top" Width="128" Source="/ImageRes/decraft_logo.png"/>
         <Label Content="DECRAFT" HorizontalAlignment="Left" Margin="71,2,0,0" VerticalAlignment="Top" Foreground="White" FontSize="36"/>
         <Label x:Name="label_versionString" Content="version code" Margin="80,84,0,0" VerticalAlignment="Top" Foreground="#FF505050" FontStyle="Italic" HorizontalAlignment="Left" Width="107"/>
-        <Button Content="Runtime settings" Margin="0,26,20,0" VerticalAlignment="Top" Height="26" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" Click="Button_Click" HorizontalAlignment="Right" Width="106" Grid.Column="1"/>
+        <Button Content="Runtime settings" Margin="0,26,20,0" VerticalAlignment="Top" Height="26" Style="{DynamicResource ButtonMainStyle}" Click="Button_Click" HorizontalAlignment="Right" Width="106" Grid.Column="1"/>
         <Label x:Name="label_reqJVMVersion" Content="minimum JRE: 7" Margin="0,26,131,0" VerticalAlignment="Top" Foreground="#FF878787" HorizontalAlignment="Right" Width="238" HorizontalContentAlignment="Right" Grid.Column="1"/>
 
     </Grid>

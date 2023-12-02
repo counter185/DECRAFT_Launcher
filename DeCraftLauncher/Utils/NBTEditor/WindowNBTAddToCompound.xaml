@@ -1,0 +1,43 @@
+﻿<fw:AcrylicWindow x:Class="DeCraftLauncher.Utils.NBTEditor.WindowNBTAddToCompound"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+        xmlns:local="clr-namespace:DeCraftLauncher.Utils.NBTEditor"
+        mc:Ignorable="d"
+        NoiseOpacity="0.0001"
+        TintColor="#000000"
+        TintOpacity="0.6"
+        fw:AcrylicWindow.Enabled="False"
+        Title="DECRAFT: New NBT element..." Height="303" MaxWidth="235" MinWidth="230" Background="#FA000000" AcrylicWindowStyle="Normal" Width="235">
+    <Grid>
+        <StackPanel Margin="10,10,10,10" Orientation="Vertical" HorizontalAlignment="Left" >
+            <Label x:Name="label_header" Content="New NBT tag" Foreground="White" FontSize="18" FontWeight="Bold"/>
+            <StackPanel Margin="20,20,0,20" Orientation="Vertical">
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <Label Content="Type" Width="40" Foreground="White" />
+                    <ComboBox x:Name="cbox_type" Margin="20,0,0,0" SelectedIndex="0"  Width="120" Style="{DynamicResource ComboBoxMainNonEditableStyle}" IsEditable="False" Background="{x:Null}" BorderBrush="#FF252525" Foreground="White">
+                        <ComboBoxItem Content="Byte"/>
+                        <ComboBoxItem Content="Int16 (Short)"/>
+                        <ComboBoxItem Content="Int32 (Int)"/>
+                        <ComboBoxItem Content="Int64 (Long)"/>
+                        <ComboBoxItem Content="Single (Float)"/>
+                        <ComboBoxItem Content="Double"/>
+                        <ComboBoxItem Content="String"/>
+                        <ComboBoxItem Content="Compound"/>
+                    </ComboBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <Label Content="Name" Width="40" Foreground="White" />
+                    <TextBox x:Name="tbox_name" Margin="20,0,0,0" Foreground="White" MinWidth="120" Style="{StaticResource TextBoxMainStyle}" VerticalContentAlignment="Center"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <Label Content="List?" Width="40" Foreground="White" />
+                    <CheckBox x:Name="checkbox_islist" Margin="20,0,0,0" Foreground="White" Width="120" VerticalContentAlignment="Center"/>
+                </StackPanel>
+            </StackPanel>
+            <Button x:Name="btn_add" Style="{StaticResource ButtonMainStyle}" Content="Add" Width="84" Height="29" Click="btn_add_Click" />
+        </StackPanel>
+    </Grid>
+</fw:AcrylicWindow>

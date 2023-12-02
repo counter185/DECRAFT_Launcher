@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 using static DeCraftLauncher.NBTReader.NBTData;
 
 namespace DeCraftLauncher.Utils.NBTEditor
@@ -47,41 +48,20 @@ namespace DeCraftLauncher.Utils.NBTEditor
             }
         }
 
-        NBTBase targetNode;
+        public NBTBase targetNode;
+        public NBTListUIElement parentNode = null;
 
-        public NBTListUIElement(NBTBase node, string overrideName = null)
+        public NBTListUIElement(NBTBase node, NBTListUIElement parent, string overrideName = null)
         {
             this.targetNode = node;
+            this.parentNode = parent;
             InitializeComponent();
 
             label_tagvalue.Content = node.GetValue();
             label_nbtname.Content = overrideName ?? (node.Name == "" ? "<empty name>" : node.Name);
             label_nbtname.Foreground = GetTypeColor(node.Tag);
             label_typename.Content = node.GetTypeName();
-            if (node is NBTTagListNode)
-            {
-                List<NBTBase> nodeList = ((NBTTagListNode)node).Value;
-                label_nbtname.Foreground = GetTypeColor(((NBTTagListNode)node).innerType);
-
-                int x = 0;
-                foreach (NBTBase nnode in nodeList)
-                {
-                    panel_nbtdata.Children.Add(new NBTListUIElement(nnode, $"[{x++}]"));
-                }
-            }
-            else if (node is NBTTagCompoundNode)
-            {
-                List<NBTBase> nodeList = ((NBTTagCompoundNode)node).Value;
-
-                foreach (NBTBase nnode in nodeList)
-                {
-                    panel_nbtdata.Children.Add(new NBTListUIElement(nnode));
-                }
-            }
-            else
-            {
-                panel_nbtdata.Visibility = Visibility.Collapsed;
-            }
+            PopulateNBTChildren();
             tbox_valedit.KeyDown += (e, k) =>
             {
                 if (k.Key == Key.Enter || k.Key == Key.Escape)
@@ -100,6 +80,38 @@ namespace DeCraftLauncher.Utils.NBTEditor
             {
                 tbox_valedit.Background = IsTextValidForNBT() ? Brushes.Transparent : Brushes.DarkRed;
             };
+        }
+
+        public void PopulateNBTChildren()
+        {
+            label_tagvalue.Content = targetNode.GetValue();
+            panel_nbtdata.Children.Clear();
+            if (targetNode is NBTTagListNode)
+            {
+                List<NBTBase> nodeList = ((NBTTagListNode)targetNode).Value;
+                label_nbtname.Foreground = GetTypeColor(((NBTTagListNode)targetNode).innerType);
+
+                int x = 0;
+                foreach (NBTBase nnode in nodeList)
+                {
+                    panel_nbtdata.Children.Add(new NBTListUIElement(nnode, this, $"[{x++}]"));
+                }
+                panel_nbtdata.Children.Add(new NBTListAddNewListElement(this));
+            }
+            else if (targetNode is NBTTagCompoundNode)
+            {
+                List<NBTBase> nodeList = ((NBTTagCompoundNode)targetNode).Value;
+
+                foreach (NBTBase nnode in nodeList)
+                {
+                    panel_nbtdata.Children.Add(new NBTListUIElement(nnode, this));
+                }
+                panel_nbtdata.Children.Add(new NBTListAddNewToCompound(this));
+            }
+            else
+            {
+                panel_nbtdata.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void OnValueModified()
@@ -162,6 +174,31 @@ namespace DeCraftLauncher.Utils.NBTEditor
                 tbox_valedit.Text = targetNode.GetValue();
                 tbox_valedit.Focus();
             }
+        }
+
+        public void ResetModifiedStatus()
+        {
+            this.Background = Brushes.Transparent;
+            foreach (object a in panel_nbtdata.Children)
+            {
+                if (a is NBTListUIElement)
+                {
+                    ((NBTListUIElement)a).ResetModifiedStatus();
+                }
+            }
+        }
+
+        private void ContextDeleteNBT_Click(object sender, RoutedEventArgs e)
+        {
+            if (parentNode != null)
+            {
+                if (parentNode.targetNode is NBTTagCompoundNode)
+                {
+                    ((NBTTagCompoundNode)parentNode.targetNode).Value.Remove(targetNode);
+                } 
+                parentNode.PopulateNBTChildren();
+            }
+            ctxMenu.IsOpen = false;
         }
     }
 }

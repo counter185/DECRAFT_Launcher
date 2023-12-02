@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -23,7 +24,7 @@ namespace DeCraftLauncher.Utils.NBTEditor
     {
         public string NBTPath;
         public NBTData readNBT;
-
+        NBTListUIElement root;
 
         public WindowNBTEditor(string path)
         {
@@ -32,12 +33,30 @@ namespace DeCraftLauncher.Utils.NBTEditor
             InitializeComponent();
             Util.UpdateAcrylicWindowBackground(this);
 
-            panel_nbtdata.Children.Add(new NBTListUIElement(readNBT.rootNode, "<root node>"));
+            root = new NBTListUIElement(readNBT.rootNode, null, "<root node>");
+            panel_nbtdata.Children.Add(root);
         }
 
         private void btn_save_Click(object sender, RoutedEventArgs e)
         {
-            readNBT.ToFile(NBTPath + "2");
+            readNBT.ToFile(NBTPath);
+            root.ResetModifiedStatus();
+            System.Windows.MessageBox.Show($"Saved NBT to {NBTPath}", "DECRAFT");
+        }
+             
+        private void btn_saveas_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Compressed NBT file|*.dat|Raw NBT File|*.nbt|All files|*.*";
+            saveFileDialog.RestoreDirectory = true;
+            saveFileDialog.Title = "DECRAFT: Save NBT file";
+            if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                readNBT.ToFile(saveFileDialog.FileName, saveFileDialog.FileName.EndsWith(".dat"));
+                root.ResetModifiedStatus();
+                System.Windows.MessageBox.Show($"Saved NBT to {saveFileDialog.FileName}", "DECRAFT");
+            }
+            
         }
     }
 }

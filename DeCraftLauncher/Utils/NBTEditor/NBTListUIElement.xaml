@@ -5,6 +5,20 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DeCraftLauncher.Utils.NBTEditor"
              mc:Ignorable="d" >
+    <UserControl.ContextMenu>
+        <ContextMenu x:Name="ctxMenu">
+            <ContextMenu.Template>
+                <ControlTemplate>
+                    <Grid Background="#FF121212" MinWidth="100">
+                        <Rectangle Stroke="#FF383838" Margin="0,0,0,0" />
+                        <StackPanel>
+                            <Button Name="ContextDeleteNBT" Content="Delete" Style="{StaticResource ButtonRevealStyle}" Height="30" Background="Transparent" HorizontalContentAlignment="Left" Padding="3" Click="ContextDeleteNBT_Click" />
+                        </StackPanel>
+                    </Grid>
+                </ControlTemplate>
+            </ContextMenu.Template>
+        </ContextMenu>
+    </UserControl.ContextMenu>
     <Grid>
         <StackPanel Orientation="Vertical" Width="Auto" HorizontalAlignment="Stretch">
             <StackPanel Orientation="Horizontal">

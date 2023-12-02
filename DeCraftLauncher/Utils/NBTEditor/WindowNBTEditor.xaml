@@ -14,7 +14,10 @@
     <Grid>
         <DockPanel Margin="10,10,10,10" LastChildFill="True">
             <Label DockPanel.Dock="Top" x:Name="label_header" Content="Edit NBT" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" FontSize="18" FontWeight="Bold"/>
-            <Button x:Name="btn_save" DockPanel.Dock="Bottom" Style="{DynamicResource ButtonMainStyle}" Content="Save" Click="btn_save_Click"/>
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
+                <Button x:Name="btn_save" Margin="10,10"  Style="{DynamicResource ButtonMainStyle}" Content="Save" Click="btn_save_Click" Width="150" Height="30" />
+                <Button x:Name="btn_saveas" Margin="10,10"  Style="{DynamicResource ButtonMainStyle}" Content="Save as" Click="btn_saveas_Click" Width="150" Height="30" />
+            </StackPanel>
             <ScrollViewer DockPanel.Dock="Bottom" BorderBrush="#80FFFFFF" HorizontalContentAlignment="Stretch">
                 <ScrollViewer.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">

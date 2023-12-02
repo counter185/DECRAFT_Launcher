@@ -11,6 +11,8 @@ namespace DeCraftLauncher.NBTReader
 {
     public class NBTData
     {
+        public bool wasGzipCompressed = false;
+
         public abstract class NBTBase
         {
             public byte Tag;
@@ -41,12 +43,6 @@ namespace DeCraftLauncher.NBTReader
 
         } //tell noone
         public class NBTTagEndCompoundNode : NBTNode<object> { }
-
-        public class NBTWritingStackElement : List<List<NBTBase>>
-        {
-            public int maxLength = -1;
-            public List<NBTBase> list;
-        }
 
         public NBTTagCompoundNode rootNode;
 
@@ -93,7 +89,7 @@ namespace DeCraftLauncher.NBTReader
                 }
 
             }
-            //ret.Value = ret.Value.OrderBy(x => x.Name).ToList();
+            ret.Value = ret.Value.OrderBy(x => x.Name).ToList();
             return ret;
         }
 
@@ -191,6 +187,8 @@ namespace DeCraftLauncher.NBTReader
 
         public static NBTData FromFile(string filepath)
         {
+            NBTData ret = new NBTData();
+
             Stream nbtStream = File.OpenRead(filepath);
 
             byte[] header = new byte[2];
@@ -198,10 +196,9 @@ namespace DeCraftLauncher.NBTReader
             nbtStream.Seek(0, SeekOrigin.Begin);
             if (header.SequenceEqual(new byte[] { 0x1F, 0x8B }))
             {
+                ret.wasGzipCompressed = true;
                 nbtStream = new GZipStream(nbtStream, CompressionMode.Decompress);
             }
-
-            NBTData ret = new NBTData();
 
             ret.rootNode = (NBTTagCompoundNode)ReadNBTTagCompound(nbtStream).Value[0];
 
@@ -294,9 +291,14 @@ namespace DeCraftLauncher.NBTReader
             output.WriteByte(0x00);
         }
 
-        public void ToFile(string filepath)
+        public void ToFile(string filepath, bool? compressIntoGzip = null)
         {
-            FileStream fs = File.Open(filepath, FileMode.Create);
+            Stream fs = File.Open(filepath, FileMode.Create);
+            if ((compressIntoGzip == null && wasGzipCompressed) 
+                || (compressIntoGzip.HasValue && compressIntoGzip.Value))
+            {
+                fs = new GZipStream(fs, CompressionMode.Compress);
+            }
             WriteCompoundToFile(fs, rootNode);
             fs.Close();
         }

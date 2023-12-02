@@ -21,7 +21,7 @@ namespace DeCraftLauncher
 
         public void Init(MainWindow caller)
         {
-            if (Process.GetProcessesByName("discord").Length == 0) {
+            if (!Process.GetProcessesByName("discord").Any()) {
                 return;
             }
             discord = new Discord.Discord(1180408357782298624, (UInt64)Discord.CreateFlags.Default);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -20,23 +21,26 @@ namespace DeCraftLauncher
 
         public void Init(MainWindow caller)
         {
+            if (Process.GetProcessesByName("discord").Length == 0) {
+                return;
+            }
             discord = new Discord.Discord(1180408357782298624, (UInt64)Discord.CreateFlags.Default);
             activityManager = discord.GetActivityManager();
             rpcThread = new Thread(() =>
-           {
-               while (true)
-               {
-                   //activityMutex.WaitOne();
-                   //activityMutex.ReleaseMutex();
+            {
+                while (true)
+                {
+                    //activityMutex.WaitOne();
+                    //activityMutex.ReleaseMutex();
 
-                   //RunCallbacks has to be done on main thread
-                   caller.Dispatcher.Invoke(delegate
-                  {
-                      discord.RunCallbacks();
-                  });
-                   Thread.Sleep(200);
-               }
-           });
+                    //RunCallbacks has to be done on main thread
+                    caller.Dispatcher.Invoke(delegate
+                    {
+                        discord.RunCallbacks();
+                    });
+                    Thread.Sleep(200);
+                }
+            });
 
             rpcThread.Start();
             inited = true;

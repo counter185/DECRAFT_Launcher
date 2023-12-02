@@ -34,5 +34,10 @@ namespace DeCraftLauncher.Utils.NBTEditor
 
             panel_nbtdata.Children.Add(new NBTListUIElement(readNBT.rootNode, "<root node>"));
         }
+
+        private void btn_save_Click(object sender, RoutedEventArgs e)
+        {
+            readNBT.ToFile(NBTPath + "2");
+        }
     }
 }

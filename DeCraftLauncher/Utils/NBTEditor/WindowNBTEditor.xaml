@@ -14,7 +14,7 @@
     <Grid>
         <DockPanel Margin="10,10,10,10" LastChildFill="True">
             <Label DockPanel.Dock="Top" x:Name="label_header" Content="Edit NBT" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" FontSize="18" FontWeight="Bold"/>
-            <Button DockPanel.Dock="Bottom" Style="{DynamicResource ButtonMainStyle}" Content="Save"/>
+            <Button x:Name="btn_save" DockPanel.Dock="Bottom" Style="{DynamicResource ButtonMainStyle}" Content="Save" Click="btn_save_Click"/>
             <ScrollViewer DockPanel.Dock="Bottom" BorderBrush="#80FFFFFF" HorizontalContentAlignment="Stretch">
                 <ScrollViewer.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">

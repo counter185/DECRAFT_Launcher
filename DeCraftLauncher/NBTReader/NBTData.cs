@@ -93,7 +93,7 @@ namespace DeCraftLauncher.NBTReader
                 }
 
             }
-            ret.Value = ret.Value.OrderBy(x => x.Name).ToList();
+            //ret.Value = ret.Value.OrderBy(x => x.Name).ToList();
             return ret;
         }
 
@@ -203,13 +203,102 @@ namespace DeCraftLauncher.NBTReader
 
             NBTData ret = new NBTData();
 
-            ret.rootNode = ReadNBTTagCompound(nbtStream);
+            ret.rootNode = (NBTTagCompoundNode)ReadNBTTagCompound(nbtStream).Value[0];
 
             //PrintNBT(ret.rootNode);
 
             nbtStream.Dispose();
 
             return ret;
+        }
+
+        public void WriteTagContentsToFile(Stream output, NBTBase a)
+        {
+            switch (a.Tag)
+            {
+                case 1:
+                    output.WriteByte(((NBTNode<byte>)a).Value);
+                    break;
+                case 2:
+                    Util.StreamWriteShort(output, ((NBTNode<short>)a).Value);
+                    break;
+                case 3:
+                    Util.StreamWriteInt(output, ((NBTNode<int>)a).Value);
+                    break;
+                case 4:
+                    Util.StreamWriteLong(output, ((NBTNode<long>)a).Value);
+                    break;
+                case 5:
+                    Util.StreamWriteFloat(output, ((NBTNode<float>)a).Value);
+                    break;
+                case 6:
+                    Util.StreamWriteDouble(output, ((NBTNode<double>)a).Value);
+                    break;
+                //todo: implement 7
+                case 8:
+                    byte[] textUTF8 = Encoding.UTF8.GetBytes(((NBTNode<string>)a).Value);
+                    Util.StreamWriteShort(output, (short)textUTF8.Length);
+                    output.Write(textUTF8, 0, textUTF8.Length);
+                    break;
+                case 9:
+                    List<NBTBase> namelessList = ((NBTTagListNode)a).Value;
+                    byte innerType = ((NBTTagListNode)a).innerType;
+                    output.WriteByte(innerType);
+                    Util.StreamWriteInt(output, namelessList.Count);
+                    foreach (NBTBase b in namelessList)
+                    {
+                        if (innerType == 10)
+                        {
+                            WriteCompoundToFile(output, (NBTTagCompoundNode)b, false);
+                        }
+                        else
+                        {
+                            WriteTagContentsToFile(output, b);
+                        }
+                    }
+                    break;
+                default:
+                    throw new Exception($"Unimplemented tag ID {a.Tag}");
+            }
+        }
+
+        public void WriteCompoundToFile(Stream output, NBTTagCompoundNode tag, bool writeNameAndType = true)
+        {
+            if (writeNameAndType)
+            {
+                output.WriteByte(0x0a);
+                byte[] nameUTF8 = Encoding.UTF8.GetBytes(tag.Name ?? "");
+                Util.StreamWriteShort(output, (short)nameUTF8.Length);
+                output.Write(nameUTF8, 0, nameUTF8.Length);
+            }
+
+            //write subtags here
+            foreach (NBTBase a in tag.Value)
+            {
+                if (a.Tag == 10)
+                {
+                    WriteCompoundToFile(output, ((NBTTagCompoundNode)a));
+                }
+                else
+                {
+                    output.WriteByte(a.Tag);
+
+                    byte[] subNameUTF8 = Encoding.UTF8.GetBytes(a.Name);
+                    Util.StreamWriteShort(output, (short)subNameUTF8.Length);
+                    output.Write(subNameUTF8, 0, subNameUTF8.Length);
+
+                    WriteTagContentsToFile(output, a);
+                }
+            }
+
+            output.WriteByte(0x00);
+        }
+
+        public void ToFile(string filepath)
+        {
+            FileStream fs = File.Open(filepath, FileMode.Create);
+            WriteCompoundToFile(fs, rootNode);
+            fs.Close();
         }
 
     }

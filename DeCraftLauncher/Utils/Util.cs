@@ -145,6 +145,15 @@ namespace DeCraftLauncher.Utils
                 buffer = buffer.Reverse().ToArray();
             }
             return BitConverter.ToInt16(buffer, 0);
+        }           
+        public static void StreamWriteShort(Stream output, short a, bool bigEndian = true)
+        {
+            byte[] buffer = BitConverter.GetBytes(a);
+            if (BitConverter.IsLittleEndian == bigEndian)
+            {
+                buffer = buffer.Reverse().ToArray();
+            }
+            output.Write(buffer, 0, 2);
         }        
         public static int StreamReadInt(Stream input, bool bigEndian = true)
         {
@@ -156,6 +165,15 @@ namespace DeCraftLauncher.Utils
             }
             return BitConverter.ToInt32(buffer, 0);
         }
+        public static void StreamWriteInt(Stream output, int a, bool bigEndian = true)
+        {
+            byte[] buffer = BitConverter.GetBytes(a);
+            if (BitConverter.IsLittleEndian == bigEndian)
+            {
+                buffer = buffer.Reverse().ToArray();
+            }
+            output.Write(buffer, 0, 4);
+        }
         public static long StreamReadLong(Stream input)
         {
             byte[] buffer = new byte[8];
@@ -166,7 +184,16 @@ namespace DeCraftLauncher.Utils
             }
             return BitConverter.ToInt64(buffer, 0);
         }
-        
+        public static void StreamWriteLong(Stream output, long a, bool bigEndian = true)
+        {
+            byte[] buffer = BitConverter.GetBytes(a);
+            if (BitConverter.IsLittleEndian == bigEndian)
+            {
+                buffer = buffer.Reverse().ToArray();
+            }
+            output.Write(buffer, 0, 8);
+        }
+
         public static float StreamReadFloat(Stream input)
         {
             byte[] buffer = new byte[4];
@@ -176,7 +203,17 @@ namespace DeCraftLauncher.Utils
                 buffer = buffer.Reverse().ToArray();
             }
             return BitConverter.ToSingle(buffer, 0);
-        }        
+        }
+        public static void StreamWriteFloat(Stream output, float a)
+        {
+            byte[] buffer = BitConverter.GetBytes(a);
+            if (BitConverter.IsLittleEndian)
+            {
+                buffer = buffer.Reverse().ToArray();
+            }
+            output.Write(buffer,0,4);
+        }
+        
         public static double StreamReadDouble(Stream input)
         {
             byte[] buffer = new byte[8];
@@ -186,6 +223,15 @@ namespace DeCraftLauncher.Utils
                 buffer = buffer.Reverse().ToArray();
             }
             return BitConverter.ToDouble(buffer, 0);
+        }
+        public static void StreamWriteDouble(Stream output, double a)
+        {
+            byte[] buffer = BitConverter.GetBytes(a);
+            if (BitConverter.IsLittleEndian)
+            {
+                buffer = buffer.Reverse().ToArray();
+            }
+            output.Write(buffer, 0, 8);
         }
 
         static readonly string[] Java_MajorVersionNames =

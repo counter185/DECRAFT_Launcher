@@ -300,6 +300,9 @@ namespace DeCraftLauncher
                 tbox_proxyhost
             };
 
+            GlobalVars.discordRPCManager.Init(this);
+            GlobalVars.discordRPCManager.ActivityIdle();
+
             if (Util.RunningOnWine())
             {
                 MessageBox.Show("You may be running DECRAFT on the Wine compatibility layer.\nIf the launcher crashes after this popup, open \"winecfg\" and set your Windows version to Windows 7.\nDECRAFT can only use Windows versions of Java, so be sure to install one into your Wine prefix.\n\nGood luck, and expect bugs.", "DECRAFT");
@@ -504,6 +507,12 @@ namespace DeCraftLauncher
                     }
                 }
             }
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            GlobalVars.discordRPCManager.Close();
+            base.OnClosed(e);
         }
 
         void EnsureDefaultJarConfig(string jarName) {

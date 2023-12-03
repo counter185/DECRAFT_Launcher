@@ -114,7 +114,7 @@
         </DockPanel>
         <Image HorizontalAlignment="Left" Height="128" Margin="-12,0,0,0" VerticalAlignment="Top" Width="128" Source="/ImageRes/decraft_logo.png"/>
         <Label Content="DECRAFT" HorizontalAlignment="Left" Margin="71,2,0,0" VerticalAlignment="Top" Foreground="White" FontSize="36"/>
-        <Label x:Name="label_versionString" Content="version code" Margin="80,84,0,0" VerticalAlignment="Top" Foreground="#FF505050" FontStyle="Italic" HorizontalAlignment="Left" Width="107"/>
+        <Label x:Name="label_versionString" Content="version code" Margin="80,84,0,0" VerticalAlignment="Top" Foreground="#FF505050" FontStyle="Italic" HorizontalAlignment="Left" Width="148"/>
         <Button Content="Runtime settings" Margin="0,26,20,0" VerticalAlignment="Top" Height="26" Style="{DynamicResource ButtonMainStyle}" Click="Button_Click" HorizontalAlignment="Right" Width="106" Grid.Column="1"/>
         <Label x:Name="label_reqJVMVersion" Content="minimum JRE: 7" Margin="0,26,131,0" VerticalAlignment="Top" Foreground="#FF878787" HorizontalAlignment="Right" Width="238" HorizontalContentAlignment="Right" Grid.Column="1"/>
 

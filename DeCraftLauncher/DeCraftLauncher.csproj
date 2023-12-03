@@ -108,6 +108,14 @@
     <Compile Include="Configs\UI\WindowJarAdvancedOptions.xaml.cs">
       <DependentUpon>WindowJarAdvancedOptions.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DiscordGameSDK\ActivityManager.cs" />
+    <Compile Include="DiscordGameSDK\Constants.cs" />
+    <Compile Include="DiscordGameSDK\Core.cs" />
+    <Compile Include="DiscordGameSDK\ImageManager.cs" />
+    <Compile Include="DiscordGameSDK\LobbyManager.cs" />
+    <Compile Include="DiscordGameSDK\StorageManager.cs" />
+    <Compile Include="DiscordGameSDK\StoreManager.cs" />
+    <Compile Include="DiscordRPCManager.cs" />
     <Compile Include="GlobalVars.cs" />
     <Compile Include="JarEntry.cs" />
     <Compile Include="MainFunctionWrapper.cs" />
@@ -313,6 +321,8 @@
     <Resource Include="ImageRes\decraft_logo.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="lib\discord_game_sdk.dll" />
+    <Content Include="lib\discord_game_sdk_64.dll" />
     <Content Include="LICENSE-MediaDevices.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -378,6 +388,9 @@
 del DeCraftLauncher.exe.config
 del MediaDevices.pdb
 
-rem // i don't see a reason why we need these</PostBuildEvent>
+rem // i don't see a reason why we need these
+
+xcopy /Y "$(ProjectDir)lib\discord_game_sdk.dll" "$(TargetDir)"
+xcopy /Y "$(ProjectDir)lib\discord_game_sdk_64.dll" "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
 </Project>

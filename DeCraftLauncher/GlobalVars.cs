@@ -8,6 +8,7 @@ namespace DeCraftLauncher
 {
     public class GlobalVars
     {
-        public static string versionCode = "1.2-dev";
+        public static string versionCode = "1.2a-dev";
+        public static DiscordRPCManager discordRPCManager = new DiscordRPCManager();
     }
 }

@@ -17,6 +17,7 @@ namespace DeCraftLauncher.Configs
         public List<Category> jarCategories = new List<Category>();
         public List<JarEntry> jarEntries = new List<JarEntry>();
         public bool autoExitProcessLog = false;
+        public bool enableDiscordRPC = true;
 
         public void UpdateAutoIsJava9Option()
         {
@@ -46,6 +47,7 @@ namespace DeCraftLauncher.Configs
                     ret.javaHome = Util.GetInnerOrDefault(rootNode, "JavaPath");
                     ret.isJava9 = bool.Parse(Util.GetInnerOrDefault(rootNode, "IsJava9", "true", "bool"));
                     ret.autoExitProcessLog = bool.Parse(Util.GetInnerOrDefault(rootNode, "AutoExitProcessLog", "true", "bool"));
+                    ret.enableDiscordRPC = bool.Parse(Util.GetInnerOrDefault(rootNode, "EnableDiscordRPC", "true", "bool"));
 
                     XmlNode categoriesNode = rootNode.SelectSingleNode("Categories");
                     if (categoriesNode != null)
@@ -108,6 +110,7 @@ namespace DeCraftLauncher.Configs
             rootElement.AppendChild(Util.GenElementChild(newXml, "JavaPath", javaHome));
             rootElement.AppendChild(Util.GenElementChild(newXml, "IsJava9", isJava9.ToString()));
             rootElement.AppendChild(Util.GenElementChild(newXml, "AutoExitProcessLog", autoExitProcessLog.ToString()));
+            rootElement.AppendChild(Util.GenElementChild(newXml, "EnableDiscordRPC", enableDiscordRPC.ToString()));
 
             XmlNode catEntries = Util.GenElementChild(newXml, "Categories");
             foreach (Category cat in jarCategories) //meow

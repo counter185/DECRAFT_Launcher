@@ -21,7 +21,7 @@ namespace DeCraftLauncher
 
         public void Init(MainWindow caller)
         {
-            if (!Process.GetProcessesByName("discord").Any()) {
+            if (inited || !Process.GetProcessesByName("discord").Any()) {
                 return;
             }
             discord = new Discord.Discord(1180408357782298624, (UInt64)Discord.CreateFlags.Default);
@@ -36,7 +36,10 @@ namespace DeCraftLauncher
                     //RunCallbacks has to be done on main thread
                     caller.Dispatcher.Invoke(delegate
                     {
-                        discord.RunCallbacks();
+                        if (discord != null)
+                        {
+                            discord.RunCallbacks();
+                        }
                     });
                     Thread.Sleep(200);
                 }
@@ -48,9 +51,15 @@ namespace DeCraftLauncher
 
         public void Close()
         {
+            inited = false;
             if (rpcThread.IsAlive)
             {
                 rpcThread.Abort();
+            }
+            if (discord != null)
+            {
+                discord.Dispose();
+                discord = null;
             }
         }
 

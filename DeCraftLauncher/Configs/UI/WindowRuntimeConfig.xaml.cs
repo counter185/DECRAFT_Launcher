@@ -25,12 +25,13 @@ namespace DeCraftLauncher.Configs.UI
 
         public WindowRuntimeConfig(MainWindow parent)
         {
+            this.parent = parent;
             InitializeComponent();
             Util.UpdateAcrylicWindowBackground(this);
-            this.parent = parent;
             jre_path.Text = MainWindow.mainRTConfig.javaHome;
             checkbox_isjava9.IsChecked = MainWindow.mainRTConfig.isJava9;
             checkbox_autoexitprocesslog.IsChecked = MainWindow.mainRTConfig.autoExitProcessLog;
+            checkbox_enablediscord.IsChecked = MainWindow.mainRTConfig.enableDiscordRPC;
         }
 
         public void FixJavaHomeString()
@@ -94,6 +95,7 @@ namespace DeCraftLauncher.Configs.UI
                 MainWindow.mainRTConfig.javaHome = jre_path.Text;
                 MainWindow.mainRTConfig.isJava9 = checkbox_isjava9.IsChecked == true;
                 MainWindow.mainRTConfig.autoExitProcessLog = checkbox_autoexitprocesslog.IsChecked == true;
+                MainWindow.mainRTConfig.enableDiscordRPC = checkbox_enablediscord.IsChecked == true;
                 parent.SaveRuntimeConfig();
             } catch (Exception ex)
             {
@@ -104,6 +106,16 @@ namespace DeCraftLauncher.Configs.UI
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             new WindowJavaFinder(this).Show();
+        }
+
+        private void checkbox_enablediscord_Checked(object sender, RoutedEventArgs e)
+        {
+            GlobalVars.discordRPCManager.Init(parent);
+        }
+
+        private void checkbox_enablediscord_Unchecked(object sender, RoutedEventArgs e)
+        {
+            GlobalVars.discordRPCManager.Close();
         }
     }
 }

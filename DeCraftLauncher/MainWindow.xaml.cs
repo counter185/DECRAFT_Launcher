@@ -272,7 +272,10 @@ namespace DeCraftLauncher
             }
             mainRTConfig = RuntimeConfig.LoadFromXML();
             Util.UpdateAcrylicWindowBackground(this);
-            GlobalVars.discordRPCManager.Init(this);
+            if (mainRTConfig.enableDiscordRPC)
+            {
+                GlobalVars.discordRPCManager.Init(this);
+            }
             ShowPanelWelcome();
             //Console.WriteLine(JarUtils.GetJDKInstalled());
             UpdateLWJGLVersions();

@@ -25,10 +25,12 @@ namespace DeCraftLauncher.UIControls
         {
             public string InstanceName;
             public WindowProcessLog processLog;
+            public string playerName;
 
-            public RunningInstanceData(string instanceName, WindowProcessLog processLog)
+            public RunningInstanceData(string instanceName, WindowProcessLog processLog, string playerName = null)
             {
                 InstanceName = instanceName;
+                this.playerName = playerName;
                 this.processLog = processLog;
             }
         }

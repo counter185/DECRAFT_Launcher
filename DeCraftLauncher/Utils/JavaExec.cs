@@ -79,7 +79,7 @@ namespace DeCraftLauncher.Utils
             Process newProcess = Start();
             WindowProcessLog processLog = new WindowProcessLog(newProcess, caller, jarConfig.isServer);
             processLog.Show();
-            caller.AddRunningInstance(new UIControls.InstanceListElement.RunningInstanceData(jarConfig.friendlyName != "" ? jarConfig.friendlyName : jarConfig.jarFileName, processLog));
+            caller.AddRunningInstance(new UIControls.InstanceListElement.RunningInstanceData(jarConfig.friendlyName != "" ? jarConfig.friendlyName : jarConfig.jarFileName, processLog, jarConfig.playerName));
             new Thread((process) =>
             {
                 int timeoutMS = 20000;

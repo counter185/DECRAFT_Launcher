@@ -18,12 +18,31 @@ namespace DeCraftLauncher
         Discord.ActivityManager activityManager;
         Thread rpcThread;
         bool inited = false;
+        DateTime initialTime;
+
+        Discord.Activity BaseActivity
+        {
+            get => new Discord.Activity
+            {
+                Name = "DECRAFT",
+                ApplicationId = 1180408357782298624,
+                Assets = new Discord.ActivityAssets
+                {
+                    LargeImage = "applogo"
+                },
+                Timestamps = new Discord.ActivityTimestamps
+                {
+                    Start = (long)initialTime.Subtract(new DateTime(1970, 1, 1)).TotalSeconds
+                }
+            };
+        }
 
         public void Init(MainWindow caller)
         {
             if (inited || !Process.GetProcessesByName("discord").Any()) {
                 return;
             }
+            initialTime = DateTime.UtcNow;
             discord = new Discord.Discord(1180408357782298624, (UInt64)Discord.CreateFlags.Default);
             activityManager = discord.GetActivityManager();
             rpcThread = new Thread(() =>
@@ -62,29 +81,12 @@ namespace DeCraftLauncher
                 {
                     activityManager.ClearActivity((d) => { });
                 }
+                //this SDK sucks
                 discord.RunCallbacks();
                 discord.Dispose();
                 discord = null;
             }
         }
-
-        Discord.Activity BaseActivity
-        {
-            get => new Discord.Activity
-        {
-            Name = "DECRAFT",
-            ApplicationId = 1180408357782298624,
-            Assets = new Discord.ActivityAssets
-            {
-                LargeImage = "applogo"
-            },
-            Timestamps = new Discord.ActivityTimestamps
-            {
-                Start = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds
-            }
-        };
-        }
-
 
         public void UpdateActivity(MainWindow caller)
         {
@@ -99,7 +101,8 @@ namespace DeCraftLauncher
             }
             else if (caller.runningInstances.Count == 1)
             {
-                act.Details = "Ingame";
+                var firstInstance = caller.runningInstances.First();
+                act.Details = $"Ingame{(firstInstance.playerName != null ? $" - {caller.runningInstances.First().playerName}" : "")}";
                 act.State = $"Playing {caller.runningInstances.First().InstanceName}";
             }
             else

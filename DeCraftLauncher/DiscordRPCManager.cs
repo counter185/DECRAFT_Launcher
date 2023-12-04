@@ -58,6 +58,11 @@ namespace DeCraftLauncher
             }
             if (discord != null)
             {
+                if (activityManager != null)
+                {
+                    activityManager.ClearActivity((d) => { });
+                }
+                discord.RunCallbacks();
                 discord.Dispose();
                 discord = null;
             }

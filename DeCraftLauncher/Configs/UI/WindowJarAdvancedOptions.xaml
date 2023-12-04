@@ -9,14 +9,14 @@
         NoiseOpacity="0.0001"
         TintColor="#000000"
         TintOpacity="0.6"
-        fw:AcrylicWindow.Enabled="False" Title="DECRAFT: Advanced options" Background="#FA000000" MinHeight="378" Height="378" Width="510" >
+        fw:AcrylicWindow.Enabled="False" Title="DECRAFT: Advanced options" Background="#FA000000" MinHeight="378" MinWidth="520" Height="399" Width="520" >
     <Grid>
         <Label x:Name="label_title" Content="Advanced options" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="White" FontSize="18" FontWeight="Bold"/>
         <Label Content="Session ID (args[1])" HorizontalAlignment="Left" Margin="10,57,0,0" VerticalAlignment="Top" Foreground="White"/>
         <TextBox x:Name="tbox_sessionid" Style="{DynamicResource TextBoxMainStyle}" HorizontalAlignment="Left" Margin="136,61,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120"/>
         <Label Content="Additional game arguments" HorizontalAlignment="Left" Margin="10,83,0,0" VerticalAlignment="Top" Foreground="White"/>
         <TextBox x:Name="tbox_gameargs" Style="{DynamicResource TextBoxMainStyle}" Margin="173,87,10,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <Grid Margin="10,178,10,0" VerticalAlignment="Top" Height="109">
+        <Grid Margin="10,217,10,0" VerticalAlignment="Top" Height="102">
             <Rectangle Margin="0,0,0,0" Stroke="#FF272727"/>
             <Label Content="Applet/Main wrapper" HorizontalAlignment="Left" Margin="13,-14,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold"/>
             <Label Content="Emulate HTTP server" HorizontalAlignment="Left" Margin="23,37,0,0" VerticalAlignment="Top" Foreground="White"/>
@@ -29,8 +29,13 @@
         </Grid>
         <Label Content="Set process directory to .minecraft" HorizontalAlignment="Left" Margin="10,109,0,0" VerticalAlignment="Top" Foreground="White" Width="209"/>
         <CheckBox x:Name="checkbox_cwdisdotminecraft" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Bottom" IsChecked="False" ToolTip="Sets Java's default directory to the instance's &quot;.minecraft&quot; folder. Required for mods designed to run under MultiMC, such as 1.0.16.05." Height="23" Margin="235,107,0,0"/>
-        <Button x:Name="btn_addcmdentrypoint" Content="Add custom launch command..." Style="{StaticResource ButtonRevealStyle}" HorizontalAlignment="Left" Margin="10,306,0,0" Width="191" Background="#80272727" Height="35" VerticalAlignment="Top" Click="btn_addcmdentrypoint_Click"/>
+        <Button x:Name="btn_addcmdentrypoint" Content="Add custom launch command..." Style="{DynamicResource ButtonMainStyle}" HorizontalAlignment="Left" Margin="10,333,0,0" Width="191" Height="35" VerticalAlignment="Top" Click="btn_addcmdentrypoint_Click"/>
         <Label Content="Workaround missing synthetic classes" HorizontalAlignment="Left" Margin="10,137,0,0" VerticalAlignment="Top" Foreground="White"/>
         <CheckBox x:Name="checkbox_workaroundretromcp" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Bottom" IsChecked="False" ToolTip="Some modding environments may produce builds without a required synthetic class, making them not work unless a base version provides them. This option creates this synthetic class at runtime." Height="23" Margin="235,135,0,0"/>
+        <StackPanel Orientation="Horizontal" Margin="10,168,10,0" Height="31" VerticalAlignment="Top">
+            <Label Content="Applet launch method" Foreground="White" Width="170" />
+            <RadioButton GroupName="radiogroup_appletlaunchmode" x:Name="rbutton_appletmode_wrapper" VerticalContentAlignment="Center" Margin="10,0" Foreground="White" Content="Applet Wrapper" ToolTip="Launch Applets using DECRAFT's custom Applet Wrapper." IsChecked="True"/>
+            <RadioButton GroupName="radiogroup_appletlaunchmode" x:Name="rbutton_appletmode_appletviewer" VerticalContentAlignment="Center" Margin="10,0" Foreground="White" Content="appletviewer (JDK 6-7)" ToolTip="Launch Applets using the official &quot;appletviewer&quot; tool. Use this if the Applet Wrapper does not work."/>
+        </StackPanel>
     </Grid>
 </fw:AcrylicWindow>

@@ -52,7 +52,7 @@ namespace DeCraftLauncher
         public void Close()
         {
             inited = false;
-            if (rpcThread.IsAlive)
+            if (rpcThread != null && rpcThread.IsAlive)
             {
                 rpcThread.Abort();
             }

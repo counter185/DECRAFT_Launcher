@@ -59,6 +59,7 @@ namespace DeCraftLauncher.Utils
 
         public static Process RunProcess(string program, string args, string appdataDir = "")
         {
+            Console.WriteLine($"[RunProcess] {program} {args}");
             ProcessStartInfo startInfo = new ProcessStartInfo
             {
                 FileName = program,

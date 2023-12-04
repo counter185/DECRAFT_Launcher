@@ -50,6 +50,9 @@ namespace DeCraftLauncher.Configs.UI
             checkbox_redirecttolocalskins.IsChecked = targetConfig.appletRedirectSkins;
             tbox_skinredirectpath.Text = targetConfig.appletSkinRedirectPath;
             checkbox_workaroundretromcp.IsChecked = targetConfig.workaroundRetroMCP;
+            (targetConfig.appletLaunchMode == JarConfig.AppletLaunchMode.appletviewer ? rbutton_appletmode_appletviewer
+             : targetConfig.appletLaunchMode == JarConfig.AppletLaunchMode.AppletWrapper ? rbutton_appletmode_wrapper
+             : rbutton_appletmode_wrapper).IsChecked = true;
         }
 
         public void SaveConfig()
@@ -62,6 +65,10 @@ namespace DeCraftLauncher.Configs.UI
             targetConfig.appletRedirectSkins = checkbox_redirecttolocalskins.IsChecked == true;
             targetConfig.appletSkinRedirectPath = tbox_skinredirectpath.Text;
             targetConfig.workaroundRetroMCP = checkbox_workaroundretromcp.IsChecked == true;
+            targetConfig.appletLaunchMode =
+                rbutton_appletmode_wrapper.IsChecked == true ? JarConfig.AppletLaunchMode.AppletWrapper
+                : rbutton_appletmode_appletviewer.IsChecked == true ? JarConfig.AppletLaunchMode.appletviewer
+                : JarConfig.AppletLaunchMode.UNDEFINED;
             targetConfig.SaveToXMLDefault();
         }
 

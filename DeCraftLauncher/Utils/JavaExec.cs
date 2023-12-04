@@ -23,6 +23,8 @@ namespace DeCraftLauncher.Utils
         public string workingDirectory = null;
         public string appdataDir = "";
 
+        public string execName = "java";
+
         public JavaExec(string className) 
         { 
             this.className = className;
@@ -48,7 +50,7 @@ namespace DeCraftLauncher.Utils
 
         public Process StartWithCustomArgsString(string argsString, string javaPath = null)
         {
-            javaPath = javaPath ?? (MainWindow.mainRTConfig.javaHome + "java");
+            javaPath = javaPath ?? (MainWindow.mainRTConfig.javaHome + execName);
 
             if (workingDirectory != null)
             {

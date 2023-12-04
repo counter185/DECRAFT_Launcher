@@ -242,6 +242,7 @@ namespace DeCraftLauncher
             // we want categorized entries to appear first
             categorizedEntries.Sort((a, b) => { return a.category.name.CompareTo(b.category.name); });
             loadedJars = categorizedEntries.Concat(loadedJars).ToList();
+            mainRTConfig.jarEntries = loadedJars.ToList();
 
             //filter loadedJars
             if (tbox_jarlistfilter.Text != "")
@@ -286,8 +287,6 @@ namespace DeCraftLauncher
             lwjglVersionWatcher.Deleted += delegate { Dispatcher.Invoke(UpdateLWJGLVersions); };
             lwjglVersionWatcher.Renamed += delegate { Dispatcher.Invoke(UpdateLWJGLVersions); };
             ResetJarlist();
-            //Test.TestXMLSaveLoad();
-            //Test.TestClassParse();
             FileSystemWatcher watcher = new FileSystemWatcher("./jars", "*.jar");
             watcher.EnableRaisingEvents = true;
             watcher.Created += delegate { Dispatcher.Invoke(ResetJarlist); };
@@ -520,7 +519,7 @@ namespace DeCraftLauncher
         }
 
         void EnsureDefaultJarConfig(string jarName) {
-            if (!File.Exists(configDir + "/" + jarName + ".xml"))
+            if (!File.Exists($"{configDir}/{jarName}.xml"))
             {
                 JarConfig newConf = new JarConfig(jarName);
                 newConf.SaveToXMLDefault();

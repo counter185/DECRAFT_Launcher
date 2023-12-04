@@ -16,7 +16,7 @@
         <Label Content="(leave empty to use the system-wide java installation)" Margin="10,203,16,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" FontStyle="Italic"/>
         <Label Content="Use required Java 9+ options" HorizontalAlignment="Left" Margin="10,172,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" Width="179"/>
         <CheckBox x:Name="checkbox_isjava9" Content="" HorizontalAlignment="Left" Margin="209,172,0,0" VerticalAlignment="Top" Height="26" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsChecked="True" ToolTip="Check this option if you are using Java version 9 or newer."/>
-        <StackPanel x:Name="panel_checkboxoptions" Orientation="Vertical" VerticalAlignment="Top" Margin="10,67,10,212">
+        <StackPanel x:Name="panel_checkboxoptions" Orientation="Vertical" VerticalAlignment="Top" Margin="10,67,10,0" Height="77">
             <StackPanel Orientation="Horizontal">
                 <Label Content="Close Process Log automatically" Width="200" HorizontalAlignment="Left"  VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
                 <CheckBox x:Name="checkbox_autoexitprocesslog" Margin="10,0" Content="" HorizontalAlignment="Left"  VerticalAlignment="Top" Height="26" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsChecked="True"/>

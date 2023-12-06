@@ -82,7 +82,7 @@ namespace DeCraftLauncher.Utils
             caller.AddRunningInstance(new UIControls.InstanceListElement.RunningInstanceData(jarConfig.friendlyName != "" ? jarConfig.friendlyName : jarConfig.jarFileName, processLog, jarConfig.playerName));
             new Thread((process) =>
             {
-                int timeoutMS = 20000;
+                int timeoutMS = 50000;
                 int timeChecks = 500;
                 try
                 {

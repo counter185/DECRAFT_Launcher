@@ -427,6 +427,9 @@ namespace DeCraftLauncher
                         UpdateLaunchOptionsSegment();
                     });
                 }
+#if DEBUG
+                throw;
+#endif
             }
             Console.WriteLine("ThreadFindEntryPointsAndSaveToXML done");
         }

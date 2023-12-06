@@ -314,6 +314,8 @@ namespace DeCraftLauncher.Utils
                     case "decraft_internal.AppletWrapper":
                     case "decraft_internal.MainFunctionWrapper":
                         return "How did this get here?";
+                    case "com.megacrit.cardcrawl.desktop.DesktopLauncher":
+                        return "You have great taste, I'll give you that.";
                     default:
                         return classpath.StartsWith("com.jdotsoft.jarloader") ? "Launch using a loader that will load its own dependencies."
                                : "<unknown>";
@@ -427,7 +429,7 @@ namespace DeCraftLauncher.Utils
                     if (lwjglDlls.Count() > 0)
                     {
                         string dllPath = lwjglDlls.First();
-                        dllPath = dllPath.Substring(0, dllPath.LastIndexOf('/'));
+                        dllPath = dllPath.Substring(0, Math.Max(0, dllPath.LastIndexOf('/')));
                         ret.lwjglNativesDir = dllPath;
                     } else
                     {
@@ -565,7 +567,11 @@ namespace DeCraftLauncher.Utils
 
             foreach (ZipArchiveEntry dllFile in dllFilesToExtract)
             {
-                dllFile.ExtractToFile($"{MainWindow.currentDirectory}/lwjgl/_temp_builtin/native/{dllFile.Name}");
+                string targetPath = $"{MainWindow.currentDirectory}/lwjgl/_temp_builtin/native/{dllFile.Name}";
+                if (!File.Exists(targetPath))   //duplicate dll workaround
+                {
+                    dllFile.ExtractToFile(targetPath);
+                }
             }
             Console.WriteLine("Extracted temp LWJGL natives");
         }

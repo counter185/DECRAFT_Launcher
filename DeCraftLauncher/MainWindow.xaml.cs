@@ -32,6 +32,7 @@ namespace DeCraftLauncher
         public const string jarDir = "./jars";
         public const string configDir = "./config";
         public const string instanceDir = "./instance";
+        public const string jarLibsDir = "./jarlibs";
         public static RuntimeConfig mainRTConfig = new RuntimeConfig();
 
         public readonly string[] unimportantClasspaths = new string[] { 

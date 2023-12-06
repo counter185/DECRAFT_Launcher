@@ -24,7 +24,7 @@
         <TextBox x:Name="tbox_param_loadmap_id" Style="{DynamicResource TextBoxMainStyle}" Margin="94,187,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
         <Label Content="fullscreen" HorizontalAlignment="Left" Margin="10,231,0,0" VerticalAlignment="Top" Foreground="White"/>
         <TextBox x:Name="tbox_param_fullscreen" Style="{DynamicResource TextBoxMainStyle}" Margin="94,235,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="Expected values: true, false"/>
-        <Button Style="{DynamicResource ButtonRevealStyle}" Content="Launch" Margin="0,0,10,10" Height="27" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="70" Click="Button_Click"/>
+        <Button Style="{DynamicResource ButtonMainStyle}" Content="Launch" Margin="0,0,10,10" Height="27" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="70" Click="Button_Click"/>
 
     </Grid>
 </fw:AcrylicWindow>

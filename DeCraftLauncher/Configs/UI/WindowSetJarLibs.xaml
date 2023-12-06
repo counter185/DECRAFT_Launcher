@@ -1,0 +1,19 @@
+﻿<fw:AcrylicWindow x:Class="DeCraftLauncher.Configs.UI.WindowSetJarLibs"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DeCraftLauncher.Configs.UI"
+        xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+        mc:Ignorable="d"
+        NoiseOpacity="0.0001"
+        TintColor="#000000"
+        TintOpacity="0.6"
+        fw:AcrylicWindow.Enabled="False" Title="DECRAFT: Set additional libraries" Height="347.059" Width="363.676" MinHeight="325" Background="#FA000000" AcrylicWindowStyle="Normal">
+    <Grid>
+        <DockPanel Margin="10,10" LastChildFill="True">
+            <Label DockPanel.Dock="Top" x:Name="label_header" Content="Set additional libraries for {x}" HorizontalAlignment="Left" Margin="0,0,0,10" VerticalAlignment="Top" Height="39" Width="314" Foreground="White" FontSize="18" FontWeight="Bold"/>
+            <ListBox DockPanel.Dock="Bottom" x:Name="listbox_jarlibs" ItemContainerStyle="{StaticResource MainListBoxItemStyleNoSelectBorder}" Background="Transparent" ScrollViewer.CanContentScroll="False" Foreground="White" BorderBrush="#FF272727"/>
+        </DockPanel>
+    </Grid>
+</fw:AcrylicWindow>

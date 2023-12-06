@@ -76,5 +76,10 @@ namespace DeCraftLauncher.Configs.UI
         {
             new WindowAddCustomLaunch(targetConfig, parent).Show();
         }
+
+        private void btn_setjarlibs_Click(object sender, RoutedEventArgs e)
+        {
+            new WindowSetJarLibs(targetConfig).Show();
+        }
     }
 }

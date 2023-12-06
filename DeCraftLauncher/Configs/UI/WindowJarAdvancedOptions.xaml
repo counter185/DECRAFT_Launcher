@@ -9,7 +9,7 @@
         NoiseOpacity="0.0001"
         TintColor="#000000"
         TintOpacity="0.6"
-        fw:AcrylicWindow.Enabled="False" Title="DECRAFT: Advanced options" Background="#FA000000" MinHeight="378" MinWidth="520" Height="442.5" Width="520" >
+        fw:AcrylicWindow.Enabled="False" Title="DECRAFT: Advanced options" Background="#FA000000" MinHeight="443" MinWidth="520" Height="443" Width="520" >
     <Grid>
         <Label x:Name="label_title" Content="Advanced options" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="White" FontSize="18" FontWeight="Bold"/>
         <Label Content="Session ID (args[1])" HorizontalAlignment="Left" Margin="10,57,0,0" VerticalAlignment="Top" Foreground="White"/>

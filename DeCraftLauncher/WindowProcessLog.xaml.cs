@@ -135,12 +135,13 @@ namespace DeCraftLauncher
                         logtext.Text += "\n\n-Djava.util.Arrays.useLegacyMergeSort=true";
                     }
                     else if (logtext.Text.Contains("java.lang.reflect.InaccessibleObjectException: Unable to make field private")
+                        || logtext.Text.Contains("java.lang.NoSuchFieldException: packages")
                         || logtext.Text.Contains("java.lang.NoSuchFieldException: modifiers"))
                     {
                         logtext.Text += "\n----------------------------------------------";
                         logtext.Text += "\n";
                         logtext.Text += "\nThe launch may have failed due to a mod loader expecting a field from an older version of Java.";
-                        logtext.Text += "\nOpen Runtime settings and set the path to the \"bin\" folder of an older version of Java.";
+                        logtext.Text += "\nOpen Runtime settings and set the path to the \"bin\" folder of an older version of Java (8 recommended).";
                         if (logtext.Text.Contains("InaccessibleObjectException"))
                         {
                             logtext.Text += "\n\nAlternatively, if you know what you're doing, you can try adding \"--add-opens <module>/<export>=ALL-UNNAMED\" with the right fields to your JVM arguments.";

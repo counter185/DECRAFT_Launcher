@@ -262,6 +262,10 @@ namespace DeCraftLauncher.Configs
                 {
                     mainFunctionExec.jvmArgs.Add($"-Dhttp.proxyHost={proxyHost.Replace(" ", "%20")}");
                 }
+                if (MainWindow.mainRTConfig.setHeapDump)
+                {
+                    mainFunctionExec.jvmArgs.Add("-XX:HeapDumpPath=dont-mind-me-javaw.exe-minecraft.exe.bin");
+                }
                 mainFunctionExec.jvmArgs.Add($"-Djava.library.path=\"{MainWindow.currentDirectory}/lwjgl/{(LWJGLVersion == "+ built-in" ? "_temp_builtin" : LWJGLVersion)}/native\"");
                 mainFunctionExec.jvmArgs.Add(jvmArgs);
 

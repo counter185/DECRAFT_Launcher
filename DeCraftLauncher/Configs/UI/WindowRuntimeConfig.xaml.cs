@@ -32,6 +32,7 @@ namespace DeCraftLauncher.Configs.UI
             checkbox_isjava9.IsChecked = MainWindow.mainRTConfig.isJava9;
             checkbox_autoexitprocesslog.IsChecked = MainWindow.mainRTConfig.autoExitProcessLog;
             checkbox_enablediscord.IsChecked = MainWindow.mainRTConfig.enableDiscordRPC;
+            checkbox_setheapdump.IsChecked = MainWindow.mainRTConfig.setHeapDump;
         }
 
         public void FixJavaHomeString()
@@ -64,7 +65,13 @@ namespace DeCraftLauncher.Configs.UI
                 }
             }
 
-            jreconfig_version.Content = Util.CleanStringForXAML($"<press Enter to test>\nJRE: {(verre != null ? verre : "<none>")}\nJDK: {(verdk != null ? verdk : "<none>")}");
+            string testString = $"<press Enter to test>" +
+                $"\nJRE: {(verre != null ? verre : "<none>")}" +
+                $"\nJDK: {(verdk != null ? verdk : "<none>")}" +
+                $"\n{(Util.ListAllGPUs().Count > 1 ? "More than one GPU was detected. Set this Java runtime to use your preferred GPU in Windows Settings." : "")}";
+            
+
+            jreconfig_version.Text = Util.CleanStringForXAML(testString);
 
         }
 
@@ -96,6 +103,7 @@ namespace DeCraftLauncher.Configs.UI
                 MainWindow.mainRTConfig.isJava9 = checkbox_isjava9.IsChecked == true;
                 MainWindow.mainRTConfig.autoExitProcessLog = checkbox_autoexitprocesslog.IsChecked == true;
                 MainWindow.mainRTConfig.enableDiscordRPC = checkbox_enablediscord.IsChecked == true;
+                MainWindow.mainRTConfig.setHeapDump = checkbox_setheapdump.IsChecked == true;
                 parent.SaveRuntimeConfig();
             } catch (Exception ex)
             {

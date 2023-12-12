@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Management;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -359,6 +360,15 @@ namespace DeCraftLauncher.Utils
             {
                 SetWindowPos(mainWindowHandle, 0, 0, 0, (int)jarConfig.windowW, (int)jarConfig.windowH+39, SWP_NOMOVE | SWP_NOOWNERZORDER);
             }
+        }
+
+        public static List<string> ListAllGPUs()
+        {
+            //ACTUAL LINQ BRAINROT
+            return (from managementObj in new ManagementObjectSearcher("SELECT * FROM Win32_VideoController").Get().OfType<ManagementObject>()
+                    select (from property in managementObj.Properties.OfType<PropertyData>()
+                            where property.Name == "Description"
+                            select property.Value.ToString()).First()).ToList();
         }
 
         public static bool TryExtractPKFromExe(string filename, string targetfile)

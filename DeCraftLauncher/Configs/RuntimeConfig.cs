@@ -18,6 +18,7 @@ namespace DeCraftLauncher.Configs
         public List<JarEntry> jarEntries = new List<JarEntry>();
         public bool autoExitProcessLog = false;
         public bool enableDiscordRPC = true;
+        public bool setHeapDump = true;
 
         public void UpdateAutoIsJava9Option()
         {
@@ -48,6 +49,7 @@ namespace DeCraftLauncher.Configs
                     ret.isJava9 = bool.Parse(Util.GetInnerOrDefault(rootNode, "IsJava9", "true", "bool"));
                     ret.autoExitProcessLog = bool.Parse(Util.GetInnerOrDefault(rootNode, "AutoExitProcessLog", "true", "bool"));
                     ret.enableDiscordRPC = bool.Parse(Util.GetInnerOrDefault(rootNode, "EnableDiscordRPC", "true", "bool"));
+                    ret.setHeapDump = bool.Parse(Util.GetInnerOrDefault(rootNode, "SetHeapDump", "true", "bool"));
 
                     XmlNode categoriesNode = rootNode.SelectSingleNode("Categories");
                     if (categoriesNode != null)
@@ -111,6 +113,7 @@ namespace DeCraftLauncher.Configs
             rootElement.AppendChild(Util.GenElementChild(newXml, "IsJava9", isJava9.ToString()));
             rootElement.AppendChild(Util.GenElementChild(newXml, "AutoExitProcessLog", autoExitProcessLog.ToString()));
             rootElement.AppendChild(Util.GenElementChild(newXml, "EnableDiscordRPC", enableDiscordRPC.ToString()));
+            rootElement.AppendChild(Util.GenElementChild(newXml, "SetHeapDump", setHeapDump.ToString()));
 
             XmlNode catEntries = Util.GenElementChild(newXml, "Categories");
             foreach (Category cat in jarCategories) //meow

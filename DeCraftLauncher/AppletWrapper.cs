@@ -71,6 +71,10 @@ namespace DeCraftLauncher
             {
                 appletExec.jvmArgs.Add($"-Dhttp.proxyHost={jar.proxyHost.Replace(" ", "%20")}");
             }
+            if (MainWindow.mainRTConfig.setHeapDump)
+            {
+                appletExec.jvmArgs.Add("-XX:HeapDumpPath=dont-mind-me-javaw.exe-minecraft.exe.bin");
+            }
             if (jar.appletEmulateHTTP && MainWindow.mainRTConfig.isJava9)
             {
                 appletExec.jvmArgs.Add("--add-exports java.base/sun.net.www.protocol.http=ALL-UNNAMED");

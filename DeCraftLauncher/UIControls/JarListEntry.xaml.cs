@@ -128,5 +128,11 @@ namespace DeCraftLauncher.UIControls
             new WindowDeployMTP(jar).Show();
             ctxMenu.IsOpen = false;
         }
+
+        private void ContextOpenRETool_Click(object sender, RoutedEventArgs e)
+        {
+            new WindowRETool($"{MainWindow.jarDir}/{jar.jarFileName}").Show();
+            ctxMenu.IsOpen = false;
+        }
     }
 }

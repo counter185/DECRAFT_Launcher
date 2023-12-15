@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using DeCraftLauncher.UIControls;
 using DeCraftLauncher.Utils;
 using SourceChord.FluentWPF;
 using static DeCraftLauncher.Utils.JavaClassReader;
@@ -63,6 +64,26 @@ namespace DeCraftLauncher
             Stream stream = arc.GetEntry((string)listbox_classlist.SelectedItem).Open();
             currentClassInfo = JavaClassReader.ReadJavaClassFromStream(stream);
             stream.Close();
+
+            label_panelheader.Content = $"class {currentClassInfo.ThisClassName(currentClassInfo.entries)} (extends {currentClassInfo.SuperClassName(currentClassInfo.entries)})";
+            label_jvmVersion.Content = $"Class version: {currentClassInfo.versionMajor}.{currentClassInfo.versionMinor}";
+
+            listbox_constpool.Items.Clear();
+            currentClassInfo.entries.ForEach(x =>
+            {
+                listbox_constpool.Items.Add(x.ToString());
+            });
+
+            listbox_methods.Items.Clear();
+            currentClassInfo.methods.ForEach(x =>
+            {
+                listbox_methods.Items.Add(new REToolMethodEntry(x, currentClassInfo.entries));
+            });
+
+            /*currentClassInfo..ForEach(x =>
+            {
+                listbox_methods.Items.Add(x);
+            });*/
         }
     }
 }

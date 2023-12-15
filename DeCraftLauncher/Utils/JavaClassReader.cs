@@ -23,6 +23,9 @@ namespace DeCraftLauncher.Utils
             public short superClassNameIndex;
             public List<ConstantPoolEntry> entries;
             public List<JavaMethodInfo> methods;
+
+            public string ThisClassName(List<ConstantPoolEntry> cpool) => (cpool[thisClassNameIndex] is ConstantPoolEntry.ClassReferenceEntry) ? ((ConstantPoolEntry.ClassReferenceEntry)cpool[thisClassNameIndex]).GetName(cpool) : "<invalid>";
+            public string SuperClassName(List<ConstantPoolEntry> cpool) => (cpool[superClassNameIndex] is ConstantPoolEntry.ClassReferenceEntry) ? ((ConstantPoolEntry.ClassReferenceEntry)cpool[superClassNameIndex]).GetName(cpool) : "<invalid>";
         }
 
         public class JavaMethodInfo

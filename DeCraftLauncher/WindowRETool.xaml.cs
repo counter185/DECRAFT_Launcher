@@ -69,10 +69,17 @@ namespace DeCraftLauncher
             label_jvmVersion.Content = $"Class version: {currentClassInfo.versionMajor}.{currentClassInfo.versionMinor}";
 
             listbox_constpool.Items.Clear();
-            currentClassInfo.entries.ForEach(x =>
+            List<int> alreadyDone = new List<int>();
+            for (int x = 0; x < currentClassInfo.entries.Count; x++)
             {
-                listbox_constpool.Items.Add(x.ToString());
-            });
+                if (!alreadyDone.Contains(x))
+                {
+                    REToolConstPoolEntry newReToolUIEntry = new REToolConstPoolEntry(x, currentClassInfo.entries);
+                    listbox_constpool.Items.Add(newReToolUIEntry);
+                    alreadyDone.AddRange(newReToolUIEntry.subEntries);
+                    alreadyDone.Add(x);
+                }
+            }
 
             listbox_methods.Items.Clear();
             currentClassInfo.methods.ForEach(x =>

@@ -64,7 +64,7 @@ namespace DeCraftLauncher.Utils
         }
         public class ConstantPoolEntry
         {
-            int tag;
+            public int tag;
 
             public static ConstantPoolEntry[] idMap = new ConstantPoolEntry[] {
                 null,
@@ -96,7 +96,7 @@ namespace DeCraftLauncher.Utils
             }
 
             public class StringEntry : ConstantPoolEntry { 
-                new int tag = 1; 
+                public new int tag = 1; 
                 public string value = ""; 
                 public override ConstantPoolEntry Parse(Stream target)
                 {
@@ -109,9 +109,9 @@ namespace DeCraftLauncher.Utils
                     return newEntry;
                 }
             }
-            class IntegerEntry : ConstantPoolEntry { 
-                new int tag = 3; 
-                int value;
+            public class IntegerEntry : ConstantPoolEntry {
+                public new int tag = 3; 
+                public int value;
                 public override ConstantPoolEntry Parse(Stream target)
                 {
                     IntegerEntry newEntry = new IntegerEntry();
@@ -119,9 +119,9 @@ namespace DeCraftLauncher.Utils
                     return newEntry;
                 }
             }
-            class FloatEntry : ConstantPoolEntry { 
-                new int tag = 4; 
-                float value;
+            public class FloatEntry : ConstantPoolEntry {
+                public new int tag = 4; 
+                public float value;
                 public override ConstantPoolEntry Parse(Stream target)
                 {
                     FloatEntry newEntry = new FloatEntry();
@@ -130,8 +130,8 @@ namespace DeCraftLauncher.Utils
                     return newEntry;
                 }
             }
-            public class LongEntry : ConstantPoolEntry { 
-                new int tag = 5; 
+            public class LongEntry : ConstantPoolEntry {
+                public new int tag = 5; 
                 long value;
                 public override ConstantPoolEntry Parse(Stream target)
                 {
@@ -140,9 +140,9 @@ namespace DeCraftLauncher.Utils
                     return newEntry;
                 }
             }
-            public class DoubleEntry : ConstantPoolEntry { 
-                new int tag = 6; 
-                double value;
+            public class DoubleEntry : ConstantPoolEntry {
+                public new int tag = 6; 
+                public double value;
                 public override ConstantPoolEntry Parse(Stream target)
                 {
                     DoubleEntry newEntry = new DoubleEntry();
@@ -151,8 +151,8 @@ namespace DeCraftLauncher.Utils
                     return newEntry;
                 }
             }
-            public class ClassReferenceEntry : ConstantPoolEntry { 
-                new int tag = 7; 
+            public class ClassReferenceEntry : ConstantPoolEntry {
+                public new int tag = 7; 
                 public int indexOfClassNameString;
                 public override ConstantPoolEntry Parse(Stream target)
                 {
@@ -165,9 +165,9 @@ namespace DeCraftLauncher.Utils
                     return ((StringEntry)constantPool[indexOfClassNameString]).value;
                 }
             }
-            class StringReferenceEntry : ConstantPoolEntry { 
-                new int tag = 8; 
-                int indexOfTargetString;
+            public class StringReferenceEntry : ConstantPoolEntry { 
+                public new int tag = 8; 
+                public int indexOfTargetString;
                 public override ConstantPoolEntry Parse(Stream target)
                 {
                     StringReferenceEntry newEntry = new StringReferenceEntry();
@@ -175,10 +175,10 @@ namespace DeCraftLauncher.Utils
                     return newEntry;
                 }
             }
-            class FieldReferenceEntry : ConstantPoolEntry { 
-                new int tag = 9; 
-                int indexOfClassReference; 
-                int indexOfNameAndTypeDescriptor;
+            public class FieldReferenceEntry : ConstantPoolEntry {
+                public new int tag = 9; 
+                public int indexOfClassReference; 
+                public int indexOfNameAndTypeDescriptor;
                 public override ConstantPoolEntry Parse(Stream target)
                 {
                     FieldReferenceEntry newEntry = new FieldReferenceEntry();
@@ -187,10 +187,10 @@ namespace DeCraftLauncher.Utils
                     return newEntry;
                 }
             }
-            class MethodReferenceEntry : ConstantPoolEntry { 
-                new int tag = 10; 
-                int indexOfClassReference; 
-                int indexOfNameAndTypeDescriptor;
+            public class MethodReferenceEntry : ConstantPoolEntry { 
+                public new int tag = 10; 
+                public int indexOfClassReference; 
+                public int indexOfNameAndTypeDescriptor;
                 public override ConstantPoolEntry Parse(Stream target)
                 {
                     MethodReferenceEntry newEntry = new MethodReferenceEntry();
@@ -199,10 +199,10 @@ namespace DeCraftLauncher.Utils
                     return newEntry;
                 }
             }
-            class InterfaceMethodReferenceEntry : ConstantPoolEntry { 
-                new int tag = 11; 
-                int indexOfClassReference; 
-                int indexOfNameAndTypeDescriptor;
+            public class InterfaceMethodReferenceEntry : ConstantPoolEntry { 
+                public new int tag = 11; 
+                public int indexOfClassReference; 
+                public int indexOfNameAndTypeDescriptor;
                 public override ConstantPoolEntry Parse(Stream target)
                 {
                     InterfaceMethodReferenceEntry newEntry = new InterfaceMethodReferenceEntry();
@@ -211,10 +211,10 @@ namespace DeCraftLauncher.Utils
                     return newEntry;
                 }
             }
-            class NameAndTypeDescriptorEntry : ConstantPoolEntry { 
-                new int tag = 12; 
-                int indexOfNameString; 
-                int indexOfTypeDescriptor;
+            public class NameAndTypeDescriptorEntry : ConstantPoolEntry {
+                public new int tag = 12; 
+                public int indexOfNameString; 
+                public int indexOfTypeDescriptor;
                 public override ConstantPoolEntry Parse(Stream target)
                 {
                     NameAndTypeDescriptorEntry newEntry = new NameAndTypeDescriptorEntry();
@@ -223,8 +223,8 @@ namespace DeCraftLauncher.Utils
                     return newEntry;
                 }
             }
-            class MethodHandleEntry : ConstantPoolEntry { 
-                new int tag = 15; 
+            public class MethodHandleEntry : ConstantPoolEntry { 
+                public new int tag = 15; 
                 byte typeDescriptor; 
                 int indexOfMethod;
                 public override ConstantPoolEntry Parse(Stream target)
@@ -235,8 +235,8 @@ namespace DeCraftLauncher.Utils
                     return newEntry;
                 }
             }
-            class MethodTypeEntry : ConstantPoolEntry { 
-                new int tag = 16; 
+            public class MethodTypeEntry : ConstantPoolEntry {
+                public new int tag = 16; 
                 int indexOf;
                 public override ConstantPoolEntry Parse(Stream target)
                 {
@@ -245,8 +245,8 @@ namespace DeCraftLauncher.Utils
                     return newEntry;
                 }
             }
-            class DynamicEntry : ConstantPoolEntry { 
-                new int tag = 17; 
+            public class DynamicEntry : ConstantPoolEntry {
+                public new int tag = 17; 
                 int data;
                 public override ConstantPoolEntry Parse(Stream target)
                 {
@@ -255,8 +255,8 @@ namespace DeCraftLauncher.Utils
                     return newEntry;
                 }
             }
-            class InvokeDynamicEntry : ConstantPoolEntry { 
-                new int tag = 18; 
+            public class InvokeDynamicEntry : ConstantPoolEntry {
+                public new int tag = 18; 
                 int data;
                 public override ConstantPoolEntry Parse(Stream target)
                 {
@@ -265,8 +265,8 @@ namespace DeCraftLauncher.Utils
                     return newEntry;
                 }
             }
-            class ModuleEntry : ConstantPoolEntry { 
-                new int tag = 19; 
+            public class ModuleEntry : ConstantPoolEntry { 
+                public new int tag = 19; 
                 int id;
                 public override ConstantPoolEntry Parse(Stream target)
                 {
@@ -275,8 +275,8 @@ namespace DeCraftLauncher.Utils
                     return newEntry;
                 }
             }
-            class PackageEntry : ConstantPoolEntry { 
-                new int tag = 20; 
+            public class PackageEntry : ConstantPoolEntry {
+                public new int tag = 20; 
                 int id;
                 public override ConstantPoolEntry Parse(Stream target)
                 {

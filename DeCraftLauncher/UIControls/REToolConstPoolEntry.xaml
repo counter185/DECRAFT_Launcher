@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="DeCraftLauncher.UIControls.REToolConstPoolEntry"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DeCraftLauncher.UIControls"
+             mc:Ignorable="d" >
+    <StackPanel Orientation="Vertical">
+        <StackPanel Orientation="Horizontal">
+            <Label x:Name="label_entryname" Margin="0,-2" Content="[0]" Foreground="White"/>
+            <Label x:Name="label_entrytype" Margin="0,-2" Content="(class reference)" Foreground="#A0FFFFFF"/>
+            <Label x:Name="label_value" Margin="0,-2" Content="Value" Foreground="DeepSkyBlue"/>
+            <Label x:Name="label_lessimportantvalue" Margin="0,-2" Content="Value" Foreground="#40FFFFFF"/>
+        </StackPanel>
+        <StackPanel x:Name="panel_subentries" Margin="20,0,0,0" Orientation="Vertical"></StackPanel>
+    </StackPanel>
+</UserControl>

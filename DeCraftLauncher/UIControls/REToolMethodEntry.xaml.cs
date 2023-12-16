@@ -23,14 +23,18 @@ namespace DeCraftLauncher.UIControls
     {
         JavaMethodInfo target;
 
-        string DescriptorTypeToFriendlyName(string descriptorType)
+        public static string DescriptorTypeToFriendlyName(string descriptorType)
         {
             switch (descriptorType)
             {
                 case "V":
                     return "void";
+                case "S":
+                    return "short"; 
                 case "I":
-                    return "int";                
+                    return "int"; 
+                case "J":
+                    return "long";                
                 case "B":
                     return "byte";
                 case "Z":
@@ -52,7 +56,7 @@ namespace DeCraftLauncher.UIControls
             }
         }
 
-        string[] ParseParameters(string descriptorString)
+        public static string[] ParseParameters(string descriptorString)
         {
             string inParenth = descriptorString.Substring(1, descriptorString.IndexOf(')') - 1);
             List<string> separated = new List<string>();

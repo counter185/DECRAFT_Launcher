@@ -57,7 +57,7 @@ namespace DeCraftLauncher.Utils
             return stdout;
         }
 
-        public static Process RunProcess(string program, string args, string appdataDir = "")
+        public static Process RunProcess(string program, string args, string appdataDir = "", Action<List<string>> callback = null)
         {
             Console.WriteLine($"[RunProcess] {program} {args}");
             ProcessStartInfo startInfo = new ProcessStartInfo
@@ -77,9 +77,23 @@ namespace DeCraftLauncher.Utils
 
             Process proc = new Process
             {
-                StartInfo = startInfo
+                StartInfo = startInfo,
             };
-            proc.Start();
+            if (callback != null)
+            {
+                proc.Start();
+                proc.WaitForExit();
+                List<string> stdout = new List<string>();
+                while (!proc.StandardOutput.EndOfStream)
+                {
+                    stdout.Add(proc.StandardOutput.ReadLine());
+                }
+                callback(stdout);
+            }
+            else
+            {
+                proc.Start();
+            }
             return proc;
         }
 

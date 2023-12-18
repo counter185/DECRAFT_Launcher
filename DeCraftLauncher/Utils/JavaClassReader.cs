@@ -23,18 +23,31 @@ namespace DeCraftLauncher.Utils
             public short superClassNameIndex;
             public List<ConstantPoolEntry> entries;
             public List<JavaMethodInfo> methods;
+            public List<JavaFieldInfo> fields;
 
             public string ThisClassName(List<ConstantPoolEntry> cpool) => (cpool[thisClassNameIndex] is ConstantPoolEntry.ClassReferenceEntry) ? ((ConstantPoolEntry.ClassReferenceEntry)cpool[thisClassNameIndex]).GetName(cpool) : "<invalid>";
             public string SuperClassName(List<ConstantPoolEntry> cpool) => (cpool[superClassNameIndex] is ConstantPoolEntry.ClassReferenceEntry) ? ((ConstantPoolEntry.ClassReferenceEntry)cpool[superClassNameIndex]).GetName(cpool) : "<invalid>";
         }
+        public class JavaFieldInfo
+        {
+            public short accessFlags;
+            public short nameIndex;
+            public short descriptorIndex;
 
+            public bool IsPublic => (accessFlags & 0x0001) != 0;
+            public bool IsStatic => (accessFlags & 0x0008) != 0;
+
+            public string Descriptor(List<ConstantPoolEntry> constantPool) => ((ConstantPoolEntry.StringEntry)constantPool[descriptorIndex]).value;
+
+            public string Name(List<ConstantPoolEntry> constantPool) => ((ConstantPoolEntry.StringEntry)constantPool[nameIndex]).value;
+        }
         public class JavaMethodInfo
         {
             public short accessFlags;
             public short nameIndex;
             public short descriptorIndex;
 
-            static readonly Dictionary<int, string> accessFlagNames = new Dictionary<int, string>()
+            public static readonly Dictionary<int, string> accessFlagNames = new Dictionary<int, string>()
             {
                 { 0x0001, "public" },
                 { 0x0002, "private" },
@@ -132,7 +145,7 @@ namespace DeCraftLauncher.Utils
             }
             public class LongEntry : ConstantPoolEntry {
                 public new int tag = 5; 
-                long value;
+                public long value;
                 public override ConstantPoolEntry Parse(Stream target)
                 {
                     LongEntry newEntry = new LongEntry();
@@ -335,12 +348,13 @@ namespace DeCraftLauncher.Utils
             }
 
             short nEntriesFieldTable = Util.StreamReadShort(input);
+            ret.fields = new List<JavaFieldInfo>();
             for (int x = 0; x < nEntriesFieldTable; x++)
             {
-                //don't care
-                Util.StreamReadShort(input);   //access flags
-                Util.StreamReadShort(input);   //name index
-                Util.StreamReadShort(input);   //descriptor index
+                JavaFieldInfo newField = new JavaFieldInfo();
+                newField.accessFlags = Util.StreamReadShort(input);
+                newField.nameIndex = Util.StreamReadShort(input);
+                newField.descriptorIndex = Util.StreamReadShort(input);
                 short attributes_count = Util.StreamReadShort(input);
                 for (int y = 0; y < attributes_count; y++)
                 {
@@ -352,6 +366,7 @@ namespace DeCraftLauncher.Utils
                         input.ReadByte();   //info element
                     }
                 }
+                ret.fields.Add(newField);
             }
 
             short nEntriesMethodTable = Util.StreamReadShort(input);

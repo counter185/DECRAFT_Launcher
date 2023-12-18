@@ -87,10 +87,10 @@ namespace DeCraftLauncher
                 listbox_methods.Items.Add(new REToolMethodEntry(x, currentClassInfo.entries));
             });
 
-            /*currentClassInfo..ForEach(x =>
+            currentClassInfo.fields.ForEach(x =>
             {
-                listbox_methods.Items.Add(x);
-            });*/
+                listbox_fields.Items.Add(new REToolFieldEntry(x, currentClassInfo.entries));
+            });
         }
     }
 }

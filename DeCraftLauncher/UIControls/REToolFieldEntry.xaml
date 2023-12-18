@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="DeCraftLauncher.UIControls.REToolFieldEntry"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DeCraftLauncher.UIControls"
+             mc:Ignorable="d" >
+    <Grid>
+        <StackPanel Orientation="Horizontal">
+            <Label x:Name="label_modifiers" Margin="-3,-3" Content="public static" Foreground="#FFA0A0A0"/>
+            <Label x:Name="label_fieldtype" Margin="-3,-3" Content="name/of/the/Type" Foreground="White"/>
+            <Label x:Name="label_fieldname" Margin="-3,-3" Content="FunctionName" Foreground="White"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

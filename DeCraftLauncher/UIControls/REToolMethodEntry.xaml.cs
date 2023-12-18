@@ -96,9 +96,9 @@ namespace DeCraftLauncher.UIControls
 
             label_paramnames.Content = $"({String.Join(", ", (from x in ParseParameters(descriptor) select DescriptorTypeToFriendlyName(x)))})";
 
-            label_modifiers.Content =
-                (target.IsPublic ? "public" : "")
-                + (target.IsStatic ? " static" : "");
+            label_modifiers.Content = String.Join(" ", (from x in JavaMethodInfo.accessFlagNames
+                                                        where (target.accessFlags & x.Key) == x.Key
+                                                        select x.Value));
         }
     }
 }

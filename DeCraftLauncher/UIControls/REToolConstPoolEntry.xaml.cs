@@ -65,6 +65,12 @@ namespace DeCraftLauncher.UIControls
                 int val = ((ConstantPoolEntry.IntegerEntry)target).value;
                 label_value.Content = val.ToString();
                 label_lessimportantvalue.Content = $"-> 0x{Convert.ToString(val, 16)}";
+            }            
+            else if (target is ConstantPoolEntry.LongEntry)
+            {
+                long val = ((ConstantPoolEntry.LongEntry)target).value;
+                label_value.Content = val.ToString();
+                label_lessimportantvalue.Content = $"-> 0x{Convert.ToString(val, 16)}";
             }
             else if (target is ConstantPoolEntry.FloatEntry)
             {

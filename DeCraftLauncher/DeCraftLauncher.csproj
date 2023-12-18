@@ -139,6 +139,9 @@
     <Compile Include="UIControls\REToolConstPoolEntry.xaml.cs">
       <DependentUpon>REToolConstPoolEntry.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UIControls\REToolFieldEntry.xaml.cs">
+      <DependentUpon>REToolFieldEntry.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UIControls\REToolMethodEntry.xaml.cs">
       <DependentUpon>REToolMethodEntry.xaml</DependentUpon>
     </Compile>
@@ -240,6 +243,10 @@
     <Page Include="UIControls\REToolConstPoolEntry.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UIControls\REToolFieldEntry.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UIControls\REToolMethodEntry.xaml">
       <SubType>Designer</SubType>

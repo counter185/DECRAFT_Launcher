@@ -299,6 +299,27 @@ public class AppletWrapper {{
 ";
         }
         
+        public static string GenerateLWJGLGPUTestCode()
+        {
+            return $@"
+package decraft_internal;
+
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
+
+public class LWJGLTestGPU {{
+	public static void main(String[] args){{
+		try {{
+			Display.create();
+			System.out.println(GL11.glGetString(GL11.GL_RENDERER));
+			Display.destroy();
+		}} catch (Exception e){{
+			System.out.println(""Error getting GPU name: "" + e.toString());
+		}}
+	}}
+}}
+";
+        }
         public static string GenerateMainFunctionWrapperCode(string className, JarConfig jar, bool isDefaultPackage)
         {
 

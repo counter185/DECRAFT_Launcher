@@ -125,5 +125,33 @@ namespace DeCraftLauncher.Configs.UI
         {
             GlobalVars.discordRPCManager.Close();
         }
+
+        private void btn_identgpu_Click(object sender, RoutedEventArgs e)
+        {
+            File.WriteAllText("./java_temp/LWJGLTestGPU.java", JavaCode.GenerateLWJGLGPUTestCode());
+            try
+            {
+                var compilerOut = JarUtils.RunProcessAndGetOutput(jre_path.Text + "javac", $"-cp \"lwjgl/2.9.3/*\" " +
+                        $"./java_temp/LWJGLTestGPU.java " +
+                        $"-d ./java_temp ", true);
+            } catch (ApplicationException)
+            {
+                MessageBox.Show("Error testing GPU. Make sure the Java path is set to a valid JDK path.");
+                return;
+            }
+
+            JavaExec exec = new JavaExec("decraft_internal.LWJGLTestGPU");
+            exec.classPath.Add("java_temp");
+            exec.classPath.Add("lwjgl/2.9.3/lwjgl.jar");
+
+            exec.jvmArgs.Add("-Djava.library.path=\"lwjgl/2.9.3/native\"");
+            exec.Start(null, x =>
+            {
+                Console.WriteLine(String.Join(" ", x));
+                MessageBox.Show(String.Join("\n", x));
+            });
+            
+            
+        }
     }
 }

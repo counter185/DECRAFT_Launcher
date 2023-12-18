@@ -43,12 +43,12 @@ namespace DeCraftLauncher.Utils
             );
         }
 
-        public Process Start(string javaPath = null)
+        public Process Start(string javaPath = null, Action<List<string>> callback = null)
         {
-            return StartWithCustomArgsString(GetFullArgsString(), javaPath);
+            return StartWithCustomArgsString(GetFullArgsString(), javaPath, callback);
         }
 
-        public Process StartWithCustomArgsString(string argsString, string javaPath = null)
+        public Process StartWithCustomArgsString(string argsString, string javaPath = null, Action<List<string>> callback = null)
         {
             javaPath = javaPath ?? (MainWindow.mainRTConfig.javaHome + execName);
 
@@ -59,7 +59,7 @@ namespace DeCraftLauncher.Utils
 
             try
             {
-                return JarUtils.RunProcess(javaPath, argsString, appdataDir);
+                return JarUtils.RunProcess(javaPath, argsString, appdataDir, callback);
             }
             catch (Exception e)
             {

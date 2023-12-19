@@ -1,4 +1,5 @@
 ﻿using DeCraftLauncher.Configs;
+using DeCraftLauncher.UIControls.Popup;
 using DeCraftLauncher.Utils;
 using System;
 using System.Collections.Generic;
@@ -36,7 +37,7 @@ namespace DeCraftLauncher
             }
             catch (ApplicationException)
             {
-                MessageBox.Show("Failed to compile the Main function Wrapper.\n\nNote: the Main function Wrapper only supports JDK 6+", "DECRAFT");
+                PopupOK.ShowNewPopup("Failed to compile the Main function Wrapper.\n\nNote: the Main function Wrapper only supports JDK 6+", "DECRAFT");
                 return;
             }
             Console.WriteLine("Compilation log:");
@@ -81,7 +82,7 @@ namespace DeCraftLauncher
             }
             catch (Win32Exception w32e)
             {
-                MessageBox.Show($"Error launching java process: {w32e.Message}\n\nVerify that Java is installed in \"Runtime settings\".");
+                PopupOK.ShowNewPopup($"Error launching java process: {w32e.Message}\n\nVerify that Java is installed in \"Runtime settings\".");
             }
         }
     }

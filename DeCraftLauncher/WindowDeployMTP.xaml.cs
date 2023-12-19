@@ -1,4 +1,5 @@
-﻿using DeCraftLauncher.Utils;
+﻿using DeCraftLauncher.UIControls.Popup;
+using DeCraftLauncher.Utils;
 using MediaDevices;
 using SourceChord.FluentWPF;
 using System;
@@ -382,16 +383,16 @@ namespace DeCraftLauncher
                     MemoryStream jsonStm = new MemoryStream(Encoding.ASCII.GetBytes(GenerateDummyJson(sha1Hash)));
                     connectedDevice.UploadFile(jsonStm, $"{path}/{baseName}/{baseName}.json");
 
-                    MessageBox.Show("Upload complete");
+                    PopupOK.ShowNewPopup("Upload complete");
 
                 }
                 else
                 {
-                    MessageBox.Show($"{path}/{baseName} already exists", "DECRAFT");
+                    PopupOK.ShowNewPopup($"{path}/{baseName} already exists", "DECRAFT");
                 }
             } catch (Exception e)
             {
-                MessageBox.Show($"Error: {e.Message}", "DECRAFT");
+                PopupOK.ShowNewPopup($"Error: {e.Message}", "DECRAFT");
             }
         }
 

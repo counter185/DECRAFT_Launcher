@@ -1,4 +1,5 @@
 ﻿using DeCraftLauncher.Configs;
+using DeCraftLauncher.UIControls.Popup;
 using DeCraftLauncher.Utils;
 using SourceChord.FluentWPF;
 using System;
@@ -108,7 +109,7 @@ namespace DeCraftLauncher.Configs.UI
                 parent.SaveRuntimeConfig();
             } catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "DECRAFT");
+                PopupOK.ShowNewPopup(ex.ToString(), "DECRAFT");
             }
         }
 
@@ -143,7 +144,7 @@ namespace DeCraftLauncher.Configs.UI
             {
                 if (ex is ApplicationException || ex is Win32Exception)
                 {
-                    MessageBox.Show("Error testing GPU. Make sure the Java path is set to a valid JDK path.");
+                    PopupOK.ShowNewPopup("Error testing GPU. Make sure the Java path is set to a valid JDK path.");
                     return;
                 }
                 else
@@ -160,7 +161,7 @@ namespace DeCraftLauncher.Configs.UI
             exec.Start(null, x =>
             {
                 Console.WriteLine(String.Join(" ", x));
-                MessageBox.Show("GPU test result:\n" + String.Join("\n", x), "DECRAFT");
+                PopupOK.ShowNewPopup("GPU test result:\n" + String.Join("\n", x), "DECRAFT");
             });
             
             

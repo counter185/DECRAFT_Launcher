@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using DeCraftLauncher.UIControls;
+using DeCraftLauncher.UIControls.Popup;
 using DeCraftLauncher.Utils;
 using SourceChord.FluentWPF;
 using static DeCraftLauncher.Utils.JavaClassReader;
@@ -45,7 +46,7 @@ namespace DeCraftLauncher
 
             } catch (IOException ex)
             {
-                MessageBox.Show($"Error reading archive: {ex.Message}");
+                PopupOK.ShowNewPopup($"Error reading archive: {ex.Message}");
                 this.Close();
             }
         }

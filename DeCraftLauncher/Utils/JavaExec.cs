@@ -1,4 +1,5 @@
 ﻿using DeCraftLauncher.Configs;
+using DeCraftLauncher.UIControls.Popup;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -104,7 +105,7 @@ namespace DeCraftLauncher.Utils
 #if DEBUG
                     caller.Dispatcher.Invoke(delegate
                     {
-                        MessageBox.Show($"windowupdate thread error: {e.Message}");
+                        PopupOK.ShowNewPopup($"windowupdate thread error: {e.Message}");
                     });
 #endif
                 }

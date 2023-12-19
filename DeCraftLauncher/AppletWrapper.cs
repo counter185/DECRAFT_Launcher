@@ -1,4 +1,5 @@
 ﻿using DeCraftLauncher.Configs;
+using DeCraftLauncher.UIControls.Popup;
 using DeCraftLauncher.Utils;
 using System;
 using System.Collections.Generic;
@@ -40,7 +41,7 @@ namespace DeCraftLauncher
                     (jar.appletEmulateHTTP && MainWindow.mainRTConfig.isJava9 ? "--add-exports java.base/sun.net.www.protocol.http=ALL-UNNAMED " : ""), true);
             } catch (ApplicationException)
             {
-                MessageBox.Show("Failed to compile the Applet Wrapper.\n\nNote: the Applet Wrapper only supports JDK 6+", "DECRAFT");
+                PopupOK.ShowNewPopup("Failed to compile the Applet Wrapper.\n\nNote: the Applet Wrapper only supports JDK 6+", "DECRAFT");
                 return;
             }
             Console.WriteLine("Compilation log:");
@@ -98,7 +99,7 @@ namespace DeCraftLauncher
                 //nproc = JarUtils.RunProcess(MainWindow.mainRTConfig.javaHome + "java", args, emulatedAppDataDir);
             } catch (Win32Exception w32e)
             {
-                MessageBox.Show($"Error launching java process: {w32e.Message}\n\nVerify that Java is installed in \"Runtime settings\".");
+                PopupOK.ShowNewPopup($"Error launching java process: {w32e.Message}\n\nVerify that Java is installed in \"Runtime settings\".");
             }
         }
 
@@ -111,7 +112,7 @@ namespace DeCraftLauncher
             }
             catch (Win32Exception)
             {
-                MessageBox.Show("Applet wrapper requires JDK installed.");
+                PopupOK.ShowNewPopup("Applet wrapper requires JDK installed.");
             }
             
         }

@@ -1,4 +1,5 @@
 ﻿using DeCraftLauncher.Configs;
+using DeCraftLauncher.UIControls.Popup;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -50,7 +51,7 @@ namespace DeCraftLauncher.Utils
             if (proc.ExitCode != 0 && throwOnNZEC)
             {
 #if DEBUG
-                MessageBox.Show(String.Join("\n", stdout), "DECRAFT Debug");
+                PopupOK.ShowNewPopup(String.Join("\n", stdout), "DECRAFT Debug");
 #endif
                 throw new ApplicationException("Non-zero exit code");
             }

@@ -298,15 +298,16 @@ namespace DeCraftLauncher
                 if (autoExitTimerStarted)
                 {
                     abortAutoExit = true;
-                    Dispatcher.Invoke(delegate
-                    {
-                        logtext.Text += "\nAuto exit aborted.";
-                    });
+                    logtext.Text += "\nAuto exit aborted.";
                 }
             }
             else if (e.Key == Key.F3)
             {
                 panel_stdin.Visibility = Visibility.Visible;
+            }
+            else if (e.Key == Key.F4)
+            {
+                logtext.Text = "";
             }
             base.OnKeyDown(e);
         }

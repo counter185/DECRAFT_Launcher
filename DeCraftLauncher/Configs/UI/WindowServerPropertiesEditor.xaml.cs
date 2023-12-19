@@ -1,4 +1,5 @@
-﻿using DeCraftLauncher.Utils;
+﻿using DeCraftLauncher.UIControls.Popup;
+using DeCraftLauncher.Utils;
 using SourceChord.FluentWPF;
 using System;
 using System.Collections.Generic;
@@ -64,7 +65,7 @@ namespace DeCraftLauncher.Configs.UI
                                   select new ServerPropertiesDataGridItem(x.Split('=')[0], x.Split('=')[1])).ToList();
             } catch (FileNotFoundException)
             {
-                MessageBox.Show("No server.properties file found. Start the server once to generate it.");
+                PopupOK.ShowNewPopup("No server.properties file found. Start the server once to generate it.");
             }
         }
 

@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using DeCraftLauncher.NBTReader;
+using DeCraftLauncher.UIControls.Popup;
 using SourceChord.FluentWPF;
 
 namespace DeCraftLauncher.Utils.NBTEditor
@@ -41,7 +42,7 @@ namespace DeCraftLauncher.Utils.NBTEditor
         {
             readNBT.ToFile(NBTPath);
             root.ResetModifiedStatus();
-            System.Windows.MessageBox.Show($"Saved NBT to {NBTPath}", "DECRAFT");
+            PopupOK.ShowNewPopup($"Saved NBT to {NBTPath}", "DECRAFT");
         }
              
         private void btn_saveas_Click(object sender, RoutedEventArgs e)
@@ -54,7 +55,7 @@ namespace DeCraftLauncher.Utils.NBTEditor
             {
                 readNBT.ToFile(saveFileDialog.FileName, saveFileDialog.FileName.EndsWith(".dat"));
                 root.ResetModifiedStatus();
-                System.Windows.MessageBox.Show($"Saved NBT to {saveFileDialog.FileName}", "DECRAFT");
+                PopupOK.ShowNewPopup($"Saved NBT to {saveFileDialog.FileName}", "DECRAFT");
             }
             
         }

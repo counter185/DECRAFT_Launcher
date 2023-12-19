@@ -1,4 +1,5 @@
-﻿using DeCraftLauncher.Utils;
+﻿using DeCraftLauncher.UIControls.Popup;
+using DeCraftLauncher.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -292,7 +293,7 @@ namespace DeCraftLauncher.Configs
                 }
                 catch (Win32Exception w32e)
                 {
-                    MessageBox.Show($"Error launching java process: {w32e.Message}\n\nVerify that Java is installed in \"Runtime settings\".");
+                    PopupOK.ShowNewPopup($"Error launching java process: {w32e.Message}\n\nVerify that Java is installed in \"Runtime settings\".");
                 }
                 
             }
@@ -312,7 +313,7 @@ namespace DeCraftLauncher.Configs
                         appletViewerExec.StartOpenWindowAndAddToInstances(caller, this);
                     } catch (Win32Exception)
                     {
-                        MessageBox.Show("Launching applets through appletviewer requires JDK6-7", "DECRAFT");
+                        PopupOK.ShowNewPopup("Launching applets through appletviewer requires JDK6-7", "DECRAFT");
                     }
                 }
                 else
@@ -357,11 +358,11 @@ namespace DeCraftLauncher.Configs
                     Console.WriteLine("Successfully built missing synthetic class workaround");
                 } catch (ApplicationException)
                 {
-                    MessageBox.Show("Failed to compile missing synthetic class workaround.", "DECRAFT");
+                    PopupOK.ShowNewPopup("Failed to compile missing synthetic class workaround.", "DECRAFT");
                     return false;
                 } catch (Win32Exception)
                 {
-                    MessageBox.Show("Workaround for missing synthetic classes (currently enabled in Advanced settings) requires JDK installed.", "DECRAFT");
+                    PopupOK.ShowNewPopup("Workaround for missing synthetic classes (currently enabled in Advanced settings) requires JDK installed.", "DECRAFT");
                     return false;
                 }
             }

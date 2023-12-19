@@ -136,6 +136,9 @@
     <Compile Include="UIControls\ModsFoundEntryPoint.xaml.cs">
       <DependentUpon>ModsFoundEntryPoint.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UIControls\Popup\PopupOK.xaml.cs">
+      <DependentUpon>PopupOK.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UIControls\REToolConstPoolEntry.xaml.cs">
       <DependentUpon>REToolConstPoolEntry.xaml</DependentUpon>
     </Compile>
@@ -237,6 +240,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UIControls\ModsFoundEntryPoint.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UIControls\Popup\PopupOK.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

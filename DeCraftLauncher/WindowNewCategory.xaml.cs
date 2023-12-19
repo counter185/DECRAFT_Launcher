@@ -1,4 +1,5 @@
-﻿using DeCraftLauncher.Utils;
+﻿using DeCraftLauncher.UIControls.Popup;
+using DeCraftLauncher.Utils;
 using SourceChord.FluentWPF;
 using System;
 using System.Collections.Generic;
@@ -84,16 +85,16 @@ namespace DeCraftLauncher
                     } 
                     catch (FormatException)
                     {
-                        MessageBox.Show("Invalid color value.", "DECRAFT");
+                        PopupOK.ShowNewPopup("Invalid color value.", "DECRAFT");
                     }
                 } else
                 {
-                    MessageBox.Show("Invalid color value.", "DECRAFT");
+                    PopupOK.ShowNewPopup("Invalid color value.", "DECRAFT");
                 }
             } 
             else
             {
-                MessageBox.Show("A category with this name already exists.", "DECRAFT");
+                PopupOK.ShowNewPopup("A category with this name already exists.", "DECRAFT");
             }
 
         }

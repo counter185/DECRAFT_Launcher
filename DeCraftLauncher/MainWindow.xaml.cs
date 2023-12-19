@@ -21,6 +21,8 @@ using System.Windows.Input;
 using DeCraftLauncher.NBTReader;
 using System.Xml;
 using DeCraftLauncher.Utils.NBTEditor;
+using DeCraftLauncher.UIControls.Popup;
+using System.ComponentModel;
 
 namespace DeCraftLauncher
 {
@@ -270,7 +272,7 @@ namespace DeCraftLauncher
                 InitializeComponent();
             } catch (Exception e)
             {
-                MessageBox.Show($"Error starting main window:\n {e}", "DECRAFT");
+                PopupOK.ShowNewPopup($"Error starting main window:\n {e}", "DECRAFT");
             }
             mainRTConfig = RuntimeConfig.LoadFromXML();
             Util.UpdateAcrylicWindowBackground(this);
@@ -308,7 +310,7 @@ namespace DeCraftLauncher
 
             if (Util.RunningOnWine())
             {
-                MessageBox.Show("You may be running DECRAFT on the Wine compatibility layer.\nIf the launcher crashes after this popup, open \"winecfg\" and set your Windows version to Windows 7.\nDECRAFT can only use Windows versions of Java, so be sure to install one into your Wine prefix.\n\nGood luck, and expect bugs.", "DECRAFT");
+                PopupOK.ShowNewPopup("You may be running DECRAFT on the Wine compatibility layer.\nIf the launcher crashes after this popup, open \"winecfg\" and set your Windows version to Windows 7.\nDECRAFT can only use Windows versions of Java, so be sure to install one into your Wine prefix.\n\nGood luck, and expect bugs.", "DECRAFT");
             }
         }
 
@@ -418,7 +420,7 @@ namespace DeCraftLauncher
                 conf.SaveToXMLDefault();
                 Dispatcher.Invoke(delegate
                 {
-                    MessageBox.Show($"Error analyzing {param.jar}: {e.Message}\n\nThe jar file must be a valid zip archive.", "DECRAFT");
+                    PopupOK.ShowNewPopup($"Error analyzing {param.jar}: {e.Message}\n\nThe jar file must be a valid zip archive.", "DECRAFT");
                 });
                 if (currentlySelectedJar.jarFileName == param.jar)
                 {
@@ -457,7 +459,7 @@ namespace DeCraftLauncher
                             string copyName = $"{jarDir}/{new FileInfo(a).Name}.jar";
                             if (!Util.TryExtractPKFromExe(a, copyName))
                             {
-                                MessageBox.Show($"Failed to extract jar from executable.", "DECRAFT");
+                                PopupOK.ShowNewPopup($"Failed to extract jar from executable.", "DECRAFT");
                             }
                         }
                         else if (a.EndsWith(".json"))
@@ -481,10 +483,10 @@ namespace DeCraftLauncher
                                                 {
                                                     errorString += "\n\nYour system's SSL certificates may have expired.";
                                                 }
-                                                MessageBox.Show(errorString, "DECRAFT");
+                                                PopupOK.ShowNewPopup(errorString, "DECRAFT");
                                             } else
                                             {
-                                                MessageBox.Show("Download complete", "DECRAFT");
+                                                PopupOK.ShowNewPopup("Download complete", "DECRAFT");
                                             }
                                         };
                                         //todo: progress bar for this
@@ -493,7 +495,7 @@ namespace DeCraftLauncher
                                 }
                             } catch (Exception ex)
                             {
-                                MessageBox.Show($"Error reading {a}.\nThe JSON file may be invalid or not in a standard launcher format.\n\n{ex.Message}", "DECRAFT");
+                                PopupOK.ShowNewPopup($"Error reading {a}.\nThe JSON file may be invalid or not in a standard launcher format.\n\n{ex.Message}", "DECRAFT");
                             }
                         }
                         else if (a.EndsWith(".dat") || a.EndsWith(".nbt"))
@@ -505,21 +507,32 @@ namespace DeCraftLauncher
                                 NBTData.PrintNBT(nbtData.rootNode);
                             } catch (Exception ex)
                             {
-                                MessageBox.Show($"Error reading NBT data:\n {ex.Message}", "DECRAFT");
+                                PopupOK.ShowNewPopup($"Error reading NBT data:\n {ex.Message}", "DECRAFT");
                             }*/
                         } else
                         {
-                            MessageBox.Show($"Unsupported file", "DECRAFT");
+                            PopupOK.ShowNewPopup($"Unsupported file", "DECRAFT");
                         }
                     }
                 }
             }
         }
 
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            if (runningInstances.Count > 0 &&
+                System.Windows.MessageBox.Show("Some instances are still running.\nClosing DECRAFT will keep them open. Close anyway?", "DECRAFT", MessageBoxButton.YesNo) == MessageBoxResult.No)
+            {
+                e.Cancel = true;
+            }
+            base.OnClosing(e);
+        }
+
         protected override void OnClosed(EventArgs e)
         {
             GlobalVars.discordRPCManager.Close();
             base.OnClosed(e);
+            Environment.Exit(0);
         }
 
         void EnsureDefaultJarConfig(string jarName) {

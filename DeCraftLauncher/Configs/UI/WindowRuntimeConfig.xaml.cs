@@ -3,6 +3,7 @@ using DeCraftLauncher.Utils;
 using SourceChord.FluentWPF;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -129,15 +130,26 @@ namespace DeCraftLauncher.Configs.UI
         private void btn_identgpu_Click(object sender, RoutedEventArgs e)
         {
             File.WriteAllText("./java_temp/LWJGLTestGPU.java", JavaCode.GenerateLWJGLGPUTestCode());
+            if (File.Exists("./java_temp/decraft_internal/LWJGLTestGPU.class"))
+            {
+                File.Delete("./java_temp/decraft_internal/LWJGLTestGPU.class");
+            }
             try
             {
                 var compilerOut = JarUtils.RunProcessAndGetOutput(jre_path.Text + "javac", $"-cp \"lwjgl/2.9.3/*\" " +
                         $"./java_temp/LWJGLTestGPU.java " +
                         $"-d ./java_temp ", true);
-            } catch (ApplicationException)
+            } catch (Exception ex)
             {
-                MessageBox.Show("Error testing GPU. Make sure the Java path is set to a valid JDK path.");
-                return;
+                if (ex is ApplicationException || ex is Win32Exception)
+                {
+                    MessageBox.Show("Error testing GPU. Make sure the Java path is set to a valid JDK path.");
+                    return;
+                }
+                else
+                {
+                    throw ex;
+                }
             }
 
             JavaExec exec = new JavaExec("decraft_internal.LWJGLTestGPU");
@@ -148,7 +160,7 @@ namespace DeCraftLauncher.Configs.UI
             exec.Start(null, x =>
             {
                 Console.WriteLine(String.Join(" ", x));
-                MessageBox.Show(String.Join("\n", x));
+                MessageBox.Show("GPU test result:\n" + String.Join("\n", x), "DECRAFT");
             });
             
             

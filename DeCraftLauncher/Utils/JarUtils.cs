@@ -327,6 +327,7 @@ namespace DeCraftLauncher.Utils
                         return "1.6+ launch class. Not supported by this launcher.";
                     case "decraft_internal.AppletWrapper":
                     case "decraft_internal.MainFunctionWrapper":
+                    case "decraft_internal.LWJGLTestGPU":
                         return "How did this get here?";
                     case "com.megacrit.cardcrawl.desktop.DesktopLauncher":
                         return "You have great taste, I'll give you that.";
@@ -374,6 +375,7 @@ namespace DeCraftLauncher.Utils
                     case "net.minecraft.isom.IsomPreviewApplet":
                     case "decraft_internal.AppletWrapper":
                     case "decraft_internal.MainFunctionWrapper":
+                    case "decraft_internal.LWJGLTestGPU":
                     case "Start":
                         return 1;
                     default:
@@ -545,6 +547,10 @@ namespace DeCraftLauncher.Utils
                                     else if (stringEntry.value.StartsWith("Minecraft ") && !className.EndsWith("Server") && stringEntry.value != "Minecraft main thread")
                                     {
                                         newEntryPoint.additionalInfo = stringEntry.value.Substring("Minecraft ".Length);
+                                    }
+                                    else if (stringEntry.value.StartsWith("DECRAFT Applet Wrapper: "))
+                                    {
+                                        newEntryPoint.additionalInfo = "-> " + stringEntry.value.Substring("DECRAFT Applet Wrapper: ".Length);
                                     }
                                 }
 

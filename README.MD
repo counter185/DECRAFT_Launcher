@@ -25,12 +25,6 @@ winetricks dotnet472 vcrun2012 d3dcompiler_47
 
 To build the project, you will need Visual Studio 2019/2022 with `.NET Desktop Development` tools and `.NET Framework SDK 4.5.2` installed.
 
-## Features
+## Contributions
 
-Contributions through PRs are welcome.
-
-- Scanning all classes for entry points
-- Launching through `public static void main(String[])`
-- Launching `Applet`s through a wrapper with parameters
-- Simple old login server emulation
-- Custom instance directories
+All contributions, including feature suggestions/requests, PRs, bug fixes, are welcome.

@@ -136,6 +136,13 @@
     <Compile Include="UIControls\ModsFoundEntryPoint.xaml.cs">
       <DependentUpon>ModsFoundEntryPoint.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UIControls\Popup\PopupTextBox.xaml.cs">
+      <DependentUpon>PopupTextBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UIControls\Popup\PopupYesNo.cs" />
+    <Compile Include="UIControls\Popup\PopupYesNoCancel.xaml.cs">
+      <DependentUpon>PopupYesNoCancel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UIControls\Popup\PopupOK.xaml.cs">
       <DependentUpon>PopupOK.xaml</DependentUpon>
     </Compile>
@@ -242,6 +249,14 @@
     <Page Include="UIControls\ModsFoundEntryPoint.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UIControls\Popup\PopupTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UIControls\Popup\PopupYesNoCancel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UIControls\Popup\PopupOK.xaml">
       <SubType>Designer</SubType>

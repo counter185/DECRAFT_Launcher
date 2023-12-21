@@ -1,4 +1,5 @@
-﻿using DeCraftLauncher.Utils;
+﻿using DeCraftLauncher.UIControls.Popup;
+using DeCraftLauncher.Utils;
 using MediaDevices;
 using Microsoft.VisualBasic;
 using System;
@@ -57,7 +58,7 @@ namespace DeCraftLauncher.UIControls
         public void RenameJar()
         {
             //todo: replace this visualbasic lmao
-            string target = Interaction.InputBox($"Rename {jar.jarFileName}:", "DECRAFT", jar.jarFileName.Substring(0, jar.jarFileName.Length-4));
+            string target = PopupTextBox.ShowNewPopup($"Rename {jar.jarFileName}:", "DECRAFT", jar.jarFileName.Substring(0, jar.jarFileName.Length-4));
             string newJarName = $"{MainWindow.jarDir}/{target}.jar";
             string newJarConfName = $"{MainWindow.configDir}/{target}.jar.xml";
             if (target != "" && !File.Exists(newJarName))
@@ -82,7 +83,7 @@ namespace DeCraftLauncher.UIControls
 
         public void DeleteJar()
         {
-            if (MessageBox.Show($"Delete {jar.jarFileName}?", "DECRAFT", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            if (PopupYesNo.ShowNewPopup($"Delete {jar.jarFileName}?", "DECRAFT") == MessageBoxResult.Yes)
             {
                 string path = $"{MainWindow.jarDir}/{jar.jarFileName}";
                 if (File.Exists(path))

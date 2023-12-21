@@ -449,7 +449,7 @@ namespace DeCraftLauncher
                             string copyName = $"{jarDir}/{new FileInfo(a).Name}";
                             if (!File.Exists(copyName)
                                 || (File.Exists(copyName)
-                                    && MessageBox.Show($"{copyName} already exists. Overwrite?", "DECRAFT", MessageBoxButton.YesNo) == MessageBoxResult.Yes))
+                                    && PopupYesNo.ShowNewPopup($"{copyName} already exists. Overwrite?", "DECRAFT") == MessageBoxResult.Yes))
                             {
                                 File.Copy(a, copyName, true);
                             }
@@ -470,7 +470,7 @@ namespace DeCraftLauncher
                                 JObject rootObj = JObject.Parse(File.ReadAllText(a));
                                 string versionID = rootObj.SelectToken("id").Value<string>();
                                 JObject dlElement = rootObj.SelectToken("downloads").Value<JObject>().SelectToken("client").Value<JObject>();
-                                if (MessageBox.Show($"Download {versionID}?\n\n Size: {dlElement.SelectToken("size").Value<UInt64>()}\n URL: {dlElement.SelectToken("url").Value<string>()}", "DECRAFT", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                                if (PopupYesNo.ShowNewPopup($"Download {versionID}?\n\n Size: {dlElement.SelectToken("size").Value<UInt64>()}\n URL: {dlElement.SelectToken("url").Value<string>()}", "DECRAFT") == MessageBoxResult.Yes)
                                 {
                                     using (var client = new WebClient())
                                     {
@@ -521,7 +521,7 @@ namespace DeCraftLauncher
         protected override void OnClosing(CancelEventArgs e)
         {
             if (runningInstances.Count > 0 &&
-                System.Windows.MessageBox.Show("Some instances are still running.\nClosing DECRAFT will keep them open. Close anyway?", "DECRAFT", MessageBoxButton.YesNo) == MessageBoxResult.No)
+                PopupYesNo.ShowNewPopup("Some instances are still running.\nClosing DECRAFT will keep them open. Close anyway?", "DECRAFT") == MessageBoxResult.No)
             {
                 e.Cancel = true;
             }

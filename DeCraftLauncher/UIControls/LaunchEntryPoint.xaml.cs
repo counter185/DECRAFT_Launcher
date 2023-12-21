@@ -1,5 +1,6 @@
 ﻿using DeCraftLauncher.Configs;
 using DeCraftLauncher.Configs.UI;
+using DeCraftLauncher.UIControls.Popup;
 using DeCraftLauncher.Utils;
 using System;
 using System.Collections.Generic;
@@ -105,7 +106,7 @@ namespace DeCraftLauncher.UIControls
             }
             else if (entryPoint.type == JarUtils.EntryPointType.CUSTOM_LAUNCH_COMMAND)
             {
-                if (MessageBox.Show($"Remove the custom launch command?\n\njava {this.entryPoint.classpath}", "DECRAFT", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                if (PopupYesNo.ShowNewPopup($"Remove the custom launch command?\n\njava {this.entryPoint.classpath}", "DECRAFT") == MessageBoxResult.Yes)
                 {
                     jarConfig.entryPoints.Remove(this.entryPoint);
                     jarConfig.SaveToXMLDefault();

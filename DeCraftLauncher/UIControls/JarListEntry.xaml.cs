@@ -1,7 +1,6 @@
 ﻿using DeCraftLauncher.UIControls.Popup;
 using DeCraftLauncher.Utils;
 using MediaDevices;
-using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -74,7 +73,7 @@ namespace DeCraftLauncher.UIControls
 
         public void SetFriendlyName()
         {
-            string target = Interaction.InputBox($"Set friendly name of {jar.jarFileName}:", "DECRAFT", jar.friendlyName);
+            string target = PopupTextBox.ShowNewPopup($"Set friendly name of {jar.jarFileName}:", "DECRAFT", jar.friendlyName);
             Console.WriteLine(target);
             jar.friendlyName = target;
             caller.SaveRuntimeConfig();

@@ -54,6 +54,7 @@ namespace DeCraftLauncher
 
         public List<WorkerThread> currentScanThreads = new List<WorkerThread>();
         public List<JarEntry> loadedJars = new List<JarEntry>();
+        public List<string> currentJarDownloads = new List<string>();
 
         public List<InstanceListElement.RunningInstanceData> runningInstances = new List<InstanceListElement.RunningInstanceData>();
 
@@ -189,7 +190,11 @@ namespace DeCraftLauncher
                     if (entrypointlist.Items.Count == 0 && !currentlySelectedJar.entryPointsScanned)
                     {
                         StartEntryPointScan();
-                        entrypointlist.Items.Add(new LaunchEntryPointFinding(wthreads.First().report));
+                        if (wthreads.Any())
+                        {
+                            //what does the line below even do, why is it First()
+                            entrypointlist.Items.Add(new LaunchEntryPointFinding(wthreads.First().report));
+                        }
                     }
                 }
                 UpdateLWJGLVersions();
@@ -256,7 +261,7 @@ namespace DeCraftLauncher
                               select x).ToList();
             }
 
-            loadedJars.ForEach((x) => { jarlist.Items.Add(new JarListEntry(this, x)); });
+            loadedJars.ForEach((x) => { jarlist.Items.Add(new JarListEntry(this, x, currentJarDownloads.Contains(x.jarFileName))); });
 
             if (hadNonMatchingEntries)
             {
@@ -341,10 +346,16 @@ namespace DeCraftLauncher
         private void StartEntryPointScan()
         {
             //List<EntryPoint> entryPoint = JarUtils.FindAllEntryPoints(jarDir + "/" + currentlySelectedJar.jarFileName);
-            Thread nthread = new Thread(ThreadFindEntryPointsAndSaveToXML);
-            WorkerThread a = new WorkerThread(nthread, currentlySelectedJar.jarFileName, new ReferenceType<float>(0));
-            currentScanThreads.Add(a);
-            nthread.Start(a);
+            if (!currentJarDownloads.Contains(currentlySelectedJar.jarFileName))
+            {
+                Thread nthread = new Thread(ThreadFindEntryPointsAndSaveToXML);
+                WorkerThread a = new WorkerThread(nthread, currentlySelectedJar.jarFileName, new ReferenceType<float>(0));
+                currentScanThreads.Add(a);
+                nthread.Start(a);
+            } else
+            {
+                PopupOK.ShowNewPopup($"{Util.CleanStringForXAML(currentlySelectedJar.jarFileName)} is currently being downloaded.\nWait for the download to finish, then try again.");
+            }
         }
 
         private void btn_scan_entrypoints_Click(object sender, RoutedEventArgs e)
@@ -429,9 +440,6 @@ namespace DeCraftLauncher
                         UpdateLaunchOptionsSegment();
                     });
                 }
-#if DEBUG
-                throw;
-#endif
             }
             Console.WriteLine("ThreadFindEntryPointsAndSaveToXML done");
         }
@@ -470,30 +478,45 @@ namespace DeCraftLauncher
                                 JObject rootObj = JObject.Parse(File.ReadAllText(a));
                                 string versionID = rootObj.SelectToken("id").Value<string>();
                                 JObject dlElement = rootObj.SelectToken("downloads").Value<JObject>().SelectToken("client").Value<JObject>();
-                                if (PopupYesNo.ShowNewPopup($"Download {versionID}?\n\n Size: {dlElement.SelectToken("size").Value<UInt64>()}\n URL: {dlElement.SelectToken("url").Value<string>()}", "DECRAFT") == MessageBoxResult.Yes)
+                                if (!currentJarDownloads.Contains($"{versionID}.jar"))
                                 {
-                                    using (var client = new WebClient())
+                                    if (PopupYesNo.ShowNewPopup($"Download {Util.CleanStringForXAML(versionID)}?\n\n Size: {dlElement.SelectToken("size").Value<UInt64>()}\n URL: {dlElement.SelectToken("url").Value<string>()}", "DECRAFT") == MessageBoxResult.Yes)
                                     {
-                                        client.DownloadFileCompleted += (sender2, evt) =>
+                                        using (var client = new WebClient())
                                         {
-                                            if (evt.Error != null)
+                                            currentJarDownloads.Add($"{versionID}.jar");
+                                            client.DownloadFileCompleted += (sender2, evt) =>
                                             {
-                                                string errorString = $"Download error:\n{evt.Error.Message}";
-                                                if (evt.Error is System.Net.WebException && evt.Error.Message.Contains("SSL/TLS"))
+                                                currentJarDownloads.Remove($"{versionID}.jar");
+                                                if (evt.Error != null)
                                                 {
-                                                    errorString += "\n\nYour system's SSL certificates may have expired.";
+                                                    string errorString = $"Download error:\n{evt.Error.Message}";
+                                                    if (evt.Error is System.Net.WebException && evt.Error.Message.Contains("SSL/TLS"))
+                                                    {
+                                                        errorString += "\n\nYour system's SSL certificates may have expired.";
+                                                    }
+                                                    PopupOK.ShowNewPopup(errorString, "DECRAFT");
                                                 }
-                                                PopupOK.ShowNewPopup(errorString, "DECRAFT");
-                                            } else
-                                            {
-                                                PopupOK.ShowNewPopup("Download complete", "DECRAFT");
-                                            }
-                                        };
-                                        //todo: progress bar for this
-                                        client.DownloadFileAsync(new Uri(dlElement.SelectToken("url").Value<string>()), $"{jarDir}/{versionID}.jar");
+                                                else
+                                                {
+                                                    PopupOK.ShowNewPopup("Download complete", "DECRAFT");
+                                                    ResetJarlist();
+                                                }
+                                            };
+                                            //todo: progress bar for this
+                                            client.DownloadFileAsync(new Uri(dlElement.SelectToken("url").Value<string>()), $"{jarDir}/{versionID}.jar");
+                                        }
                                     }
+                                } else
+                                {
+                                    PopupOK.ShowNewPopup($"{Util.CleanStringForXAML(versionID)} is currently being downloaded.", "DECRAFT");
                                 }
-                            } catch (Exception ex)
+                            } 
+                            catch (ArgumentNullException ex)
+                            {
+                                PopupOK.ShowNewPopup($"Error reading {a}.\nThis JSON file does not contain a download URL at /downloads/client/url.\n\nError details:\n{ex.Message}", "DECRAFT");
+                            }
+                            catch (Exception ex)
                             {
                                 PopupOK.ShowNewPopup($"Error reading {a}.\nThe JSON file may be invalid or not in a standard launcher format.\n\n{ex.Message}", "DECRAFT");
                             }

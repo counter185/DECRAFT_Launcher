@@ -30,14 +30,14 @@ namespace DeCraftLauncher.UIControls
         public static readonly DependencyProperty InnerTextProperty =
             DependencyProperty.Register("InnerText", typeof(string), typeof(JarListEntry));
 
-        public JarListEntry(MainWindow caller, JarEntry jar)
+        public JarListEntry(MainWindow caller, JarEntry jar, bool downloadIncomplete = false)
         {
             this.caller = caller;
             InitializeComponent();
             this.jar = jar;
 
             bool hasFriendlyName = !String.IsNullOrEmpty(jar.friendlyName);
-            string mtext = jar.jarFileName;
+            string mtext = jar.jarFileName + (downloadIncomplete ? " (downloading...)" : "");
             if (hasFriendlyName)
             {
                 mtext = jar.friendlyName;
@@ -57,7 +57,7 @@ namespace DeCraftLauncher.UIControls
         public void RenameJar()
         {
             //todo: replace this visualbasic lmao
-            string target = PopupTextBox.ShowNewPopup($"Rename {jar.jarFileName}:", "DECRAFT", jar.jarFileName.Substring(0, jar.jarFileName.Length-4));
+            string target = PopupTextBox.ShowNewPopup($"Rename {Util.CleanStringForXAML(jar.jarFileName)}:", "DECRAFT", jar.jarFileName.Substring(0, jar.jarFileName.Length-4));
             string newJarName = $"{MainWindow.jarDir}/{target}.jar";
             string newJarConfName = $"{MainWindow.configDir}/{target}.jar.xml";
             if (target != "" && !File.Exists(newJarName))
@@ -73,7 +73,7 @@ namespace DeCraftLauncher.UIControls
 
         public void SetFriendlyName()
         {
-            string target = PopupTextBox.ShowNewPopup($"Set friendly name of {jar.jarFileName}:", "DECRAFT", jar.friendlyName);
+            string target = PopupTextBox.ShowNewPopup($"Set friendly name of {Util.CleanStringForXAML(jar.jarFileName)}:", "DECRAFT", jar.friendlyName);
             Console.WriteLine(target);
             jar.friendlyName = target;
             caller.SaveRuntimeConfig();
@@ -82,7 +82,7 @@ namespace DeCraftLauncher.UIControls
 
         public void DeleteJar()
         {
-            if (PopupYesNo.ShowNewPopup($"Delete {jar.jarFileName}?", "DECRAFT") == MessageBoxResult.Yes)
+            if (PopupYesNo.ShowNewPopup($"Delete {Util.CleanStringForXAML(jar.jarFileName)}?", "DECRAFT") == MessageBoxResult.Yes)
             {
                 string path = $"{MainWindow.jarDir}/{jar.jarFileName}";
                 if (File.Exists(path))

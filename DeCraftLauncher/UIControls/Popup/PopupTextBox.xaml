@@ -30,7 +30,7 @@
             </StackPanel>
         </Grid>
         <TextBox x:Name="tbox_main" Style="{StaticResource TextBoxMainStyle}" Margin="40,0,40,20" DockPanel.Dock="Bottom"/>
-        <Label x:Name="label_maintext" DockPanel.Dock="Top" MinWidth="200" Width="Auto" Content="pretend there is long text here" Foreground="White" HorizontalAlignment="Left" Margin="40,30,80,20"/>
+        <Label x:Name="label_maintext" DockPanel.Dock="Top" MinWidth="200" Width="Auto" Content="pretend there is long text here" Foreground="White" HorizontalAlignment="Left" Margin="40,20,80,10"/>
     </DockPanel>
 
 </fw:AcrylicWindow>

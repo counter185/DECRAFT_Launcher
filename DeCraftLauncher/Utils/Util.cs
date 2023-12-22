@@ -85,7 +85,9 @@ namespace DeCraftLauncher.Utils
 
         public static void UpdateAcrylicWindowBackground(AcrylicWindow window)
         {
-            if (Environment.OSVersion.Version.Major < 6 || (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor == 0))
+            string osName = new PCInfo().OSFullName;
+            if (Environment.OSVersion.Version.Major < 6 || (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor == 0)
+                || osName.ToLower().Contains("windows 11"))
             {
                 //COME ON FLUENTWPF
                 //okay so for context for this
@@ -101,13 +103,42 @@ namespace DeCraftLauncher.Utils
                 window.CommandBindings.Add(minimizeBinding);
                 window.CommandBindings.Add(maximizeBinding);
                 window.CommandBindings.Add(restoreBinding);
+                if (osName.ToLower().Contains("windows 11"))
+                {
+                    //window.SetValue(AcrylicWindow.EnabledProperty, false);
+                    window.Background = new SolidColorBrush(WinColor.FromArgb(TRANSPARENCY_ON, 0, 0, 0));
+                    window.Opacity = 0.88;
+                    window.TintOpacity = 0.1;
+                    int trueVal = 3;
+                    int trueVal2 = 1;
+                    IntPtr wHandle = new WindowInteropHelper(window).EnsureHandle();
+                    try
+                    {
+                        DwmSetWindowAttribute(wHandle, 20, ref trueVal2, sizeof(uint));
+                        DwmSetWindowAttribute(wHandle, 38, ref trueVal, sizeof(uint));
+                        if (DwmIsCompositionEnabled())
+                        {
+                            Util.DWM_BLURBEHIND nblurProperties = new Util.DWM_BLURBEHIND
+                            {
+                                dwFlags = Util.DWM_BB.DWM_BB_ENABLE,
+                                fEnable = true,
+                                hRgnBlur = IntPtr.Zero,
+                                fTransitionOnMaximized = false,
+                            };
+                            DwmEnableBlurBehindWindow(wHandle, ref nblurProperties);
+                        }
+                    } catch (Exception)
+                    {
+                        //dwmapi error don't care
+                    }
+                }
             }
             else
             {
                 //THERE REALLY IS NO CLEANER WAY OF DOING THIS.
                 // Is there?
                 window.SetValue(AcrylicWindow.EnabledProperty, true);
-                string osName = new PCInfo().OSFullName;
+                
                 bool setTransparent = osName.ToLower().Contains(OS_WIN10) 
                     || (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor == 1);      //win7
 
@@ -117,6 +148,8 @@ namespace DeCraftLauncher.Utils
                     window.Opacity = 0.88;
                     window.TintOpacity = 0.1;
                 }
+
+                IntPtr wHandle = new WindowInteropHelper(window).EnsureHandle();
 
                 try
                 {
@@ -129,7 +162,7 @@ namespace DeCraftLauncher.Utils
                             hRgnBlur = IntPtr.Zero,
                             fTransitionOnMaximized = false,
                         };
-                        DwmEnableBlurBehindWindow(new WindowInteropHelper(window).EnsureHandle(), ref nblurProperties);
+                        DwmEnableBlurBehindWindow(wHandle, ref nblurProperties);
                     }
                 } catch (Exception)
                 {

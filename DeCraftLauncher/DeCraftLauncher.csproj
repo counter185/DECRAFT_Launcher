@@ -59,6 +59,7 @@
   <ItemGroup>
     <Reference Include="FluentWPF, Version=0.10.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentWPF.0.10.2\lib\net45\FluentWPF.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="MediaDevices, Version=1.10.0.0, Culture=neutral, PublicKeyToken=36ac35b4ea7a1f67, processorArchitecture=MSIL">
       <HintPath>..\packages\MediaDevices.1.10.0\lib\net45\MediaDevices.dll</HintPath>
@@ -124,6 +125,9 @@
     <Compile Include="JarEntry.cs" />
     <Compile Include="MainFunctionWrapper.cs" />
     <Compile Include="NBTReader\NBTData.cs" />
+    <Compile Include="TestWindow.xaml.cs">
+      <DependentUpon>TestWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UIControls\InstanceListElement.xaml.cs">
       <DependentUpon>InstanceListElement.xaml</DependentUpon>
     </Compile>
@@ -227,6 +231,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Configs\UI\WindowSetJarLibs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TestWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

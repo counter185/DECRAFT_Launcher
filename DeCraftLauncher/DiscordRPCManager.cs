@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeCraftLauncher.UIControls.Popup;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
@@ -43,29 +44,35 @@ namespace DeCraftLauncher
                 return;
             }
             initialTime = DateTime.UtcNow;
-            discord = new Discord.Discord(1180408357782298624, (UInt64)Discord.CreateFlags.Default);
-            activityManager = discord.GetActivityManager();
-            rpcThread = new Thread(() =>
+            try
             {
-                while (true)
+                discord = new Discord.Discord(1180408357782298624, (UInt64)Discord.CreateFlags.NoRequireDiscord);
+                activityManager = discord.GetActivityManager();
+                rpcThread = new Thread(() =>
                 {
+                    while (true)
+                    {
                     //activityMutex.WaitOne();
                     //activityMutex.ReleaseMutex();
 
                     //RunCallbacks has to be done on main thread
                     caller.Dispatcher.Invoke(delegate
-                    {
-                        if (discord != null)
                         {
-                            discord.RunCallbacks();
-                        }
-                    });
-                    Thread.Sleep(200);
-                }
-            });
+                            if (discord != null)
+                            {
+                                discord.RunCallbacks();
+                            }
+                        });
+                        Thread.Sleep(200);
+                    }
+                });
 
-            rpcThread.Start();
-            inited = true;
+                rpcThread.Start();
+                inited = true;
+            } catch (Discord.ResultException)
+            {
+                //don't fucking care lmao
+            }
         }
 
         public void Close()

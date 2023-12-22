@@ -33,6 +33,35 @@ namespace DeCraftLauncher.Utils
                                                 uint attribute,
                                                 ref int pvAttribute,
                                                 uint cbAttribute);
+        [Flags]
+        public enum DWM_BB
+        {
+            DWM_BB_ENABLE = 1,
+            DWM_BB_BLURREGION = 2,
+            DWM_BB_TRANSITIONONMAXIMIZED = 4
+        }
+
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct DWM_BLURBEHIND
+        {
+            public DWM_BB dwFlags;
+
+            [MarshalAs(UnmanagedType.Bool)]
+            public bool fEnable;
+
+            [MarshalAs(UnmanagedType.SysUInt)]
+            public IntPtr hRgnBlur;
+
+            [MarshalAs(UnmanagedType.Bool)]
+            public bool fTransitionOnMaximized;
+        }
+
+        [DllImport("dwmapi.dll", PreserveSig = false)]
+        public static extern bool DwmIsCompositionEnabled();
+
+        [DllImport("dwmapi.dll", PreserveSig = false)]
+        public static extern void DwmEnableBlurBehindWindow(IntPtr hwnd, ref DWM_BLURBEHIND blurBehind);
 
         [DllImport("user32.dll", EntryPoint = "SetWindowPos")]
         public static extern IntPtr SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int y, int cx, int cy, int wFlags);
@@ -79,12 +108,32 @@ namespace DeCraftLauncher.Utils
                 // Is there?
                 window.SetValue(AcrylicWindow.EnabledProperty, true);
                 string osName = new PCInfo().OSFullName;
-                bool setTransparent = osName.ToLower().Contains(OS_WIN10);
+                bool setTransparent = osName.ToLower().Contains(OS_WIN10) 
+                    || (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor == 1);      //win7
+
                 window.Background = new SolidColorBrush(WinColor.FromArgb(setTransparent ? TRANSPARENCY_ON : TRANSPARENCY_OFF, 0, 0, 0));
                 if (setTransparent)
                 {
                     window.Opacity = 0.88;
                     window.TintOpacity = 0.1;
+                }
+
+                try
+                {
+                    if (DwmIsCompositionEnabled())
+                    {
+                        Util.DWM_BLURBEHIND nblurProperties = new Util.DWM_BLURBEHIND
+                        {
+                            dwFlags = Util.DWM_BB.DWM_BB_ENABLE,
+                            fEnable = true,
+                            hRgnBlur = IntPtr.Zero,
+                            fTransitionOnMaximized = false,
+                        };
+                        DwmEnableBlurBehindWindow(new WindowInteropHelper(window).EnsureHandle(), ref nblurProperties);
+                    }
+                } catch (Exception)
+                {
+                    //don't care dwmapi error
                 }
             }
         }

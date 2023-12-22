@@ -153,7 +153,7 @@ namespace DeCraftLauncher.Utils
 
                 try
                 {
-                    if (DwmIsCompositionEnabled())
+                    if (DwmIsCompositionEnabled() && !osName.ToLower().Contains(OS_WIN10))
                     {
                         Util.DWM_BLURBEHIND nblurProperties = new Util.DWM_BLURBEHIND
                         {

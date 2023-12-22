@@ -89,6 +89,10 @@ namespace DeCraftLauncher.Utils
                 {
                     stdout.Add(proc.StandardOutput.ReadLine());
                 }
+                while (!proc.StandardError.EndOfStream)
+                {
+                    stdout.Add(proc.StandardError.ReadLine());
+                }
                 callback(stdout);
             }
             else

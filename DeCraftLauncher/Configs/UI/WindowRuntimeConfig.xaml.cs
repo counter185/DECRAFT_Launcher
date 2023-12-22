@@ -130,11 +130,12 @@ namespace DeCraftLauncher.Configs.UI
 
         private void btn_identgpu_Click(object sender, RoutedEventArgs e)
         {
-            File.WriteAllText("./java_temp/LWJGLTestGPU.java", JavaCode.GenerateLWJGLGPUTestCode());
+            MainWindow.EnsureDir("./java_temp");
             if (File.Exists("./java_temp/decraft_internal/LWJGLTestGPU.class"))
             {
                 File.Delete("./java_temp/decraft_internal/LWJGLTestGPU.class");
             }
+            File.WriteAllText("./java_temp/LWJGLTestGPU.java", JavaCode.GenerateLWJGLGPUTestCode());
             try
             {
                 var compilerOut = JarUtils.RunProcessAndGetOutput(jre_path.Text + "javac", $"-cp \"lwjgl/2.9.3/*\" " +

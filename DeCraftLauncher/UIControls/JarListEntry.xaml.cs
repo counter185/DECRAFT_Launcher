@@ -82,13 +82,21 @@ namespace DeCraftLauncher.UIControls
 
         public void DeleteJar()
         {
-            if (PopupYesNo.ShowNewPopup($"Delete {Util.CleanStringForXAML(jar.jarFileName)}?", "DECRAFT") == MessageBoxResult.Yes)
+            if (!(from y in caller.currentScanThreads
+                  where y.jar == this.jar.jarFileName
+                  select y).Any())
             {
-                string path = $"{MainWindow.jarDir}/{jar.jarFileName}";
-                if (File.Exists(path))
+                if (PopupYesNo.ShowNewPopup($"Delete {Util.CleanStringForXAML(jar.jarFileName)}?", "DECRAFT") == MessageBoxResult.Yes)
                 {
-                    File.Delete(path);
+                    string path = $"{MainWindow.jarDir}/{jar.jarFileName}";
+                    if (File.Exists(path))
+                    {
+                        File.Delete(path);
+                    }
                 }
+            } else
+            {
+                PopupOK.ShowNewPopup("This jar file is currently being scanned for entry points.\nWait for the scan to finish, or close the program and delete it manually.", "DECRAFT");
             }
         }
 

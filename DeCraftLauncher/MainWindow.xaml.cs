@@ -23,6 +23,7 @@ using System.Xml;
 using DeCraftLauncher.Utils.NBTEditor;
 using DeCraftLauncher.UIControls.Popup;
 using System.ComponentModel;
+using DeCraftLauncher.Localization;
 
 namespace DeCraftLauncher
 {
@@ -57,6 +58,12 @@ namespace DeCraftLauncher
         public List<string> currentJarDownloads = new List<string>();
 
         public List<InstanceListElement.RunningInstanceData> runningInstances = new List<InstanceListElement.RunningInstanceData>();
+
+        public Dictionary<string,string> Loc
+        {
+            get => GlobalVars.locManager.Tl;
+            set { }
+        }
 
         public void AddRunningInstance(InstanceListElement.RunningInstanceData runningInstance)
         {
@@ -312,6 +319,12 @@ namespace DeCraftLauncher
                 tbox_instance_dir,
                 tbox_proxyhost
             };
+
+            GlobalVars.locManager.Translate(new UIElement[]
+            {
+                label_hello1,
+                textblock_hello2
+            });
 
             if (Util.RunningOnWine())
             {

@@ -1,0 +1,2 @@
+window.main.panel_hello.header=Welcome to DECRAFT
+window.main.panel_hello.text=To get started, select a jar file from the list on the left.&#x0a;&#x0a;If you have none, drag one in from the file browser or copy it to the &quot;jars&quot; folder in the program directory.

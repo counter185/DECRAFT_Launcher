@@ -41,8 +41,8 @@
             </Grid>
             <Grid Margin="0,0,0,0" DockPanel.Dock="Top">
                 <Grid x:Name="segment_welcome" Margin="0,10"  Visibility="Collapsed" >
-                    <Label Content="Welcome to DECRAFT" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Foreground="White" FontSize="22" FontWeight="Bold"/>
-                    <TextBlock Text="To get started, select a jar file from the list on the left.&#x0a;&#x0a;If you have none, drag one in from the file browser or copy it to the &quot;jars&quot; folder in the program directory." TextWrapping="Wrap" Margin="20,122,10,0" VerticalAlignment="Top" Foreground="White" FontSize="16" Height="253"/>
+                    <Label x:Name="label_hello1" local:GlobalVars.LocKey="window.main.panel_hello.header" Content="Welcome to DECRAFT" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Foreground="White" FontSize="22" FontWeight="Bold"/>
+                    <TextBlock x:Name="textblock_hello2" local:GlobalVars.LocKey="window.main.panel_hello.text" Text="To get started, select a jar file from the list on the left.&#x0a;&#x0a;If you have none, drag one in from the file browser or copy it to the &quot;jars&quot; folder in the program directory." TextWrapping="Wrap" Margin="20,122,10,0" VerticalAlignment="Top" Foreground="White" FontSize="16" Height="253"/>
                     <Image Source="/ImageRes/decraft_logo.png" Margin="0,0,-44,-58" HorizontalAlignment="Right" Width="534" Height="470" VerticalAlignment="Bottom" Opacity="0.15" />
                 </Grid>
                 <Grid x:Name="segment_launch_options" Margin="0,0" Grid.Column="1" Visibility="Visible" >

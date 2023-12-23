@@ -123,6 +123,7 @@
     <Compile Include="DiscordRPCManager.cs" />
     <Compile Include="GlobalVars.cs" />
     <Compile Include="JarEntry.cs" />
+    <Compile Include="Localization\LocalizationManager.cs" />
     <Compile Include="MainFunctionWrapper.cs" />
     <Compile Include="NBTReader\NBTData.cs" />
     <Compile Include="TestWindow.xaml.cs">

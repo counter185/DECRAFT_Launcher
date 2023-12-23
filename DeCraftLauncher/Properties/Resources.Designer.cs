@@ -19,7 +19,7 @@ namespace DeCraftLauncher.Properties {
     // przez narzędzie, takie jak ResGen lub Visual Studio.
     // Aby dodać lub usunąć składową, edytuj plik ResX, a następnie ponownie uruchom narzędzie ResGen
     // z opcją /str lub ponownie utwórz projekt VS.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -57,6 +57,21 @@ namespace DeCraftLauncher.Properties {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu window.main.panel_hello.header=Welcome to DECRAFT
+        ///window.main.panel_hello.text=To get started, select a jar file from the list on the left.&amp;#x0a;&amp;#x0a;If you have none, drag one in from the file browser or copy it to the &amp;quot;jars&amp;quot; folder in the program directory.
+        ///window.main.panel_launch.btn_advanced=Advanced settings
+        ///window.main.panel_launch.btn_open_instance=Open
+        ///window.main.panel_launch.btn_runtime_settings=Runtime settings
+        ///window.main.panel_launch.btn_scan_entrypoints=Rescan entry points
+        ///wi [obcięto pozostałą część ciągu]&quot;;.
+        /// </summary>
+        internal static string LocDefault {
+            get {
+                return ResourceManager.GetString("LocDefault", resourceCulture);
             }
         }
     }

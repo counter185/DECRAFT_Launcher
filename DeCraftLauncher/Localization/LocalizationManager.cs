@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DeCraftLauncher.Properties;
+using DeCraftLauncher.Utils.NBTEditor;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Xaml;
+using System.Xml;
 
 namespace DeCraftLauncher.Localization
 {
@@ -35,26 +39,30 @@ namespace DeCraftLauncher.Localization
 
         private TLDict keyToTranslatedStringMap = new TLDict();
 
-        public LocalizationManager() : this("default.txt")
+        public LocalizationManager()
         {
-            
+            FromIEnumerableString(Resources.LocDefault.Replace("\r", "").Split('\n'));
+            FromFile("default.txt");
         }
 
-        public LocalizationManager(string file)
+        public void FromFile(string file)
         {
-            //keyToTranslatedStringMap.Clear();
-
-            //this is the linq statement of all time
-            (from x in File.ReadLines(file)
-            where x.Contains('=')
-            select new Func<string, KeyValuePair<string,string>>(y =>
+            if (File.Exists(file))
             {
-                var splt = y.Split('=');
-                return new KeyValuePair<string, string>(splt[0], splt[1].Replace("&#x0a;", "\n")
-                                                                        .Replace("&quot;", "\""));
-            }).Invoke(x)).ToList().ForEach(z => keyToTranslatedStringMap[z.Key] = z.Value);
-            
+                FromIEnumerableString(File.ReadLines(file));
+            }
+        }
 
+        public void FromIEnumerableString(IEnumerable<string> strings)
+        {
+            (from x in strings
+             where x.Contains('=')
+             select new Func<string, KeyValuePair<string, string>>(y =>
+             {
+                 var splt = y.Split('=');
+                 return new KeyValuePair<string, string>(splt[0], splt[1].Replace("&#x0a;", "\n")
+                                                                         .Replace("&quot;", "\""));
+             }).Invoke(x)).ToList().ForEach(z => keyToTranslatedStringMap[z.Key] = z.Value);
         }
 
         public static void SetLocDataContext(Window window)
@@ -63,7 +71,7 @@ namespace DeCraftLauncher.Localization
             
         }
 
-        public void Translate(IEnumerable<UIElement> controls)
+        public void Translate(params UIElement[] controls)
         {
             controls.ToList().ForEach(x =>
             {
@@ -76,6 +84,42 @@ namespace DeCraftLauncher.Localization
                     ((ContentControl)x).Content = keyToTranslatedStringMap[GlobalVars.GetLocKey(x)];
                 }
             });
+        }
+
+        public void Translate(string key, params string[] args)
+        {
+
+        }
+
+        public void GenerateLocalizationsFromXAML(params string[] xamlPaths)
+        {
+            List<KeyValuePair<string, string>> allNodes = new List<KeyValuePair<string, string>>();
+
+            foreach (string xaml in xamlPaths)
+            {
+                XmlDocument xdoc = new XmlDocument();
+                xdoc.Load(xaml);
+                //simple linq one liner 😋
+                IEnumerable<KeyValuePair<string,string>> validNodes 
+                    = (from xn in xdoc.GetElementsByTagName("Label").OfType<XmlElement>()
+                                      .Concat(xdoc.GetElementsByTagName("Button").OfType<XmlElement>())
+                                      .Concat(xdoc.GetElementsByTagName("TextBlock").OfType<XmlElement>()).ToList()
+                       where (from xn_attr in xn.Attributes.OfType<XmlAttribute>()
+                              where xn_attr.Name.EndsWith("LocKey")
+                              select xn_attr).Any()
+                       select new KeyValuePair<string, string>((from xn_attr in xn.Attributes.OfType<XmlAttribute>()
+                                                                where xn_attr.Name.EndsWith("LocKey")
+                                                                select xn_attr).First().Value, 
+                                                               (from xn_attr in xn.Attributes.OfType<XmlAttribute>()
+                                                                where xn_attr.Name == "Text"
+                                                                      || xn_attr.Name == "Content"
+                                                                select xn_attr).First().Value)).GroupBy(x=>x.Key).Select(x=>x.First());
+                allNodes.AddRange(validNodes);
+            }
+
+            File.WriteAllLines("../../Localization/default.txt", from x in allNodes
+                                                                 orderby x.Key
+                                                                 select $"{x.Key}={x.Value.Replace("\n", "&#x0a;").Replace("\"", "&quot;")}");
         }
 
     }

@@ -1,2 +1,16 @@
 window.main.panel_hello.header=Welcome to DECRAFT
 window.main.panel_hello.text=To get started, select a jar file from the list on the left.&#x0a;&#x0a;If you have none, drag one in from the file browser or copy it to the &quot;jars&quot; folder in the program directory.
+window.main.panel_launch.btn_advanced=Advanced settings
+window.main.panel_launch.btn_open_instance=Open
+window.main.panel_launch.btn_runtime_settings=Runtime settings
+window.main.panel_launch.btn_scan_entrypoints=Rescan entry points
+window.main.panel_launch.entry_points=Entry points
+window.main.panel_launch.header=Launch options
+window.main.panel_launch.instance_dir=Instance directory
+window.main.panel_launch.jvm_options=JVM options
+window.main.panel_launch.lwjgl_ver=LWJGL Version
+window.main.panel_launch.player_name=Player name
+window.main.panel_launch.proxy_host=Proxy host
+window.main.panel_launch.window_size=Window size
+window.main.panel_launch_server.btn_edit_properties=Edit server properties
+window.main.panel_side.jarfiles=.jar files

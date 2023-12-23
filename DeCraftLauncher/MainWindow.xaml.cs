@@ -320,16 +320,51 @@ namespace DeCraftLauncher
                 tbox_proxyhost
             };
 
-            GlobalVars.locManager.Translate(new UIElement[]
-            {
+            GlobalVars.locManager.Translate(
                 label_hello1,
-                textblock_hello2
-            });
+                textblock_hello2,
+                label_jarfiles,
+                label_entrypoints,
+                label_launchpanel_header,
+                label_launchpanel_jvmoptions,
+                label_launchpanel_playername,
+                label_launchpanel_lwjglver,
+                label_launchpanel_windowsize,
+                label_launchpanel_instancedir,
+                label_launchpanel_instancedir2,
+                label_launchpanel_proxyhost,
+                label_launchpanel_proxyhost2,
+                btn_advanced_settings,
+                btn_advanced_settings2,
+                btn_open_instance_dir,
+                btn_open_instance_dir2,
+                btn_editproperties,
+                btn_scan_entrypoints,
+                btn_rtsettings
+            );
 
             if (Util.RunningOnWine())
             {
                 PopupOK.ShowNewPopup("You may be running DECRAFT on the Wine compatibility layer.\nIf the launcher crashes after this popup, open \"winecfg\" and set your Windows version to Windows 7.\nDECRAFT can only use Windows versions of Java, so be sure to install one into your Wine prefix.\n\nGood luck, and expect bugs.", "DECRAFT");
             }
+
+#if DEBUG
+            GlobalVars.locManager.GenerateLocalizationsFromXAML(
+                    "..\\..\\MainWindow.xaml",
+                    "..\\..\\WindowDeployMTP.xaml",
+                    "..\\..\\WindowNewCategory.xaml",
+                    "..\\..\\WindowProcessLog.xaml",
+                    "..\\..\\WindowRETool.xaml",
+                    "..\\..\\WindowSetCategory.xaml",
+                    "..\\..\\Configs\\UI\\WindowAddCustomLaunch.xaml",
+                    "..\\..\\Configs\\UI\\WindowAppletParametersOptions.xaml",
+                    "..\\..\\Configs\\UI\\WindowJarAdvancedOptions.xaml",
+                    "..\\..\\Configs\\UI\\WindowJavaFinder.xaml",
+                    "..\\..\\Configs\\UI\\WindowRuntimeConfig.xaml",
+                    "..\\..\\Configs\\UI\\WindowServerPropertiesEditor.xaml",
+                    "..\\..\\Configs\\UI\\WindowSetJarLibs.xaml"
+                );
+#endif
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

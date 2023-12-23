@@ -411,6 +411,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Resource Include="Localization\default.txt" />
+    <Resource Include="Localization\default-genappend.txt" />
     <Content Include="lwjgl\2.9.3\jinput.jar">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

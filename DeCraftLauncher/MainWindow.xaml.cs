@@ -24,6 +24,7 @@ using DeCraftLauncher.Utils.NBTEditor;
 using DeCraftLauncher.UIControls.Popup;
 using System.ComponentModel;
 using DeCraftLauncher.Localization;
+using System.Windows.Controls.Primitives;
 
 namespace DeCraftLauncher
 {
@@ -73,7 +74,7 @@ namespace DeCraftLauncher
 
         public void UpdateRunningInstancesList()
         {
-            label_instancesrunning.Content = $"{runningInstances.Count} running instance{(runningInstances.Count != 1 ? "s" : "")}";
+            label_instancesrunning.Content = GlobalVars.locManager.Translate(runningInstances.Count == 1 ? "window.main.codegen.n_running_instances_one" : "window.main.codegen.n_running_instances_multiple", runningInstances.Count+"");
             panel_runninginstances.Children.Clear();
             runningInstances.RemoveAll((x) => { return x.processLog.target.HasExited; });
             foreach (InstanceListElement.RunningInstanceData process in runningInstances)
@@ -144,8 +145,8 @@ namespace DeCraftLauncher
                 {
                     label_reqJVMVersion.Content =
                         currentlySelectedJar.maxJavaVersion != currentlySelectedJar.minJavaVersion ?
-                        $"req.JVM: {Util.JavaVersionFriendlyName(currentlySelectedJar.minJavaVersion)} - {Util.JavaVersionFriendlyName(currentlySelectedJar.maxJavaVersion)}"
-                        : $"req.JVM: {Util.JavaVersionFriendlyName(currentlySelectedJar.maxJavaVersion)}";
+                        $"{GlobalVars.locManager.Translate("window.main.codegen.req_jvm")} {Util.JavaVersionFriendlyName(currentlySelectedJar.minJavaVersion)} - {Util.JavaVersionFriendlyName(currentlySelectedJar.maxJavaVersion)}"
+                        : $"{GlobalVars.locManager.Translate("window.main.codegen.req_jvm")} {Util.JavaVersionFriendlyName(currentlySelectedJar.maxJavaVersion)}";
                 } else
                 {
                     label_reqJVMVersion.Content = "";
@@ -284,7 +285,7 @@ namespace DeCraftLauncher
                 InitializeComponent();
             } catch (Exception e)
             {
-                PopupOK.ShowNewPopup($"Error starting main window:\n {e}", "DECRAFT");
+                PopupOK.ShowNewPopup(GlobalVars.locManager.Translate("popup.startup_error", e.ToString()), "DECRAFT");
             }
             mainRTConfig = RuntimeConfig.LoadFromXML();
             Util.UpdateAcrylicWindowBackground(this);
@@ -345,7 +346,7 @@ namespace DeCraftLauncher
 
             if (Util.RunningOnWine())
             {
-                PopupOK.ShowNewPopup("You may be running DECRAFT on the Wine compatibility layer.\nIf the launcher crashes after this popup, open \"winecfg\" and set your Windows version to Windows 7.\nDECRAFT can only use Windows versions of Java, so be sure to install one into your Wine prefix.\n\nGood luck, and expect bugs.", "DECRAFT");
+                PopupOK.ShowNewPopup(GlobalVars.locManager.Translate("popup.wine_warning"), "DECRAFT");
             }
 
 #if DEBUG
@@ -362,7 +363,9 @@ namespace DeCraftLauncher
                     "..\\..\\Configs\\UI\\WindowJavaFinder.xaml",
                     "..\\..\\Configs\\UI\\WindowRuntimeConfig.xaml",
                     "..\\..\\Configs\\UI\\WindowServerPropertiesEditor.xaml",
-                    "..\\..\\Configs\\UI\\WindowSetJarLibs.xaml"
+                    "..\\..\\Configs\\UI\\WindowSetJarLibs.xaml",
+                    "..\\..\\Utils\\NBTEditor\\WindowNBTAddToCompound.xaml",
+                    "..\\..\\Utils\\NBTEditor\\WindowNBTEditor.xaml"
                 );
 #endif
         }
@@ -402,7 +405,7 @@ namespace DeCraftLauncher
                 nthread.Start(a);
             } else
             {
-                PopupOK.ShowNewPopup($"{Util.CleanStringForXAML(currentlySelectedJar.jarFileName)} is currently being downloaded.\nWait for the download to finish, then try again.");
+                PopupOK.ShowNewPopup(GlobalVars.locManager.Translate("popup.error_download_in_progress", Util.CleanStringForXAML(currentlySelectedJar.jarFileName)));
             }
         }
 
@@ -528,7 +531,7 @@ namespace DeCraftLauncher
                                 JObject dlElement = rootObj.SelectToken("downloads").Value<JObject>().SelectToken("client").Value<JObject>();
                                 if (!currentJarDownloads.Contains($"{versionID}.jar"))
                                 {
-                                    if (PopupYesNo.ShowNewPopup($"Download {Util.CleanStringForXAML(versionID)}?\n\n Size: {dlElement.SelectToken("size").Value<UInt64>()}\n URL: {dlElement.SelectToken("url").Value<string>()}", "DECRAFT") == MessageBoxResult.Yes)
+                                    if (PopupYesNo.ShowNewPopup(GlobalVars.locManager.Translate("popup.ask_download", Util.CleanStringForXAML(versionID), dlElement.SelectToken("size").Value<UInt64>()+"", dlElement.SelectToken("url").Value<string>()), "DECRAFT") == MessageBoxResult.Yes)
                                     {
                                         using (var client = new WebClient())
                                         {
@@ -538,16 +541,16 @@ namespace DeCraftLauncher
                                                 currentJarDownloads.Remove($"{versionID}.jar");
                                                 if (evt.Error != null)
                                                 {
-                                                    string errorString = $"Download error:\n{evt.Error.Message}";
+                                                    string errorString = GlobalVars.locManager.Translate("popup.download_error1", evt.Error.Message);
                                                     if (evt.Error is System.Net.WebException && evt.Error.Message.Contains("SSL/TLS"))
                                                     {
-                                                        errorString += "\n\nYour system's SSL certificates may have expired.";
+                                                        errorString += GlobalVars.locManager.Translate("popup.download_error_ssl_expired");
                                                     }
                                                     PopupOK.ShowNewPopup(errorString, "DECRAFT");
                                                 }
                                                 else
                                                 {
-                                                    PopupOK.ShowNewPopup("Download complete", "DECRAFT");
+                                                    PopupOK.ShowNewPopup(GlobalVars.locManager.Translate("popup.download_complete"), "DECRAFT");
                                                     ResetJarlist();
                                                 }
                                             };
@@ -557,7 +560,7 @@ namespace DeCraftLauncher
                                     }
                                 } else
                                 {
-                                    PopupOK.ShowNewPopup($"{Util.CleanStringForXAML(versionID)} is currently being downloaded.", "DECRAFT");
+                                    PopupOK.ShowNewPopup(GlobalVars.locManager.Translate("popup.error_download_already_downloading", Util.CleanStringForXAML(versionID)), "DECRAFT");
                                 }
                             } 
                             catch (ArgumentNullException ex)
@@ -572,17 +575,9 @@ namespace DeCraftLauncher
                         else if (a.EndsWith(".dat") || a.EndsWith(".nbt"))
                         {
                             new WindowNBTEditor(a).Show();
-                            /*try
-                            {
-                                NBTData nbtData = NBTData.FromFile(a);
-                                NBTData.PrintNBT(nbtData.rootNode);
-                            } catch (Exception ex)
-                            {
-                                PopupOK.ShowNewPopup($"Error reading NBT data:\n {ex.Message}", "DECRAFT");
-                            }*/
                         } else
                         {
-                            PopupOK.ShowNewPopup($"Unsupported file", "DECRAFT");
+                            PopupOK.ShowNewPopup(GlobalVars.locManager.Translate("popup.error_file_unsupported"), "DECRAFT");
                         }
                     }
                 }
@@ -592,7 +587,7 @@ namespace DeCraftLauncher
         protected override void OnClosing(CancelEventArgs e)
         {
             if (runningInstances.Count > 0 &&
-                PopupYesNo.ShowNewPopup("Some instances are still running.\nClosing DECRAFT will keep them open. Close anyway?", "DECRAFT") == MessageBoxResult.No)
+                PopupYesNo.ShowNewPopup(GlobalVars.locManager.Translate("popup.running_instances_on_close"), "DECRAFT") == MessageBoxResult.No)
             {
                 e.Cancel = true;
             }

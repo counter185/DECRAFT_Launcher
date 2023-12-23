@@ -35,6 +35,19 @@ namespace DeCraftLauncher.Configs.UI
             checkbox_autoexitprocesslog.IsChecked = MainWindow.mainRTConfig.autoExitProcessLog;
             checkbox_enablediscord.IsChecked = MainWindow.mainRTConfig.enableDiscordRPC;
             checkbox_setheapdump.IsChecked = MainWindow.mainRTConfig.setHeapDump;
+
+            GlobalVars.locManager.Translate(
+                label_javapath,
+                btn_find,
+                label_header,
+                label_javahint,
+                label_usejava9,
+                label_autoclose_processlog,
+                label_enable_discordrpc,
+                label_set_heapdump,
+                btn_identgpu,
+                jreconfig_version
+            );
         }
 
         public void FixJavaHomeString()
@@ -67,10 +80,10 @@ namespace DeCraftLauncher.Configs.UI
                 }
             }
 
-            string testString = $"<press Enter to test>" +
-                $"\nJRE: {(verre != null ? verre : "<none>")}" +
-                $"\nJDK: {(verdk != null ? verdk : "<none>")}" +
-                $"\n{(Util.ListAllGPUs().Count > 1 ? "More than one GPU was detected. Set this Java runtime to use your preferred GPU in Windows Settings." : "")}";
+            string testString = GlobalVars.locManager.Translate("window.config.rt.enter_to_test_java") +
+                $"\nJRE: {(verre != null ? verre : GlobalVars.locManager.Translate("window.config.rt.codegen.java_detect_none"))}" +
+                $"\nJDK: {(verdk != null ? verdk : GlobalVars.locManager.Translate("window.config.rt.codegen.java_detect_none"))}" +
+                $"\n{(Util.ListAllGPUs().Count > 1 ? GlobalVars.locManager.Translate("window.config.rt.codegen.multi_gpu_warning") : "")}";
             
 
             jreconfig_version.Text = Util.CleanStringForXAML(testString);
@@ -145,7 +158,7 @@ namespace DeCraftLauncher.Configs.UI
             {
                 if (ex is ApplicationException || ex is Win32Exception)
                 {
-                    PopupOK.ShowNewPopup("Error testing GPU. Make sure the Java path is set to a valid JDK path.");
+                    PopupOK.ShowNewPopup(GlobalVars.locManager.Translate("popup.gpu_test_jdk_error"));
                     return;
                 }
                 else
@@ -162,7 +175,7 @@ namespace DeCraftLauncher.Configs.UI
             exec.Start(null, x =>
             {
                 Console.WriteLine(String.Join(" ", x));
-                PopupOK.ShowNewPopup("GPU test result:\n" + String.Join("\n", x), "DECRAFT");
+                PopupOK.ShowNewPopup(GlobalVars.locManager.Translate("popup.gpu_test_result") + String.Join("\n", x), "DECRAFT");
             });
             
             

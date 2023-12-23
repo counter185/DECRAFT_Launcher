@@ -86,9 +86,14 @@ namespace DeCraftLauncher.Localization
             });
         }
 
-        public void Translate(string key, params string[] args)
+        public string Translate(string key, params string[] args)
         {
-
+            string outS = keyToTranslatedStringMap[key];
+            for (int x = 0; x < args.Length; x++)
+            {
+                outS = outS.Replace($"&arg{x};", args[x]);
+            }
+            return outS;
         }
 
         public void GenerateLocalizationsFromXAML(params string[] xamlPaths)
@@ -117,9 +122,14 @@ namespace DeCraftLauncher.Localization
                 allNodes.AddRange(validNodes);
             }
 
-            File.WriteAllLines("../../Localization/default.txt", from x in allNodes
-                                                                 orderby x.Key
-                                                                 select $"{x.Key}={x.Value.Replace("\n", "&#x0a;").Replace("\"", "&quot;")}");
+            string appendGenFile = "../../Localization/default-genappend.txt";
+            string saveGenFile = "../../Localization/default.txt";
+            IEnumerable<string> saveStrings = (from x in allNodes
+                                               orderby x.Key
+                                               select $"{x.Key}={x.Value.Replace("\n", "&#x0a;").Replace("\"", "&quot;")}")
+                                               .Concat(File.Exists(appendGenFile) ? File.ReadAllLines(appendGenFile) : new string[] { });
+
+            File.WriteAllLines(saveGenFile, saveStrings);
         }
 
     }

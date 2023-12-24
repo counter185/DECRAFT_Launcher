@@ -10,9 +10,11 @@ namespace DeCraftLauncher
 {
     public static class GlobalVars
     {
-        public static string versionCode = "1.3-dev";
+        public static string versionCode = "1.3-loc_v3-dev";
         public static DiscordRPCManager discordRPCManager = new DiscordRPCManager();
         public static LocalizationManager locManager = new LocalizationManager();
+
+        public static LocalizationManager L { get => locManager; }
 
 
         public static readonly DependencyProperty LocalizationKeyProperty = DependencyProperty.RegisterAttached("LocKey", typeof(string), typeof(GlobalVars), new PropertyMetadata(default(string)));

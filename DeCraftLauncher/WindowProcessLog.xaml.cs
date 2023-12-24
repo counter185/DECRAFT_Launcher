@@ -41,7 +41,7 @@ namespace DeCraftLauncher
             this.target = t;
             this.parent = parent;
             InitializeComponent();
-            this.Title = $"DECRAFT: Process Log [{t.ProcessName} : {t.Id}]";
+            this.Title = GlobalVars.L.Translate("window.processlog.codegen.window_title", t.ProcessName, t.Id+"");
             panel_stdin.Visibility = allowStdin ? Visibility.Visible : Visibility.Collapsed;
             Util.UpdateAcrylicWindowBackground(this);
             t.OutputDataReceived += (a, b) =>
@@ -78,7 +78,7 @@ namespace DeCraftLauncher
                 if (hasNewStdoutData)
                 {
                     hasNewStdoutData = false;
-                    string logTextUpdate = trimmedLines != 0 ? $"(trimmed {trimmedLines} lines)\n" : "";
+                    string logTextUpdate = trimmedLines != 0 ? GlobalVars.L.Translate("window.processlog.codegen.hint_log_trimmed", trimmedLines+"") : "";
                     try
                     {
                         foreach (string logLine in lines)
@@ -110,28 +110,28 @@ namespace DeCraftLauncher
                 Dispatcher.Invoke(delegate
                 {
                     parent.UpdateRunningInstancesList();
-                    logtext.Text += "Process exited with code " + t.ExitCode;
+                    logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.exit_code", t.ExitCode+"");
                     if (logtext.Text.Contains("\n\tat "))
                     {
-                        logtext.Text += "\n[F1]: translate the stack trace using a TinyV2 mappings file";
+                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.hint_translate_stacktrace");
                     }
                     logscroller.ScrollToVerticalOffset(logscroller.ExtentHeight);
-                    proc_kill.Visibility = Visibility.Hidden;
+                    btn_killprocess.Visibility = Visibility.Hidden;
 
                     if (logtext.Text.Contains("java.lang.VerifyError"))
                     {
                         logtext.Text += "\n----------------------------------------------";
                         logtext.Text += "\n";
-                        logtext.Text += "\nThe launch failed due to a bytecode verification error.";
-                        logtext.Text += "\nAdd this to your JVM arguments to try launching anyway:";
+                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_verifyerror_l1");
+                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_verifyerror_l2");
                         logtext.Text += "\n\n-noverify";
                     }
                     else if (logtext.Text.Contains("java.lang.IllegalArgumentException: Comparison method violates"))
                     {
                         logtext.Text += "\n----------------------------------------------";
                         logtext.Text += "\n";
-                        logtext.Text += "\nThe game crashed due to the sorting algorithm being given invalid data.";
-                        logtext.Text += "\nAdd this to your JVM arguments to use an older algorithm that ignores invalid data:";
+                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_timsorterror_l1");
+                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_timsorterror_l2");
                         logtext.Text += "\n\n-Djava.util.Arrays.useLegacyMergeSort=true";
                     }
                     else if (logtext.Text.Contains("java.lang.reflect.InaccessibleObjectException: Unable to make field private")
@@ -140,62 +140,62 @@ namespace DeCraftLauncher
                     {
                         logtext.Text += "\n----------------------------------------------";
                         logtext.Text += "\n";
-                        logtext.Text += "\nThe launch may have failed due to a mod loader expecting a field from an older version of Java.";
-                        logtext.Text += "\nOpen Runtime settings and set the path to the \"bin\" folder of an older version of Java (8 recommended).";
+                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_modloadernotj8error_l1");
+                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_modloadernotj8error_l2");
                         if (logtext.Text.Contains("InaccessibleObjectException"))
                         {
-                            logtext.Text += "\n\nAlternatively, if you know what you're doing, you can try adding \"--add-opens <module>/<export>=ALL-UNNAMED\" with the right fields to your JVM arguments.";
+                            logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_modloadernotj8error_l3");
                         }
                     }                    
                     else if (logtext.Text.Contains("java.lang.UnsupportedClassVersionError"))
                     {
                         logtext.Text += "\n----------------------------------------------";
                         logtext.Text += "\n";
-                        logtext.Text += "\nYour current Java version is too old to run this.";
-                        logtext.Text += "\nOpen Runtime settings and set the path to the \"bin\" folder of a newer version of Java.";
-                        logtext.Text += "\n\n(Note: if you're running Java 5 and trying to launch a jar built with JDK 5, use an older version of LWJGL.)";
+                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_too_old_l1");
+                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_too_old_l2");
+                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_too_old_l3");
                     }                    
                     else if (logtext.Text.Contains("Unrecognized option: --add-exports"))
                     {
                         logtext.Text += "\n----------------------------------------------";
                         logtext.Text += "\n";
-                        logtext.Text += "\nYour current Java version may be too old to support the \"--add-exports\" flag, which is required for the \"Emulate HTTP Server\" option.";
-                        logtext.Text += "\nOpen Runtime settings and uncheck the \"Use required Java 9+ options\" option.";
+                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_noaddexports_flag_l1");
+                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_noaddexports_flag_l2");
                     }
                     else if (logtext.Text.Contains("NoClassDefFoundError: joptsimple/OptionSpec"))
                     {
                         logtext.Text += "\n----------------------------------------------";
                         logtext.Text += "\n";
-                        logtext.Text += "\nDECRAFT does not support versions newer than release 1.5.2.";
+                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.hint_onesix_not_supported");
                     }
                     else if (logtext.Text.Contains("NoSuchMethodError: getPointer"))
                     {
                         logtext.Text += "\n----------------------------------------------";
                         logtext.Text += "\n";
-                        logtext.Text += "\nThe launch failed due to a version mismatch between LWJGL's Java library and its DLLs.";
-                        logtext.Text += "\nThis jar may have been packaged with a different LWJGL version. ";
+                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.lwjglerror_class_mismatch_l1");
+                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.lwjglerror_class_mismatch_l2");
                         logtext.Text += "\n";
-                        logtext.Text += "\nCheck if this jar contains a built-in LWJGL version in the \"LWJGL Version\" dropdown.";
+                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.lwjglerror_class_mismatch_l3");
                     }
                     else if (logtext.Text.Contains("Can't load IA 32-bit .dll on a ARM 64-bit platform"))
                     {
                         logtext.Text += "\n----------------------------------------------";
                         logtext.Text += "\n";
-                        logtext.Text += "\nThe launch failed, because you are using a Java version designed for ARM64, which cannot load x86 DLLs.";
-                        logtext.Text += "\nIf possible, open Runtime settings set the Java path to a non-ARM version of Java.";
-                        logtext.Text += "\nAlternatively, add a version of LWJGL with ARM DLLs.";
+                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.dllerror_x86_on_arm_java_l1");
+                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.dllerror_x86_on_arm_java_l2");
+                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.dllerror_x86_on_arm_java_l3");
                     }
                     else if (logtext.Text.Contains("java.lang.NoClassDefFoundError: net/minecraft/client/Minecraft$SyntheticClass_1"))
                     {
                         logtext.Text += "\n----------------------------------------------";
                         logtext.Text += "\n";
-                        logtext.Text += "\nYou are seeing this error, because a modding tool improperly packaged your build.";
-                        logtext.Text += "\nTo launch this jar, open \"Advanced settings\" and enable \"Workaround missing synthetic classes\".";
-                        logtext.Text += "\nNote: a JDK is required to use this feature.";
+                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_mcp_nosynthclass_l1");
+                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_mcp_nosynthclass_l2");
+                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_mcp_nosynthclass_l3");
                     }
                     if (MainWindow.mainRTConfig.autoExitProcessLog)
                     {
-                        logtext.Text += "\n\nExiting in 5 seconds... [F2] to keep this window open";
+                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.hint_autoexit");
                     }
                 });
                 autoExitTimerStarted = true;
@@ -211,6 +211,11 @@ namespace DeCraftLauncher
                     }
                 }
             };
+
+            GlobalVars.L.Translate(
+                    btn_sendstdin,
+                    btn_killprocess
+                );
         }
 
         private void ScrollViewer_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -227,7 +232,7 @@ namespace DeCraftLauncher
             {
                 //??????
             }
-            proc_kill.Visibility = Visibility.Hidden;
+            btn_killprocess.Visibility = Visibility.Hidden;
         }
 
         public string ProcessLogTranslateString(string a, TinyV2Mapper tinyV2Mapper)
@@ -263,7 +268,7 @@ namespace DeCraftLauncher
                         }
                         else if (possibleMethodNames.Count() > 1)
                         {
-                            methodName = $"<multiple choices: {String.Join(",", possibleMethodNames)}>";
+                            methodName = GlobalVars.L.Translate("window.processlog.codegen.hint_remapper_multiplechoice", String.Join(",", possibleMethodNames));
                         }
                     } catch (InvalidOperationException)
                     {
@@ -298,7 +303,7 @@ namespace DeCraftLauncher
                 if (autoExitTimerStarted)
                 {
                     abortAutoExit = true;
-                    logtext.Text += "\nAuto exit aborted.";
+                    logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.autoexit_abort");
                 }
             }
             else if (e.Key == Key.F3)
@@ -314,13 +319,6 @@ namespace DeCraftLauncher
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            /*if (!target.HasExited)
-            {
-                if (System.Windows.MessageBox.Show("This process is still running.\nClosing this window will keep it in the background. Close anyway?", "DECRAFT", MessageBoxButton.YesNo) == MessageBoxResult.No)
-                {
-                    
-                }
-            }*/
             if (!target.HasExited) {
                 e.Cancel = true;
                 this.Hide();

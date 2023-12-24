@@ -365,7 +365,10 @@ namespace DeCraftLauncher
                     "..\\..\\Configs\\UI\\WindowServerPropertiesEditor.xaml",
                     "..\\..\\Configs\\UI\\WindowSetJarLibs.xaml",
                     "..\\..\\Utils\\NBTEditor\\WindowNBTAddToCompound.xaml",
-                    "..\\..\\Utils\\NBTEditor\\WindowNBTEditor.xaml"
+                    "..\\..\\Utils\\NBTEditor\\WindowNBTEditor.xaml",
+                    "..\\..\\UIControls\\LaunchEntryPoint.xaml",
+                    "..\\..\\UIControls\\LauncherEntryPointFinding.xaml",
+                    "..\\..\\UIControls\\ModsFoundEntryPoint.xaml"
                 );
 #endif
         }

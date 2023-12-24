@@ -4,10 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DeCraftLauncher.UIControls"
+             xmlns:loc="clr-namespace:DeCraftLauncher"
              mc:Ignorable="d" Height="40" MinWidth="516" ToolTip="This class is marked as unimportant, as it is most likely the test class of an external library.">
     <Grid>
         <Label x:Name="classname" Content="class.name" Margin="0,0,68,0" VerticalAlignment="Top" FontSize="22" Foreground="#CCB3B3B3" FontStyle="Italic"/>
-        <Button x:Name="launchButton" Content="Launch" Margin="0,5,10,0" Style="{DynamicResource ButtonMainStyle}" Click="launchButton_Click" HorizontalAlignment="Right" Width="53" Height="28" VerticalAlignment="Top"/>
+        <Button x:Name="launchButton" loc:GlobalVars.LocKey="ui.launchentry.btn_launch" Content="Launch" Margin="0,5,10,0" Style="{DynamicResource ButtonMainStyle}" Click="launchButton_Click" HorizontalAlignment="Right" Width="53" Height="28" VerticalAlignment="Top"/>
 
     </Grid>
 </UserControl>

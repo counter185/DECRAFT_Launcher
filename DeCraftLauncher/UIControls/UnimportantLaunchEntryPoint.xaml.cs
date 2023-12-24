@@ -38,6 +38,10 @@ namespace DeCraftLauncher.UIControls
             entryPoint = target;
             classname.Content = entryPoint.classpath;
             this.jarConfig = jarConfig;
+
+            GlobalVars.L.Translate(
+                    launchButton
+                );
         }
 
         private void launchButton_Click(object sender, RoutedEventArgs e)

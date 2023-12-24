@@ -25,6 +25,9 @@ namespace DeCraftLauncher.UIControls
         {
             InitializeComponent();
             progress = target;
+            GlobalVars.L.Translate(
+                    label_header
+                );
             new Thread(ThreadUpdate).Start();
         }
 

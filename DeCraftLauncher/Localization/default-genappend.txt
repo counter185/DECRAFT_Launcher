@@ -13,6 +13,25 @@ window.main.codegen.req_jvm=req.JVM:
 window.main.codegen.n_running_instances_one=&arg0; running instance
 window.main.codegen.n_running_instances_multiple=&arg0; running instances
 
+ui.jarlist.download_in_progress= (downloading...)
+ui.jarlist.rename=Rename &arg0;:
+ui.jarlist.set_friendly_name=Set friendly name of &arg0;:
+ui.jarlist.delete=Delete &arg0;?
+ui.jarlist.hint_jar_is_being_scanned=This jar file is currently being scanned for entry points.&#x0a;Wait for the scan to finish, or close the program and delete it manually.
+
+popup.ui.launchentrypoint.hint_remove=Remove the custom launch command?&#x0a;&#x0a;java &arg0;
+ui.launchentrypoint.classname.custom=Custom
+ui.launchentrypoint.type.main_function=(main function)
+ui.launchentrypoint.type.applet=(Applet)
+ui.launchentrypoint.type.custom_launch_command=(custom launch command)
+ui.launchentrypoint.unknown=<unknown>
+ui.launchentrypoint.adv.launchplus=Launch+
+ui.launchentrypoint.adv.launchplus_desc=Launch using the Main function Wrapper. Allows you to use server redirection & other wrapper-specific settings.&#x0a;Requires a JDK.
+ui.launchentrypoint.adv.remove=Remove...
+ui.launchentrypoint.adv.parameters=Parameters...
+
+ui.entrypoint.modsfound.header=Mods found:&#x0a;
+
 popup.gpu_test_result=GPU test result:&#x0a;
 popup.gpu_test_jdk_error=Error testing GPU. Make sure the Java path is set to a valid JDK path.
 window.config.rt.codegen.enter_to_test_java=<press Enter to test>

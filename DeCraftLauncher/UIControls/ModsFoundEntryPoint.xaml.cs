@@ -23,7 +23,7 @@ namespace DeCraftLauncher.UIControls
         public ModsFoundEntryPoint(List<string> entries)
         {
             InitializeComponent();
-            label_modsfound.Text = "Mods found:\n" + String.Join("\n", from x in entries select $"- {x}");
+            label_modsfound.Text = GlobalVars.L.Translate("ui.entrypoint.modsfound.header") + String.Join("\n", from x in entries select $"- {x}");
         }
     }
 }

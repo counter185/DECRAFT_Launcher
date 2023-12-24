@@ -37,7 +37,7 @@ namespace DeCraftLauncher.UIControls
             this.jar = jar;
 
             bool hasFriendlyName = !String.IsNullOrEmpty(jar.friendlyName);
-            string mtext = jar.jarFileName + (downloadIncomplete ? " (downloading...)" : "");
+            string mtext = jar.jarFileName + (downloadIncomplete ? GlobalVars.L.Translate("ui.jarlist.download_in_progress") : "");
             if (hasFriendlyName)
             {
                 mtext = jar.friendlyName;
@@ -57,7 +57,7 @@ namespace DeCraftLauncher.UIControls
         public void RenameJar()
         {
             //todo: replace this visualbasic lmao
-            string target = PopupTextBox.ShowNewPopup($"Rename {Util.CleanStringForXAML(jar.jarFileName)}:", "DECRAFT", jar.jarFileName.Substring(0, jar.jarFileName.Length-4));
+            string target = PopupTextBox.ShowNewPopup(GlobalVars.L.Translate("ui.jarlist.rename", Util.CleanStringForXAML(jar.jarFileName)), "DECRAFT", jar.jarFileName.Substring(0, jar.jarFileName.Length-4));
             string newJarName = $"{MainWindow.jarDir}/{target}.jar";
             string newJarConfName = $"{MainWindow.configDir}/{target}.jar.xml";
             if (target != "" && !File.Exists(newJarName))
@@ -73,7 +73,7 @@ namespace DeCraftLauncher.UIControls
 
         public void SetFriendlyName()
         {
-            string target = PopupTextBox.ShowNewPopup($"Set friendly name of {Util.CleanStringForXAML(jar.jarFileName)}:", "DECRAFT", jar.friendlyName);
+            string target = PopupTextBox.ShowNewPopup(GlobalVars.L.Translate("ui.jarlist.set_friendly_name", Util.CleanStringForXAML(jar.jarFileName)), "DECRAFT", jar.friendlyName);
             Console.WriteLine(target);
             jar.friendlyName = target;
             caller.SaveRuntimeConfig();
@@ -86,7 +86,7 @@ namespace DeCraftLauncher.UIControls
                   where y.jar == this.jar.jarFileName
                   select y).Any())
             {
-                if (PopupYesNo.ShowNewPopup($"Delete {Util.CleanStringForXAML(jar.jarFileName)}?", "DECRAFT") == MessageBoxResult.Yes)
+                if (PopupYesNo.ShowNewPopup(GlobalVars.L.Translate("ui.jarlist.delete", Util.CleanStringForXAML(jar.jarFileName)), "DECRAFT") == MessageBoxResult.Yes)
                 {
                     string path = $"{MainWindow.jarDir}/{jar.jarFileName}";
                     if (File.Exists(path))
@@ -96,7 +96,7 @@ namespace DeCraftLauncher.UIControls
                 }
             } else
             {
-                PopupOK.ShowNewPopup("This jar file is currently being scanned for entry points.\nWait for the scan to finish, or close the program and delete it manually.", "DECRAFT");
+                PopupOK.ShowNewPopup(GlobalVars.L.Translate("ui.jarlist.hint_jar_is_being_scanned"), "DECRAFT");
             }
         }
 

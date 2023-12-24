@@ -353,7 +353,7 @@ namespace DeCraftLauncher
             }
 
 #if DEBUG
-            GlobalVars.locManager.GenerateLocalizationsFromXAML(
+            /*GlobalVars.locManager.GenerateLocalizationsFromXAML(
                     "..\\..\\MainWindow.xaml",
                     "..\\..\\WindowDeployMTP.xaml",
                     "..\\..\\WindowNewCategory.xaml",
@@ -372,7 +372,7 @@ namespace DeCraftLauncher
                     "..\\..\\UIControls\\LaunchEntryPoint.xaml",
                     "..\\..\\UIControls\\LauncherEntryPointFinding.xaml",
                     "..\\..\\UIControls\\ModsFoundEntryPoint.xaml"
-                );
+                );*/
 #endif
         }
 

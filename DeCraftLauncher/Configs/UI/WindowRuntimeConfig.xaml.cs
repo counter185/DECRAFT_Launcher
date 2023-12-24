@@ -94,7 +94,7 @@ namespace DeCraftLauncher.Configs.UI
                 }
             }
 
-            string testString = GlobalVars.locManager.Translate("window.config.rt.enter_to_test_java") +
+            string testString = GlobalVars.locManager.Translate("window.config.rt.codegen.enter_to_test_java") +
                 $"\nJRE: {(verre != null ? verre : GlobalVars.locManager.Translate("window.config.rt.codegen.java_detect_none"))}" +
                 $"\nJDK: {(verdk != null ? verdk : GlobalVars.locManager.Translate("window.config.rt.codegen.java_detect_none"))}" +
                 $"\n{(Util.ListAllGPUs().Count > 1 ? GlobalVars.locManager.Translate("window.config.rt.codegen.multi_gpu_warning") : "")}";

@@ -33,7 +33,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label x:Name="label_language" local:GlobalVars.LocKey="window.config.rt.ui_language" Content="Language" Width="200" Foreground="White"/>
-                <ComboBox x:Name="cbox_langs" Style="{DynamicResource ComboBoxMainNonEditableStyle}" Width="120" SelectedItem="English" IsEditable="False" Background="{x:Null}" BorderBrush="#FF252525" Foreground="White" SelectionChanged="cbox_langs_SelectionChanged"/>
+                <ComboBox x:Name="cbox_langs" Style="{DynamicResource ComboBoxMainNonEditableStyle}" MinWidth="120" SelectedItem="English" IsEditable="False" Background="{x:Null}" BorderBrush="#FF252525" Foreground="White" SelectionChanged="cbox_langs_SelectionChanged"/>
             </StackPanel>
         </StackPanel>
         <Button local:GlobalVars.LocKey="window.config.rt.btn_identify_gpu" Content="Identify GPU..." x:Name="btn_identgpu" Margin="0,201,16,0" VerticalAlignment="Top" Style="{DynamicResource ButtonMainStyle}" HorizontalAlignment="Right" Width="91" Click="btn_identgpu_Click"/>

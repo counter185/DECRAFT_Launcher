@@ -18,15 +18,15 @@
         <CheckBox x:Name="checkbox_isjava9" Content="" HorizontalAlignment="Left" Margin="209,200,0,0" VerticalAlignment="Top" Height="26" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsChecked="True" ToolTip="Check this option if you are using Java version 9 or newer."/>
         <StackPanel x:Name="panel_checkboxoptions" Orientation="Vertical" VerticalAlignment="Top" Margin="10,67,10,0" Height="105">
             <StackPanel Orientation="Horizontal">
-                <Label x:Name="label_autoclose_processlog" local:GlobalVars.LocKey="window.config.rt.auto_close_process_log" Content="Close Process Log automatically" Width="200" HorizontalAlignment="Left"  VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
+                <Label x:Name="label_autoclose_processlog" local:GlobalVars.LocKey="window.config.rt.auto_close_process_log" Content="Close Process Log automatically" MinWidth="200" HorizontalAlignment="Left"  VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
                 <CheckBox x:Name="checkbox_autoexitprocesslog" Margin="10,0" Content="" HorizontalAlignment="Left"  VerticalAlignment="Top" Height="26" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsChecked="True"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Label x:Name="label_enable_discordrpc" local:GlobalVars.LocKey="window.config.rt.enable_discord_rpc" Content="Enable Discord Rich Presence" Width="200" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
+                <Label x:Name="label_enable_discordrpc" local:GlobalVars.LocKey="window.config.rt.enable_discord_rpc" Content="Enable Discord Rich Presence" MinWidth="200" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
                 <CheckBox x:Name="checkbox_enablediscord" Margin="10,0" Content="" HorizontalAlignment="Left"  VerticalAlignment="Top" Height="26" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsChecked="True" ToolTip="Check this option if you are using Java version 9 or newer." Checked="checkbox_enablediscord_Checked" Unchecked="checkbox_enablediscord_Unchecked" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Label x:Name="label_set_heapdump" local:GlobalVars.LocKey="window.config.rt.set_heapdump_path" Content="Set heap dump path (more FPS on Intel GPUs)" Width="263" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
+                <Label x:Name="label_set_heapdump" local:GlobalVars.LocKey="window.config.rt.set_heapdump_path" Content="Set heap dump path (more FPS on Intel GPUs)" MinWidth="200" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
                 <CheckBox x:Name="checkbox_setheapdump" Margin="10,0" Content="" HorizontalAlignment="Left"  VerticalAlignment="Top" Height="26" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsChecked="True" ToolTip="Check this option if you are using Java version 9 or newer." Checked="checkbox_enablediscord_Checked" Unchecked="checkbox_enablediscord_Unchecked" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">

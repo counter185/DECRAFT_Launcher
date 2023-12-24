@@ -312,7 +312,7 @@ namespace DeCraftLauncher
             watcher.Deleted += delegate { Dispatcher.Invoke(ResetJarlist); };
             watcher.Renamed += delegate { Dispatcher.Invoke(ResetJarlist); };
 
-            label_versionString.Content = GlobalVars.versionCode;
+            label_versionString.Content = Util.CleanStringForXAML(GlobalVars.versionCode);
             label_reqJVMVersion.Content = "";
 
             TextBox[] saveEvents = new TextBox[] {
@@ -727,7 +727,7 @@ namespace DeCraftLauncher
 
         private void btn_editproperties_Click(object sender, RoutedEventArgs e)
         {
-            new WindowServerPropertiesEditor($"{instanceDir}/{currentlySelectedJar.instanceDirName}/server.properties").Show();
+            new WindowServerPropertiesEditor($"{instanceDir}/{currentlySelectedJar.instanceDirName}/{(currentlySelectedJar.cwdIsDotMinecraft ? ".minecraft/" : "")}server.properties").Show();
         }
 
         private void tbox_jarlistfilter_TextChanged(object sender, TextChangedEventArgs e)

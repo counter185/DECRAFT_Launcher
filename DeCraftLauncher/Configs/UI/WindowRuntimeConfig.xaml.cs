@@ -37,6 +37,7 @@ namespace DeCraftLauncher.Configs.UI
             checkbox_setheapdump.IsChecked = MainWindow.mainRTConfig.setHeapDump;
 
             GlobalVars.locManager.Translate(
+                this,
                 label_javapath,
                 btn_find,
                 label_header,

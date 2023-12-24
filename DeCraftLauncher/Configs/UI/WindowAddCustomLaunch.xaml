@@ -5,17 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
         xmlns:local="clr-namespace:DeCraftLauncher.Configs.UI"
+        xmlns:loc="clr-namespace:DeCraftLauncher"
         mc:Ignorable="d"
         NoiseOpacity="0.0001"
         TintColor="#000000"
         TintOpacity="0.6"
-        fw:AcrylicWindow.Enabled="False" Title="DECRAFT: Add custom launch" Height="212" MinWidth="306" MinHeight="216" Background="#FA000000" AcrylicWindowStyle="Normal" Width="534">
+        fw:AcrylicWindow.Enabled="False" loc:GlobalVars.LocKey="window.config.customlaunch.window_title" Title="DECRAFT: Add custom launch" Height="212" MinWidth="306" MinHeight="216" Background="#FA000000" AcrylicWindowStyle="Normal" Width="534">
     <Grid>
-        <Label Content="Add custom launch option" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="White" FontSize="18" FontWeight="Bold"/>
-        <Label Content="Full command:" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top" Foreground="White"/>
+        <Label x:Name="label_header" loc:GlobalVars.LocKey="window.config.customlaunch.header" Content="Add custom launch option" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="White" FontSize="18" FontWeight="Bold"/>
+        <Label x:Name="label_commandheader" loc:GlobalVars.LocKey="window.config.customlaunch.commandheader" Content="Full command:" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top" Foreground="White"/>
         <TextBox x:Name="tbox_fullcommand" Style="{StaticResource TextBoxMainStyle}" Height="23" Margin="63,103,10,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <Label Content="java" Margin="26,103,0,0" VerticalAlignment="Top" Foreground="White" FontStyle="Italic" HorizontalAlignment="Left" Width="32"/>
-        <Button x:Name="btn_add" Content="Add" Style="{StaticResource ButtonRevealStyle}" Margin="0,0,10,10" Background="#80444444" Height="33" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="76" Click="btn_add_Click"/>
+        <Button x:Name="btn_add" loc:GlobalVars.LocKey="window.config.customlaunch.btn_add" Content="Add" Style="{StaticResource ButtonRevealStyle}" Margin="0,0,10,10" Background="#80444444" Height="33" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="76" Click="btn_add_Click"/>
 
     </Grid>
 </fw:AcrylicWindow>

@@ -30,7 +30,7 @@ namespace DeCraftLauncher.Configs.UI
             InitializeComponent();
             Utils.Util.UpdateAcrylicWindowBackground(this);
 
-            label_header.Content = $"Set additional libraries for {Utils.Util.CleanStringForXAML(target.jarFileName)}";
+            label_header.Content = $"{GlobalVars.L.Translate("window.config.jarlibs.header")} {Utils.Util.CleanStringForXAML(target.jarFileName)}";
 
             MainWindow.EnsureDir(MainWindow.jarLibsDir);
             
@@ -42,6 +42,9 @@ namespace DeCraftLauncher.Configs.UI
                 listbox_jarlibs.Items.Add(jarLibListEntry);
 
             }
+            GlobalVars.L.Translate(
+                    this
+                );
         }
 
         protected override void OnClosed(EventArgs e)

@@ -4,15 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DeCraftLauncher.Configs"
+        xmlns:loc="clr-namespace:DeCraftLauncher"
         xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
         mc:Ignorable="d"
         NoiseOpacity="0.0001"
         TintColor="#000000"
         TintOpacity="0.6"
-        fw:AcrylicWindow.Enabled="False" Title="DECRAFT: Find Java" Height="350" Width="620" MinWidth="450" MinHeight="250" Background="#FA000000" AcrylicWindowStyle="Normal">
+        fw:AcrylicWindow.Enabled="False" loc:GlobalVars.LocKey="window.config.findjava.window_title" Title="DECRAFT: Find Java" Height="350" Width="620" MinWidth="450" MinHeight="250" Background="#FA000000" AcrylicWindowStyle="Normal">
     <Grid>
         <ListBox x:Name="listbox_javaversions" ItemContainerStyle="{StaticResource MainListBoxItemStyleNoSelectBorder}" Background="Transparent" ScrollViewer.CanContentScroll="False" Foreground="White" BorderBrush="#FF272727" Margin="10,54,10,10"/>
-        <Label Content="Select Java version" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="39" Width="314" Foreground="White" FontSize="18" FontWeight="Bold"/>
+        <Label x:Name="label_header" loc:GlobalVars.LocKey="window.config.findjava.header" Content="Select Java version" Margin="10,10,10,0" VerticalAlignment="Top" Height="39" Foreground="White" FontSize="18" FontWeight="Bold"/>
 
     </Grid>
 </fw:AcrylicWindow>

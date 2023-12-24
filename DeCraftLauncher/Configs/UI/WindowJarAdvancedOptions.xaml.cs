@@ -32,6 +32,22 @@ namespace DeCraftLauncher.Configs.UI
             label_title.Content = $"Advanced options: {Util.CleanStringForXAML(target.jarFileName)}";
             LoadConfig();
             Util.UpdateAcrylicWindowBackground(this);
+
+            GlobalVars.L.Translate(
+                    this,
+                    label_title,
+                    label_sessionid,
+                    label_gameargs,
+                    label_wrapperheader,
+                    label_emulatehttp,
+                    label_custom_documentbase,
+                    label_redirectskins,
+                    label_processdir,
+                    label_synthclassworkaround,
+                    label_appletlaunchmethod,
+                    btn_addcmdentrypoint,
+                    btn_setjarlibs
+                );
         }
 
         protected override void OnClosed(EventArgs e)

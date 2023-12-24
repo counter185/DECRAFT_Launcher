@@ -75,7 +75,11 @@ namespace DeCraftLauncher.Localization
         {
             controls.ToList().ForEach(x =>
             {
-                if (x is TextBlock)
+                if (x is Window)
+                {
+                    ((Window)x).Title = keyToTranslatedStringMap[GlobalVars.GetLocKey(x)];
+                }
+                else if (x is TextBlock)
                 {
                     ((TextBlock)x).Text = keyToTranslatedStringMap[GlobalVars.GetLocKey(x)];
                 }
@@ -108,6 +112,7 @@ namespace DeCraftLauncher.Localization
                 IEnumerable<KeyValuePair<string,string>> validNodes 
                     = (from xn in xdoc.GetElementsByTagName("Label").OfType<XmlElement>()
                                       .Concat(xdoc.GetElementsByTagName("Button").OfType<XmlElement>())
+                                      .Concat(xdoc.GetElementsByTagName("fw:AcrylicWindow").OfType<XmlElement>())
                                       .Concat(xdoc.GetElementsByTagName("TextBlock").OfType<XmlElement>()).ToList()
                        where (from xn_attr in xn.Attributes.OfType<XmlAttribute>()
                               where xn_attr.Name.EndsWith("LocKey")
@@ -118,6 +123,7 @@ namespace DeCraftLauncher.Localization
                                                                (from xn_attr in xn.Attributes.OfType<XmlAttribute>()
                                                                 where xn_attr.Name == "Text"
                                                                       || xn_attr.Name == "Content"
+                                                                      || xn_attr.Name == "Title"
                                                                 select xn_attr).First().Value)).GroupBy(x=>x.Key).Select(x=>x.First());
                 allNodes.AddRange(validNodes);
             }

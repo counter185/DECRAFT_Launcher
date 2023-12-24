@@ -6,7 +6,7 @@
         xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
         xmlns:local="clr-namespace:DeCraftLauncher"
         mc:Ignorable="d"
-        fw:AcrylicWindow.Enabled="False" Title="DECRAFT: Runtime configuration" Height="391" Width="464" MinHeight="391" MinWidth="464" Background="#00000000" Closed="AcrylicWindow_Closed">
+        fw:AcrylicWindow.Enabled="False" local:GlobalVars.LocKey="window.config.rt.window_title" Title="DECRAFT: Runtime configuration" Height="391" Width="464" MinHeight="391" MinWidth="464" Background="#00000000" Closed="AcrylicWindow_Closed">
     <Grid>
         <Label x:Name="label_javapath" local:GlobalVars.LocKey="window.config.rt.java_path" Content="Java path" HorizontalAlignment="Left" Margin="10,149,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
         <TextBox x:Name="jre_path" Style="{DynamicResource TextBoxMainStyle}" Margin="103,153,54,0" TextWrapping="NoWrap" VerticalAlignment="Top" Height="20" Background="Transparent" TextChanged="TextBox_TextChanged" KeyDown="jre_path_KeyDown" ToolTip=""/>

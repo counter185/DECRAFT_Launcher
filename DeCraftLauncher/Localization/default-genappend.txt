@@ -34,6 +34,7 @@ ui.entrypoint.modsfound.header=Mods found:&#x0a;
 
 popup.gpu_test_result=GPU test result:&#x0a;
 popup.gpu_test_jdk_error=Error testing GPU. Make sure the Java path is set to a valid JDK path.
+popup.restart_to_apply_lang=Restart DECRAFT to apply the language change.
 window.config.rt.codegen.enter_to_test_java=<press Enter to test>
 window.config.rt.codegen.java_detect_none=<none>
 window.config.rt.codegen.multi_gpu_warning=More than one GPU was detected. Set this Java runtime to use your preferred GPU in Windows Settings.

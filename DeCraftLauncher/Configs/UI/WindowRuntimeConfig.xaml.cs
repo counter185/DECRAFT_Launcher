@@ -24,6 +24,7 @@ namespace DeCraftLauncher.Configs.UI
     public partial class WindowRuntimeConfig : AcrylicWindow
     {
         MainWindow parent;
+        bool affectComboboxChanges = false;
 
         public WindowRuntimeConfig(MainWindow parent)
         {
@@ -36,6 +37,17 @@ namespace DeCraftLauncher.Configs.UI
             checkbox_enablediscord.IsChecked = MainWindow.mainRTConfig.enableDiscordRPC;
             checkbox_setheapdump.IsChecked = MainWindow.mainRTConfig.setHeapDump;
 
+            cbox_langs.Items.Add("English");
+            if (Directory.Exists("./Localization/"))
+            {
+                (from x in Directory.GetFiles("./Localization")
+                 where x.EndsWith(".decraft_lang")
+                 select x.Substring(x.LastIndexOfAny("\\/".ToCharArray())+1)).ToList().ForEach((x) => cbox_langs.Items.Add(x.Substring(0, x.IndexOf("."))));
+            }
+            cbox_langs.SelectedValue = String.IsNullOrEmpty(MainWindow.mainRTConfig.useLocalizationFile) ? "English" : MainWindow.mainRTConfig.useLocalizationFile;
+
+            affectComboboxChanges = true;
+
             GlobalVars.locManager.Translate(
                 this,
                 label_javapath,
@@ -46,6 +58,7 @@ namespace DeCraftLauncher.Configs.UI
                 label_autoclose_processlog,
                 label_enable_discordrpc,
                 label_set_heapdump,
+                label_language,
                 btn_identgpu,
                 jreconfig_version
             );
@@ -120,6 +133,7 @@ namespace DeCraftLauncher.Configs.UI
                 MainWindow.mainRTConfig.autoExitProcessLog = checkbox_autoexitprocesslog.IsChecked == true;
                 MainWindow.mainRTConfig.enableDiscordRPC = checkbox_enablediscord.IsChecked == true;
                 MainWindow.mainRTConfig.setHeapDump = checkbox_setheapdump.IsChecked == true;
+                MainWindow.mainRTConfig.useLocalizationFile = (string)cbox_langs.SelectedValue == "English" ? null : (string)cbox_langs.SelectedValue;
                 parent.SaveRuntimeConfig();
             } catch (Exception ex)
             {
@@ -180,6 +194,14 @@ namespace DeCraftLauncher.Configs.UI
             });
             
             
+        }
+
+        private void cbox_langs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (affectComboboxChanges)
+            {
+                PopupOK.ShowNewPopup(GlobalVars.L.Translate("popup.restart_to_apply_lang"));
+            }
         }
     }
 }

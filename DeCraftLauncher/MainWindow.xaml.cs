@@ -280,6 +280,11 @@ namespace DeCraftLauncher
         public MainWindow()
         {
             currentDirectory = Directory.GetCurrentDirectory();
+            mainRTConfig = RuntimeConfig.LoadFromXML();
+            if (!string.IsNullOrEmpty(mainRTConfig.useLocalizationFile))
+            {
+                GlobalVars.L.FromFile($"./Localization/{mainRTConfig.useLocalizationFile}.decraft_lang");
+            }
             try
             {
                 InitializeComponent();
@@ -287,14 +292,12 @@ namespace DeCraftLauncher
             {
                 PopupOK.ShowNewPopup(GlobalVars.locManager.Translate("popup.startup_error", e.ToString()), "DECRAFT");
             }
-            mainRTConfig = RuntimeConfig.LoadFromXML();
             Util.UpdateAcrylicWindowBackground(this);
             if (mainRTConfig.enableDiscordRPC)
             {
                 GlobalVars.discordRPCManager.Init(this);
             }
             ShowPanelWelcome();
-            //Console.WriteLine(JarUtils.GetJDKInstalled());
             UpdateLWJGLVersions();
             UpdateRunningInstancesList();
             FileSystemWatcher lwjglVersionWatcher = new FileSystemWatcher("./lwjgl");

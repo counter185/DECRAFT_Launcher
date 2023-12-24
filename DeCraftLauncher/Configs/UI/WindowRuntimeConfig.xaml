@@ -14,8 +14,10 @@
         <Label x:Name="label_header" local:GlobalVars.LocKey="window.config.rt.header" Content="Runtime configuration" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="22"/>
         <TextBlock x:Name="jreconfig_version" local:GlobalVars.LocKey="window.config.rt.codegen.enter_to_test_java" TextWrapping="Wrap" Text="&lt;press Enter to test&gt;" Margin="10,254,16,0" VerticalAlignment="Top" Foreground="White" Height="98"/>
         <Label x:Name="label_javahint" local:GlobalVars.LocKey="window.config.rt.java_hint" Content="(leave empty to use the system-wide java installation)" Margin="10,231,16,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" FontStyle="Italic"/>
-        <Label x:Name="label_usejava9" local:GlobalVars.LocKey="window.config.rt.use_java9" Content="Use required Java 9+ options" HorizontalAlignment="Left" Margin="10,200,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" Width="179"/>
-        <CheckBox x:Name="checkbox_isjava9" Content="" HorizontalAlignment="Left" Margin="209,200,0,0" VerticalAlignment="Top" Height="26" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsChecked="True" ToolTip="Check this option if you are using Java version 9 or newer."/>
+        <StackPanel Orientation="Horizontal" Margin="10,200,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Label x:Name="label_usejava9" local:GlobalVars.LocKey="window.config.rt.use_java9" Content="Use required Java 9+ options" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" MinWidth="200"/>
+            <CheckBox x:Name="checkbox_isjava9" Content="" Margin="0,0,0,0" VerticalAlignment="Top" Height="26" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsChecked="True" ToolTip="Check this option if you are using Java version 9 or newer."/>
+        </StackPanel>
         <StackPanel x:Name="panel_checkboxoptions" Orientation="Vertical" VerticalAlignment="Top" Margin="10,67,10,0" Height="105">
             <StackPanel Orientation="Horizontal">
                 <Label x:Name="label_autoclose_processlog" local:GlobalVars.LocKey="window.config.rt.auto_close_process_log" Content="Close Process Log automatically" MinWidth="200" HorizontalAlignment="Left"  VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>

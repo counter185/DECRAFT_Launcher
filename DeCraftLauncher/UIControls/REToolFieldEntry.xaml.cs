@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeCraftLauncher.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,8 +29,8 @@ namespace DeCraftLauncher.UIControls
             target = methodInfo;
             InitializeComponent();
             string descriptor = target.Descriptor(entries);
-            label_fieldname.Content = target.Name(entries);
-            label_fieldtype.Content = REToolMethodEntry.DescriptorTypeToFriendlyName(descriptor.Substring(descriptor.LastIndexOf(')')+1));
+            label_fieldname.Content = Util.CleanStringForXAML(target.Name(entries));
+            label_fieldtype.Content = Util.CleanStringForXAML(REToolMethodEntry.DescriptorTypeToFriendlyName(descriptor.Substring(descriptor.LastIndexOf(')')+1)));
 
             label_modifiers.Content = String.Join(" ", (from x in JavaMethodInfo.accessFlagNames
                                                         where (target.accessFlags & x.Key) == x.Key

@@ -160,6 +160,9 @@
     <Compile Include="UIControls\REToolMethodEntry.xaml.cs">
       <DependentUpon>REToolMethodEntry.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UIControls\RETool\WindowREToolOutgoingRefsScanResult.xaml.cs">
+      <DependentUpon>WindowREToolOutgoingRefsScanResult.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UIControls\UnimportantLaunchEntryPoint.xaml.cs">
       <DependentUpon>UnimportantLaunchEntryPoint.xaml</DependentUpon>
     </Compile>
@@ -280,6 +283,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UIControls\REToolMethodEntry.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UIControls\RETool\WindowREToolOutgoingRefsScanResult.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -204,6 +204,16 @@ namespace DeCraftLauncher.Utils
                 public new int tag = 10; 
                 public int indexOfClassReference; 
                 public int indexOfNameAndTypeDescriptor;
+
+                public string ClassReferenceName(List<ConstantPoolEntry> constantPool) => ((ClassReferenceEntry)constantPool[indexOfClassReference]).GetName(constantPool);
+
+                public string FunctionNameAndDescriptor(List<ConstantPoolEntry> constantPool)
+                {
+                    NameAndTypeDescriptorEntry nameAndTypeDescriptor = (NameAndTypeDescriptorEntry)constantPool[indexOfNameAndTypeDescriptor];
+                    return ((StringEntry)constantPool[nameAndTypeDescriptor.indexOfNameString]).value
+                        + ((StringEntry)constantPool[nameAndTypeDescriptor.indexOfTypeDescriptor]).value;
+                }
+
                 public override ConstantPoolEntry Parse(Stream target)
                 {
                     MethodReferenceEntry newEntry = new MethodReferenceEntry();

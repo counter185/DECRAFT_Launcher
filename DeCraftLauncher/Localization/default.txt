@@ -55,6 +55,10 @@ window.main.panel_launch_server.btn_edit_properties=Edit server properties
 window.main.panel_side.jarfiles=.jar files
 window.processlog.btn_kill_process=Kill process
 window.processlog.btn_send_standard_in=Send
+window.retool.btn_menu_tools=Tools
+window.retool.context.btn_find_all_outgoing_refs=Find all outgoing references...
+window.retool.header=RE Tool
+window.retool.window_title=DECRAFT: RE Tool
 
 popup.startup_error=Error starting main window:&#x0a; &arg0;
 popup.wine_warning=You may be running DECRAFT on the Wine compatibility layer.&#x0a;If the launcher crashes after this popup, open &quot;winecfg&quot; and set your Windows version to Windows 7.&#x0a;DECRAFT can only use Windows versions of Java, so be sure to install one into your Wine prefix.&#x0a;&#x0a;Good luck, and expect bugs.
@@ -107,6 +111,8 @@ window.config.rt.codegen.enter_to_test_java=<press Enter to test>
 window.config.rt.codegen.java_detect_none=<none>
 window.config.rt.codegen.multi_gpu_warning=More than one GPU was detected. Set this Java runtime to use your preferred GPU in Windows Settings.
 
+popup.error_reading_archive=Error reading archive: &arg0;
+
 window.processlog.codegen.window_title=DECRAFT: Process Log [&arg0; : &arg1;]
 window.processlog.codegen.exit_code=Process exited with code &arg0;
 window.processlog.codegen.hint_translate_stacktrace=&#x0a;[F1]: translate the stack trace using a TinyV2 mappings file
@@ -119,7 +125,7 @@ window.processlog.codegen.javaerror_verifyerror_l2=&#x0a;Add this to your JVM ar
 window.processlog.codegen.javaerror_timsorterror_l1=&#x0a;The game crashed due to the sorting algorithm being given invalid data.
 window.processlog.codegen.javaerror_timsorterror_l2=&#x0a;Add this to your JVM arguments to use an older algorithm that ignores invalid data:
 window.processlog.codegen.javaerror_modloadernotj8error_l1=&#x0a;The launch may have failed due to a mod loader expecting a field from an older version of Java.
-window.processlog.codegen.javaerror_modloadernotj8error_l1=&#x0a;Open Runtime settings and set the path to the &quot;bin&quot; folder of an older version of Java (8 recommended).
+window.processlog.codegen.javaerror_modloadernotj8error_l2=&#x0a;Open Runtime settings and set the path to the &quot;bin&quot; folder of an older version of Java (8 recommended).
 window.processlog.codegen.javaerror_modloadernotj8error_l3=&#x0a;&#x0a;Alternatively, if you know what you're doing, you can try adding &quot;--add-opens <module>/<export>=ALL-UNNAMED&quot; with the right fields to your JVM arguments.
 window.processlog.codegen.javaerror_too_old_l1=&#x0a;Your current Java version is too old to run this.
 window.processlog.codegen.javaerror_too_old_l2=&#x0a;Open Runtime settings and set the path to the &quot;bin&quot; folder of a newer version of Java.

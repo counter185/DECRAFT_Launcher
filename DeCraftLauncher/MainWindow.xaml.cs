@@ -512,9 +512,43 @@ namespace DeCraftLauncher
                         if (a.EndsWith(".jar"))
                         {
                             string copyName = $"{jarDir}/{new FileInfo(a).Name}";
-                            if (!File.Exists(copyName)
-                                || (File.Exists(copyName)
-                                    && PopupYesNo.ShowNewPopup($"{copyName} already exists. Overwrite?", "DECRAFT") == MessageBoxResult.Yes))
+                            if (File.Exists(copyName))
+                            {
+                                PopupCustomButtons.ShowNewPopup(GlobalVars.L.Translate("popup.jar_exists", Util.CleanStringForXAML(copyName)), "DECRAFT", new PopupCustomButtons.CustomButton[]
+                                {
+                                    new PopupCustomButtons.CustomButton
+                                    {
+                                        text = GlobalVars.L.Translate("popup.common.yes"),
+                                        action = (p) => File.Copy(a, copyName, true)
+                                    },
+                                    new PopupCustomButtons.CustomButton
+                                    {
+                                        text = GlobalVars.L.Translate("popup.common.no"),
+                                        action = (p) => copyName = ""
+                                    },
+                                    new PopupCustomButtons.CustomButton
+                                    {
+                                        text = GlobalVars.L.Translate("popup.btn_rename"),
+                                        action = (p) =>
+                                        {
+                                            string nFileName = new FileInfo(a).Name;
+                                            while (File.Exists(copyName))
+                                            {
+                                                string nCopyName = PopupTextBox.ShowNewPopup(GlobalVars.L.Translate("popup.rename_jar", Util.CleanStringForXAML(nFileName)), "DECRAFT", nFileName);
+                                                if (nCopyName == "")
+                                                {
+                                                    return;
+                                                } else
+                                                {
+                                                    copyName = $"{jarDir}/{nCopyName}";
+                                                }
+                                            }
+                                            File.Copy(a, copyName, true);
+                                        }
+                                    }
+                                });
+                            }
+                            else
                             {
                                 File.Copy(a, copyName, true);
                             }

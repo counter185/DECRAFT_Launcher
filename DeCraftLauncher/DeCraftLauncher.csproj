@@ -145,6 +145,9 @@
       <DependentUpon>PopupTextBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="UIControls\Popup\PopupYesNo.cs" />
+    <Compile Include="UIControls\Popup\PopupCustomButtons.xaml.cs">
+      <DependentUpon>PopupCustomButtons.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UIControls\Popup\PopupYesNoCancel.xaml.cs">
       <DependentUpon>PopupYesNoCancel.xaml</DependentUpon>
     </Compile>
@@ -272,6 +275,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UIControls\Popup\PopupTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UIControls\Popup\PopupCustomButtons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

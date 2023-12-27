@@ -1,0 +1,35 @@
+﻿<fw:AcrylicWindow x:Class="DeCraftLauncher.UIControls.Popup.PopupCustomButtons"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DeCraftLauncher.UIControls.Popup"
+        xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+        mc:Ignorable="d"
+        NoiseOpacity="0.0001"
+        TintColor="#000000"
+        TintOpacity="0.6"
+        Width="Auto"
+        Height="Auto"
+        SizeToContent="WidthAndHeight"
+        fw:AcrylicWindow.Enabled="False" Title="DECRAFT: popup window"  Background="#FA000000" AcrylicWindowStyle="Normal" ResizeMode="NoResize">
+
+    <DockPanel x:Name="panel_main" Height="Auto" Width="Auto" >
+        <Grid DockPanel.Dock="Bottom">
+            <Rectangle>
+                <Rectangle.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#A0171717"/>
+                        <GradientStop Color="#40000000" Offset="1"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+            <StackPanel x:Name="panel_buttons" Orientation="Horizontal" Margin="10,10" Height="25" HorizontalAlignment="Right">
+                <!--<Button x:Name="btn_yes"  Style="{StaticResource ButtonMainStyle}" Content="Yes" Margin="5,0" HorizontalAlignment="Right" Width="70" Height="25" Click="btn_yes_Click"/>-->
+            </StackPanel>
+
+        </Grid>
+        <Label x:Name="label_maintext" DockPanel.Dock="Top" MinWidth="200" Width="Auto" Content="pretend there is long text here" Foreground="White" HorizontalAlignment="Left" Margin="40,30,80,20"/>
+    </DockPanel>
+
+</fw:AcrylicWindow>

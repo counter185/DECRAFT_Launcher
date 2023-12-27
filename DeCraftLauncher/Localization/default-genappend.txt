@@ -1,4 +1,7 @@
-﻿
+﻿popup.common.yes=Yes
+popup.common.no=No
+popup.common.cancel=Cancel
+
 popup.startup_error=Error starting main window:&#x0a; &arg0;
 popup.wine_warning=You may be running DECRAFT on the Wine compatibility layer.&#x0a;If the launcher crashes after this popup, open &quot;winecfg&quot; and set your Windows version to Windows 7.&#x0a;DECRAFT can only use Windows versions of Java, so be sure to install one into your Wine prefix.&#x0a;&#x0a;Good luck, and expect bugs.
 popup.error_download_in_progress=&arg0; is currently being downloaded.&#x0a;Wait for the download to finish, then try again.
@@ -9,6 +12,9 @@ popup.download_error1=Download error:&#x0a;&arg0;
 popup.download_error_ssl_expired=&#x0a;&#x0a;Your system's SSL certificates may have expired.
 popup.error_download_already_downloading=&arg0; is currently being downloaded.
 popup.download_complete=Download complete.
+popup.jar_exists=&arg0; already exists. Overwrite?
+popup.rename_jar=Rename &arg0;:
+popup.btn_rename=Rename...
 window.main.codegen.req_jvm=req.JVM:
 window.main.codegen.n_running_instances_one=&arg0; running instance
 window.main.codegen.n_running_instances_multiple=&arg0; running instances

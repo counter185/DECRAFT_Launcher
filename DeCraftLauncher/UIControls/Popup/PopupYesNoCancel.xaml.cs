@@ -24,6 +24,9 @@ namespace DeCraftLauncher.UIControls.Popup
             InitializeComponent();
             Utils.Util.UpdateAcrylicWindowBackground(this);
             label_maintext.Content = maintext;
+            btn_yes.Content = GlobalVars.L.Translate("popup.common.yes");
+            btn_no.Content = GlobalVars.L.Translate("popup.common.no");
+            btn_cancel.Content = GlobalVars.L.Translate("popup.common.cancel");
             Title = titletext;
             if (!showCancel)
             {

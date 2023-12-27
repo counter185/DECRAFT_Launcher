@@ -44,6 +44,8 @@ namespace DeCraftLauncher.UIControls
                     return "float";                
                 case "D":
                     return "double";
+                case "C":
+                    return "char";
                 default:
                     if (descriptorType.StartsWith("["))
                     {

@@ -13,7 +13,7 @@
         fw:AcrylicWindow.Enabled="False"
         Title="DECRAFT: RE Tool - Outgoing reference scan" loc:GlobalVars.LocKey="window.retool.refscan.window_title" Height="376.324" Width="628.176" Background="#FA000000" AcrylicWindowStyle="Normal">
     <Grid>
-        <ScrollViewer Margin="10,10,10,10">
+        <ScrollViewer Margin="0,0,0,0">
             <StackPanel x:Name="panel_refs" Orientation="Vertical"/>
         </ScrollViewer>
     </Grid>

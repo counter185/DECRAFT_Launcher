@@ -160,6 +160,15 @@
     <Compile Include="UIControls\REToolMethodEntry.xaml.cs">
       <DependentUpon>REToolMethodEntry.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UIControls\RETool\REToolScanRefLevelClass.xaml.cs">
+      <DependentUpon>REToolScanRefLevelClass.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UIControls\RETool\REToolScanRefLevelMethod.xaml.cs">
+      <DependentUpon>REToolScanRefLevelMethod.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UIControls\RETool\REToolScanRefLevelRef.xaml.cs">
+      <DependentUpon>REToolScanRefLevelRef.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UIControls\RETool\WindowREToolOutgoingRefsScanResult.xaml.cs">
       <DependentUpon>WindowREToolOutgoingRefsScanResult.xaml</DependentUpon>
     </Compile>
@@ -283,6 +292,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UIControls\REToolMethodEntry.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UIControls\RETool\REToolScanRefLevelClass.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UIControls\RETool\REToolScanRefLevelMethod.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UIControls\RETool\REToolScanRefLevelRef.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -18,6 +18,7 @@ using DeCraftLauncher.UIControls.Popup;
 using DeCraftLauncher.UIControls.RETool;
 using DeCraftLauncher.Utils;
 using SourceChord.FluentWPF;
+using static DeCraftLauncher.UIControls.RETool.WindowREToolOutgoingRefsScanResult;
 using static DeCraftLauncher.Utils.JavaClassReader;
 using static DeCraftLauncher.Utils.JavaClassReader.ConstantPoolEntry;
 
@@ -122,8 +123,15 @@ namespace DeCraftLauncher
                                   }).Invoke(x))
                        select (from z in y.entries
                                where z is MethodReferenceEntry && (!classFiles.Contains(((MethodReferenceEntry)z).ClassReferenceName(y.entries) + ".class"))
-                               select $"[{((MethodReferenceEntry)z).ClassReferenceName(y.entries)}] {((MethodReferenceEntry)z).FunctionNameAndDescriptor(y.entries)} <- {y.ThisClassName(y.entries)}")
-                       ).SelectMany(q=>q).OrderBy(k=>k);
+                               //select $"[{((MethodReferenceEntry)z).ClassReferenceName(y.entries)}] {((MethodReferenceEntry)z).FunctionNameAndDescriptor(y.entries)} <- {y.ThisClassName(y.entries)}")
+                               select new RefScanEntry
+                               {
+                                   ClassName = ((MethodReferenceEntry)z).ClassReferenceName(y.entries),
+                                   Name = ((MethodReferenceEntry)z).Name(y.entries),
+                                   Descriptor = ((MethodReferenceEntry)z).Descriptor(y.entries),
+                                   CallingClassName = y.ThisClassName(y.entries)
+                               })
+                       ).SelectMany(q=>q).OrderBy(k=>k.ClassName);
             new WindowREToolOutgoingRefsScanResult(all).Show();
         }
     }

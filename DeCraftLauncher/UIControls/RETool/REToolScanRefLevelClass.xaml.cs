@@ -24,7 +24,7 @@ namespace DeCraftLauncher.UIControls.RETool
         {
             InitializeComponent();
             label_classname.Content = key;
-            foreach (var a in refScanEntries.GroupBy(x => x.Name+x.Descriptor))
+            foreach (var a in refScanEntries.OrderBy(x=>x.Name).GroupBy(x => x.Name+x.Descriptor))
             {
                 panel_methods.Children.Add(new REToolScanRefLevelMethod(a.First().Name, a.First().Descriptor, a.ToList()));
             }

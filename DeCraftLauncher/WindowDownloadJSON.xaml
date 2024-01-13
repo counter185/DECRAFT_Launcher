@@ -1,0 +1,39 @@
+﻿<fw:AcrylicWindow x:Class="DeCraftLauncher.WindowDownloadJSON"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DeCraftLauncher"
+        xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+        fw:AcrylicWindow.Enabled="False"
+        mc:Ignorable="d"
+        NoiseOpacity="0.0001"
+        TintColor="#000000"
+        TintOpacity="0.6"
+        Title="DECRAFT: Download JSON" local:GlobalVars.LocKey="window.jsondl.window_title" Height="413" Width="704" Background="#FA000000" AcrylicWindowStyle="Normal">
+    <Grid>
+        <Label Content="Download JSON" x:Name="label_header" local:GlobalVars.LocKey="window.jsondl.header" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="White" FontSize="18" FontWeight="Bold"/>
+
+        <DockPanel Margin="10,49,464,43" LastChildFill="True">
+            <Label x:Name="label_jardls_hint" local:GlobalVars.LocKey="window.jsondl.jarlist_hint" DockPanel.Dock="Top" Content="Select .jar file to download" Foreground="White"/>
+            <DockPanel DockPanel.Dock="Bottom" LastChildFill="True">
+                <Label x:Name="label_saveas_hint" local:GlobalVars.LocKey="window.jsondl.saveas_hint" DockPanel.Dock="Left" Foreground="White" Content="Save as:"/>
+                <TextBox DockPanel.Dock="Right" VerticalContentAlignment="Center" x:Name="tbox_jarsave_name" Style="{StaticResource TextBoxMainStyle}"/>
+            </DockPanel>
+            <ScrollViewer DockPanel.Dock="Bottom" VerticalScrollBarVisibility="Auto">
+                <StackPanel Orientation="Vertical" x:Name="panel_jardls">
+
+                </StackPanel>
+            </ScrollViewer>
+        </DockPanel>
+        <DockPanel Margin="254,49,10,43" LastChildFill="True">
+            <Label x:Name="label_libdls_hint" local:GlobalVars.LocKey="window.jsondl.liblist_hint" DockPanel.Dock="Top" Content="Select library files to download" Foreground="White"/>
+            <ScrollViewer DockPanel.Dock="Bottom" VerticalScrollBarVisibility="Auto">
+                <StackPanel Orientation="Vertical" x:Name="panel_libdls">
+
+                </StackPanel>
+            </ScrollViewer>
+        </DockPanel>
+        <Button x:Name="btn_download" local:GlobalVars.LocKey="window.jsondl.btn_download" Style="{StaticResource ButtonMainStyle}" Content="Download..." Margin="0,0,10,10" Click="btn_download_Click" Height="28" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="147"/>
+    </Grid>
+</fw:AcrylicWindow>

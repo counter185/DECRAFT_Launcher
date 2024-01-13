@@ -360,6 +360,7 @@ namespace DeCraftLauncher
                     "..\\..\\WindowProcessLog.xaml",
                     "..\\..\\WindowRETool.xaml",
                     "..\\..\\WindowSetCategory.xaml",
+                    "..\\..\\WindowDownloadJSON.xaml",
                     "..\\..\\Configs\\UI\\WindowAddCustomLaunch.xaml",
                     "..\\..\\Configs\\UI\\WindowAppletParametersOptions.xaml",
                     "..\\..\\Configs\\UI\\WindowJarAdvancedOptions.xaml",
@@ -563,54 +564,7 @@ namespace DeCraftLauncher
                         }
                         else if (a.EndsWith(".json"))
                         {
-                            try
-                            {
-                                //todo: clean this up
-                                JObject rootObj = JObject.Parse(File.ReadAllText(a));
-                                string versionID = rootObj.SelectToken("id").Value<string>();
-                                JObject dlElement = rootObj.SelectToken("downloads").Value<JObject>().SelectToken("client").Value<JObject>();
-                                if (!currentJarDownloads.Contains($"{versionID}.jar"))
-                                {
-                                    if (PopupYesNo.ShowNewPopup(GlobalVars.locManager.Translate("popup.ask_download", Util.CleanStringForXAML(versionID), dlElement.SelectToken("size").Value<UInt64>()+"", dlElement.SelectToken("url").Value<string>()), "DECRAFT") == MessageBoxResult.Yes)
-                                    {
-                                        using (var client = new WebClient())
-                                        {
-                                            currentJarDownloads.Add($"{versionID}.jar");
-                                            client.DownloadFileCompleted += (sender2, evt) =>
-                                            {
-                                                currentJarDownloads.Remove($"{versionID}.jar");
-                                                if (evt.Error != null)
-                                                {
-                                                    string errorString = GlobalVars.locManager.Translate("popup.download_error1", evt.Error.Message);
-                                                    if (evt.Error is System.Net.WebException && evt.Error.Message.Contains("SSL/TLS"))
-                                                    {
-                                                        errorString += GlobalVars.locManager.Translate("popup.download_error_ssl_expired");
-                                                    }
-                                                    PopupOK.ShowNewPopup(errorString, "DECRAFT");
-                                                }
-                                                else
-                                                {
-                                                    PopupOK.ShowNewPopup(GlobalVars.locManager.Translate("popup.download_complete"), "DECRAFT");
-                                                    ResetJarlist();
-                                                }
-                                            };
-                                            //todo: progress bar for this
-                                            client.DownloadFileAsync(new Uri(dlElement.SelectToken("url").Value<string>()), $"{jarDir}/{versionID}.jar");
-                                        }
-                                    }
-                                } else
-                                {
-                                    PopupOK.ShowNewPopup(GlobalVars.locManager.Translate("popup.error_download_already_downloading", Util.CleanStringForXAML(versionID)), "DECRAFT");
-                                }
-                            } 
-                            catch (ArgumentNullException ex)
-                            {
-                                PopupOK.ShowNewPopup($"Error reading {a}.\nThis JSON file does not contain a download URL at /downloads/client/url.\n\nError details:\n{ex.Message}", "DECRAFT");
-                            }
-                            catch (Exception ex)
-                            {
-                                PopupOK.ShowNewPopup($"Error reading {a}.\nThe JSON file may be invalid or not in a standard launcher format.\n\n{ex.Message}", "DECRAFT");
-                            }
+                            new WindowDownloadJSON(this, a).Show();
                         }
                         else if (a.EndsWith(".dat") || a.EndsWith(".nbt"))
                         {

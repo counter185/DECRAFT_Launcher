@@ -55,7 +55,8 @@
                             <Grid Background="#FF121212" MinWidth="100">
                                 <Rectangle Stroke="#FF383838" Margin="0,0,0,0" />
                                 <StackPanel Orientation="Vertical">
-                                    <Button x:Name="btn_ctx_findalloutgoingrefs" local:GlobalVars.LocKey="window.retool.context.btn_find_all_outgoing_refs" Style="{StaticResource ButtonMainStyle}" Height="30" Padding="10,0" Content="Find all outgoing references..." Click="btn_ctx_findalloutgoingrefs_Click"/>
+                                    <Button x:Name="btn_ctx_findallexternalrefs" local:GlobalVars.LocKey="window.retool.context.btn_find_all_external_refs" Style="{StaticResource ButtonMainStyle}" Height="30" Padding="10,0" Content="Find all external references..." Click="btn_ctx_findalloutgoingrefs_Click"/>
+                                    <Button x:Name="btn_ctx_findallfunctionrefs" local:GlobalVars.LocKey="window.retool.context.btn_find_all_function_refs" Style="{StaticResource ButtonMainStyle}" Height="30" Padding="10,0" Content="Find ALL function references..." Click="btn_ctx_findallfnrefs_Click"/>
                                 </StackPanel>
                             </Grid>
                         </ControlTemplate>

@@ -49,6 +49,16 @@ namespace DeCraftLauncher
             label_panelheader.Content = "";
             try
             {
+                /*IEnumerable<JavaClassInfo> classes = (from x in arc.Entries
+                                                      where x.FullName.EndsWith(".class")
+                                                      orderby x.FullName
+                                                      select new Func<ZipArchiveEntry, JavaClassInfo>((z)=> {
+                                                          Stream zipStream = z.Open();
+                                                          JavaClassInfo classInf = JavaClassReader.ReadJavaClassFromStream(zipStream);
+                                                          zipStream.Close();
+                                                          return classInf;
+                                                      }).Invoke(x));*/
+
                 arc = ZipFile.OpenRead(target);
                 classFiles = (from x in arc.Entries
                                 where x.FullName.EndsWith(".class")
@@ -132,6 +142,30 @@ namespace DeCraftLauncher
                                    CallingClassName = y.ThisClassName(y.entries)
                                })
                        ).SelectMany(q=>q).OrderBy(k=>k.ClassName);
+            new WindowREToolOutgoingRefsScanResult(all).Show();
+        }
+
+        private void btn_ctx_findallfnrefs_Click(object sender, RoutedEventArgs e)
+        {
+            //todo: maybe put these two into  one function
+            var all = (from y in (from x in classFiles
+                                  select new Func<string, JavaClassInfo>(f =>
+                                  {
+                                      Stream stream = arc.GetEntry(x).Open();
+                                      JavaClassInfo classInf = JavaClassReader.ReadJavaClassFromStream(stream);
+                                      stream.Close();
+                                      return classInf;
+                                  }).Invoke(x))
+                       select (from z in y.entries
+                               where z is MethodReferenceEntry
+                               select new RefScanEntry
+                               {
+                                   ClassName = ((MethodReferenceEntry)z).ClassReferenceName(y.entries),
+                                   Name = ((MethodReferenceEntry)z).Name(y.entries),
+                                   Descriptor = ((MethodReferenceEntry)z).Descriptor(y.entries),
+                                   CallingClassName = y.ThisClassName(y.entries)
+                               })
+                       ).SelectMany(q => q).OrderBy(k => k.ClassName);
             new WindowREToolOutgoingRefsScanResult(all).Show();
         }
     }

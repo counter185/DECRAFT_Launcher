@@ -316,6 +316,7 @@ namespace DeCraftLauncher.Utils
                     case "com.mojang.minecraft.RubyDung":
                     case "com.mojang.minecraft.Minecraft":
                     case "net.minecraft.client.Minecraft":
+                    case "finalforeach.cosmicreach.lwjgl3.Lwjgl3Launcher":
                         return GlobalVars.L.Translate("ui.entrypoint.description.direct_launch");
                     case "com.mojang.minecraft.MinecraftApplet":
                     case "net.minecraft.client.MinecraftApplet":
@@ -357,6 +358,9 @@ namespace DeCraftLauncher.Utils
                     case "com.mojang.minecraft.server.MinecraftServer":
                     case "net.minecraft.server.MinecraftServer":
                         return Brushes.LightSkyBlue;
+                    case "finalforeach.cosmicreach.lwjgl3.Lwjgl3Launcher":
+                    case "com.megacrit.cardcrawl.desktop.DesktopLauncher":
+                        return Brushes.Goldenrod;
 
                 }
                 return null;
@@ -370,6 +374,7 @@ namespace DeCraftLauncher.Utils
                     case "com.mojang.minecraft.RubyDung":
                     case "com.mojang.minecraft.Minecraft":
                     case "net.minecraft.client.Minecraft":
+                    case "finalforeach.cosmicreach.lwjgl3.Lwjgl3Launcher":
                         return 4;
                     case "com.mojang.minecraft.MinecraftApplet":
                     case "net.minecraft.client.MinecraftApplet":

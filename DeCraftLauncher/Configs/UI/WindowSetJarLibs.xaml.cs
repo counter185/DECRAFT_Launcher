@@ -37,7 +37,7 @@ namespace DeCraftLauncher.Configs.UI
             foreach (string a in Directory.GetFiles(MainWindow.jarLibsDir))
             {
                 string filename = new FileInfo(a).Name;
-                JarLibListEntry jarLibListEntry = new JarLibListEntry(filename);
+                JarLibListEntry jarLibListEntry = new JarLibListEntry(Utils.Util.CleanStringForXAML(filename));
                 jarLibListEntry.checkbox_jarlibenabled.IsChecked = target.addJarLibs.Contains(filename);
                 listbox_jarlibs.Items.Add(jarLibListEntry);
 

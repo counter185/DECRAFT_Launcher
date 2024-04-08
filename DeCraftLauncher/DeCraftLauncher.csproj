@@ -138,6 +138,9 @@
     <Compile Include="UIControls\JarListEntry.xaml.cs">
       <DependentUpon>JarListEntry.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UIControls\LabelURLDownload.xaml.cs">
+      <DependentUpon>LabelURLDownload.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UIControls\ModsFoundEntryPoint.xaml.cs">
       <DependentUpon>ModsFoundEntryPoint.xaml</DependentUpon>
     </Compile>
@@ -270,6 +273,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UIControls\JavaFinderEntry.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UIControls\LabelURLDownload.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

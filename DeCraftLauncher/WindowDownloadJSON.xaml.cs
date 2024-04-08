@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using DeCraftLauncher.UIControls;
 using DeCraftLauncher.UIControls.Popup;
 using DeCraftLauncher.Utils;
 using Newtonsoft.Json.Linq;
@@ -66,7 +68,7 @@ namespace DeCraftLauncher
                         RadioButton nRadioButton = new RadioButton
                         {
                             GroupName = "jardl_group",
-                            Content = url.Substring(url.LastIndexOfAny("/\\".ToCharArray())),
+                            Content = new LabelURLDownload(url.Substring(url.LastIndexOfAny("/\\".ToCharArray())), url),
                             IsChecked = false,
                             Foreground = Brushes.White,
                             Padding = new Thickness(0, 4, 0, 4),
@@ -81,29 +83,37 @@ namespace DeCraftLauncher
                                          select x.Value<JObject>())
                 {
                     string libname = jobj.SelectToken("name").Value<string>();
-                    string url = jobj.SelectToken("downloads").SelectToken("artifact").SelectToken("url").Value<string>();
-                    JToken rulesObj = jobj.SelectToken("rules");
-                    if (rulesObj != null)
+                    JToken artifact = jobj.SelectToken("downloads").SelectToken("artifact");
+                    if (artifact != null)
                     {
-                        if ((from x in rulesObj.Value<JArray>()
-                             where x.SelectToken("action") != null && x.SelectToken("os") != null
-                                && x.SelectToken("action").Value<string>() == "allow"
-                                && x.SelectToken("os").SelectToken("name").Value<string>() == "osx"
-                             select x).Any()){
-                            continue;
+                        string url = artifact.SelectToken("url").Value<string>();
+                        JToken rulesObj = jobj.SelectToken("rules");
+                        if (rulesObj != null)
+                        {
+                            if ((from x in rulesObj.Value<JArray>()
+                                 where x.SelectToken("action") != null && x.SelectToken("os") != null
+                                    && x.SelectToken("action").Value<string>() == "allow"
+                                    && x.SelectToken("os").SelectToken("name").Value<string>() == "osx"
+                                 select x).Any())
+                            {
+                                continue;
+                            }
                         }
-                    }
 
-                    CheckBox nCheckbox = new CheckBox
+                        CheckBox nCheckbox = new CheckBox
+                        {
+                            Content = new LabelURLDownload(libname, url),
+                            IsChecked = true,
+                            VerticalContentAlignment = VerticalAlignment.Center,
+                            Padding = new Thickness(0, 4, 0, 4),
+                            Foreground = Brushes.White
+                        };
+                        libBtns.Add(nCheckbox);
+                        panel_libdls.Children.Add(nCheckbox);
+                    } else
                     {
-                        Content = libname,
-                        IsChecked = true,
-                        VerticalContentAlignment = VerticalAlignment.Center,
-                        Padding = new Thickness(0, 4, 0, 4),
-                        Foreground = Brushes.White
-                    };
-                    libBtns.Add(nCheckbox);
-                    panel_libdls.Children.Add(nCheckbox);
+                        Console.WriteLine($"No downloads for library: {libname}");
+                    }
                 }
 
                     /*if (!caller.currentJarDownloads.Contains($"{versionID}.jar"))
@@ -153,7 +163,66 @@ namespace DeCraftLauncher
 
         private void btn_download_Click(object sender, RoutedEventArgs e)
         {
+            List<KeyValuePair<string, string>> downloadQueue = new List<KeyValuePair<string, string>>();
+            foreach(RadioButton r in jarBtns)
+            {
+                if (r.IsChecked == true)
+                {
+                    string jarPath = $"{MainWindow.jarDir}/{tbox_jarsave_name.Text}.jar";
+                    downloadQueue.Add(new KeyValuePair<string, string>(((LabelURLDownload)r.Content).url, jarPath));
+                    break;
+                }
+            }
 
+            foreach (CheckBox c in libBtns)
+            {
+                if (c.IsChecked == true)
+                {
+                    MainWindow.EnsureDir(MainWindow.jarLibsDir);
+                    string libPath = $"{MainWindow.jarLibsDir}/{((LabelURLDownload)c.Content).mainText.Replace(':', '_')}.jar";
+                    downloadQueue.Add(new KeyValuePair<string, string>(((LabelURLDownload)c.Content).url, libPath));
+                }
+            }
+
+            Download(downloadQueue, $"{tbox_jarsave_name.Text}.jar");
+            Close();
+        }
+
+        private void Download(List<KeyValuePair<string, string>> queue, string nameInQueue)
+        {
+            caller.currentJarDownloads.Add(nameInQueue);
+            new Thread(() =>
+            {
+                using (WebClient wc = new WebClient())
+                {
+                    foreach (var urlm in queue)
+                    {
+                        try
+                        {
+                            Console.WriteLine($"download: {urlm.Key} -> {urlm.Value}");
+                            wc.DownloadFile(urlm.Key, urlm.Value);
+                        } catch (Exception e)
+                        {
+                            string errorString = GlobalVars.locManager.Translate("popup.download_error1", e.Message);
+                            if (e is System.Net.WebException && e.Message.Contains("SSL/TLS"))
+                            {
+                                errorString += GlobalVars.locManager.Translate("popup.download_error_ssl_expired");
+                            }
+                            Dispatcher.Invoke(() =>
+                            {
+                                PopupOK.ShowNewPopup(errorString, "DECRAFT");
+                            });
+                        }
+                    }
+                }
+
+                Dispatcher.Invoke(() =>
+                {
+                    caller.currentJarDownloads.Remove(nameInQueue);
+                    PopupOK.ShowNewPopup($"Download of {nameInQueue} complete", "DECRAFT");
+                    caller.ResetJarlist();
+                });
+            }).Start();
         }
     }
 }

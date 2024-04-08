@@ -10,7 +10,7 @@ namespace DeCraftLauncher
 {
     public static class GlobalVars
     {
-        public static string versionCode = "1.3-loc_v3-dev";
+        public static string versionCode = "1.3-dev";
         public static DiscordRPCManager discordRPCManager = new DiscordRPCManager();
         public static LocalizationManager locManager = new LocalizationManager();
 

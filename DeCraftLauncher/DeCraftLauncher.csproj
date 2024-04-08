@@ -461,6 +461,9 @@
     </Content>
     <Resource Include="Localization\default.txt" />
     <Resource Include="Localization\default-genappend.txt" />
+    <None Include="Localization\# LANGUAGE FILES WITH .decraft_lang EXTENSION HERE WILL SHOW UP IN SETTINGS.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="lwjgl\2.9.3\jinput.jar">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

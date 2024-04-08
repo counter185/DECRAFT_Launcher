@@ -20,7 +20,7 @@
             <ColumnDefinition Width="9*"/>
         </Grid.ColumnDefinitions>
         <DockPanel Margin="0,115,0,0" LastChildFill="True">
-            <Label Content=".jar files" DockPanel.Dock="Top" Margin="10,0,0,0" VerticalAlignment="Top" Foreground="White" FontSize="20" FontWeight="Bold"/>
+            <Label x:Name="label_jarfiles" local:GlobalVars.LocKey="window.main.panel_side.jarfiles" Content=".jar files" DockPanel.Dock="Top" Margin="10,0,0,0" VerticalAlignment="Top" Foreground="White" FontSize="20" FontWeight="Bold"/>
             <TextBox x:Name="tbox_jarlistfilter" DockPanel.Dock="Top" Background="Transparent" Style="{DynamicResource TextBoxMainStyle}" TextChanged="tbox_jarlistfilter_TextChanged" />
             <ListBox x:Name="jarlist" DockPanel.Dock="Bottom" TextSearch.TextPath="InnerText" ItemContainerStyle="{StaticResource MainListBoxItemStyleNoSelectBorder}" IsTextSearchEnabled="True" AllowDrop="True" Foreground="White" FontSize="16" BorderBrush="{x:Null}" SelectionChanged="jarlist_SelectionChanged" Drop="jarlist_Drop" HorizontalContentAlignment="Stretch" ScrollViewer.CanContentScroll="False" KeyDown="jarlist_KeyDown">
                 <ListBox.Background>
@@ -41,8 +41,8 @@
             </Grid>
             <Grid Margin="0,0,0,0" DockPanel.Dock="Top">
                 <Grid x:Name="segment_welcome" Margin="0,10"  Visibility="Collapsed" >
-                    <Label Content="Welcome to DECRAFT" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Foreground="White" FontSize="22" FontWeight="Bold"/>
-                    <TextBlock Text="To get started, select a jar file from the list on the left.&#x0a;&#x0a;If you have none, drag one in from the file browser or copy it to the &quot;jars&quot; folder in the program directory." TextWrapping="Wrap" Margin="20,122,10,0" VerticalAlignment="Top" Foreground="White" FontSize="16" Height="253"/>
+                    <Label x:Name="label_hello1" local:GlobalVars.LocKey="window.main.panel_hello.header" Content="Welcome to DECRAFT" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Foreground="White" FontSize="22" FontWeight="Bold"/>
+                    <TextBlock x:Name="textblock_hello2" local:GlobalVars.LocKey="window.main.panel_hello.text" Text="To get started, select a jar file from the list on the left.&#x0a;&#x0a;If you have none, drag one in from the file browser or copy it to the &quot;jars&quot; folder in the program directory." TextWrapping="Wrap" Margin="20,122,10,0" VerticalAlignment="Top" Foreground="White" FontSize="16" Height="253"/>
                     <Image Source="/ImageRes/decraft_logo.png" Margin="0,0,-44,-58" HorizontalAlignment="Right" Width="534" Height="470" VerticalAlignment="Bottom" Opacity="0.15" />
                 </Grid>
                 <Grid x:Name="segment_launch_options" Margin="0,0" Grid.Column="1" Visibility="Visible" >
@@ -50,9 +50,9 @@
                         <!-- base options -->
                         <StackPanel Orientation="Vertical" DockPanel.Dock="Top">
                             <Grid>
-                                <Label Content="Launch options" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" FontSize="24" FontWeight="Bold" Width="196"/>
+                                <Label x:Name="label_launchpanel_header" local:GlobalVars.LocKey="window.main.panel_launch.header" Content="Launch options" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" FontSize="24" FontWeight="Bold" MinWidth="196"/>
                                 <TextBox x:Name="jvmargs" Style="{DynamicResource TextBoxMainStyle}" Margin="124,64,10,0" TextWrapping="NoWrap" Text="-Djava.util.Arrays.useLegacyMergeSort=true" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
-                                <Label Content="JVM options" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="109" Background="{x:Null}" Foreground="White"/>
+                                <Label x:Name="label_launchpanel_jvmoptions" local:GlobalVars.LocKey="window.main.panel_launch.jvm_options" Content="JVM options" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="109" Background="{x:Null}" Foreground="White"/>
                             </Grid>
 
                             <Grid x:Name="panel_launch_client_options">
@@ -61,19 +61,19 @@
                                     <ColumnDefinition Width="83*"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBox Style="{DynamicResource TextBoxMainStyle}" x:Name="tbox_playername" Margin="124,17,9,0" TextWrapping="NoWrap" Text="DECRAFT_Player" VerticalAlignment="Top"/>
-                                <Label Content="Player name" Margin="10,13,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" HorizontalAlignment="Left" Width="109"/>
-                                <Label Content="LWJGL Version" Margin="5,13,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" Grid.Column="1" HorizontalAlignment="Left" Width="87"/>
-                                <Label Content="Window size" Margin="5,36,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" Grid.Column="1" HorizontalAlignment="Left" Width="88"/>
+                                <Label x:Name="label_launchpanel_playername" local:GlobalVars.LocKey="window.main.panel_launch.player_name" Content="Player name" Margin="10,13,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" HorizontalAlignment="Left" Width="109"/>
+                                <Label x:Name="label_launchpanel_lwjglver" local:GlobalVars.LocKey="window.main.panel_launch.lwjgl_ver" Content="LWJGL Version" Margin="5,13,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" Grid.Column="1" HorizontalAlignment="Left" Width="87"/>
+                                <Label x:Name="label_launchpanel_windowsize" local:GlobalVars.LocKey="window.main.panel_launch.window_size" Content="Window size" Margin="5,36,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" Grid.Column="1" HorizontalAlignment="Left" Width="88"/>
                                 <TextBox x:Name="window_width" Style="{DynamicResource TextBoxMainStyle}" Margin="0,40,103,0" TextWrapping="NoWrap" Text="960" VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Right" Width="53" ToolTip="Set either of these values to -1 to keep the default window size"/>
                                 <TextBox x:Name="window_height" Style="{DynamicResource TextBoxMainStyle}" Margin="0,40,33,0" TextWrapping="NoWrap" Text="540" VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Right" Width="52" ToolTip="Set either of these values to -1 to keep the default window size"/>
                                 <Label Content="x" Margin="0,36,85,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" Grid.Column="1" HorizontalAlignment="Right" Width="18"/>
-                                <Label Content="Instance directory" HorizontalAlignment="Left" Margin="10,62,0,0" VerticalAlignment="Top" Width="109" Background="{x:Null}" Foreground="White" Height="26"/>
+                                <Label x:Name="label_launchpanel_instancedir" local:GlobalVars.LocKey="window.main.panel_launch.instance_dir" Content="Instance directory" HorizontalAlignment="Left" Margin="10,62,0,0" VerticalAlignment="Top" Width="109" Background="{x:Null}" Foreground="White" Height="26"/>
                                 <TextBox x:Name="tbox_instance_dir" Style="{DynamicResource TextBoxMainStyle}" Margin="124,66,48,0" TextWrapping="NoWrap" VerticalAlignment="Top" Height="22"/>
-                                <Label Content="Proxy host" Margin="10,36,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" HorizontalAlignment="Left" Width="83"/>
+                                <Label x:Name="label_launchpanel_proxyhost" local:GlobalVars.LocKey="window.main.panel_launch.proxy_host" Content="Proxy host" Margin="10,36,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" HorizontalAlignment="Left" Width="83"/>
                                 <TextBox x:Name="tbox_proxyhost" Style="{DynamicResource TextBoxMainStyle}" Margin="124,40,9,0" TextWrapping="NoWrap" VerticalAlignment="Top"/>
                                 <ComboBox Style="{DynamicResource ComboBoxMainStyle}" x:Name="combobox_lwjgl_version" Margin="93,15,33,0" VerticalAlignment="Top" Height="22" IsEditable="True" Background="{x:Null}" Text="2.9.3" BorderBrush="#FF252525" Foreground="Black" Grid.Column="1"/>
-                                <Button Style="{DynamicResource ButtonMainStyle}" x:Name="btn_advanced_settings" Content="Advanced settings" Margin="0,62,33,0" VerticalAlignment="Top" Height="24" Click="btn_advanced_settings_Click" HorizontalAlignment="Right" Width="137" Grid.Column="1"/>
-                                <Button x:Name="btn_open_instance_dir" Style="{DynamicResource ButtonMainStyle}" Content="Open" Margin="0,66,8,0" VerticalAlignment="Top" Height="22" Click="btn_open_instance_dir_Click" HorizontalAlignment="Right" Width="40"/>
+                                <Button Style="{DynamicResource ButtonMainStyle}" x:Name="btn_advanced_settings" local:GlobalVars.LocKey="window.main.panel_launch.btn_advanced" Content="Advanced settings" Margin="0,62,33,0" VerticalAlignment="Top" Height="24" Click="btn_advanced_settings_Click" HorizontalAlignment="Right" Width="137" Grid.Column="1"/>
+                                <Button x:Name="btn_open_instance_dir" Style="{DynamicResource ButtonMainStyle}" local:GlobalVars.LocKey="window.main.panel_launch.btn_open_instance" Content="Open" Margin="0,66,8,0" VerticalAlignment="Top" Height="22" Click="btn_open_instance_dir_Click" HorizontalAlignment="Right" Width="40"/>
                             </Grid>
 
                             <Grid x:Name="panel_launch_server_options" Visibility="Visible">
@@ -81,19 +81,19 @@
                                     <ColumnDefinition Width="102*"/>
                                     <ColumnDefinition Width="83*"/>
                                 </Grid.ColumnDefinitions>
-                                <Label Content="Instance directory" HorizontalAlignment="Left" Margin="10,29,0,0" VerticalAlignment="Top" Width="109" Background="{x:Null}" Foreground="White" Height="26"/>
+                                <Label x:Name="label_launchpanel_instancedir2" local:GlobalVars.LocKey="window.main.panel_launch.instance_dir" Content="Instance directory" HorizontalAlignment="Left" Margin="10,29,0,0" VerticalAlignment="Top" Width="109" Background="{x:Null}" Foreground="White" Height="26"/>
                                 <TextBox x:Name="tbox_server_instance_dir" Style="{DynamicResource TextBoxMainStyle}" Margin="124,31,48,0" TextWrapping="NoWrap" VerticalAlignment="Top" Height="22"/>
-                                <Label Content="Proxy host" Margin="10,3,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" HorizontalAlignment="Left" Width="83"/>
+                                <Label x:Name="label_launchpanel_proxyhost2" Content="Proxy host" local:GlobalVars.LocKey="window.main.panel_launch.proxy_host" Margin="10,3,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" HorizontalAlignment="Left" Width="83"/>
                                 <TextBox x:Name="tbox_server_proxyhost" Style="{DynamicResource TextBoxMainStyle}" Margin="124,7,9,0" TextWrapping="NoWrap" VerticalAlignment="Top"/>
 
-                                <Button Style="{DynamicResource ButtonMainStyle}" x:Name="btn_advanced_settings2" Content="Advanced settings" Margin="0,29,33,0" VerticalAlignment="Top" Height="24" Click="btn_advanced_settings_Click" HorizontalAlignment="Right" Width="137" Grid.Column="1"/>
-                                <Button Style="{DynamicResource ButtonMainStyle}" x:Name="btn_open_instance_dir2" Content="Open" Margin="0,31,8,0" VerticalAlignment="Top" Height="22" Click="btn_open_instance_dir_Click" HorizontalAlignment="Right" Width="40"/>
-                                <Button Style="{DynamicResource ButtonMainStyle}" x:Name="btn_editproperties" Content="Edit server properties" Margin="0,1,33,0" VerticalAlignment="Top" Height="24" HorizontalAlignment="Right" Width="137" Grid.Column="1" Click="btn_editproperties_Click"/>
+                                <Button Style="{DynamicResource ButtonMainStyle}" x:Name="btn_advanced_settings2" local:GlobalVars.LocKey="window.main.panel_launch.btn_advanced" Content="Advanced settings" Margin="0,29,33,0" VerticalAlignment="Top" Height="24" Click="btn_advanced_settings_Click" HorizontalAlignment="Right" Width="137" Grid.Column="1"/>
+                                <Button Style="{DynamicResource ButtonMainStyle}" x:Name="btn_open_instance_dir2" local:GlobalVars.LocKey="window.main.panel_launch.btn_open_instance" Content="Open" Margin="0,31,8,0" VerticalAlignment="Top" Height="22" Click="btn_open_instance_dir_Click" HorizontalAlignment="Right" Width="40"/>
+                                <Button Style="{DynamicResource ButtonMainStyle}" x:Name="btn_editproperties" local:GlobalVars.LocKey="window.main.panel_launch_server.btn_edit_properties" Content="Edit server properties" Margin="0,1,33,0" VerticalAlignment="Top" Height="24" HorizontalAlignment="Right" Width="137" Grid.Column="1" Click="btn_editproperties_Click"/>
                             </Grid>
 
                             <Grid>
-                                <Label Content="Entry points" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" FontSize="18" Width="196"/>
-                                <Button x:Name="btn_scan_entrypoints" Content="Rescan entry points" Margin="0,16,10,0" VerticalAlignment="Top" Height="26" Style="{DynamicResource ButtonMainStyle}" Click="btn_scan_entrypoints_Click" HorizontalAlignment="Right" Width="125" Grid.Column="1"/>
+                                <Label x:Name="label_entrypoints" local:GlobalVars.LocKey="window.main.panel_launch.entry_points" Content="Entry points" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" FontSize="18" Width="196"/>
+                                <Button x:Name="btn_scan_entrypoints" local:GlobalVars.LocKey="window.main.panel_launch.btn_scan_entrypoints" Content="Rescan entry points" Margin="0,16,10,0" VerticalAlignment="Top" Height="26" Style="{DynamicResource ButtonMainStyle}" Click="btn_scan_entrypoints_Click" HorizontalAlignment="Right" Width="125" Grid.Column="1"/>
                             </Grid>
                         </StackPanel>
                         <Grid VerticalAlignment="Stretch" DockPanel.Dock="Bottom">
@@ -115,7 +115,7 @@
         <Image HorizontalAlignment="Left" Height="128" Margin="-12,0,0,0" VerticalAlignment="Top" Width="128" Source="/ImageRes/decraft_logo.png"/>
         <Label Content="DECRAFT" HorizontalAlignment="Left" Margin="71,2,0,0" VerticalAlignment="Top" Foreground="White" FontSize="36"/>
         <Label x:Name="label_versionString" Content="version code" Margin="80,84,0,0" VerticalAlignment="Top" Foreground="#FF505050" FontStyle="Italic" HorizontalAlignment="Left" Width="148"/>
-        <Button Content="Runtime settings" Margin="0,26,20,0" VerticalAlignment="Top" Height="26" Style="{DynamicResource ButtonMainStyle}" Click="Button_Click" HorizontalAlignment="Right" Width="106" Grid.Column="1"/>
+        <Button x:Name="btn_rtsettings" local:GlobalVars.LocKey="window.main.panel_launch.btn_runtime_settings" Content="Runtime settings" Margin="0,26,20,0" VerticalAlignment="Top" Height="26" Style="{DynamicResource ButtonMainStyle}" Click="Button_Click" HorizontalAlignment="Right" Width="106" Grid.Column="1"/>
         <Label x:Name="label_reqJVMVersion" Content="minimum JRE: 7" Margin="0,26,131,0" VerticalAlignment="Top" Foreground="#FF878787" HorizontalAlignment="Right" Width="238" HorizontalContentAlignment="Right" Grid.Column="1"/>
 
     </Grid>

@@ -13,17 +13,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DeCraftLauncher.UIControls
+namespace DeCraftLauncher.UIControls.RETool
 {
     /// <summary>
-    /// Logika interakcji dla klasy ModsFoundEntryPoint.xaml
+    /// Logika interakcji dla klasy REToolScanRefLevelRef.xaml
     /// </summary>
-    public partial class ModsFoundEntryPoint : UserControl
+    public partial class REToolScanRefLevelRef : UserControl
     {
-        public ModsFoundEntryPoint(List<string> entries)
+        public REToolScanRefLevelRef(string callingClassName)
         {
             InitializeComponent();
-            label_modsfound.Text = GlobalVars.L.Translate("ui.entrypoint.modsfound.header") + String.Join("\n", from x in entries select $"- {x}");
+            label_name.Content = $"<- {callingClassName}";
         }
     }
 }

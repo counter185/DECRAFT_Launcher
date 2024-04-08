@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="DeCraftLauncher.UIControls.RETool.REToolScanRefLevelMethod"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DeCraftLauncher.UIControls.RETool"
+             mc:Ignorable="d">
+    <StackPanel Orientation="Vertical">
+        <StackPanel Orientation="Horizontal">
+            <Button x:Name="btn_open" Style="{StaticResource ButtonMainStyle}" Margin="0,0,10,0" MinWidth="40" Height="20" Content="Open" Click="btn_open_Click"/>
+            <Label x:Name="label_returntype" Margin="0,-2" Foreground="Gray" Content="return.Type"/>
+            <Label x:Name="label_methodname" Margin="0,-2" Foreground="White" Content="method/name"/>
+            <Label x:Name="label_parameters" Margin="0,-2" Foreground="Gray" Content="(function, parameters)"/>
+        </StackPanel>
+        <StackPanel Margin="70,0,0,0" Orientation="Vertical" x:Name="panel_references" Visibility="Collapsed">
+            
+        </StackPanel>
+    </StackPanel>
+</UserControl>

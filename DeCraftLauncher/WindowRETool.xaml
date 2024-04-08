@@ -10,14 +10,15 @@
         TintColor="#000000"
         TintOpacity="0.6"
         fw:AcrylicWindow.Enabled="False"
-        Title="DECRAFT: RE Tool" Height="376.324" Width="628.176" Background="#FA000000" AcrylicWindowStyle="Normal">
+        Title="DECRAFT: RE Tool" local:GlobalVars.LocKey="window.retool.window_title" Height="376.324" Width="628.176" Background="#FA000000" AcrylicWindowStyle="Normal">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="193*"/>
             <ColumnDefinition Width="427*"/>
         </Grid.ColumnDefinitions>
-        <Label x:Name="label_header" Content="RE Tool: {x}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="White" FontSize="18" FontWeight="Bold" Height="34" Width="105"/>
-        <ListBox x:Name="listbox_classlist" ItemContainerStyle="{StaticResource MainListBoxItemStyleNoSelectBorder}" Background="Transparent" ScrollViewer.CanContentScroll="False" Foreground="White" BorderBrush="#FF272727" Margin="0,49,0,0" SelectionChanged="listbox_classlist_SelectionChanged"></ListBox>
+        <Label x:Name="label_header" Content="RE Tool" local:GlobalVars.LocKey="window.retool.header" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Foreground="White" FontSize="18" FontWeight="Bold" Height="34" Width="176"/>
+        <Label x:Name="label_filename" Content="file__name.jar" HorizontalAlignment="Left" Margin="10,44,0,0" VerticalAlignment="Top" Foreground="White" Height="22" MinWidth="176" FontSize="9" FontStyle="Italic"/>
+        <ListBox x:Name="listbox_classlist" ItemContainerStyle="{StaticResource MainListBoxItemStyleNoSelectBorder}" Background="Transparent" ScrollViewer.CanContentScroll="False" Foreground="White" BorderBrush="#FF272727" Margin="0,66,0,0" SelectionChanged="listbox_classlist_SelectionChanged" ></ListBox>
         <DockPanel Grid.Column="1" x:Name="panel_main" LastChildFill="True">
             <Grid DockPanel.Dock="Left" Visibility="Visible">
                 <Grid.RowDefinitions>
@@ -25,8 +26,8 @@
                     <RowDefinition Height="110*"/>
                     <RowDefinition Height="115*"/>
                 </Grid.RowDefinitions>
-                <Label x:Name="label_jvmVersion" Foreground="White" Content="Class version: {x}" Margin="0,10,10,0" HorizontalAlignment="Right" Width="154" Height="33" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
-                <Label x:Name="label_panelheader" Content="Info for {y}" Foreground="White" Margin="10,10,0,0" Height="33" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                <Label x:Name="label_jvmVersion" Foreground="#A0A0A0A0" Content="Class version: {x}" Margin="0,10,10,0" HorizontalAlignment="Right" Width="154" Height="33" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+                <Label x:Name="label_panelheader" Content="Info for class/name/Here" Foreground="White" Margin="10,10,0,0" Height="33" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                 <TabControl Grid.RowSpan="3" Margin="0,43,0,0" Background="Transparent">
                     <TabItem Header="Constant pool">
                         <Grid Background="Transparent">
@@ -46,5 +47,22 @@
                 </TabControl>
             </Grid>
         </DockPanel>
+        <Button x:Name="btn_tools" Content="Tools" local:GlobalVars.LocKey="window.retool.btn_menu_tools" Style="{StaticResource ButtonMainStyle}" VerticalAlignment="Top" MinWidth="47" HorizontalAlignment="Left" Click="btn_tools_Click">
+            <Button.ContextMenu>
+                <ContextMenu x:Name="ctxmenu_tools" Background="#FF202020" Foreground="Transparent">
+                    <ContextMenu.Template>
+                        <ControlTemplate>
+                            <Grid Background="#FF121212" MinWidth="100">
+                                <Rectangle Stroke="#FF383838" Margin="0,0,0,0" />
+                                <StackPanel Orientation="Vertical">
+                                    <Button x:Name="btn_ctx_findallexternalrefs" local:GlobalVars.LocKey="window.retool.context.btn_find_all_external_refs" Style="{StaticResource ButtonMainStyle}" Height="30" Padding="10,0" Content="Find all external references..." Click="btn_ctx_findalloutgoingrefs_Click"/>
+                                    <Button x:Name="btn_ctx_findallfunctionrefs" local:GlobalVars.LocKey="window.retool.context.btn_find_all_function_refs" Style="{StaticResource ButtonMainStyle}" Height="30" Padding="10,0" Content="Find ALL function references..." Click="btn_ctx_findallfnrefs_Click"/>
+                                </StackPanel>
+                            </Grid>
+                        </ControlTemplate>
+                    </ContextMenu.Template>
+                </ContextMenu>
+            </Button.ContextMenu>
+        </Button>
     </Grid>
 </fw:AcrylicWindow>

@@ -123,6 +123,7 @@
     <Compile Include="DiscordRPCManager.cs" />
     <Compile Include="GlobalVars.cs" />
     <Compile Include="JarEntry.cs" />
+    <Compile Include="Localization\LocalizationManager.cs" />
     <Compile Include="MainFunctionWrapper.cs" />
     <Compile Include="NBTReader\NBTData.cs" />
     <Compile Include="TestWindow.xaml.cs">
@@ -137,6 +138,9 @@
     <Compile Include="UIControls\JarListEntry.xaml.cs">
       <DependentUpon>JarListEntry.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UIControls\LabelURLDownload.xaml.cs">
+      <DependentUpon>LabelURLDownload.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UIControls\ModsFoundEntryPoint.xaml.cs">
       <DependentUpon>ModsFoundEntryPoint.xaml</DependentUpon>
     </Compile>
@@ -144,6 +148,9 @@
       <DependentUpon>PopupTextBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="UIControls\Popup\PopupYesNo.cs" />
+    <Compile Include="UIControls\Popup\PopupCustomButtons.xaml.cs">
+      <DependentUpon>PopupCustomButtons.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UIControls\Popup\PopupYesNoCancel.xaml.cs">
       <DependentUpon>PopupYesNoCancel.xaml</DependentUpon>
     </Compile>
@@ -158,6 +165,18 @@
     </Compile>
     <Compile Include="UIControls\REToolMethodEntry.xaml.cs">
       <DependentUpon>REToolMethodEntry.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UIControls\RETool\REToolScanRefLevelClass.xaml.cs">
+      <DependentUpon>REToolScanRefLevelClass.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UIControls\RETool\REToolScanRefLevelMethod.xaml.cs">
+      <DependentUpon>REToolScanRefLevelMethod.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UIControls\RETool\REToolScanRefLevelRef.xaml.cs">
+      <DependentUpon>REToolScanRefLevelRef.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UIControls\RETool\WindowREToolOutgoingRefsScanResult.xaml.cs">
+      <DependentUpon>WindowREToolOutgoingRefsScanResult.xaml</DependentUpon>
     </Compile>
     <Compile Include="UIControls\UnimportantLaunchEntryPoint.xaml.cs">
       <DependentUpon>UnimportantLaunchEntryPoint.xaml</DependentUpon>
@@ -193,6 +212,9 @@
     <Compile Include="Utils\UIListBoxMaxWidthLimiter.cs" />
     <Compile Include="WindowDeployMTP.xaml.cs">
       <DependentUpon>WindowDeployMTP.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowDownloadJSON.xaml.cs">
+      <DependentUpon>WindowDownloadJSON.xaml</DependentUpon>
     </Compile>
     <Compile Include="WindowNewCategory.xaml.cs">
       <DependentUpon>WindowNewCategory.xaml</DependentUpon>
@@ -254,11 +276,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UIControls\LabelURLDownload.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UIControls\ModsFoundEntryPoint.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UIControls\Popup\PopupTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UIControls\Popup\PopupCustomButtons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -279,6 +309,22 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UIControls\REToolMethodEntry.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UIControls\RETool\REToolScanRefLevelClass.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UIControls\RETool\REToolScanRefLevelMethod.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UIControls\RETool\REToolScanRefLevelRef.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UIControls\RETool\WindowREToolOutgoingRefsScanResult.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -338,6 +384,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="WindowDeployMTP.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowDownloadJSON.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -409,6 +459,8 @@
     <Content Include="LICENSE-Newtonsoft.Json.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Localization\default.txt" />
+    <Resource Include="Localization\default-genappend.txt" />
     <Content Include="lwjgl\2.9.3\jinput.jar">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

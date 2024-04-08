@@ -30,18 +30,21 @@ namespace DeCraftLauncher.Configs.UI
             InitializeComponent();
             Utils.Util.UpdateAcrylicWindowBackground(this);
 
-            label_header.Content = $"Set additional libraries for {Utils.Util.CleanStringForXAML(target.jarFileName)}";
+            label_header.Content = $"{GlobalVars.L.Translate("window.config.jarlibs.header")} {Utils.Util.CleanStringForXAML(target.jarFileName)}";
 
             MainWindow.EnsureDir(MainWindow.jarLibsDir);
             
             foreach (string a in Directory.GetFiles(MainWindow.jarLibsDir))
             {
                 string filename = new FileInfo(a).Name;
-                JarLibListEntry jarLibListEntry = new JarLibListEntry(filename);
+                JarLibListEntry jarLibListEntry = new JarLibListEntry(Utils.Util.CleanStringForXAML(filename));
                 jarLibListEntry.checkbox_jarlibenabled.IsChecked = target.addJarLibs.Contains(filename);
                 listbox_jarlibs.Items.Add(jarLibListEntry);
 
             }
+            GlobalVars.L.Translate(
+                    this
+                );
         }
 
         protected override void OnClosed(EventArgs e)

@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace DeCraftLauncher.Configs.UI
 {
@@ -33,6 +34,11 @@ namespace DeCraftLauncher.Configs.UI
             targetJarConfig = jar;
             InitializeComponent();
             Util.UpdateAcrylicWindowBackground(this);
+
+            GlobalVars.L.Translate(
+                    label_header,
+                    btn_launch
+                );
         }
 
         private void AddToDictionaryIfStringNotEmpty(Dictionary<string,string> target, string key, string value, bool addAnyway = false)

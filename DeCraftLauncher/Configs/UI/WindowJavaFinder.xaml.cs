@@ -38,7 +38,10 @@ namespace DeCraftLauncher.Configs.UI
                 listbox_javaversions.Items.Add(new JavaFinderEntry(this, javaInstall));
             }
 
-            
+            GlobalVars.L.Translate(
+                    this,
+                    label_header
+                );
         }
     }
 }

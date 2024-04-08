@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeCraftLauncher.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -43,6 +44,8 @@ namespace DeCraftLauncher.UIControls
                     return "float";                
                 case "D":
                     return "double";
+                case "C":
+                    return "char";
                 default:
                     if (descriptorType.StartsWith("["))
                     {
@@ -85,8 +88,8 @@ namespace DeCraftLauncher.UIControls
             target = methodInfo;
             InitializeComponent();
             string descriptor = target.Descriptor(entries);
-            label_functionname.Content = target.Name(entries);
-            label_returntype.Content = DescriptorTypeToFriendlyName(descriptor.Substring(descriptor.LastIndexOf(')')+1));
+            label_functionname.Content = Util.CleanStringForXAML(target.Name(entries));
+            label_returntype.Content = Util.CleanStringForXAML(DescriptorTypeToFriendlyName(descriptor.Substring(descriptor.LastIndexOf(')')+1)));
 
             if (target.Name(entries) == "<init>")
             {

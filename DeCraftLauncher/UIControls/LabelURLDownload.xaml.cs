@@ -16,14 +16,18 @@ using System.Windows.Shapes;
 namespace DeCraftLauncher.UIControls
 {
     /// <summary>
-    /// Logika interakcji dla klasy ModsFoundEntryPoint.xaml
+    /// Logika interakcji dla klasy LabelURLDownload.xaml
     /// </summary>
-    public partial class ModsFoundEntryPoint : UserControl
+    public partial class LabelURLDownload : UserControl
     {
-        public ModsFoundEntryPoint(List<string> entries)
+        public string url = "";
+        public string mainText = "";
+        public LabelURLDownload(string mainText, string url)
         {
             InitializeComponent();
-            label_modsfound.Text = GlobalVars.L.Translate("ui.entrypoint.modsfound.header") + String.Join("\n", from x in entries select $"- {x}");
+            label_maintext.Content = mainText;
+            this.mainText = mainText;
+            this.url = url;
         }
     }
 }

@@ -24,6 +24,7 @@ namespace DeCraftLauncher.Configs.UI
     public partial class WindowRuntimeConfig : AcrylicWindow
     {
         MainWindow parent;
+        bool affectComboboxChanges = false;
 
         public WindowRuntimeConfig(MainWindow parent)
         {
@@ -35,6 +36,32 @@ namespace DeCraftLauncher.Configs.UI
             checkbox_autoexitprocesslog.IsChecked = MainWindow.mainRTConfig.autoExitProcessLog;
             checkbox_enablediscord.IsChecked = MainWindow.mainRTConfig.enableDiscordRPC;
             checkbox_setheapdump.IsChecked = MainWindow.mainRTConfig.setHeapDump;
+
+            cbox_langs.Items.Add("English");
+            if (Directory.Exists("./Localization/"))
+            {
+                (from x in Directory.GetFiles("./Localization")
+                 where x.EndsWith(".decraft_lang")
+                 select x.Substring(x.LastIndexOfAny("\\/".ToCharArray())+1)).ToList().ForEach((x) => cbox_langs.Items.Add(x.Substring(0, x.IndexOf("."))));
+            }
+            cbox_langs.SelectedValue = String.IsNullOrEmpty(MainWindow.mainRTConfig.useLocalizationFile) ? "English" : MainWindow.mainRTConfig.useLocalizationFile;
+
+            affectComboboxChanges = true;
+
+            GlobalVars.locManager.Translate(
+                this,
+                label_javapath,
+                btn_find,
+                label_header,
+                label_javahint,
+                label_usejava9,
+                label_autoclose_processlog,
+                label_enable_discordrpc,
+                label_set_heapdump,
+                label_language,
+                btn_identgpu,
+                jreconfig_version
+            );
         }
 
         public void FixJavaHomeString()
@@ -67,10 +94,10 @@ namespace DeCraftLauncher.Configs.UI
                 }
             }
 
-            string testString = $"<press Enter to test>" +
-                $"\nJRE: {(verre != null ? verre : "<none>")}" +
-                $"\nJDK: {(verdk != null ? verdk : "<none>")}" +
-                $"\n{(Util.ListAllGPUs().Count > 1 ? "More than one GPU was detected. Set this Java runtime to use your preferred GPU in Windows Settings." : "")}";
+            string testString = GlobalVars.locManager.Translate("window.config.rt.codegen.enter_to_test_java") +
+                $"\nJRE: {(verre != null ? verre : GlobalVars.locManager.Translate("window.config.rt.codegen.java_detect_none"))}" +
+                $"\nJDK: {(verdk != null ? verdk : GlobalVars.locManager.Translate("window.config.rt.codegen.java_detect_none"))}" +
+                $"\n{(Util.ListAllGPUs().Count > 1 ? GlobalVars.locManager.Translate("window.config.rt.codegen.multi_gpu_warning") : "")}";
             
 
             jreconfig_version.Text = Util.CleanStringForXAML(testString);
@@ -106,6 +133,7 @@ namespace DeCraftLauncher.Configs.UI
                 MainWindow.mainRTConfig.autoExitProcessLog = checkbox_autoexitprocesslog.IsChecked == true;
                 MainWindow.mainRTConfig.enableDiscordRPC = checkbox_enablediscord.IsChecked == true;
                 MainWindow.mainRTConfig.setHeapDump = checkbox_setheapdump.IsChecked == true;
+                MainWindow.mainRTConfig.useLocalizationFile = (string)cbox_langs.SelectedValue == "English" ? null : (string)cbox_langs.SelectedValue;
                 parent.SaveRuntimeConfig();
             } catch (Exception ex)
             {
@@ -145,7 +173,7 @@ namespace DeCraftLauncher.Configs.UI
             {
                 if (ex is ApplicationException || ex is Win32Exception)
                 {
-                    PopupOK.ShowNewPopup("Error testing GPU. Make sure the Java path is set to a valid JDK path.");
+                    PopupOK.ShowNewPopup(GlobalVars.locManager.Translate("popup.gpu_test_jdk_error"));
                     return;
                 }
                 else
@@ -162,10 +190,18 @@ namespace DeCraftLauncher.Configs.UI
             exec.Start(null, x =>
             {
                 Console.WriteLine(String.Join(" ", x));
-                PopupOK.ShowNewPopup("GPU test result:\n" + String.Join("\n", x), "DECRAFT");
+                PopupOK.ShowNewPopup(GlobalVars.locManager.Translate("popup.gpu_test_result") + String.Join("\n", x), "DECRAFT");
             });
             
             
+        }
+
+        private void cbox_langs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (affectComboboxChanges)
+            {
+                PopupOK.ShowNewPopup(GlobalVars.L.Translate("popup.restart_to_apply_lang"));
+            }
         }
     }
 }

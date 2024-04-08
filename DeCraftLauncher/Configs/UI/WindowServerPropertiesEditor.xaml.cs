@@ -53,6 +53,11 @@ namespace DeCraftLauncher.Configs.UI
             LoadProperties();
 
             dgrid_properties.ItemsSource = propertiesFile;
+
+            GlobalVars.L.Translate(
+                    this,
+                    label_header
+                );
         }
 
         public void LoadProperties()

@@ -44,6 +44,11 @@ namespace DeCraftLauncher.UIControls
         public LaunchEntryPoint(JarUtils.EntryPoint target, MainWindow caller, JarConfig jarConfig)
         {
             InitializeComponent();
+
+            GlobalVars.L.Translate(
+                    launchButton
+                );
+
             this.caller = caller;
             this.jarConfig = jarConfig;
             this.entryPoint = target;
@@ -51,28 +56,28 @@ namespace DeCraftLauncher.UIControls
             string cleanClassPath = Util.CleanStringForXAML(entryPoint.classpath);
             //cleanClassPath = cleanClassPath.Length > 50 ? cleanClassPath.Substring(0, 50) + "..." : cleanClassPath;
             classname.Foreground = target.GetUIColor() ?? classname.Foreground;
-            classname.Content = (target.GetImportance() > 1 ? "★ " : "") + (entryPoint.type == JarUtils.EntryPointType.CUSTOM_LAUNCH_COMMAND ? "Custom" : cleanClassPath);
+            classname.Content = (target.GetImportance() > 1 ? "★ " : "") + (entryPoint.type == JarUtils.EntryPointType.CUSTOM_LAUNCH_COMMAND ? GlobalVars.L.Translate("ui.launchentrypoint.classname.custom") : cleanClassPath);
             classname.ToolTip = Util.CleanStringForXAML(entryPoint.classpath);
 
             desc.Content = GetDescription();
             mode.Content =
-                entryPoint.type == JarUtils.EntryPointType.STATIC_VOID_MAIN ? "(main function)"
+                entryPoint.type == JarUtils.EntryPointType.STATIC_VOID_MAIN ? GlobalVars.L.Translate("ui.launchentrypoint.type.main_function")
                 : entryPoint.type == JarUtils.EntryPointType.RUNNABLE ? "(Runnable)"
-                : entryPoint.type == JarUtils.EntryPointType.APPLET ? "(Applet)"
-                : entryPoint.type == JarUtils.EntryPointType.CUSTOM_LAUNCH_COMMAND ? "(custom launch command)"
-                : "<unknown>";
+                : entryPoint.type == JarUtils.EntryPointType.APPLET ? GlobalVars.L.Translate("ui.launchentrypoint.type.applet")
+                : entryPoint.type == JarUtils.EntryPointType.CUSTOM_LAUNCH_COMMAND ? GlobalVars.L.Translate("ui.launchentrypoint.type.custom_launch_command")
+                : GlobalVars.L.Translate("ui.launchentrypoint.unknown");
             moreInfo.Content = Util.CleanStringForXAML(target.additionalInfo);
             switch (entryPoint.type)
             {
                 case JarUtils.EntryPointType.STATIC_VOID_MAIN:
-                    launchAdvancedButton.Content = "Launch+";
-                    launchAdvancedButton.ToolTip = "Launch using the Main function Wrapper. Allows you to use server redirection & other wrapper-specific settings.\nRequires a JDK.";
+                    launchAdvancedButton.Content = GlobalVars.L.Translate("ui.launchentrypoint.adv.launchplus");
+                    launchAdvancedButton.ToolTip = GlobalVars.L.Translate("ui.launchentrypoint.adv.launchplus_desc");
                     break;
                 case JarUtils.EntryPointType.CUSTOM_LAUNCH_COMMAND:
-                    launchAdvancedButton.Content = "Remove...";
+                    launchAdvancedButton.Content = GlobalVars.L.Translate("ui.launchentrypoint.adv.remove");
                     break;
                 case JarUtils.EntryPointType.APPLET:
-                    launchAdvancedButton.Content = "Parameters...";
+                    launchAdvancedButton.Content = GlobalVars.L.Translate("ui.launchentrypoint.adv.parameters");
                     break;
                 default:
                     launchAdvancedButton.Visibility = Visibility.Hidden;
@@ -106,7 +111,7 @@ namespace DeCraftLauncher.UIControls
             }
             else if (entryPoint.type == JarUtils.EntryPointType.CUSTOM_LAUNCH_COMMAND)
             {
-                if (PopupYesNo.ShowNewPopup($"Remove the custom launch command?\n\njava {this.entryPoint.classpath}", "DECRAFT") == MessageBoxResult.Yes)
+                if (PopupYesNo.ShowNewPopup(GlobalVars.L.Translate("popup.ui.launchentrypoint.hint_remove", this.entryPoint.classpath), "DECRAFT") == MessageBoxResult.Yes)
                 {
                     jarConfig.entryPoints.Remove(this.entryPoint);
                     jarConfig.SaveToXMLDefault();

@@ -106,7 +106,8 @@ namespace DeCraftLauncher
                             IsChecked = true,
                             VerticalContentAlignment = VerticalAlignment.Center,
                             Padding = new Thickness(0, 4, 0, 4),
-                            Foreground = Brushes.White
+                            Foreground = Brushes.White,
+                            Style = (Style)FindResource("MainCheckBoxStyle")
                         };
                         libBtns.Add(nCheckbox);
                         panel_libdls.Children.Add(nCheckbox);

@@ -10,14 +10,15 @@
         NoiseOpacity="0.0001"
         TintColor="#000000"
         TintOpacity="0.6"
-        Title="DECRAFT: Download JSON" local:GlobalVars.LocKey="window.jsondl.window_title" Height="413" Width="704" Background="#FA000000" AcrylicWindowStyle="Normal">
+        Title="DECRAFT: Download JSON" local:GlobalVars.LocKey="window.jsondl.window_title" Height="413" Width="704" MinWidth="500" MinHeight="230" Background="#FA000000" AcrylicWindowStyle="Normal">
     <Grid>
         <Label Content="Download JSON" x:Name="label_header" local:GlobalVars.LocKey="window.jsondl.header" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="White" FontSize="18" FontWeight="Bold"/>
 
-        <DockPanel Margin="10,49,464,43" LastChildFill="True">
+        <DockPanel Margin="10,49,0,43" LastChildFill="True" HorizontalAlignment="Left" Width="230">
             <Label x:Name="label_jardls_hint" local:GlobalVars.LocKey="window.jsondl.jarlist_hint" DockPanel.Dock="Top" Content="Select .jar file to download" Foreground="White"/>
             <DockPanel DockPanel.Dock="Bottom" LastChildFill="True">
                 <Label x:Name="label_saveas_hint" local:GlobalVars.LocKey="window.jsondl.saveas_hint" DockPanel.Dock="Left" Foreground="White" Content="Save as:"/>
+                <Label Content=".jar" Foreground="White" DockPanel.Dock="Right"/>
                 <TextBox DockPanel.Dock="Right" VerticalContentAlignment="Center" x:Name="tbox_jarsave_name" Style="{StaticResource TextBoxMainStyle}"/>
             </DockPanel>
             <ScrollViewer DockPanel.Dock="Bottom" VerticalScrollBarVisibility="Auto">

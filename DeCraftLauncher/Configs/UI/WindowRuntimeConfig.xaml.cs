@@ -123,18 +123,23 @@ namespace DeCraftLauncher.Configs.UI
             }
         }
 
+        private void SaveConfig()
+        {
+            FixJavaHomeString();
+            MainWindow.mainRTConfig.javaHome = jre_path.Text;
+            MainWindow.mainRTConfig.isJava9 = checkbox_isjava9.IsChecked == true;
+            MainWindow.mainRTConfig.autoExitProcessLog = checkbox_autoexitprocesslog.IsChecked == true;
+            MainWindow.mainRTConfig.enableDiscordRPC = checkbox_enablediscord.IsChecked == true;
+            MainWindow.mainRTConfig.setHeapDump = checkbox_setheapdump.IsChecked == true;
+            MainWindow.mainRTConfig.useLocalizationFile = (string)cbox_langs.SelectedValue == "English" ? null : (string)cbox_langs.SelectedValue;
+            parent.SaveRuntimeConfig();
+        }
+
         private void AcrylicWindow_Closed(object sender, EventArgs e)
         {
             try
             {
-                FixJavaHomeString();
-                MainWindow.mainRTConfig.javaHome = jre_path.Text;
-                MainWindow.mainRTConfig.isJava9 = checkbox_isjava9.IsChecked == true;
-                MainWindow.mainRTConfig.autoExitProcessLog = checkbox_autoexitprocesslog.IsChecked == true;
-                MainWindow.mainRTConfig.enableDiscordRPC = checkbox_enablediscord.IsChecked == true;
-                MainWindow.mainRTConfig.setHeapDump = checkbox_setheapdump.IsChecked == true;
-                MainWindow.mainRTConfig.useLocalizationFile = (string)cbox_langs.SelectedValue == "English" ? null : (string)cbox_langs.SelectedValue;
-                parent.SaveRuntimeConfig();
+                SaveConfig();
             } catch (Exception ex)
             {
                 PopupOK.ShowNewPopup(ex.ToString(), "DECRAFT");
@@ -158,6 +163,7 @@ namespace DeCraftLauncher.Configs.UI
 
         private void btn_identgpu_Click(object sender, RoutedEventArgs e)
         {
+            SaveConfig();
             MainWindow.EnsureDir("./java_temp");
             if (File.Exists("./java_temp/decraft_internal/LWJGLTestGPU.class"))
             {

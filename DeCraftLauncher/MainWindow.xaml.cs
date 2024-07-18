@@ -280,7 +280,19 @@ namespace DeCraftLauncher
         public MainWindow()
         {
             currentDirectory = Directory.GetCurrentDirectory();
-            mainRTConfig = RuntimeConfig.LoadFromXML();
+            try
+            {
+                mainRTConfig = RuntimeConfig.LoadFromXML();
+            } catch (Exception e)
+            {
+                if (PopupYesNo.ShowNewPopup($"Failed to load the launcher configuration file due to the following error:\n{e.Message}\n\nThe configuration file may be corrupted.\nDelete this configuration file and proceed? Your global settings and category data will be reset.\n(If you choose No, the program will close.)", "DECRAFT Launcher") == MessageBoxResult.Yes)
+                {
+                    mainRTConfig = new RuntimeConfig();
+                } else
+                {
+                    Environment.Exit(0);
+                }
+            }
             if (!string.IsNullOrEmpty(mainRTConfig.useLocalizationFile))
             {
                 GlobalVars.L.FromFile($"./Localization/{mainRTConfig.useLocalizationFile}.decraft_lang");

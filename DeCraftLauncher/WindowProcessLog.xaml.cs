@@ -110,92 +110,104 @@ namespace DeCraftLauncher
                 Dispatcher.Invoke(delegate
                 {
                     parent.UpdateRunningInstancesList();
-                    logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.exit_code", t.ExitCode+"");
+                    Run endText = new Run();
+                    endText.Text += GlobalVars.L.Translate("window.processlog.codegen.exit_code", t.ExitCode+"");
                     if (logtext.Text.Contains("\n\tat "))
                     {
-                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.hint_translate_stacktrace");
+                        endText.Text += GlobalVars.L.Translate("window.processlog.codegen.hint_translate_stacktrace");
                     }
                     logscroller.ScrollToVerticalOffset(logscroller.ExtentHeight);
                     btn_killprocess.Visibility = Visibility.Hidden;
 
                     if (logtext.Text.Contains("java.lang.VerifyError"))
                     {
-                        logtext.Text += "\n----------------------------------------------";
-                        logtext.Text += "\n";
-                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_verifyerror_l1");
-                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_verifyerror_l2");
-                        logtext.Text += "\n\n-noverify";
+                        endText.Text += "\n----------------------------------------------";
+                        endText.Text += "\n";
+                        endText.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_verifyerror_l1");
+                        endText.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_verifyerror_l2");
+                        endText.Text += "\n\n-noverify";
                     }
                     else if (logtext.Text.Contains("java.lang.IllegalArgumentException: Comparison method violates"))
                     {
-                        logtext.Text += "\n----------------------------------------------";
-                        logtext.Text += "\n";
-                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_timsorterror_l1");
-                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_timsorterror_l2");
-                        logtext.Text += "\n\n-Djava.util.Arrays.useLegacyMergeSort=true";
+                        endText.Text += "\n----------------------------------------------";
+                        endText.Text += "\n";
+                        endText.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_timsorterror_l1");
+                        endText.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_timsorterror_l2");
+                        endText.Text += "\n\n-Djava.util.Arrays.useLegacyMergeSort=true";
                     }
                     else if (logtext.Text.Contains("java.lang.reflect.InaccessibleObjectException: Unable to make field private")
                         || logtext.Text.Contains("java.lang.NoSuchFieldException: packages")
                         || logtext.Text.Contains("java.lang.NoSuchFieldException: modifiers"))
                     {
-                        logtext.Text += "\n----------------------------------------------";
-                        logtext.Text += "\n";
-                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_modloadernotj8error_l1");
-                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_modloadernotj8error_l2");
+                        endText.Text += "\n----------------------------------------------";
+                        endText.Text += "\n";
+                        endText.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_modloadernotj8error_l1");
+                        endText.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_modloadernotj8error_l2");
                         if (logtext.Text.Contains("InaccessibleObjectException"))
                         {
-                            logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_modloadernotj8error_l3");
+                            endText.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_modloadernotj8error_l3");
                         }
                     }                    
                     else if (logtext.Text.Contains("java.lang.UnsupportedClassVersionError"))
                     {
-                        logtext.Text += "\n----------------------------------------------";
-                        logtext.Text += "\n";
-                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_too_old_l1");
-                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_too_old_l2");
-                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_too_old_l3");
+                        endText.Text += "\n----------------------------------------------";
+                        endText.Text += "\n";
+                        endText.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_too_old_l1");
+                        endText.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_too_old_l2");
+                        endText.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_too_old_l3");
                     }                    
                     else if (logtext.Text.Contains("Unrecognized option: --add-exports"))
                     {
-                        logtext.Text += "\n----------------------------------------------";
-                        logtext.Text += "\n";
-                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_noaddexports_flag_l1");
-                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_noaddexports_flag_l2");
+                        endText.Text += "\n----------------------------------------------";
+                        endText.Text += "\n";
+                        endText.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_noaddexports_flag_l1");
+                        endText.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_noaddexports_flag_l2");
                     }
                     else if (logtext.Text.Contains("NoClassDefFoundError: joptsimple/OptionSpec"))
                     {
-                        logtext.Text += "\n----------------------------------------------";
-                        logtext.Text += "\n";
-                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.hint_onesix_not_supported");
+                        endText.Text += "\n----------------------------------------------";
+                        endText.Text += "\n";
+                        endText.Text += GlobalVars.L.Translate("window.processlog.codegen.hint_onesix_not_supported");
                     }
                     else if (logtext.Text.Contains("NoSuchMethodError: getPointer"))
                     {
-                        logtext.Text += "\n----------------------------------------------";
-                        logtext.Text += "\n";
-                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.lwjglerror_class_mismatch_l1");
-                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.lwjglerror_class_mismatch_l2");
-                        logtext.Text += "\n";
-                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.lwjglerror_class_mismatch_l3");
+                        endText.Text += "\n----------------------------------------------";
+                        endText.Text += "\n";
+                        endText.Text += GlobalVars.L.Translate("window.processlog.codegen.lwjglerror_class_mismatch_l1");
+                        endText.Text += GlobalVars.L.Translate("window.processlog.codegen.lwjglerror_class_mismatch_l2");
+                        endText.Text += "\n";
+                        endText.Text += GlobalVars.L.Translate("window.processlog.codegen.lwjglerror_class_mismatch_l3");
                     }
                     else if (logtext.Text.Contains("Can't load IA 32-bit .dll on a ARM 64-bit platform"))
                     {
-                        logtext.Text += "\n----------------------------------------------";
-                        logtext.Text += "\n";
-                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.dllerror_x86_on_arm_java_l1");
-                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.dllerror_x86_on_arm_java_l2");
-                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.dllerror_x86_on_arm_java_l3");
+                        endText.Text += "\n----------------------------------------------";
+                        endText.Text += "\n";
+                        endText.Text += GlobalVars.L.Translate("window.processlog.codegen.dllerror_x86_on_arm_java_l1");
+                        endText.Text += GlobalVars.L.Translate("window.processlog.codegen.dllerror_x86_on_arm_java_l2");
+                        endText.Text += GlobalVars.L.Translate("window.processlog.codegen.dllerror_x86_on_arm_java_l3");
                     }
                     else if (logtext.Text.Contains("java.lang.NoClassDefFoundError: net/minecraft/client/Minecraft$SyntheticClass_1"))
                     {
-                        logtext.Text += "\n----------------------------------------------";
-                        logtext.Text += "\n";
-                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_mcp_nosynthclass_l1");
-                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_mcp_nosynthclass_l2");
-                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_mcp_nosynthclass_l3");
+                        endText.Text += "\n----------------------------------------------";
+                        endText.Text += "\n";
+                        endText.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_mcp_nosynthclass_l1");
+                        endText.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_mcp_nosynthclass_l2");
+                        endText.Text += GlobalVars.L.Translate("window.processlog.codegen.javaerror_mcp_nosynthclass_l3");
                     }
+                    LinearGradientBrush linearGradientBrush = new LinearGradientBrush();
+                    //this pleasant gradient shows up at your door wyd
+                    linearGradientBrush.StartPoint = new Point(0.5, 0);
+                    linearGradientBrush.EndPoint = new Point(0.5, 1);
+                    linearGradientBrush.GradientStops.Add(new GradientStop(Color.FromRgb(0x9d, 0xe8, 0xff), 0.0));
+                    linearGradientBrush.GradientStops.Add(new GradientStop(Color.FromRgb(0x53, 0xcd, 0xf2), 1.0));
+
+                    endText.FontSize = 16;
+                    endText.FontWeight = FontWeights.Bold;
+                    endText.Foreground = linearGradientBrush;
+                    logtext.Inlines.Add(endText);
                     if (MainWindow.mainRTConfig.autoExitProcessLog)
                     {
-                        logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.hint_autoexit");
+                        logtext.Inlines.Add(new Run( GlobalVars.L.Translate("window.processlog.codegen.hint_autoexit")));
                     }
                 });
                 autoExitTimerStarted = true;
@@ -309,7 +321,7 @@ namespace DeCraftLauncher
                 if (autoExitTimerStarted)
                 {
                     abortAutoExit = true;
-                    logtext.Text += GlobalVars.L.Translate("window.processlog.codegen.autoexit_abort");
+                    logtext.Inlines.Add(new Run( GlobalVars.L.Translate("window.processlog.codegen.autoexit_abort")));
                 }
             }
             else if (e.Key == Key.F3)

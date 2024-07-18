@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:DeCraftLauncher.UIControls"
              mc:Ignorable="d" >
     <StackPanel Orientation="Horizontal">
-        <CheckBox x:Name="checkbox_jarlibenabled" Content="" VerticalContentAlignment="Center"/>
+        <CheckBox Style="{DynamicResource MainCheckBoxStyle}" x:Name="checkbox_jarlibenabled" Content="" VerticalContentAlignment="Center"/>
         <Label x:Name="label_maintext" Content="Jar lib file name here" Margin="10,0" Foreground="White" />
     </StackPanel>
 </UserControl>

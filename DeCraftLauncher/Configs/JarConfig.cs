@@ -38,8 +38,8 @@ namespace DeCraftLauncher.Configs
         public string instanceDirName = "";
         public string jvmArgs = "-Djava.util.Arrays.useLegacyMergeSort=true";
         public string proxyHost = "";
-        public int windowW = 854;
-        public int windowH = 480;
+        public int windowW = -1;
+        public int windowH = -1;
         public string maxJavaVersion = "";
         public string minJavaVersion = "";
         public bool isServer = false;

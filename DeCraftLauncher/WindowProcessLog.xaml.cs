@@ -206,7 +206,13 @@ namespace DeCraftLauncher
                     {
                         Dispatcher.Invoke(delegate
                         {
-                            this.Close();
+                            try
+                            {
+                                this.Close();
+                            } catch (InvalidOperationException)
+                            {
+                                //????
+                            }
                         });
                     }
                 }

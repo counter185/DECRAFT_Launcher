@@ -137,8 +137,9 @@ namespace DeCraftLauncher
                 panel_launch_server_options.Visibility = currentlySelectedJar.isServer ? Visibility.Visible : Visibility.Collapsed;
 
                 tbox_playername.Text = currentlySelectedJar.playerName;
-                window_width.Text = currentlySelectedJar.windowW+"";
-                window_height.Text = currentlySelectedJar.windowH+"";
+                checkbox_launchpanel_windowsize.IsChecked = currentlySelectedJar.windowW != -1 && currentlySelectedJar.windowH != -1;
+                window_width.Text = (currentlySelectedJar.windowW != -1 ? currentlySelectedJar.windowW : 960) +"";
+                window_height.Text = (currentlySelectedJar.windowH != -1 ? currentlySelectedJar.windowH : 540) + "";
                 combobox_lwjgl_version.Text = currentlySelectedJar.LWJGLVersion;
 
                 if (currentlySelectedJar.maxJavaVersion != "")
@@ -345,7 +346,6 @@ namespace DeCraftLauncher
                 label_launchpanel_jvmoptions,
                 label_launchpanel_playername,
                 label_launchpanel_lwjglver,
-                label_launchpanel_windowsize,
                 label_launchpanel_instancedir,
                 label_launchpanel_instancedir2,
                 label_launchpanel_proxyhost,
@@ -356,7 +356,8 @@ namespace DeCraftLauncher
                 btn_open_instance_dir2,
                 btn_editproperties,
                 btn_scan_entrypoints,
-                btn_rtsettings
+                btn_rtsettings,
+                checkbox_launchpanel_windowsize
             );
 
             if (Util.RunningOnWine())
@@ -617,8 +618,9 @@ namespace DeCraftLauncher
 
         public void SaveCurrentJarConfig()
         {
-            currentlySelectedJar.windowW = int.TryParse(window_width.Text, out currentlySelectedJar.windowW) ? currentlySelectedJar.windowW : 960;
-            currentlySelectedJar.windowH = int.TryParse(window_height.Text, out currentlySelectedJar.windowH) ? currentlySelectedJar.windowH : 540;
+            //-1 x -1 if not enabled
+            currentlySelectedJar.windowW = checkbox_launchpanel_windowsize.IsChecked != true ? -1 : (int.TryParse(window_width.Text, out currentlySelectedJar.windowW) ? currentlySelectedJar.windowW : 960);
+            currentlySelectedJar.windowH = checkbox_launchpanel_windowsize.IsChecked != true ? -1 : (int.TryParse(window_height.Text, out currentlySelectedJar.windowH) ? currentlySelectedJar.windowH : 540);
 
             currentlySelectedJar.jvmArgs = jvmargs.Text;
 

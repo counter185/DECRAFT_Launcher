@@ -235,7 +235,7 @@ public class AppletWrapper {{
         mainFrame = new JFrame(""DECRAFT Applet Wrapper: {className}"");
         {className} a = new {className}();
         mainFrame.add(a);
-        mainFrame.setSize({jar.windowW} < 0 ? 854 : {jar.windowW}, {jar.windowH} < 0 ? 480 : {jar.windowH});
+        mainFrame.setSize({jar.windowW} < 0 ? 960 : {jar.windowW}, {jar.windowH} < 0 ? 540 : {jar.windowH});
         mainFrame.setVisible(true);
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 

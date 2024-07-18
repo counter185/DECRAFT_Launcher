@@ -6,17 +6,17 @@
              xmlns:local="clr-namespace:DeCraftLauncher.UIControls"
              xmlns:loc="clr-namespace:DeCraftLauncher"
              xmlns:util="clr-namespace:DeCraftLauncher.Utils"
-             mc:Ignorable="d" Height="120" MinWidth="516">
+             mc:Ignorable="d" Height="102" MinWidth="516">
     <UserControl.Resources>
         <util:UIListBoxMaxWidthLimiter x:Key="widthLimiter" />
     </UserControl.Resources>
     <Grid>
-        <Label x:Name="classname" Margin="10,10,0,0" Content="class.name" VerticalAlignment="Top" FontSize="25" Foreground="White" ClipToBounds="True" FontStyle="Italic" HorizontalContentAlignment="Left" ScrollViewer.CanContentScroll="True" Width="{Binding ActualWidth, Converter={StaticResource widthLimiter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBox}}}" HorizontalAlignment="Left" />
-        <Label x:Name="desc" Content="This class prolly launches the game ig" VerticalAlignment="Top" Foreground="White" FontStyle="Italic" Margin="10,53,10,0"/>
-        <Button x:Name="launchButton" loc:GlobalVars.LocKey="ui.launchentry.btn_launch" Content="Launch" Margin="0,80,10,12" Style="{DynamicResource ButtonMainStyle}" Click="launchButton_Click" HorizontalAlignment="Right" Width="83"/>
-        <Label x:Name="mode" Content="(main class)" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top" Width="224" Foreground="White"/>
-        <Label x:Name="moreInfo" Content="Alpha 1.2.6" Margin="0,80,98,14" Foreground="#FF909090" HorizontalAlignment="Right" Width="300" HorizontalContentAlignment="Right" FontStyle="Italic"/>
-        <Button x:Name="launchAdvancedButton" Content="Parameters..." Margin="0,53,10,45" Style="{DynamicResource ButtonMainStyle}" Click="launchAdvancedButton_Click" HorizontalAlignment="Right" Width="83" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <Label x:Name="classname" Margin="10,0,0,0" Content="class.name" VerticalAlignment="Top" FontSize="25" Foreground="White" ClipToBounds="True" FontStyle="Italic" HorizontalContentAlignment="Left" ScrollViewer.CanContentScroll="True" Width="{Binding ActualWidth, Converter={StaticResource widthLimiter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBox}}}" HorizontalAlignment="Left" />
+        <Label x:Name="desc" Content="This class prolly launches the game ig" VerticalAlignment="Top" Foreground="White" FontStyle="Italic" Margin="10,43,10,0"/>
+        <Button x:Name="launchButton" loc:GlobalVars.LocKey="ui.launchentry.btn_launch" Content="Launch" Margin="0,68,10,0" Style="{DynamicResource ButtonMainStyle}" Click="launchButton_Click" HorizontalAlignment="Right" Width="83" Height="28" VerticalAlignment="Top"/>
+        <Label x:Name="mode" Content="(main class)" HorizontalAlignment="Left" Margin="10,68,0,8" Width="224" Foreground="White"/>
+        <Label x:Name="moreInfo" Content="Alpha 1.2.6" Margin="0,68,98,0" Foreground="#FF909090" HorizontalAlignment="Right" Width="300" HorizontalContentAlignment="Right" FontStyle="Italic" Height="26" VerticalAlignment="Top"/>
+        <Button x:Name="launchAdvancedButton" Content="Parameters..." Margin="0,42,10,0" Style="{DynamicResource ButtonMainStyle}" Click="launchAdvancedButton_Click" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="22" VerticalAlignment="Top" HorizontalAlignment="Right" Width="83"/>
 
     </Grid>
 </UserControl>

@@ -114,6 +114,7 @@ namespace DeCraftLauncher.Localization
                                       .Concat(xdoc.GetElementsByTagName("Button").OfType<XmlElement>())
                                       .Concat(xdoc.GetElementsByTagName("fw:AcrylicWindow").OfType<XmlElement>())
                                       .Concat(xdoc.GetElementsByTagName("TextBlock").OfType<XmlElement>()).ToList()
+                                      .Concat(xdoc.GetElementsByTagName("CheckBox").OfType<XmlElement>()).ToList()
                        where (from xn_attr in xn.Attributes.OfType<XmlAttribute>()
                               where xn_attr.Name.EndsWith("LocKey")
                               select xn_attr).Any()

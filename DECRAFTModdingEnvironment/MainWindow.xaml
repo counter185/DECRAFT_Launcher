@@ -1,0 +1,26 @@
+﻿<fw:AcrylicWindow x:Class="DECRAFTModdingEnvironment.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DECRAFTModdingEnvironment"
+        xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+        mc:Ignorable="d"
+        Height="299" Width="600"
+        NoiseOpacity="0.001"
+        TintColor="#000000"
+        TintOpacity="0.6"
+        fw:AcrylicWindow.Enabled="False"
+        AcrylicWindowStyle="Normal"
+        Title="DECRAFT Modding Environment" Background="#FF000000">
+    <Grid>
+        <DockPanel LastChildFill="True" Margin="10,10,10,10">
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                <Button Style="{DynamicResource DMEButtonStyle}" x:Name="btn_build" Content="Build" Padding="13,5"/>
+                <Button Style="{DynamicResource DMEButtonStyle}" x:Name="btn_buildAndRun" Content="Build and run" Padding="10,2"/>
+                <Button Style="{DynamicResource DMEButtonStyle}" x:Name="btn_envSettings" Content="Environment settings..." Padding="10,2"/>
+            </StackPanel>
+            <TextBlock x:Name="text_log" DockPanel.Dock="Bottom" Foreground="White" Text="log text goes here"/>
+        </DockPanel>
+    </Grid>
+</fw:AcrylicWindow>

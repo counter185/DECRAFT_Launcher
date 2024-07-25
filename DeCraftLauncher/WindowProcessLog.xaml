@@ -16,7 +16,7 @@
         <DockPanel Margin="0,0,0,44" LastChildFill="True">
             <Grid x:Name="panel_stdin" DockPanel.Dock="Bottom">
                 <TextBox x:Name="tbox_contentstdin" Margin="10,0,75,0" Style="{DynamicResource TextBoxMainStyle}"></TextBox>
-                <Button x:Name="btn_sendstdin" local:GlobalVars.LocKey="window.processlog.btn_send_standard_in" Margin="730,0,10,0" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" Content="Send" Click="btn_sendstdin_Click"></Button>
+                <Button x:Name="btn_sendstdin" local:GlobalVars.LocKey="window.processlog.btn_send_standard_in" Margin="0,0,10,0" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" Content="Send" Click="btn_sendstdin_Click" HorizontalAlignment="Right" Width="60"></Button>
             </Grid>
             <ScrollViewer x:Name="logscroller" SizeChanged="ScrollViewer_SizeChanged" DockPanel.Dock="Top">
                 <TextBlock x:Name="logtext" TextWrapping="Wrap" Margin="10,10,10,10" />

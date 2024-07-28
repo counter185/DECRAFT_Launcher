@@ -14,9 +14,9 @@ namespace DECRAFTModdingEnvironment
 {
     public class WorkspaceConfig
     {
-        public string jdkPath;
+        public string jdkPath = "";
         public string workspaceName = "New DME Workspace";
-        public string versionName;
+        public string versionName = "";
         public int preferredJDKVersion = 7;
 
         public Dictionary<string, string> originalMD5s;

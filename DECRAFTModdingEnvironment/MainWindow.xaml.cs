@@ -30,10 +30,12 @@ namespace DECRAFTModdingEnvironment
             currentDirectory = Directory.GetCurrentDirectory();
             try
             {
-                workspaceConfig = WorkspaceConfig.LoadFromXML("_dme_config.xml");
+                workspaceConfig = WorkspaceConfig.LoadFromXML("_dme_config/_dme_workspace.xml");
             } catch (Exception e)
             {
-                //uhhh
+                workspaceConfig = new WorkspaceConfig();
+                //workspaceConfig.RunDecomp();
+                workspaceConfig.SaveToXML();
             }
 
             DME.Utils.Util.UpdateAcrylicWindowBackground(this);

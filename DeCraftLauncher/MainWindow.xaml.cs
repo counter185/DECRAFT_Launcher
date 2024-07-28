@@ -362,7 +362,12 @@ namespace DeCraftLauncher
 
             if (Util.RunningOnWine())
             {
+                Environment.GetCommandLineArgs().Any(x => x == "-nowinepopup");
+                if (x == true) {
+                //don't show the popup
+                } else {
                 PopupOK.ShowNewPopup(GlobalVars.locManager.Translate("popup.wine_warning"), "DECRAFT");
+                }
             }
 
 #if DEBUG

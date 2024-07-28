@@ -360,13 +360,9 @@ namespace DeCraftLauncher
                 checkbox_launchpanel_windowsize
             );
 
-            if (Util.RunningOnWine())
+            if (Util.RunningOnWine() && !Environment.GetCommandLineArgs().Any(x => x == "-nowinepopup"))
             {
-                if Environment.GetCommandLineArgs().Any(x => x == "-nowinepopup") {
-                //don't show the popup
-                } else {
                 PopupOK.ShowNewPopup(GlobalVars.locManager.Translate("popup.wine_warning"), "DECRAFT");
-                }
             }
 
 #if DEBUG

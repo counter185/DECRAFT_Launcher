@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeCraftLauncher", "DeCraftL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DECRAFTModdingEnvironment", "DECRAFTModdingEnvironment\DECRAFTModdingEnvironment.csproj", "{585E2CF7-EED4-4886-A8ED-7D0D1C5870F9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DECRAFTUpdater", "DECRAFTUpdater\DECRAFTUpdater.csproj", "{215F024D-EA17-499F-B610-334144F267DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{585E2CF7-EED4-4886-A8ED-7D0D1C5870F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{585E2CF7-EED4-4886-A8ED-7D0D1C5870F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{585E2CF7-EED4-4886-A8ED-7D0D1C5870F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{215F024D-EA17-499F-B610-334144F267DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{215F024D-EA17-499F-B610-334144F267DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{215F024D-EA17-499F-B610-334144F267DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{215F024D-EA17-499F-B610-334144F267DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

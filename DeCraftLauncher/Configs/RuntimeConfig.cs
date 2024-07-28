@@ -20,6 +20,7 @@ namespace DeCraftLauncher.Configs
         public bool enableDiscordRPC = true;
         public bool setHeapDump = true;
         public string useLocalizationFile = null;
+        public bool runAutoUpdater = false;
 
         public void UpdateAutoIsJava9Option()
         {
@@ -52,6 +53,7 @@ namespace DeCraftLauncher.Configs
                     ret.enableDiscordRPC = bool.Parse(Util.GetInnerOrDefault(rootNode, "EnableDiscordRPC", "true", "bool"));
                     ret.setHeapDump = bool.Parse(Util.GetInnerOrDefault(rootNode, "SetHeapDump", "true", "bool"));
                     ret.useLocalizationFile = Util.GetInnerOrDefault(rootNode, "LocalizationFile", null);
+                    ret.runAutoUpdater = bool.Parse(Util.GetInnerOrDefault(rootNode, "RunAutoUpdater", "false", "bool"));
 
                     XmlNode categoriesNode = rootNode.SelectSingleNode("Categories");
                     if (categoriesNode != null)
@@ -117,6 +119,7 @@ namespace DeCraftLauncher.Configs
             rootElement.AppendChild(Util.GenElementChild(newXml, "EnableDiscordRPC", enableDiscordRPC.ToString()));
             rootElement.AppendChild(Util.GenElementChild(newXml, "SetHeapDump", setHeapDump.ToString()));
             rootElement.AppendChild(Util.GenElementChild(newXml, "LocalizationFile", useLocalizationFile));
+            rootElement.AppendChild(Util.GenElementChild(newXml, "RunAutoUpdater", runAutoUpdater.ToString()));
 
             XmlNode catEntries = Util.GenElementChild(newXml, "Categories");
             foreach (Category cat in jarCategories) //meow

@@ -13,5 +13,9 @@ namespace DECRAFTModdingEnvironment
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            SourceChord.FluentWPF.ResourceDictionaryEx.GlobalTheme = SourceChord.FluentWPF.ElementTheme.Dark;
+        }
     }
 }

@@ -3,6 +3,7 @@ popup.common.no=No
 popup.common.cancel=Cancel
 
 popup.startup_error=Error starting main window:&#x0a; &arg0;
+popup.updater_error=Error running updater:&#x0a; &arg0;
 popup.wine_warning=You may be running DECRAFT on the Wine compatibility layer.&#x0a;If the launcher crashes after this popup, open &quot;winecfg&quot; and set your Windows version to Windows 7.&#x0a;DECRAFT can only use Windows versions of Java, so be sure to install one into your Wine prefix.&#x0a;&#x0a;Good luck, and expect bugs.
 popup.error_download_in_progress=&arg0; is currently being downloaded.&#x0a;Wait for the download to finish, then try again.
 popup.running_instances_on_close=Some instances are still running.&#x0a;Closing DECRAFT will keep them open. Close anyway?

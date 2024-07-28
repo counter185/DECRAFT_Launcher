@@ -17,7 +17,7 @@ using System.Xml;
 using PCInfo = Microsoft.VisualBasic.Devices.ComputerInfo;
 using WinColor = System.Windows.Media.Color;
 
-namespace DeCraftLauncher.Utils
+namespace DME.Utils
 {
     public static class Util
     {
@@ -27,10 +27,10 @@ namespace DeCraftLauncher.Utils
         const byte TRANSPARENCY_ON = 0xA0;
         const byte TRANSPARENCY_OFF = 0xF0;
 
-        [DllImport("dwmapi.dll", CharSet = CharSet.Unicode, PreserveSig = false)]
-        public static extern void DwmSetWindowAttribute(IntPtr hwnd,
+        [DllImport("dwmapi.dll", CharSet = CharSet.Unicode)]
+        public static extern uint DwmSetWindowAttribute(IntPtr hwnd,
                                                 uint attribute,
-                                                ref int pvAttribute,
+                                                ref uint pvAttribute,
                                                 uint cbAttribute);
         [Flags]
         public enum DWM_BB
@@ -69,7 +69,7 @@ namespace DeCraftLauncher.Utils
 
         public static void SetWindowDarkMode(IntPtr windowHandle)
         {
-            int val = 1;
+            uint val = 1;
             try
             {
                 if (windowHandle != IntPtr.Zero)
@@ -108,14 +108,13 @@ namespace DeCraftLauncher.Utils
                     window.Background = new SolidColorBrush(WinColor.FromArgb(TRANSPARENCY_ON, 0, 0, 0));
                     window.Opacity = 0.88;
                     window.TintOpacity = 0.1;
-                    int trueVal = 3;
-                    int trueVal2 = 1;
+                    uint trueVal = 3;
+                    uint trueVal2 = 1;
                     IntPtr wHandle = new WindowInteropHelper(window).EnsureHandle();
-                    SetWindowDarkMode(wHandle);
                     try
                     {
-                        DwmSetWindowAttribute(wHandle, 20, ref trueVal2, sizeof(uint));
-                        DwmSetWindowAttribute(wHandle, 38, ref trueVal, sizeof(uint));
+                        uint a1 = DwmSetWindowAttribute(wHandle, 20, ref trueVal2, sizeof(uint));
+                        uint a2 = DwmSetWindowAttribute(wHandle, 38, ref trueVal, sizeof(uint));
                         if (DwmIsCompositionEnabled())
                         {
                             Util.DWM_BLURBEHIND nblurProperties = new Util.DWM_BLURBEHIND

@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using DeCraftLauncher;
+using System.IO;
 using SourceChord.FluentWPF;
 
 namespace DECRAFTModdingEnvironment
@@ -22,11 +22,12 @@ namespace DECRAFTModdingEnvironment
     /// </summary>
     public partial class MainWindow : AcrylicWindow
     {
+        public static string currentDirectory;
         public WorkspaceConfig workspaceConfig;
         public MainWindow()
         {
             InitializeComponent();
-            DeCraftLauncher.Utils.Util.UpdateAcrylicWindowBackground(this);
+            currentDirectory = Directory.GetCurrentDirectory();
             try
             {
                 workspaceConfig = WorkspaceConfig.LoadFromXML("_dme_config.xml");
@@ -34,6 +35,8 @@ namespace DECRAFTModdingEnvironment
             {
                 //uhhh
             }
+
+            DME.Utils.Util.UpdateAcrylicWindowBackground(this);
         }
     }
 }

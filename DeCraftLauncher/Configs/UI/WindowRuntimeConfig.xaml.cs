@@ -36,6 +36,7 @@ namespace DeCraftLauncher.Configs.UI
             checkbox_autoexitprocesslog.IsChecked = MainWindow.mainRTConfig.autoExitProcessLog;
             checkbox_enablediscord.IsChecked = MainWindow.mainRTConfig.enableDiscordRPC;
             checkbox_setheapdump.IsChecked = MainWindow.mainRTConfig.setHeapDump;
+            checkbox_runautoupdater.IsChecked = MainWindow.mainRTConfig.runAutoUpdater;
 
             cbox_langs.Items.Add("English");
             if (Directory.Exists("./Localization/"))
@@ -59,6 +60,7 @@ namespace DeCraftLauncher.Configs.UI
                 label_enable_discordrpc,
                 label_set_heapdump,
                 label_language,
+                label_run_updater,
                 btn_identgpu,
                 jreconfig_version
             );
@@ -132,6 +134,7 @@ namespace DeCraftLauncher.Configs.UI
             MainWindow.mainRTConfig.enableDiscordRPC = checkbox_enablediscord.IsChecked == true;
             MainWindow.mainRTConfig.setHeapDump = checkbox_setheapdump.IsChecked == true;
             MainWindow.mainRTConfig.useLocalizationFile = (string)cbox_langs.SelectedValue == "English" ? null : (string)cbox_langs.SelectedValue;
+            MainWindow.mainRTConfig.runAutoUpdater = checkbox_runautoupdater.IsChecked == true;
             parent.SaveRuntimeConfig();
         }
 

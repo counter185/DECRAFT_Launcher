@@ -25,6 +25,7 @@ using DeCraftLauncher.UIControls.Popup;
 using System.ComponentModel;
 using DeCraftLauncher.Localization;
 using System.Windows.Controls.Primitives;
+using System.Diagnostics;
 
 namespace DeCraftLauncher
 {
@@ -292,6 +293,17 @@ namespace DeCraftLauncher
                 } else
                 {
                     Environment.Exit(0);
+                }
+            }
+            if (mainRTConfig.runAutoUpdater)
+            {
+                try
+                {
+                    Process.Start("DECRAFTUpdater.exe");
+                }
+                catch (Exception e)
+                {
+                    PopupOK.ShowNewPopup(GlobalVars.locManager.Translate("popup.updater_error", e.Message), "DECRAFT");
                 }
             }
             if (!string.IsNullOrEmpty(mainRTConfig.useLocalizationFile))

@@ -26,6 +26,7 @@ namespace DECRAFTModdingEnvironment
         public WorkspaceConfig workspaceConfig;
         public MainWindow()
         {
+            SourceChord.FluentWPF.ResourceDictionaryEx.GlobalTheme = SourceChord.FluentWPF.ElementTheme.Dark;
             InitializeComponent();
             currentDirectory = Directory.GetCurrentDirectory();
             try
@@ -34,11 +35,31 @@ namespace DECRAFTModdingEnvironment
             } catch (Exception e)
             {
                 workspaceConfig = new WorkspaceConfig();
-                //workspaceConfig.RunDecomp();
+                workspaceConfig.RunDecomp();
                 workspaceConfig.SaveToXML();
             }
 
             DME.Utils.Util.UpdateAcrylicWindowBackground(this);
+        }
+
+        private void btn_build_Click(object sender, RoutedEventArgs e)
+        {
+            workspaceConfig.RunRecomp();
+        }
+
+        private void btn_halfBuild_Click(object sender, RoutedEventArgs e)
+        {
+            workspaceConfig.HalfBuild();
+        }
+
+        private void btn_fullBuild_Click(object sender, RoutedEventArgs e)
+        {
+            workspaceConfig.FullBuild();
+        }
+
+        private void btn_buildAndRun_Click(object sender, RoutedEventArgs e)
+        {
+            workspaceConfig.FullBuildAndRun();
         }
     }
 }

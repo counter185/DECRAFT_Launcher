@@ -11,13 +11,14 @@
         TintColor="#000000"
         TintOpacity="0.6"
         fw:AcrylicWindow.Enabled="False"
-        AcrylicWindowStyle="Normal"
         Title="DECRAFT Modding Environment" Background="#FF000000">
     <Grid>
         <DockPanel LastChildFill="True" Margin="10,10,10,10">
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-                <Button Style="{DynamicResource DMEButtonStyle}" x:Name="btn_build" Content="Build" Padding="13,5"/>
-                <Button Style="{DynamicResource DMEButtonStyle}" x:Name="btn_buildAndRun" Content="Build and run" Padding="10,2"/>
+                <Button Style="{DynamicResource DMEButtonStyle}" x:Name="btn_build" Content="Build" Padding="13,5" Click="btn_build_Click"/>
+                <Button Style="{DynamicResource DMEButtonStyle}" x:Name="btn_halfBuild" Content="Build mod zip" Padding="10,2" Click="btn_halfBuild_Click"/>
+                <Button Style="{DynamicResource DMEButtonStyle}" x:Name="btn_fullBuild" Content="Build full jar" Padding="10,2" Click="btn_fullBuild_Click"/>
+                <Button Style="{DynamicResource DMEButtonStyle}" x:Name="btn_buildAndRun" Content="Build and run" Padding="10,2" Click="btn_buildAndRun_Click"/>
                 <Button Style="{DynamicResource DMEButtonStyle}" x:Name="btn_envSettings" Content="Environment settings..." Padding="10,2"/>
             </StackPanel>
             <TextBlock x:Name="text_log" DockPanel.Dock="Bottom" Foreground="White" Text="log text goes here"/>

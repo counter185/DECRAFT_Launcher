@@ -16,6 +16,7 @@ popup.download_complete=Download complete.
 popup.jar_exists=&arg0; already exists. Overwrite?
 popup.rename_jar=Rename &arg0;:
 popup.btn_rename=Rename...
+popup.error_ensuredir_failed=DECRAFT does not have permission to create a required data directory.&#x0a;Either run DECRAFT as administrator, or set the program directory's permissions to allow reading and writing for your current user.&#x0a;&#x0a;DECRAFT will now close.
 window.main.codegen.req_jvm=req.JVM:
 window.main.codegen.n_running_instances_one=&arg0; running instance
 window.main.codegen.n_running_instances_multiple=&arg0; running instances

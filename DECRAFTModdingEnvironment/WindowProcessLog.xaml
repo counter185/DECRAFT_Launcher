@@ -1,0 +1,27 @@
+﻿<fw:AcrylicWindow x:Class="DECRAFTModdingEnvironment.WindowProcessLog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+        fw:AcrylicWindow.Enabled="False"
+        mc:Ignorable="d"
+        NoiseOpacity="0.0001"
+        TintColor="#000000"
+        TintOpacity="0.6"
+        Title="Process Log" Height="450" Width="800" Background="#FA000000" AcrylicWindowStyle="Normal">
+    <Grid>
+
+        <DockPanel Margin="0,0,0,44" LastChildFill="True">
+            <Grid x:Name="panel_stdin" DockPanel.Dock="Bottom">
+                <TextBox x:Name="tbox_contentstdin" Margin="10,0,75,0"></TextBox>
+                <Button x:Name="btn_sendstdin" Margin="0,0,10,0" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" Content="Send" Click="btn_sendstdin_Click" HorizontalAlignment="Right" Width="60"></Button>
+            </Grid>
+            <ScrollViewer x:Name="logscroller" SizeChanged="ScrollViewer_SizeChanged" DockPanel.Dock="Top">
+                <TextBlock x:Name="logtext" FontFamily="Source Code Pro" Foreground="White" TextWrapping="Wrap" Margin="10,10,10,10" />
+            </ScrollViewer>
+        </DockPanel>
+        <Button x:Name="btn_killprocess" Content="Kill process" HorizontalAlignment="Left" Margin="10,0,0,10" Width="97" Foreground="White" Background="{x:Null}" BorderBrush="#FF313131" Click="proc_kill_Click" Height="29" VerticalAlignment="Bottom"/>
+
+    </Grid>
+</fw:AcrylicWindow>

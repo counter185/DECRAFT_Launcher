@@ -216,7 +216,15 @@ namespace DeCraftLauncher
         {
             if (!Directory.Exists(path))
             {
-                Directory.CreateDirectory(path);
+                try
+                {
+                    Directory.CreateDirectory(path);
+                } 
+                catch (UnauthorizedAccessException)
+                {
+                    PopupOK.ShowNewPopup(GlobalVars.locManager.Translate("popup.error_ensuredir_failed"), "DECRAFT");
+                    Environment.Exit(0);
+                }
             }
         }
 
@@ -378,27 +386,30 @@ namespace DeCraftLauncher
             }
 
 #if DEBUG
-            GlobalVars.locManager.GenerateLocalizationsFromXAML(
-                    "..\\..\\MainWindow.xaml",
-                    "..\\..\\WindowDeployMTP.xaml",
-                    "..\\..\\WindowNewCategory.xaml",
-                    "..\\..\\WindowProcessLog.xaml",
-                    "..\\..\\WindowRETool.xaml",
-                    "..\\..\\WindowSetCategory.xaml",
-                    "..\\..\\WindowDownloadJSON.xaml",
-                    "..\\..\\Configs\\UI\\WindowAddCustomLaunch.xaml",
-                    "..\\..\\Configs\\UI\\WindowAppletParametersOptions.xaml",
-                    "..\\..\\Configs\\UI\\WindowJarAdvancedOptions.xaml",
-                    "..\\..\\Configs\\UI\\WindowJavaFinder.xaml",
-                    "..\\..\\Configs\\UI\\WindowRuntimeConfig.xaml",
-                    "..\\..\\Configs\\UI\\WindowServerPropertiesEditor.xaml",
-                    "..\\..\\Configs\\UI\\WindowSetJarLibs.xaml",
-                    "..\\..\\Utils\\NBTEditor\\WindowNBTAddToCompound.xaml",
-                    "..\\..\\Utils\\NBTEditor\\WindowNBTEditor.xaml",
-                    "..\\..\\UIControls\\LaunchEntryPoint.xaml",
-                    "..\\..\\UIControls\\LauncherEntryPointFinding.xaml",
-                    "..\\..\\UIControls\\ModsFoundEntryPoint.xaml"
-                );
+            if (Environment.GetCommandLineArgs().Any(x => x == "-genlocfiles"))
+            {
+                GlobalVars.locManager.GenerateLocalizationsFromXAML(
+                        "..\\..\\MainWindow.xaml",
+                        "..\\..\\WindowDeployMTP.xaml",
+                        "..\\..\\WindowNewCategory.xaml",
+                        "..\\..\\WindowProcessLog.xaml",
+                        "..\\..\\WindowRETool.xaml",
+                        "..\\..\\WindowSetCategory.xaml",
+                        "..\\..\\WindowDownloadJSON.xaml",
+                        "..\\..\\Configs\\UI\\WindowAddCustomLaunch.xaml",
+                        "..\\..\\Configs\\UI\\WindowAppletParametersOptions.xaml",
+                        "..\\..\\Configs\\UI\\WindowJarAdvancedOptions.xaml",
+                        "..\\..\\Configs\\UI\\WindowJavaFinder.xaml",
+                        "..\\..\\Configs\\UI\\WindowRuntimeConfig.xaml",
+                        "..\\..\\Configs\\UI\\WindowServerPropertiesEditor.xaml",
+                        "..\\..\\Configs\\UI\\WindowSetJarLibs.xaml",
+                        "..\\..\\Utils\\NBTEditor\\WindowNBTAddToCompound.xaml",
+                        "..\\..\\Utils\\NBTEditor\\WindowNBTEditor.xaml",
+                        "..\\..\\UIControls\\LaunchEntryPoint.xaml",
+                        "..\\..\\UIControls\\LauncherEntryPointFinding.xaml",
+                        "..\\..\\UIControls\\ModsFoundEntryPoint.xaml"
+                    );
+            }
 #endif
         }
 

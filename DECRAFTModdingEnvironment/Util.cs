@@ -85,6 +85,8 @@ namespace DME.Utils
         public static void UpdateAcrylicWindowBackground(AcrylicWindow window)
         {
             string osName = new PCInfo().OSFullName;
+            window.AcrylicWindowStyle = AcrylicWindowStyle.Normal;
+            SourceChord.FluentWPF.ResourceDictionaryEx.GlobalTheme = SourceChord.FluentWPF.ElementTheme.Dark;
             if (Environment.OSVersion.Version.Major < 6 || (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor == 0)
                 || osName.ToLower().Contains("windows 11"))
             {

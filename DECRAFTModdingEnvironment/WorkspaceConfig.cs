@@ -180,23 +180,33 @@ namespace DECRAFTModdingEnvironment
                 byte[] md5Bytes = MD5.Create().ComputeHash(file);
                 file.Close();
                 return BitConverter.ToString(md5Bytes).Replace("-", "") != x.Value;
-            }).Where(x => x.Key.EndsWith(".java")).Select((x) => x.Key);
-
-            File.WriteAllLines("./_dme_config/build_classes.txt", recompFiles);
-
+            }).Select((x) => x.Key);
+            
+            Directory.CreateDirectory("./build");
+            Directory.CreateDirectory("./build/classes");
 
             if (force
                 || recompFiles.Any()
                 || Directory.EnumerateFiles("./src", "*", SearchOption.AllDirectories).Count() != originalMD5s.Count)
             {
-                
-                Directory.CreateDirectory("./build");
-                Directory.CreateDirectory("./build/classes");
-                var classPaths = Directory.EnumerateFiles("./_dme_config/bin/lib", "*.jar").Select((x) => x.Replace("\\", "/"));
-                string javacLaunchString = $"-cp {String.Join(";", classPaths)} -d ./build/classes @./_dme_config/build_classes.txt";
-                Process javacProc = JavaExec.RunProcess(jdkPath == "" ? "javac.exe" : (jdkPath + "/javac.exe"), javacLaunchString);
-                WindowProcessLog log = new WindowProcessLog(javacProc, false, true);
-                log.ShowDialog();
+                var classRecompFiles = recompFiles.Where(x => x.EndsWith(".java"));
+                if (classRecompFiles.Any()) { 
+                    File.WriteAllLines("./_dme_config/build_classes.txt", classRecompFiles);
+
+                    var classPaths = Directory.EnumerateFiles("./_dme_config/bin/lib", "*.jar").Select((x) => x.Replace("\\", "/"));
+                    string javacLaunchString = $"-cp {String.Join(";", classPaths)} -d ./build/classes @./_dme_config/build_classes.txt";
+                    Process javacProc = JavaExec.RunProcess(jdkPath == "" ? "javac.exe" : (jdkPath + "/javac.exe"), javacLaunchString);
+                    WindowProcessLog log = new WindowProcessLog(javacProc, false, true);
+                    log.ShowDialog();
+
+                    int javacExitCode = javacProc.ExitCode;
+                    if (javacExitCode != 0)
+                    {
+                        MessageBox.Show("The build failed. Fix the errors in your code and try again.", "Compilation failed");
+                        return false;
+                        //throw new Exception("Javac compilation failed");
+                    }
+                }
 
                 //copy all non-java files from src to build/classes
                 foreach (string file in Directory.EnumerateFiles("./src", "*", SearchOption.AllDirectories).Where((x) => !x.EndsWith(".java")))
@@ -208,14 +218,6 @@ namespace DECRAFTModdingEnvironment
                         File.Delete($"./build/classes/{relativePath}");
                     }
                     File.Copy(file, $"./build/classes/{relativePath}");
-                }
-
-                int javacExitCode = javacProc.ExitCode;
-                if (javacExitCode != 0)
-                {
-                    MessageBox.Show("The build failed. Fix the errors in your code and try again.", "Compilation failed");
-                    return false;
-                    //throw new Exception("Javac compilation failed");
                 }
             }
             return true;

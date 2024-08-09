@@ -1,7 +1,7 @@
 ![logo](md_img/decraft_logo.png)
 # DECRAFT
 Advanced launcher for very old Minecraft.
-[Latest releases](h#tps://github.com/counter185/DECRAFT_Launcher/releases)
+[Latest releases](https://github.com/counter185/DECRAFT_Launcher/releases)
 
 ![ui_image_1](md_img/ui_1.png)
 

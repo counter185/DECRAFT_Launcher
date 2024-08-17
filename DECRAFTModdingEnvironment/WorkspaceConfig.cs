@@ -21,6 +21,8 @@ namespace DECRAFTModdingEnvironment
         public string launchEntryPoint = "net.minecraft.client.Minecraft";
         public string gameArgs = "";
         public string jvmArgs = "";
+        public string srcDir = "./src";
+        public string buildDir = "./build";
         public int preferredJDKVersion = 7;
 
         public Dictionary<string, string> originalMD5s = new Dictionary<string, string>();
@@ -65,6 +67,8 @@ namespace DECRAFTModdingEnvironment
             config.launchEntryPoint =   NodeOrDefault(root, "LaunchEntryPoint", "net.minecraft.client.Minecraft");
             config.gameArgs =           NodeOrDefault(root, "GameArgs");
             config.jvmArgs =            NodeOrDefault(root, "JVMArgs");
+            config.srcDir =             NodeOrDefault(root, "SourceDir", "./src");
+            config.buildDir =           NodeOrDefault(root, "BuildDir", "./build");
 
             foreach (string md5pair in File.ReadAllLines("./_dme_config/class_md5s.txt"))
             {
@@ -102,13 +106,21 @@ namespace DECRAFTModdingEnvironment
             XmlNode jvmArgsNode = xdoc.CreateElement("JVMArgs");
             jvmArgsNode.InnerText = jvmArgs;
             root.AppendChild(jvmArgsNode);
+
+            XmlNode srcDirNode = xdoc.CreateElement("SourceDir");
+            srcDirNode.InnerText = srcDir;
+            root.AppendChild(srcDirNode);
+
+            XmlNode buildDirNode = xdoc.CreateElement("BuildDir");
+            buildDirNode.InnerText = buildDir;
+            root.AppendChild(buildDirNode);
         
             xdoc.Save("./_dme_config/_dme_workspace.xml");
         }
 
         public void RunDecomp()
         {
-            Directory.CreateDirectory("./src");
+            Directory.CreateDirectory(srcDir);
             //todo: remap jar
 
             if (File.Exists("./_dme_config/obf_to_deobf.tinyv2"))
@@ -122,7 +134,7 @@ namespace DECRAFTModdingEnvironment
                 File.Move("./_dme_config/bin/lib/base_deobf.jar", "./_dme_config/bin/lib/base.jar");
             }
 
-            string procyonLaunchString = $"-jar {"./_dme_config/bin/procyon.jar"} ./_dme_config/bin/lib/base.jar -o ./src";
+            string procyonLaunchString = $"-jar {"./_dme_config/bin/procyon.jar"} ./_dme_config/bin/lib/base.jar -o {srcDir}";
             Process procyonProc = JavaExec.RunProcess(jdkPath == "" ? "java.exe" : (jdkPath + "/java.exe"), procyonLaunchString, null);
             WindowProcessLog log = new WindowProcessLog(procyonProc, true, true);
             log.ShowDialog();
@@ -142,19 +154,19 @@ namespace DECRAFTModdingEnvironment
                     continue;
                 }
                 Console.WriteLine($"Unpack: {entry.FullName}");
-                Directory.CreateDirectory(Path.GetDirectoryName($"./src/{entry.FullName}"));
-                if (File.Exists($"./src/{entry.FullName}"))
+                Directory.CreateDirectory(Path.GetDirectoryName($"{srcDir}/{entry.FullName}"));
+                if (File.Exists($"{srcDir}/{entry.FullName}"))
                 {
-                    File.Delete($"./src/{entry.FullName}");
+                    File.Delete($"{srcDir}/{entry.FullName}");
                 }
-                entry.ExtractToFile($"./src/{entry.FullName}");
-                FileStream file = File.OpenRead($"./src/{entry.FullName}");
+                entry.ExtractToFile($"{srcDir}/{entry.FullName}");
+                FileStream file = File.OpenRead($"{srcDir}/{entry.FullName}");
                 file.Close();
             }
             baseJar.Dispose();
 
             MD5 md5 = MD5.Create();
-            foreach (string file in Directory.EnumerateFiles("./src", "*", SearchOption.AllDirectories))
+            foreach (string file in Directory.EnumerateFiles(srcDir, "*", SearchOption.AllDirectories))
             {
                 Console.WriteLine($"Hashing: {file}");
                 FileStream fileStream = File.OpenRead(file);
@@ -182,19 +194,19 @@ namespace DECRAFTModdingEnvironment
                 return BitConverter.ToString(md5Bytes).Replace("-", "") != x.Value;
             }).Select((x) => x.Key);
             
-            Directory.CreateDirectory("./build");
-            Directory.CreateDirectory("./build/classes");
+            Directory.CreateDirectory(buildDir);
+            Directory.CreateDirectory($"{buildDir}/classes");
 
             if (force
                 || recompFiles.Any()
-                || Directory.EnumerateFiles("./src", "*", SearchOption.AllDirectories).Count() != originalMD5s.Count)
+                || Directory.EnumerateFiles(srcDir, "*", SearchOption.AllDirectories).Count() != originalMD5s.Count)
             {
                 var classRecompFiles = recompFiles.Where(x => x.EndsWith(".java"));
                 if (classRecompFiles.Any()) { 
                     File.WriteAllLines("./_dme_config/build_classes.txt", classRecompFiles);
 
                     var classPaths = Directory.EnumerateFiles("./_dme_config/bin/lib", "*.jar").Select((x) => x.Replace("\\", "/"));
-                    string javacLaunchString = $"-cp {String.Join(";", classPaths)} -d ./build/classes @./_dme_config/build_classes.txt";
+                    string javacLaunchString = $"-cp {String.Join(";", classPaths)} -d {buildDir}/classes @./_dme_config/build_classes.txt";
                     Process javacProc = JavaExec.RunProcess(jdkPath == "" ? "javac.exe" : (jdkPath + "/javac.exe"), javacLaunchString);
                     WindowProcessLog log = new WindowProcessLog(javacProc, false, true);
                     log.ShowDialog();
@@ -209,15 +221,15 @@ namespace DECRAFTModdingEnvironment
                 }
 
                 //copy all non-java files from src to build/classes
-                foreach (string file in Directory.EnumerateFiles("./src", "*", SearchOption.AllDirectories).Where((x) => !x.EndsWith(".java")))
+                foreach (string file in Directory.EnumerateFiles(srcDir, "*", SearchOption.AllDirectories).Where((x) => !x.EndsWith(".java")))
                 {
                     string relativePath = file.Substring(5);
-                    Directory.CreateDirectory($"./build/classes/{Path.GetDirectoryName(relativePath)}");
-                    if (File.Exists($"./build/classes/{relativePath}"))
+                    Directory.CreateDirectory($"{buildDir}/classes/{Path.GetDirectoryName(relativePath)}");
+                    if (File.Exists($"{buildDir}/classes/{relativePath}"))
                     {
-                        File.Delete($"./build/classes/{relativePath}");
+                        File.Delete($"{buildDir}/classes/{relativePath}");
                     }
-                    File.Copy(file, $"./build/classes/{relativePath}");
+                    File.Copy(file, $"{buildDir}/classes/{relativePath}");
                 }
             }
             return true;
@@ -227,11 +239,11 @@ namespace DECRAFTModdingEnvironment
         {
             if (RunRecomp())
             {
-                if (File.Exists("./build/build_modified.zip"))
+                if (File.Exists($"{buildDir}/build_modified.zip"))
                 {
-                    File.Delete("./build/build_modified.zip");
+                    File.Delete($"{buildDir}/build_modified.zip");
                 }
-                ZipFile.CreateFromDirectory("./build/classes", "./build/build_modified.zip");
+                ZipFile.CreateFromDirectory($"{buildDir}/classes", $"{buildDir}/build_modified.zip");
                 return true;
             }
             return false;
@@ -241,14 +253,14 @@ namespace DECRAFTModdingEnvironment
         {
             if (HalfBuild())
             {
-                if (File.Exists("./build/build_full.jar"))
+                if (File.Exists($"{buildDir}/build_full.jar"))
                 {
-                    File.Delete("./build/build_full.jar");
+                    File.Delete($"{buildDir}/build_full.jar");
                 }
-                File.Copy("./_dme_config/bin/lib/base.jar", "./build/build_full.jar");
+                File.Copy("./_dme_config/bin/lib/base.jar", $"{buildDir}/build_full.jar");
 
                 //merge build_modified.zip into build_full.jar
-                using (ZipArchive fullJar = ZipFile.Open("./build/build_full.jar", ZipArchiveMode.Update))
+                using (ZipArchive fullJar = ZipFile.Open($"{buildDir}/build_full.jar", ZipArchiveMode.Update))
                 {
                     //delete META-INF and all of its contents
                     foreach (ZipArchiveEntry entry in fullJar.Entries.Where((x) => x.FullName.StartsWith("META-INF")))
@@ -256,7 +268,7 @@ namespace DECRAFTModdingEnvironment
                         entry.Delete();
                     }
 
-                    using (ZipArchive modifiedZip = ZipFile.OpenRead("./build/build_modified.zip"))
+                    using (ZipArchive modifiedZip = ZipFile.OpenRead($"{buildDir}/build_modified.zip"))
                     {
                         foreach (ZipArchiveEntry entry in modifiedZip.Entries)
                         {
@@ -287,7 +299,7 @@ namespace DECRAFTModdingEnvironment
         public void RunBuild()
         {
             var classPaths = Directory.EnumerateFiles("./_dme_config/bin/lib", "*.jar").Where(x => !x.EndsWith("base.jar")).Select((x) => x.Replace("\\", "/"))
-                .Concat(new string[]{ "./build/build_full.jar"});
+                .Concat(new string[]{ $"{buildDir}/build_full.jar"});
             string javaArgs = $"-cp {String.Join(";", classPaths)} -Djava.library.path={"./_dme_config/bin/lib/native"} {jvmArgs} {launchEntryPoint} {gameArgs}";     //TODO!!!!
             Directory.CreateDirectory("./gamedir");
             Process javaProc = JavaExec.RunProcess(jdkPath == "" ? "java.exe" : (jdkPath + "/java.exe"), javaArgs, "./gamedir");

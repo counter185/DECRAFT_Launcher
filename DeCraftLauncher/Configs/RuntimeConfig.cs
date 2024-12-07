@@ -21,6 +21,7 @@ namespace DeCraftLauncher.Configs
         public bool setHeapDump = true;
         public string useLocalizationFile = null;
         public bool runAutoUpdater = false;
+        public bool disableWindowEffects = false;
 
         public void UpdateAutoIsJava9Option()
         {
@@ -54,6 +55,7 @@ namespace DeCraftLauncher.Configs
                     ret.setHeapDump = bool.Parse(Util.GetInnerOrDefault(rootNode, "SetHeapDump", "true", "bool"));
                     ret.useLocalizationFile = Util.GetInnerOrDefault(rootNode, "LocalizationFile", null);
                     ret.runAutoUpdater = bool.Parse(Util.GetInnerOrDefault(rootNode, "RunAutoUpdater", "false", "bool"));
+                    ret.disableWindowEffects = bool.Parse(Util.GetInnerOrDefault(rootNode, "DisableWindowEffects", "false", "bool"));
 
                     XmlNode categoriesNode = rootNode.SelectSingleNode("Categories");
                     if (categoriesNode != null)
@@ -120,6 +122,7 @@ namespace DeCraftLauncher.Configs
             rootElement.AppendChild(Util.GenElementChild(newXml, "SetHeapDump", setHeapDump.ToString()));
             rootElement.AppendChild(Util.GenElementChild(newXml, "LocalizationFile", useLocalizationFile));
             rootElement.AppendChild(Util.GenElementChild(newXml, "RunAutoUpdater", runAutoUpdater.ToString()));
+            rootElement.AppendChild(Util.GenElementChild(newXml, "DisableWindowEffects", disableWindowEffects.ToString()));
 
             XmlNode catEntries = Util.GenElementChild(newXml, "Categories");
             foreach (Category cat in jarCategories) //meow

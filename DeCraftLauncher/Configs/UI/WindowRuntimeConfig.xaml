@@ -6,19 +6,19 @@
         xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
         xmlns:local="clr-namespace:DeCraftLauncher"
         mc:Ignorable="d"
-        fw:AcrylicWindow.Enabled="False" local:GlobalVars.LocKey="window.config.rt.window_title" Title="DECRAFT: Runtime configuration" Height="425" Width="464" MinHeight="425" MinWidth="464" Background="#00000000" Closed="AcrylicWindow_Closed">
+        fw:AcrylicWindow.Enabled="False" local:GlobalVars.LocKey="window.config.rt.window_title" Title="DECRAFT: Runtime configuration" Height="471" Width="464" MinHeight="425" MinWidth="464" Background="#00000000" Closed="AcrylicWindow_Closed">
     <Grid>
-        <Label x:Name="label_javapath" local:GlobalVars.LocKey="window.config.rt.java_path" Content="Java path" HorizontalAlignment="Left" Margin="10,200,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
-        <TextBox x:Name="jre_path" Style="{DynamicResource TextBoxMainStyle}" Margin="103,204,54,0" TextWrapping="NoWrap" VerticalAlignment="Top" Height="20" Background="Transparent" TextChanged="TextBox_TextChanged" KeyDown="jre_path_KeyDown" ToolTip=""/>
-        <Button x:Name="btn_find" local:GlobalVars.LocKey="window.config.rt.btn_findjava" Content="Find..." Margin="0,204,16,0" VerticalAlignment="Top" Style="{DynamicResource ButtonMainStyle}" HorizontalAlignment="Right" Width="38" Click="Button_Click"/>
+        <Label x:Name="label_javapath" local:GlobalVars.LocKey="window.config.rt.java_path" Content="Java path" HorizontalAlignment="Left" Margin="10,233,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
+        <TextBox x:Name="jre_path" Style="{DynamicResource TextBoxMainStyle}" Margin="103,237,54,0" TextWrapping="NoWrap" VerticalAlignment="Top" Height="20" Background="Transparent" TextChanged="TextBox_TextChanged" KeyDown="jre_path_KeyDown" ToolTip=""/>
+        <Button x:Name="btn_find" local:GlobalVars.LocKey="window.config.rt.btn_findjava" Content="Find..." Margin="0,237,16,0" VerticalAlignment="Top" Style="{DynamicResource ButtonMainStyle}" HorizontalAlignment="Right" Width="38" Click="Button_Click"/>
         <Label x:Name="label_header" local:GlobalVars.LocKey="window.config.rt.header" Content="Runtime configuration" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="22"/>
-        <TextBlock x:Name="jreconfig_version" local:GlobalVars.LocKey="window.config.rt.codegen.enter_to_test_java" TextWrapping="Wrap" Text="&lt;press Enter to test&gt;" Margin="10,301,16,0" VerticalAlignment="Top" Foreground="White" Height="98"/>
-        <Label x:Name="label_javahint" local:GlobalVars.LocKey="window.config.rt.java_hint" Content="(leave empty to use the system-wide java installation)" Margin="10,270,16,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" FontStyle="Italic"/>
-        <StackPanel Orientation="Horizontal" Margin="10,239,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <TextBlock x:Name="jreconfig_version" local:GlobalVars.LocKey="window.config.rt.codegen.enter_to_test_java" TextWrapping="Wrap" Text="&lt;press Enter to test&gt;" Margin="10,334,16,0" VerticalAlignment="Top" Foreground="White" Height="98"/>
+        <Label x:Name="label_javahint" local:GlobalVars.LocKey="window.config.rt.java_hint" Content="(leave empty to use the system-wide java installation)" Margin="10,303,16,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" FontStyle="Italic"/>
+        <StackPanel Orientation="Horizontal" Margin="10,272,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
             <Label x:Name="label_usejava9" local:GlobalVars.LocKey="window.config.rt.use_java9" Content="Use required Java 9+ options" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" MinWidth="200"/>
             <CheckBox Style="{DynamicResource MainCheckBoxStyle}" x:Name="checkbox_isjava9" Content="" Margin="0,0,0,0" VerticalAlignment="Top" Height="26" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsChecked="True" ToolTip="Check this option if you are using Java version 9 or newer."/>
         </StackPanel>
-        <StackPanel x:Name="panel_checkboxoptions" Orientation="Vertical" VerticalAlignment="Top" Margin="10,67,10,0" Height="134">
+        <StackPanel x:Name="panel_checkboxoptions" Orientation="Vertical" VerticalAlignment="Top" Margin="10,67,10,0" Height="163">
             <StackPanel Orientation="Horizontal">
                 <Label x:Name="label_run_updater" local:GlobalVars.LocKey="window.config.rt.run_autoupdater" Content="Run auto updater on start" MinWidth="200" HorizontalAlignment="Left"  VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
                 <CheckBox Style="{DynamicResource MainCheckBoxStyle}" x:Name="checkbox_runautoupdater" Margin="10,0" Content="" HorizontalAlignment="Left"  VerticalAlignment="Top" Height="26" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsChecked="True"/>
@@ -36,11 +36,15 @@
                 <CheckBox Style="{DynamicResource MainCheckBoxStyle}" x:Name="checkbox_setheapdump" Margin="10,0" Content="" HorizontalAlignment="Left"  VerticalAlignment="Top" Height="26" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsChecked="True" ToolTip="Check this option if you are using Java version 9 or newer." Checked="checkbox_enablediscord_Checked" Unchecked="checkbox_enablediscord_Unchecked" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
+                <Label x:Name="label_disable_transparent_windows" local:GlobalVars.LocKey="window.config.rt.disable_transparent_windows" Content="Disable window transparency effects (Windows 7,10 and 11 only)" MinWidth="200" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
+                <CheckBox Style="{DynamicResource MainCheckBoxStyle}" x:Name="checkbox_disable_transparent_windows" Margin="10,0" Content="" HorizontalAlignment="Left"  VerticalAlignment="Top" Height="26" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsChecked="True" ToolTip="Check this option if you are using Java version 9 or newer." Checked="checkbox_enablediscord_Checked" Unchecked="checkbox_enablediscord_Unchecked" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
                 <Label x:Name="label_language" local:GlobalVars.LocKey="window.config.rt.ui_language" Content="Language" Width="200" Foreground="White"/>
                 <ComboBox x:Name="cbox_langs" Style="{DynamicResource ComboBoxMainNonEditableStyle}" MinWidth="120" SelectedItem="English" IsEditable="False" Background="{x:Null}" BorderBrush="#FF252525" Foreground="White" SelectionChanged="cbox_langs_SelectionChanged"/>
             </StackPanel>
         </StackPanel>
-        <Button local:GlobalVars.LocKey="window.config.rt.btn_identify_gpu" Content="Identify GPU..." x:Name="btn_identgpu" Margin="0,224,16,0" VerticalAlignment="Top" Style="{DynamicResource ButtonMainStyle}" HorizontalAlignment="Right" MinWidth="91" Click="btn_identgpu_Click"/>
+        <Button local:GlobalVars.LocKey="window.config.rt.btn_identify_gpu" Content="Identify GPU..." x:Name="btn_identgpu" Margin="0,257,16,0" VerticalAlignment="Top" Style="{DynamicResource ButtonMainStyle}" HorizontalAlignment="Right" MinWidth="91" Click="btn_identgpu_Click"/>
 
     </Grid>
 </fw:AcrylicWindow>

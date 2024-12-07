@@ -85,6 +85,13 @@ namespace DeCraftLauncher.Utils
 
         public static void UpdateAcrylicWindowBackground(AcrylicWindow window)
         {
+            if (MainWindow.mainRTConfig.disableWindowEffects)
+            {
+                window.SetValue(AcrylicWindow.EnabledProperty, true);
+                window.Background = new SolidColorBrush(WinColor.FromArgb(255, 0, 0, 0));
+                window.Opacity = 1.0;
+                return;
+            }
             string osName = new PCInfo().OSFullName;
             if (Environment.OSVersion.Version.Major < 6 || (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor == 0)
                 || osName.ToLower().Contains("windows 11"))

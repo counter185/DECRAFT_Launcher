@@ -37,6 +37,7 @@ namespace DeCraftLauncher.Configs.UI
             checkbox_enablediscord.IsChecked = MainWindow.mainRTConfig.enableDiscordRPC;
             checkbox_setheapdump.IsChecked = MainWindow.mainRTConfig.setHeapDump;
             checkbox_runautoupdater.IsChecked = MainWindow.mainRTConfig.runAutoUpdater;
+            checkbox_disable_transparent_windows.IsChecked = MainWindow.mainRTConfig.disableWindowEffects;
 
             cbox_langs.Items.Add("English");
             if (Directory.Exists("./Localization/"))
@@ -61,6 +62,7 @@ namespace DeCraftLauncher.Configs.UI
                 label_set_heapdump,
                 label_language,
                 label_run_updater,
+                label_disable_transparent_windows,
                 btn_identgpu,
                 jreconfig_version
             );
@@ -135,6 +137,7 @@ namespace DeCraftLauncher.Configs.UI
             MainWindow.mainRTConfig.setHeapDump = checkbox_setheapdump.IsChecked == true;
             MainWindow.mainRTConfig.useLocalizationFile = (string)cbox_langs.SelectedValue == "English" ? null : (string)cbox_langs.SelectedValue;
             MainWindow.mainRTConfig.runAutoUpdater = checkbox_runautoupdater.IsChecked == true;
+            MainWindow.mainRTConfig.disableWindowEffects = checkbox_disable_transparent_windows.IsChecked == true;
             parent.SaveRuntimeConfig();
         }
 

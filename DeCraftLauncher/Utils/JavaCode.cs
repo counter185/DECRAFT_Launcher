@@ -339,8 +339,13 @@ import javax.swing.WindowConstants;
 public class MainFunctionWrapper {{
 
     public static void main(String[] args){{
-        {(jar.appletEmulateHTTP ? "" : "//")}URL.setURLStreamHandlerFactory(new InjectedStreamHandlerFactory());
-        {className}.main(args);
+        try {{
+            {(jar.appletEmulateHTTP ? "" : "//")}URL.setURLStreamHandlerFactory(new InjectedStreamHandlerFactory());
+            {className}.main(args);
+        }} catch (Exception e) {{
+            System.out.println(""[MainFunctionWrapper] Exception: "" + e.toString());
+            e.printStackTrace();
+        }}
     }}
 }}
 ";

@@ -140,6 +140,7 @@ namespace DeCraftLauncher.Utils
             public string path;
             public string implementor;
             public string arch;
+            public bool hasJDK;
 
             public JavaFinderResult(string path)
             {
@@ -147,6 +148,7 @@ namespace DeCraftLauncher.Utils
                 this.path = path;
                 this.implementor = "---";
                 this.arch = "(unk.)";
+                this.hasJDK = false;
             }
 
             public JavaFinderResult UpdateFromReleaseFile(string fileAt)
@@ -209,6 +211,12 @@ namespace DeCraftLauncher.Utils
                 }
                 return this;
             }
+
+            public JavaFinderResult SetHasJDK(bool value)
+            {
+                hasJDK = value;
+                return this;
+            }
         }
 
         public static List<JavaFinderResult> FindAllJavaInstallations()
@@ -261,6 +269,13 @@ namespace DeCraftLauncher.Utils
                     (from x in Directory.GetDirectories(rhSearchPath, "redhat.java*")
                      select x + "/jre/").ToList().ForEach((x) => { potentialPaths.Add(x.Replace('\\', '/')); });
                 }
+
+                string ideaDefaultJDKPath = $"{envUSERPROFILE}/.jdks/";
+                if (Directory.Exists(ideaDefaultJDKPath))
+                {
+                    (from x in Directory.GetDirectories(ideaDefaultJDKPath)
+                     select x + "/").ToList().ForEach((x) => { potentialPaths.Add(x.Replace('\\', '/')); });
+                }
             }
 
             List<JavaFinderResult> results = new List<JavaFinderResult>();
@@ -277,6 +292,7 @@ namespace DeCraftLauncher.Utils
                 (from njavapath in potentialPotentialPaths
                  where File.Exists(njavapath + "bin/java.exe")
                  select new JavaFinderResult(njavapath + "bin/")
+                                .SetHasJDK(File.Exists(njavapath + "bin/javac.exe"))
                                 .UpdateFromReleaseFile(njavapath + "release")
                                 .UpdateFromJavaExecutableIfNoArch(njavapath + "bin/java.exe"))
                  .ToList().ForEach((a) => results.Add(a));

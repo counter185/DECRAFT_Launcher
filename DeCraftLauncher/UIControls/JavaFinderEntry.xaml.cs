@@ -44,6 +44,9 @@ namespace DeCraftLauncher.UIControls
             label_implementor.Content = Util.CleanStringForXAML(implementor);
             label_arch.Content = Util.CleanStringForXAML(arch);
             label_arch.Foreground = GetBrushForArch(arch);
+
+            label_type.Content = javaInstall.hasJDK ? "JDK" : "JRE";
+            label_type.Foreground = javaInstall.hasJDK ? Brushes.Turquoise : Brushes.Yellow;
         }
 
         Brush GetBrushForArch(string archV)
